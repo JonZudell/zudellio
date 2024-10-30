@@ -3,12 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chromatic-com/storybook": "^3.1.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.1.8",
     "@heroicons/react": "^2.1.5",
+    "@storybook/addon-a11y": "^8.3.6",
+    "@storybook/addon-essentials": "^8.3.6",
+    "@storybook/addon-interactions": "^8.3.6",
+    "@storybook/addon-links": "^8.3.6",
+    "@storybook/addon-onboarding": "^8.3.6",
+    "@storybook/preset-create-react-app": "^8.3.6",
     "@storybook/testing-library": "^0.2.1",
     "@tailwindcss/forms": "^0.5.9",
     "@testing-library/jest-dom": "^5.17.0",
@@ -67,7 +74,8 @@
     "tailwindcss": "^3.4.13",
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.2",
-    "webpack": "^5.95.0"
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
   },
   "msw": {
     "workerDirectory": [
