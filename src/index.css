@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: 'Press Start 2P', 'Courier New', monospace;
+  font-family: 'Press Start 2P', 'Consolas', 'Courier New', monospace;
   font-weight: 800;
   background-color: #1a1a1a;
   color: #d3d3d3;
@@ -13,6 +13,6 @@ body {
 }
 
 code {
-  font-family: 'Press Start 2P', 'Courier New', monospace;
+  font-family: 'Press Start 2P', 'Consolas', 'Courier New', monospace;
   font-weight: 800;
 }

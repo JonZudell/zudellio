@@ -1,8 +1,9 @@
 import React from "react";
 const Contact: React.FC = () => {
   return (
-    <div>
-    </div>
+    <h3>
+      contact
+    </h3>
   );
 };
 

@@ -5,7 +5,7 @@ import './Header.css'; // Assuming you have a CSS file for styles
 const Header: React.FC = () => (
   <header className="p-4 text-center">
     <h1 className="text-3xl">
-      zudell.io<span className="blinking-cursor" aria-hidden="true"></span>
+      zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
     </h1>
     <nav>
       <ul className="flex justify-center space-x-4">
@@ -17,7 +17,7 @@ const Header: React.FC = () => (
             }
             end
           >
-            Blog
+            blog
           </NavLink>
         </li>
         <li>
@@ -27,7 +27,7 @@ const Header: React.FC = () => (
               isActive ? 'text-blue-500' : 'hover:underline'
             }
           >
-            About
+            about
           </NavLink>
         </li>
         <li>
@@ -37,7 +37,7 @@ const Header: React.FC = () => (
               isActive ? 'text-blue-500' : 'hover:underline'
             }
           >
-            Contact
+            contact
           </NavLink>
         </li>
       </ul>
