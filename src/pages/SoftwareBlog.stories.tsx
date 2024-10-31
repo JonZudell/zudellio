@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import NoContext from '../components/NoContext';
 
 const meta: Meta = {
-  title: 'Pages/Blog',
+  title: 'Pages/SoftwareBlog',
   component: NoContext,
   parameters: {
     controls: {
@@ -17,7 +17,7 @@ const meta: Meta = {
 };
 export default meta;
 
-export const BlogStory: StoryObj = {
+export const SoftwareBlogStory: StoryObj = {
   render: () => (
     <MemoryRouter initialEntries={['/']}>
       <NoContext />

@@ -4,7 +4,7 @@ import './Header.css'; // Assuming you have a CSS file for styles
 
 const Header: React.FC = () => (
   <header className="p-4 text-center">
-    <h1 className="text-3xl">
+    <h1 className="text-xl">
       zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
     </h1>
     <nav>
@@ -13,18 +13,18 @@ const Header: React.FC = () => (
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? 'text-blue-500' : 'hover:underline'
+              isActive ? 'text-pink-500 underline' : 'hover:underline'
             }
             end
           >
-            blog
+            software
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/about"
             className={({ isActive }) =>
-              isActive ? 'text-blue-500' : 'hover:underline'
+              isActive ? 'text-pink-500 hover:underline' : 'hover:underline'
             }
           >
             about
