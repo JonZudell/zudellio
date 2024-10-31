@@ -29,39 +29,38 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
   });
   return (
     <div className='w-full'>
-        <div
-          className="text-xl w-full border-2 border-white"
-          style={{
-            boxShadow: "1em 1em 0 0 white", // Solid shadow effect
-            padding: "1em",
-            marginTop: "1em",
-            marginBottom: "2em"
-          }}>
-          <div className=''>
-            <div className='text-xl'>
-              <h3><span className="text-blue-400">{author} </span>{" > " + title}</h3>
-            </div>
-            <div className='text-xl text-green-400'>
-              # Posted <span className="tooltip" title={humanReadableDate}>{date.getTime()}</span>
-            </div>
-
-            {displaySummary ? (
-              <>
-              <div className='text-xl'>
-                {summaryContent}
-              </div>
-              <div className="flex justify-center mt-4">
-                <Button text="view post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >'/>
-              </div>
-              </>
-            ) : (
-              <div className='text-xl'>
-                {children}
-              </div>
-            )}
+      <div
+        className="text-xl w-full border-2 border-post"
+        style={{
+          boxShadow: "1em 1em 0 0", // Solid shadow effect
+          padding: "1em",
+          marginTop: "1em",
+          marginBottom: "2em"
+        }}>
+        <div className=''>
+          <div className='text-xl'>
+            <h3><span className="text-blue-400">{author} </span>{" > " + title + " v0.1.0"}</h3>
           </div>
+          <div className='text-xl text-green-400'>
+            # Posted <span className="tooltip" title={humanReadableDate}>{date.getTime()}</span>
+          </div>
+
+          {displaySummary ? (
+            <>
+            <div className='text-xl'>
+              {summaryContent}
+            </div>
+            <div className="flex justify-center mt-4">
+              <Button text="view post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >'/>
+            </div>
+            </>
+          ) : (
+            <div className='text-xl'>
+              {children}
+            </div>
+          )}
         </div>
-      
+      </div>
     </div>
   );
 };

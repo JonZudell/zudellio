@@ -30,7 +30,6 @@ const SoftwareBlog: React.FC = () => {
     <>
       {postId ? (
         <div className="w-full">
-          <h2>Blog Post {postId}</h2>
           {posts[postId]?.component && React.createElement(posts[postId].component, { displaySummary: false })}
         </div>
       ) : (

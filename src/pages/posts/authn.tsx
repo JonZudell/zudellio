@@ -16,7 +16,7 @@ const Authn: React.FC<PostProps> = ({ displaySummary = false }) => {
       summaryContent={<p>authn is authentication which is distinct from authorization or authz. Authentication is discussed in the context of a web application.</p>}
     >
       <p>Heyo</p>
-      </Post>
+    </Post>
   );
 };
 

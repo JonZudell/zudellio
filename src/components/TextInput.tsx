@@ -1,38 +1,17 @@
 import React from 'react';
-
-interface ButtonProps {
-  text: string;
-  decorationLeft?: string;
-  decorationRight?: string;
+import './TextInput.css';
+interface TextInputProps {
+  label?: string;
   className?: string;
-  onClick?: () => void;
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
-const TextInput: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, onClick }) => {
-  const firstLetter = text.charAt(0);
-  const restOfText = text.slice(1);
-
+const TextInput: React.FC<TextInputProps> = ({ label, className, inputRef }) => {
   return (
-    <span
-      tabIndex={0} // Make the span focusable
-      className={`group text-center bg-transparent border-none cursor-pointer ${className}`}
-      onClick={onClick}
-    >
-      {decorationLeft && (
-        <span className="text-center bg-transparent border-none cursor-pointer">
-          {decorationLeft}
-        </span>
-      )}
-      <span className="group-hover:text-pink-300">
-        <span className="underline text-pink-500">{firstLetter}</span>
-        <span className="group-hover:underline">{restOfText}</span>
-      </span>
-      {decorationRight && (
-        <span className="text-center bg-transparent border-none cursor-pointer">
-          {decorationRight}
-        </span>
-      )}
-    </span>
+    <div className={className}>
+      <label className="block mb-2">{label}</label>
+      <input ref={inputRef} className="border p-2 w-full border-2 textinput" />
+    </div>
   );
 };
 

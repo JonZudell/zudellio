@@ -1,47 +1,47 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Button from './Button';
 import './Header.css'; // Assuming you have a CSS file for styles
 
-const Header: React.FC = () => (
-  <header className="p-4 text-center">
-    <h1 className="text-xl">
-      zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
-    </h1>
-    <nav>
-      <ul className="flex justify-center space-x-4">
-        <li>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? 'text-pink-500 underline' : 'hover:underline'
-            }
-            end
-          >
-            software
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? 'text-pink-500 hover:underline' : 'hover:underline'
-            }
-          >
-            about
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              isActive ? 'text-blue-500' : 'hover:underline'
-            }
-          >
-            contact
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
-  </header>
-);
+const Header: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  return (
+    <header className="p-4 text-center">
+      <h1 className="text-xl">
+        zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
+      </h1>
+      <nav className='text-lg'>
+        <ul 
+          className="flex justify-center"
+          style={{paddingLeft: "0.5em", paddingRight: "0.5em"}}>
+          <li>
+            <Button 
+              text="software"
+              onClick={() => navigate('/')}
+              decorationLeft='[' 
+              decorationRight=']'
+              className={location.pathname === '/' || location.pathname.startsWith("/blog")  ? 'text-pink-300 underline' : 'hover:underline'}/>
+          </li>
+          <li>
+          <Button 
+              text="about"
+              onClick={() => navigate('/about')}
+              decorationLeft='[' 
+              decorationRight=']'
+              className={location.pathname === '/about'  ? 'text-pink-300 underline' : 'hover:underline'}/>
+          </li>
+          <li>
+          <Button 
+              text="contact"
+              onClick={() => navigate('/contact')}
+              decorationLeft='[' 
+              decorationRight=']'
+              className={location.pathname === '/contact'  ? 'text-pink-300 underline' : 'hover:underline'}/>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  )
+};
 export default Header;

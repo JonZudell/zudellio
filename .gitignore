@@ -7,7 +7,6 @@ dist/
 
 # Storybook
 storybook-static/
-.storybook/
 
 # Logs
 npm-debug.log*

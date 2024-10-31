@@ -1,6 +1,16 @@
 set up email
-use button component in header
-write about pre rendering react without a nodejs server
+
+about
+contact
+
+components
+- input
+
+Posts
+- authn
+- a11y
+- init
+- ssr_wo_node
 
 Anthropology
 - chapter 10

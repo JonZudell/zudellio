@@ -1,7 +1,26 @@
+
+/* Define custom properties for themes */
+:root {
+  --text-color: #1a1a1a;
+  --border-color: #d3d3d3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #d3d3d3;
+    --border-color: #1a1a1a;
+  }
+}
+
 .tooltip {
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: white;
+  text-decoration-color: var(--text-color);
   text-underline-offset: auto;
   cursor: pointer;
+}
+
+.border-post {
+  border-color: var(--border-color);
+  box-shadow: var(--border-color);
 }
