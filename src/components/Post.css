@@ -1,0 +1,7 @@
+.tooltip {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: white;
+  text-underline-offset: auto;
+  cursor: pointer;
+}
