@@ -1,5 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../components/Button";
 import './index.css';
 import A11y from "./posts/a11y";
 import Authn from "./posts/authn";
@@ -17,6 +18,7 @@ const posts: { [key: string]: { component: React.FC<PostProps>; date: Date } } =
 };
 
 const SoftwareBlog: React.FC = () => {
+  const navigate = useNavigate();
   const { postId } = useParams<{ postId?: string }>();
   // Convert posts object to an array and sort by date
   const sortedPosts = Object.entries(posts)
@@ -30,6 +32,7 @@ const SoftwareBlog: React.FC = () => {
     <>
       {postId ? (
         <div className="w-full">
+          <Button text={"Back"} onClick={() => {navigate('/')}} decorationLeft="< " />
           {posts[postId]?.component && React.createElement(posts[postId].component, { displaySummary: false })}
         </div>
       ) : (

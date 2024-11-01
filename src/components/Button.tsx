@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import whatInput from 'what-input';
 import '../pages/index.css';
 interface ButtonProps {
   text: string;
@@ -15,15 +16,21 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
   useEffect(() => {
     const handleFocus = () => {
       if (buttonRef.current) {
-        buttonRef.current.classList.add('bg-offwhite');
-        buttonRef.current.classList.add('text-offblack');
+        if (whatInput.ask() === "keyboard") {
+          buttonRef.current.classList.add('bg-offwhite', 'text-offblack');
+        }
       }
     };
 
     const handleBlur = () => {
       if (buttonRef.current) {
-        buttonRef.current.classList.remove('bg-offwhite');
-        buttonRef.current.classList.remove('text-offblack');
+        buttonRef.current.classList.remove('bg-offwhite', 'text-offblack');
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && buttonRef.current) {
+        onClick?.();
       }
     };
 
@@ -31,15 +38,17 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
     if (buttonElement) {
       buttonElement.addEventListener('focus', handleFocus);
       buttonElement.addEventListener('blur', handleBlur);
+      buttonElement.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
       if (buttonElement) {
         buttonElement.removeEventListener('focus', handleFocus);
         buttonElement.removeEventListener('blur', handleBlur);
+        buttonElement.removeEventListener('keydown', handleKeyDown);
       }
     };
-  }, []);
+  }, [onClick]);
   return (
     <span
       ref={buttonRef}
