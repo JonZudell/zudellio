@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import whatInput from 'what-input';
-import '../pages/index.css';
 interface ButtonProps {
   text: string;
   decorationLeft?: string;

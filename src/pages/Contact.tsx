@@ -3,7 +3,6 @@ import Button from "../components/Button";
 import Content from "../components/Content";
 import TextArea from "../components/TextArea";
 import TextInput from "../components/TextInput";
-import './index.css';
 const Contact: React.FC = () => {
   return (
     <Content>

@@ -1,14 +1,14 @@
 .tooltip {
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: #d3d3d3;
+  text-decoration-color: var(--border-color);
   text-underline-offset: auto;
   cursor: pointer;
 }
 
 .border-post {
-  border-color: #d3d3d3;
-  box-shadow: 1em 1em 0 0 #d3d3d3;
+  border-color: var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
   padding: 1em;
   margin-top: 1em;
   margin-bottom: 2em;

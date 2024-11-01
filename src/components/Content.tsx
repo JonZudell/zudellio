@@ -1,5 +1,4 @@
 import React from 'react';
-import '../pages/index.css';
 
 interface ContentProps {
   children?: React.ReactNode;

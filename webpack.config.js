@@ -1,13 +1,9 @@
 const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const webpack = require('webpack');
-const glob = require('glob');
-
-const pageEntries = glob.sync('./src/pages/**/*.tsx');
-
 module.exports = {
   mode: 'development', // or 'production'
-  entry: [...pageEntries], // Include the setup file and all page entries
+  entry: ["./index.tsx"], // Include the setup file and all page entries
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),

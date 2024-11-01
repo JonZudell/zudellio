@@ -1329,15 +1329,13 @@ code {
 :root {
   --background-color: #d3d3d3;
   --text-color: #1a1a1a;
-  --border-color: var(--text-color)
+  --border-color: var(--text-color);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #1a1a1a;
-    --text-color: #d3d3d3;
-    --border-color: var(--text-color)
-  }
+[data-theme='dark'] {
+  --background-color: #1a1a1a;
+  --text-color: #d3d3d3;
+  --border-color: var(--text-color);
 }
 
 body {
