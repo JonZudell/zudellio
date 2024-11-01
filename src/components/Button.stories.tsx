@@ -20,9 +20,5 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const DefaultButton: Story = {
-  render: () => <Button text="default"></Button>,
-};
-
-export const PrimaryButton: Story = {
   render: () => <Button className="bg-blue-500 text-white" text="primary"></Button>,
 };

@@ -7,9 +7,13 @@
 }
 
 .border-post {
-  border-color: #d3d3d3;;
-  box-shadow: 1em 1em 0 0 #d3d3d3;;
+  border-color: #d3d3d3;
+  box-shadow: 1em 1em 0 0 #d3d3d3;
   padding: 1em;
   margin-top: 1em;
   margin-bottom: 2em;
+}
+
+.border-blue-400 {
+  border-color: #83E4FA;
 }

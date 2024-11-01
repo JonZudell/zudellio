@@ -25,11 +25,11 @@ const Header: React.FC = () => {
           </li>
           <li>
           <Button 
-              text="about"
+              text="music"
               onClick={() => navigate('/about')}
               decorationLeft='[' 
               decorationRight=']'
-              className={location.pathname === '/about'  ? 'text-pink-300 underline' : 'hover:underline'}/>
+              className={location.pathname === '/music'  ? 'text-pink-300 underline' : 'hover:underline'}/>
           </li>
           <li>
           <Button 

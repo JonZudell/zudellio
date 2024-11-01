@@ -53,8 +53,9 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
     <span
       ref={buttonRef}
       tabIndex={0} // Make the span focusable
-      className={`group text-center border-none cursor-pointer`}
+      className={`group text-center border-none cursor-pointer span-button`}
       onClick={onClick}
+      role="link"
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-focus:text-blue-500 group-focus:bg-offwhite">
@@ -62,8 +63,8 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
         </span>
       )}
       <span className={`group-hover:text-pink-300 ${className}`}>
-        <span className="underline text-pink-500">{firstLetter}</span>
-        <span className="group-hover:underline">{restOfText}</span>
+        <span className="underline text-pink-500 group-focus:text-pink-800">{firstLetter}</span>
+        <span className="group-hover:underline group-focus:text-pink-500">{restOfText}</span>
       </span>
       {decorationRight && (
         <span className="text-center border-none cursor-pointer group-focus:text-blue-500">

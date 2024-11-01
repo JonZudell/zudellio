@@ -1378,3 +1378,8 @@ code {
   padding-top: 2em;
   padding-bottom: 2em;
 }
+
+/* Disable focus rings on span */
+span:focus {
+  outline: none;
+}

@@ -1,16 +1,13 @@
 set up email
 
-about
 contact
 
-components
-- input
-
 Posts
-- authn
-- a11y
-- init
-- ssr_wo_node
+- finish authn
+- finish a11y
+- finish init
+- finish ssr_wo_node
+- iife modules
 
 Anthropology
 - chapter 10
