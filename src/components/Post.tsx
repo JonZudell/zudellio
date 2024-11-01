@@ -29,14 +29,7 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
   });
   return (
     <div className='w-full'>
-      <div
-        className="text-xl w-full border-2 border-post"
-        style={{
-          boxShadow: "1em 1em 0 0", // Solid shadow effect
-          padding: "1em",
-          marginTop: "1em",
-          marginBottom: "2em"
-        }}>
+      <div className="text-xl w-full border-2 border-post">
         <div className=''>
           <div className='text-xl'>
             <h3><span className="text-blue-400">{author} </span>{" > " + title + " v0.1.0"}</h3>

@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import './index.css';
 import A11y from "./posts/a11y";
 import Authn from "./posts/authn";
 import Init from "./posts/init";
 import SSRWONode from "./posts/ssr_wo_node";
-
 interface PostProps {
   displaySummary?: boolean;
 }

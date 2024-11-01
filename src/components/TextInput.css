@@ -1,17 +1,16 @@
-/* Define custom properties for themes */
-:root {
-  --text-color: #1a1a1a;
-  --border-color: #d3d3d3;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: #d3d3d3;
-    --border-color: #1a1a1a;
-  }
-}
-
 .textinput {
-  color: var(--text-color); /* Use custom property for text color */
-  border-color: var(--border-color); /* Use custom property for border color */
+  background-color: #1a1a1a;
+  color: #d3d3d3; /* Use custom property for text color */
+  border-color: #d3d3d3; /* Use custom property for border color */
+  box-shadow: 1em 1em 0 0 #d3d3d3;
+}
+
+.textinput:focus {
+  background-color: #1a1a1a;
+  color: #d3d3d3; /* Use custom property for text color */
+  box-shadow: 1em 1em 0 0 #d3d3d3;
+}
+
+.h-6em {
+  height: 6em;
 }
