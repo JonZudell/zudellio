@@ -9,12 +9,13 @@ interface PostProps {
   title: string;
   version: string;
   displaySummary?: boolean;
+  summaryOnly?: boolean;
   summaryContent?: React.ReactNode;
   children?: React.ReactNode;
   classNames?: string;
 }
 
-const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, date, title, version, summaryContent, children, classNames }) => {
+const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, date, title, version, summaryContent, summaryOnly = false, children, classNames }) => {
   const navigate = useNavigate();
 
   const handleViewPostClick = () => {
@@ -34,7 +35,7 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
       <div className={`text-xl w-full border-2 border-post ${classNames}`}>
         <div className=''>
           <div className='text-xl'>
-            <h3><span className="text-blue-400">{author}</span>{" > " + title + " " + version}</h3>
+            <h3><span className="text-purple-400">{author}</span>{" > " + title + " " + version}</h3>
           </div>
           <div className='text-xl text-green-400'>
             # Posted <span className="tooltip" title={humanReadableDate}>{date.getTime()}</span>
@@ -45,9 +46,11 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
             <div className='text-xl'>
               {summaryContent}
             </div>
-            <div className="flex justify-center mt-4">
-              <Button text="view_post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >'/>
-            </div>
+            {summaryOnly === false ? (
+              <div className="flex justify-center mt-4">
+                <Button text="view_post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >'/>
+              </div>
+            ) : null}
             </>
           ) : (
             <div className='text-xl'>

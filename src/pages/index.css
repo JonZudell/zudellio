@@ -1369,6 +1369,10 @@ code {
 .text-offwhite {
   color: #d3d3d3;
 }
+.m-2em {
+  margin: 2em;
+}
+
 .py-1em {
   padding-top: 1em;
   padding-bottom: 1em;
