@@ -4,7 +4,7 @@ import Button from './Button';
 import TextInput from './TextInput';
 
 const meta: Meta = {
-  title: 'Components/TextInput',
+  title: 'App/Components/TextInput',
   component: Button,
   parameters: {
     controls: {
@@ -14,16 +14,11 @@ const meta: Meta = {
       },
     },
   },
-  tags: ['autodocs'],
 };
 export default meta;
 
 type Story = StoryObj<typeof Button>;
 
 export const DefaultButton: Story = {
-  render: () => <TextInput label="default"></TextInput>,
-};
-
-export const PrimaryButton: Story = {
-  render: () => <TextInput label="label"></TextInput>,
+  render: () => <TextInput label="text_input"></TextInput>,
 };

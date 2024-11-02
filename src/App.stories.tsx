@@ -5,7 +5,7 @@ import App from './App';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 const meta: Meta<typeof App> = {
-  title: 'Pages/App',
+  title: 'App/Pages',
   component: App,
   parameters: {
     controls: {
@@ -13,16 +13,14 @@ const meta: Meta<typeof App> = {
         color: /(background|color)$/i,
         date: /Date$/,
       },
+      
     },
   },
-  tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={['/']}>
-        <ThemeProvider>
-          <Story />
-        </ThemeProvider>
-      </MemoryRouter>
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
     ),
   ],
 };
@@ -30,6 +28,80 @@ export default meta;
 
 type Story = StoryObj<typeof App>;
 
-export const DefaultApp: Story = {
-  render: () => <App />,
+export const DarkApp: Story = {
+  args: {
+    theme: 'dark',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+  ),
+};
+
+export const LightApp: Story = {
+  args: {
+    theme: 'light',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+    ),
+};
+
+export const About: Story = {
+  args: {
+    theme: 'dark',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/about']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+    ),
+};
+
+export const Contact: Story = {
+  args: {
+    theme: 'light',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/contact']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+    ),
+};
+
+export const Pagination: Story = {
+  args: {
+    theme: 'dark',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/1']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+    ),
+};
+
+export const Article: Story = {
+  args: {
+    theme: 'dark',
+  },
+  render: ({theme}) => (
+    <MemoryRouter initialEntries={['/blog/a11y']}>
+      <ThemeProvider>
+        <App theme={theme}/>
+      </ThemeProvider>
+    </MemoryRouter>
+    ),
 };

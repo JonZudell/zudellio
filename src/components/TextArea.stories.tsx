@@ -4,7 +4,7 @@ import Button from './Button';
 import TextArea from './TextArea';
 
 const meta: Meta = {
-  title: 'Components/TextArea',
+  title: 'App/Components/TextArea',
   component: Button,
   parameters: {
     controls: {
@@ -14,7 +14,6 @@ const meta: Meta = {
       },
     },
   },
-  tags: ['autodocs'],
 };
 export default meta;
 
@@ -22,8 +21,4 @@ type Story = StoryObj<typeof Button>;
 
 export const DefaultButton: Story = {
   render: () => <TextArea label="default" rows={5}></TextArea>,
-};
-
-export const PrimaryButton: Story = {
-  render: () => <TextArea label="label" rows={5}></TextArea>,
 };

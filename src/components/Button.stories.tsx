@@ -3,7 +3,7 @@ import React from 'react';
 import Button from './Button';
 
 const meta: Meta = {
-  title: 'Components/Button',
+  title: 'App/Components/Button',
   component: Button,
   parameters: {
     controls: {
@@ -13,7 +13,6 @@ const meta: Meta = {
       },
     },
   },
-  tags: ['autodocs'],
 };
 export default meta;
 
