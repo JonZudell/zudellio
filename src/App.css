@@ -1328,14 +1328,40 @@ code {
 /* Define custom properties for themes */
 :root {
   --background-color: #d3d3d3;
+  --link-button-accent-color: theme('colors.pink.600');
+  --link-button-accent-color-dark: theme('colors.pink.800');
+  --comment-color: theme('colors.green.600');
+  --link-button-color: theme('colors.pink.400');
+  --link-button-color-dark: theme('colors.pink.400');
+  --href-color: theme('colors.blue.600');
+  --user-color: theme('colors.purple.600');
   --text-color: #1a1a1a;
   --border-color: var(--text-color);
 }
 
 [data-theme='dark'] {
   --background-color: #1a1a1a;
+  --link-button-accent-color: theme('colors.pink.400');
+  --link-button-accent-color-dark: theme('colors.pink.600');
+  --comment-color: theme('colors.green.400');
+  --user-color: theme('colors.purple.400');
+  --link-button-color: theme('colors.pink.200');
+  --link-button-color-dark: theme('colors.pink.200');
+  --href-color: theme('colors.blue.600');
   --text-color: #d3d3d3;
   --border-color: var(--text-color);
+}
+
+.comment-green {
+  color: var(--comment-color)
+}
+
+.href-blue {
+  color: var(--href-color)
+}
+
+.user-purple {
+  color: var(--user-color)
 }
 
 body {
@@ -1353,20 +1379,6 @@ code {
   font-weight: 800;
 }
 
-.bg-offblack {
-  background-color: #1a1a1a;
-}
-
-.text-offblack {
-  color: #1a1a1a;
-}
-.bg-offwhite {
-  background-color: #d3d3c3;
-}
-
-.text-offwhite {
-  color: #d3d3d3;
-}
 .m-2em {
   margin: 2em;
 }

@@ -16,12 +16,12 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       displaySummary={displaySummary}
       summaryContent={<p>Accessibility or a11y for short is the property of being usable by individuals with disabilities. </p>}
     >
-      <h3 className='text-xl text-green-400'>
+      <h3 className='text-xl comment-green'>
         # Overview
       </h3>
       <p>
         Accessibility or a11y for short is the property of being usable by individuals with 
-        disabilities. <a className='text-blue-400 underline' href='https://dequeuniversity.com/'>https://dequeuniversity.com/</a> is 
+        disabilities. <a className='href-blue underline' href='https://dequeuniversity.com/'>https://dequeuniversity.com/</a> is 
         the defacto authority on implementing accessibility. 
       </p>
       <br/>
@@ -44,25 +44,25 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         on multiple fronts.
       </p>
       <br/>
-      <h3 className='text-xl text-green-400'>
+      <h3 className='text-xl comment-green'>
         # JavaScript for a11y
       </h3>
       <p>
         User experiences can be greatly enhanced by leveraging JavaScript. However, it can be challenging to gracefully degrade from
         an asyncronous JavaScript driven experience to html form submission. When JavaScript is enabled the effects of dynamic content
         on screen readers must be examined. When properly implemented client side code will leverage native accessibility features to
-        enhace the user experience. Consider using the <a className='text-blue-400 underline' href='https://cauldron.dequelabs.com/'>Cauldron React Library</a> it
+        enhace the user experience. Consider using the <a className='href-blue underline' href='https://cauldron.dequelabs.com/'>Cauldron React Library</a> it
         contains many common component patterns implemented to use ARIA features.
       </p>
       <br/>
-      <h3 className='text-xl text-green-400'>
+      <h3 className='text-xl comment-green'>
         # Keyboard First
       </h3>
       <p>
         User input should be accepted in a variety of ways such as mouse events, touch gestures, and keyboard input.
         Implementing keyboard navigation with tab selection applies to screen readers and browsers as such it is a high value item.
       </p>
-      <h3 className='text-xl text-green-400'>
+      <h3 className='text-xl comment-green'>
         # Navigation
       </h3>
       <br/>

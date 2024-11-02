@@ -35,9 +35,9 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
       <div className={`text-xl w-full border-2 border-post ${classNames}`}>
         <div className=''>
           <div className='text-xl'>
-            <h3><span className="text-purple-400">{author}</span>{" > " + title + " " + version}</h3>
+            <h3><span className="user-purple">{author}</span>{" > " + title + " " + version}</h3>
           </div>
-          <div className='text-xl text-green-400'>
+          <div className='text-xl comment-green'>
             # Posted <span className="tooltip" title={humanReadableDate}>{date.getTime()}</span>
           </div>
 

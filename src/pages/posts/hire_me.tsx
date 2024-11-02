@@ -22,7 +22,7 @@ const HireMe: React.FC<PostProps> = ({ displaySummary = false, summaryOnly = tru
           <p>
             I am available for hire.
           </p>
-          <h3 className='text-xl text-green-400'>
+          <h3 className='text-xl comment-green'>
             # Software Rates
           </h3>
           <ul>
@@ -33,7 +33,7 @@ const HireMe: React.FC<PostProps> = ({ displaySummary = false, summaryOnly = tru
               - Consulting: $225/hr
             </li>
           </ul>
-          <h3 className='text-xl text-green-400'>
+          <h3 className='text-xl comment-green'>
             # Guitar Lesson Rates
           </h3>
           <ul>

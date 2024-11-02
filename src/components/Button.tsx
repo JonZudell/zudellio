@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import whatInput from 'what-input';
+import "./Button.css";
 interface ButtonProps {
   text: string;
   decorationLeft?: string;
@@ -16,14 +17,14 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
     const handleFocus = () => {
       if (buttonRef.current) {
         if (whatInput.ask() === "keyboard") {
-          buttonRef.current.classList.add('bg-offwhite', 'text-offblack');
+          buttonRef.current.classList.add('invert-bg', 'invert-text');
         }
       }
     };
 
     const handleBlur = () => {
       if (buttonRef.current) {
-        buttonRef.current.classList.remove('bg-offwhite', 'text-offblack');
+        buttonRef.current.classList.remove('invert-bg', 'invert-text');
       }
     };
 
@@ -57,16 +58,16 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
       role="link"
     >
       {decorationLeft && (
-        <span className="text-center border-none cursor-pointer group-focus:text-blue-500 group-focus:bg-offwhite">
+        <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
           {decorationLeft}
         </span>
       )}
-      <span className={`group-hover:text-pink-300 ${className}`}>
-        <span className="underline text-pink-500 group-focus:text-pink-800">{firstLetter}</span>
-        <span className="group-hover:underline group-focus:text-pink-500">{restOfText}</span>
+      <span className={`${className}`}>
+        <span className="underline link-accent group-focus:link-accent-color-dark">{firstLetter}</span>
+        <span className="group-hover:underline group-focus:link-color-dark">{restOfText}</span>
       </span>
       {decorationRight && (
-        <span className="text-center border-none cursor-pointer group-focus:text-blue-500">
+        <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
           {decorationRight}
         </span>
       )}
