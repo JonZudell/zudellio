@@ -66,17 +66,16 @@ const SoftwareBlog: React.FC = () => {
           <div className="flex justify-center items-center">
             <h2 className="text-xl">sticked posts</h2>
           </div>
-          {React.createElement(sticked_post, { displaySummary: true, classNames: "border-blue-400" })}
+          {React.createElement(sticked_post, { displaySummary: true, classNames: "stickied-post" })}
           <div className="flex justify-center items-center">
             <h2 className="text-xl">software misadventures</h2>
           </div>
-          <PageSelector page={page} pages={totalPages} setPage={setPage}></PageSelector>
+          <PageSelector pages={totalPages} setPage={setPage}></PageSelector>
           <div>
             {paginatedPosts.map((post, index) => (
               <div key={index}>{React.createElement(post.component, { displaySummary: true })}</div>
             ))}
           </div>
-          <PageSelector page={page} pages={totalPages} setPage={setPage}></PageSelector>
         </div>
       )}
     </>

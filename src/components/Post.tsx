@@ -43,14 +43,14 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
 
           {displaySummary ? (
             <>
-            <div className='text-xl'>
-              {summaryContent}
-            </div>
-            {summaryOnly === false ? (
-              <div className="flex justify-center mt-4">
-                <Button text="view_post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >'/>
+              <div className='text-xl'>
+                {summaryContent}
               </div>
-            ) : null}
+              {summaryOnly === false ? (
+                <div className="flex justify-center mt-4">
+                  <Button text="view_post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >' />
+                </div>
+              ) : null}
             </>
           ) : (
             <div className='text-xl'>

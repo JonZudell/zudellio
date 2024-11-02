@@ -4,7 +4,7 @@ type Theme = 'light' | 'dark';
 
 interface ThemeContextProps {
   theme: Theme;
-  setTheme: Function;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
   toggleTheme: () => void;
 }
 
@@ -20,7 +20,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
   }, [theme]);
-  
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}

@@ -3,12 +3,11 @@ import Button from './Button';
 import './PageSelector.css';
 
 interface PageSelectorProps {
-  page: number;
   pages: number;
   setPage: (page: number) => void;
 }
 
-const PageSelector: React.FC<PageSelectorProps> = ({ page, pages, setPage }) => {
+const PageSelector: React.FC<PageSelectorProps> = ({ pages, setPage }) => {
 
   return (
     <div className="flex justify-center mt-4">

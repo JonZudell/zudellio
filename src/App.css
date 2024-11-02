@@ -1331,10 +1331,11 @@ code {
   --link-button-accent-color: theme('colors.pink.600');
   --link-button-accent-color-dark: theme('colors.pink.800');
   --comment-color: theme('colors.green.600');
-  --link-button-color: theme('colors.pink.400');
-  --link-button-color-dark: theme('colors.pink.400');
+  --link-button-color: theme('colors.pink.600');
+  --link-button-color-dark: theme('colors.pink.600');
   --href-color: theme('colors.blue.600');
   --user-color: theme('colors.purple.600');
+  --emphasis-color: theme('colors.pink.800');
   --text-color: #1a1a1a;
   --border-color: var(--text-color);
 }
@@ -1346,10 +1347,15 @@ code {
   --comment-color: theme('colors.green.400');
   --user-color: theme('colors.purple.400');
   --link-button-color: theme('colors.pink.200');
-  --link-button-color-dark: theme('colors.pink.200');
+  --link-button-color-dark: theme('colors.pink.400');
   --href-color: theme('colors.blue.600');
+  --emphasis-color: theme('colors.pink.600');
   --text-color: #d3d3d3;
   --border-color: var(--text-color);
+}
+
+.sticked-post {
+  border: 2px solid var(--emphasis-color);
 }
 
 .comment-green {

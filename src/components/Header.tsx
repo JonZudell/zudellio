@@ -12,32 +12,32 @@ const Header: React.FC = () => {
         zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
       </h1>
       <nav className='text-lg'>
-        <ul 
+        <ul
           className="flex justify-center"
-          style={{paddingLeft: "0.5em", paddingRight: "0.5em"}}>
+          style={{ paddingLeft: "0.5em", paddingRight: "0.5em" }}>
           <li>
-            <Button 
+            <Button
               text="software"
               onClick={() => navigate('/')}
-              decorationLeft='[' 
+              decorationLeft='['
               decorationRight=']'
-              className={location.pathname === '/' || location.pathname.startsWith("/blog")  ? 'text-pink-300 underline' : 'hover:underline'}/>
+              className={location.pathname === '/' || location.pathname.startsWith("/blog") ? 'text-pink-300 underline' : 'hover:underline'} />
           </li>
           <li>
-          <Button 
+            <Button
               text="music"
               onClick={() => navigate('/about')}
-              decorationLeft='[' 
+              decorationLeft='['
               decorationRight=']'
-              className={location.pathname === '/music'  ? 'text-pink-300 underline' : 'hover:underline'}/>
+              className={location.pathname === '/music' ? 'text-pink-300 underline' : 'hover:underline'} />
           </li>
           <li>
-          <Button 
+            <Button
               text="contact"
               onClick={() => navigate('/contact')}
-              decorationLeft='[' 
+              decorationLeft='['
               decorationRight=']'
-              className={location.pathname === '/contact'  ? 'text-pink-300 underline' : 'hover:underline'}/>
+              className={location.pathname === '/contact' ? 'text-pink-300 underline' : 'hover:underline'} />
           </li>
         </ul>
       </nav>

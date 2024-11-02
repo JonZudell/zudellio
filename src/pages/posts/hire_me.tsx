@@ -41,7 +41,7 @@ const HireMe: React.FC<PostProps> = ({ displaySummary = false, summaryOnly = tru
               - First Lesson: 30 Minutes Free
             </li>
             <li>
-              - Subsequent Lessons: $25/hr 
+              - Subsequent Lessons: $25/hr
             </li>
           </ul>
         </>}

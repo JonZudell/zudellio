@@ -24,14 +24,14 @@ const IIFEModule: React.FC<PostProps> = ({ displaySummary = false, classNames })
       postId='iife_module'
       displaySummary={displaySummary}
       summaryContent={
-      <div>
-        <p>Individual Invoked Function Expression or IIFE modules are functions with the message signature.</p>
-        <br/>
-        <CodeBlock code={code} title='iife_module.js'/>
-      </div>}
+        <div>
+          <p>Individual Invoked Function Expression or IIFE modules are functions with the message signature.</p>
+          <br />
+          <CodeBlock code={code} title='iife_module.js' />
+        </div>}
       classNames={classNames}
     >
-      <CodeBlock code={code} title='iife_module.js'/>
+      <CodeBlock code={code} title='iife_module.js' />
     </Post>
   );
 };
