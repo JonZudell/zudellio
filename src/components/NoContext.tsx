@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import About from '../pages/About';
-import Contact from '../pages/Contact';
-import SoftwareBlog from '../pages/SoftwareBlog';
+import About from '../pages/about';
+import Contact from '../pages/contact';
+import SoftwareBlog from '../pages';
 import Content from './Content';
 import Footer from './Footer';
 import Header from './Header';

@@ -1,18 +1,27 @@
 const path = require('path');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const data = require('./src/data.tsx')
 module.exports = {
-  mode: 'development', // or 'production'
-  entry: ["./index.tsx"], // Include the setup file and all page entries
+  mode: 'production',
+  entry: ["./src/ssg.tsx"],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
-    globalObject: 'globalThis'
+    globalObject: 'this', // Add this line
   },
-  target: 'node',
-  externals: {
-    canvas: 'commonjs canvas', // Exclude canvas from being processed
+  devtool: 'source-map',
+  resolve: {
+    fallback: {
+      fs: false, // Mock 'fs' module
+      path: require.resolve('path-browserify'), // Mock 'path' module with 'path-browserify'
+      crypto: require.resolve('crypto-browserify'), // Mock 'crypto' module with 'crypto-browserify'
+      stream: require.resolve('stream-browserify'), // Mock 'stream' module with 'stream-browserify'
+      buffer: require.resolve('buffer/'), // Mock 'buffer' module with 'buffer'
+    },
+    extensions: ['.tsx', '.ts', '.js'],
   },
   module: {
     rules: [
@@ -28,12 +37,17 @@ module.exports = {
     ],
   },
   plugins: [
-    new NodePolyfillPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    new StaticSiteGeneratorPlugin({
+      entry: 'bundle.js',
+      paths: data.routes, // Add your routes here
+      locals: {
+        data: data, // Pass your data here
+      },
     }),
   ],
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
   },
 };
