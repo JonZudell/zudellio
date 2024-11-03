@@ -7,7 +7,7 @@ interface Locals {
   [key: string]: any;
 }
 
-export default function render(locals: Locals, callback: (error: Error | null, result?: string) => void) {
+export default function render(locals: Locals) {
   const html = renderToStaticMarkup(<Root {...locals} />);
-  callback(null, '<!DOCTYPE html>' + html);
+  return `<!DOCTYPE html>${html}`; // Ensure it returns a valid HTML string
 }

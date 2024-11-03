@@ -2,24 +2,29 @@ const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const data = require('./src/data.tsx')
+const data = require('./src/data')
+
 module.exports = {
   mode: 'production',
-  entry: ["./src/ssg.tsx"],
+  entry: {
+    main: './src/entry.tsx',
+    ssg: './src/ssg.tsx',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'umd',
-    globalObject: 'this', // Add this line
+    libraryTarget: 'umd', // Ensure this is set
+    globalObject: 'this',
+    clean: true, // Clean the output directory before emit
   },
   devtool: 'source-map',
   resolve: {
     fallback: {
-      fs: false, // Mock 'fs' module
-      path: require.resolve('path-browserify'), // Mock 'path' module with 'path-browserify'
-      crypto: require.resolve('crypto-browserify'), // Mock 'crypto' module with 'crypto-browserify'
-      stream: require.resolve('stream-browserify'), // Mock 'stream' module with 'stream-browserify'
-      buffer: require.resolve('buffer/'), // Mock 'buffer' module with 'buffer'
+      fs: false,
+      path: require.resolve('path-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer/'),
     },
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -36,17 +41,40 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+    runtimeChunk: 'single',
+    moduleIds: 'deterministic',
+  },
   plugins: [
     new StaticSiteGeneratorPlugin({
-      entry: 'bundle.js',
-      paths: data.routes, // Add your routes here
+      entry: 'ssg',
+      paths: data.routes,
       locals: {
-        data: data, // Pass your data here
+        data: data,
       },
     }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+    }),
+    new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
   ],
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000,
   },
