@@ -3,7 +3,8 @@ const fs = require('fs');
 const StaticSiteGeneratorPlugin = require('./ssgwp');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const data = require('./src/data')
+const data = require('./src/data');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 class TemplateWrapperPlugin {
   apply(compiler) {
@@ -40,11 +41,12 @@ class TemplateWrapperPlugin {
     });
   }
 }
+
 module.exports = {
   mode: 'production',
   entry: {
     main: './src/csr.tsx',
-    ssg: './src/ssg.tsx',
+    ssg: './src/ssg.tsx'
   },
   output: {
     filename: '[name].js',
@@ -73,7 +75,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
     ],
   },
@@ -90,6 +92,9 @@ module.exports = {
     }),
     new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
     new TemplateWrapperPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    }),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'),
