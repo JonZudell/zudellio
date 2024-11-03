@@ -47,9 +47,6 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         
         var render = evaluate(source, /* filename: */ self.entry, /* scope: */ self.globals, /* includeGlobals: */ true);
 
-        if (render.hasOwnProperty('default')) {
-          render = render['default'];
-        }
         logger.info(typeof render);
         logger.info(render);
         if (typeof render !== 'function') {

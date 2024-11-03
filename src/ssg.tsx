@@ -7,7 +7,7 @@ interface Locals {
   [key: string]: any;
 }
 
-export default function render(locals: Locals) {
+export default function(locals: Locals) {
   const html = renderToStaticMarkup(<Root {...locals} />);
   return `<!DOCTYPE html>${html}`; // Ensure it returns a valid HTML string
 }

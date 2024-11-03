@@ -41,13 +41,13 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-    runtimeChunk: 'single',
-    moduleIds: 'deterministic',
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //   },
+  //   runtimeChunk: 'single',
+  //   moduleIds: 'deterministic',
+  // },
   plugins: [
     new StaticSiteGeneratorPlugin({
       entry: 'ssg',
@@ -56,21 +56,21 @@ module.exports = {
         data: data,
       },
     }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: './src/index.html',
+    //   minify: {
+    //     removeComments: true,
+    //     collapseWhitespace: true,
+    //     removeRedundantAttributes: true,
+    //     useShortDoctype: true,
+    //     removeEmptyAttributes: true,
+    //     removeStyleLinkTypeAttributes: true,
+    //     keepClosingSlash: true,
+    //     minifyJS: true,
+    //     minifyCSS: true,
+    //     minifyURLs: true,
+    //   },
+    // }),
     new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
   ],
   devServer: {
