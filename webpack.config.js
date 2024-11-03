@@ -1,21 +1,57 @@
 const path = require('path');
+const fs = require('fs');
 const StaticSiteGeneratorPlugin = require('./ssgwp');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const data = require('./src/data')
 
+class TemplateWrapperPlugin {
+  apply(compiler) {
+    compiler.hooks.thisCompilation.tap('TemplateWrapperPlugin', (compilation) => {
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: 'TemplateWrapperPlugin',
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+        },
+        (assets, callback) => {
+          console.log('TemplateWrapperPlugin: processAssets hook triggered');
+          data.routes.forEach(route => {
+            const assetKey = `${route.replace(/^\//, '')}index.html`; // Remove prepended /
+            
+            const asset = assets[assetKey];
+            console.log(assets)
+            if (asset) {
+              const content = asset.source();
+              const template = fs.readFileSync(path.join(__dirname, '/src/index.html'), 'utf8');
+              
+              const htmlOutput = template.replace('<!-- inject:body -->', content); // Example modification
+              console.log(`TemplateWrapperPlugin: Rewriting ${route}index.html`);
+              assets[assetKey] = {
+                source: () => htmlOutput,
+                size: () => htmlOutput.length,
+              };
+            } else {
+              console.warn(`TemplateWrapperPlugin: Asset not found for route ${route}`);
+            }
+          });
+          callback();
+        }
+      );
+    });
+  }
+}
 module.exports = {
   mode: 'production',
   entry: {
-    main: './src/entry.tsx',
+    main: './src/csr.tsx',
     ssg: './src/ssg.tsx',
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'umd', // Ensure this is set
+    libraryTarget: 'umd',
     globalObject: 'this',
-    clean: true, // Clean the output directory before emit
+    clean: true,
   },
   devtool: 'source-map',
   resolve: {
@@ -41,13 +77,6 @@ module.exports = {
       },
     ],
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //   },
-  //   runtimeChunk: 'single',
-  //   moduleIds: 'deterministic',
-  // },
   plugins: [
     new StaticSiteGeneratorPlugin({
       entry: 'ssg',
@@ -55,23 +84,12 @@ module.exports = {
       locals: {
         data: data,
       },
+      globals: {
+        window: {},
+      },
     }),
-    // new HtmlWebpackPlugin({
-    //   template: './src/index.html',
-    //   minify: {
-    //     removeComments: true,
-    //     collapseWhitespace: true,
-    //     removeRedundantAttributes: true,
-    //     useShortDoctype: true,
-    //     removeEmptyAttributes: true,
-    //     removeStyleLinkTypeAttributes: true,
-    //     keepClosingSlash: true,
-    //     minifyJS: true,
-    //     minifyCSS: true,
-    //     minifyURLs: true,
-    //   },
-    // }),
     new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
+    new TemplateWrapperPlugin(),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'),

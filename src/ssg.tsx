@@ -14,5 +14,6 @@ export default function(locals: Locals) {
       <Root />
     </StaticRouter>
   );
-  return `<!DOCTYPE html>${html}`; // Ensure it returns a valid HTML string
+  
+  return `${html}`; // Ensure it returns a valid HTML string
 }
