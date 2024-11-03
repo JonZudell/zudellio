@@ -1,40 +1,40 @@
 import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import whatInput from 'what-input';
-import "./Button.css";
+import "./AccessibleButton.css";
 interface ButtonProps {
   text: string;
   decorationLeft?: string;
   decorationRight?: string;
   className?: string;
-  onClick?: () => void;
+  onClick: Function;
 }
 
-const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, onClick }) => {
-  const buttonRef = useRef<HTMLSpanElement>(null);
+const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, onClick }) => {
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
+
   useEffect(() => {
     const handleFocus = () => {
-      if (buttonRef.current) {
+      if (linkRef.current) {
         if (whatInput.ask() === "keyboard") {
-          buttonRef.current.classList.add('invert-bg', 'invert-text');
+          linkRef.current.classList.add('invert-bg', 'invert-text');
         }
       }
     };
 
     const handleBlur = () => {
-      if (buttonRef.current) {
-        buttonRef.current.classList.remove('invert-bg', 'invert-text');
+      if (linkRef.current) {
+        linkRef.current.classList.remove('invert-bg', 'invert-text');
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter' && buttonRef.current) {
-        onClick?.();
-      }
+      onClick();
     };
 
-    const buttonElement = buttonRef.current;
+    const buttonElement = linkRef.current;
     if (buttonElement) {
       buttonElement.addEventListener('focus', handleFocus);
       buttonElement.addEventListener('blur', handleBlur);
@@ -48,14 +48,15 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
         buttonElement.removeEventListener('keydown', handleKeyDown);
       }
     };
-  }, [onClick]);
+  }, []);
   return (
     <span
-      ref={buttonRef}
+      ref={linkRef}
       tabIndex={0}
       className={`group text-center border-none cursor-pointer span-button`}
-      onClick={onClick}
-      role="link"
+      role="button"
+      onClick={onClick()}
+      
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
@@ -75,4 +76,4 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
   );
 };
 
-export default Button;
+export default AccessibleLink;

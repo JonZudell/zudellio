@@ -50,6 +50,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "build-dev": "webpack --config webpack.config.js --mode development",
     "dev": "npx serve dist",
     "test": "react-scripts test",
     "storybook": "storybook dev -p 6006",

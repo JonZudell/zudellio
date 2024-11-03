@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
-import Button from '../input/Button';
+import AccessibleLink from '../input/AccessibleLink';
 import './Post.css';
+
 interface PostProps {
   postId: string;
   author: string;
@@ -16,12 +16,6 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, date, title, version, summaryContent, summaryOnly = false, children, classNames }) => {
-  const navigate = useNavigate();
-
-  const handleViewPostClick = () => {
-    navigate(`/blog/${postId}`);
-  };
-
   const humanReadableDate = date.toLocaleString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -48,7 +42,7 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
               </div>
               {summaryOnly === false ? (
                 <div className="flex justify-center mt-4">
-                  <Button text="view_post" onClick={handleViewPostClick} decorationLeft='< ' decorationRight=' >' />
+                  <AccessibleLink text="view_post" href={`/blog/${postId}`} decorationLeft='< ' decorationRight=' >' />
                 </div>
               ) : null}
             </>

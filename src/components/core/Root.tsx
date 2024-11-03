@@ -6,13 +6,13 @@ import Footer from './Footer';
 
 
 const Root: React.FC<{}> = () => (
-  <>
+  <main id={"main"}>
     <Header />
     <Content>
       <Paths />
     </Content>
     <Footer />
-  </>
+  </main>
 );
 
 export default Root;

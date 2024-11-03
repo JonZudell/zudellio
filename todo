@@ -1,19 +1,17 @@
 set up email
+
 contact
 - wire it up
-webpack
-ssr
-light theme
+default dark
+default page 0
 
 Posts
-- finish authn
-- finish a11y
-- finish init
-- finish ssr_wo_node
-- iife modules
+
+Webpack
+- content hash for css and js files
+- 
 
 Anthropology
-- chapter 10
 - chapter 11
 
 Biology

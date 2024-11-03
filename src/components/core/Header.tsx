@@ -1,11 +1,10 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../input/Button';
+import AccessibleLink from '../input/AccessibleLink';
 import './Header.css'; // Assuming you have a CSS file for styles
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   return (
     <header className="p-4 text-center">
       <h1 className="text-xl">
@@ -16,25 +15,25 @@ const Header: React.FC = () => {
           className="flex justify-center"
           style={{ paddingLeft: "0.5em", paddingRight: "0.5em" }}>
           <li>
-            <Button
+            <AccessibleLink
               text="software"
-              onClick={() => navigate('/')}
+              href="/"
               decorationLeft='['
               decorationRight=']'
               className={location.pathname === '/' || location.pathname.startsWith("/blog") ? 'text-pink-300 underline' : 'hover:underline'} />
           </li>
-          <li>
-            <Button
+          {/* <li>
+            <AccessibleLink
               text="music"
-              onClick={() => navigate('/about')}
+              onClick={() => navigate('/music')}
               decorationLeft='['
               decorationRight=']'
               className={location.pathname === '/music' ? 'text-pink-300 underline' : 'hover:underline'} />
-          </li>
+          </li> */}
           <li>
-            <Button
+            <AccessibleLink
               text="contact"
-              onClick={() => navigate('/contact')}
+              href="/contact"
               decorationLeft='['
               decorationRight=']'
               className={location.pathname === '/contact' ? 'text-pink-300 underline' : 'hover:underline'} />

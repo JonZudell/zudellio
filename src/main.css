@@ -950,7 +950,7 @@ select {
 }
 .bg-white {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: rgb(255 255 255 / var (--tw-bg-opacity));
 }
 .p-2 {
   padding: 0.5rem;
@@ -1354,6 +1354,22 @@ code {
   --border-color: var(--text-color);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1a1a1a;
+    --link-button-accent-color: theme('colors.pink.400');
+    --link-button-accent-color-dark: theme('colors.pink.600');
+    --comment-color: theme('colors.green.400');
+    --user-color: theme('colors.purple.400');
+    --link-button-color: theme('colors.pink.200');
+    --link-button-color-dark: theme('colors.pink.400');
+    --href-color: theme('colors.blue.600');
+    --emphasis-color: theme('colors.pink.600');
+    --text-color: #d3d3d3;
+    --border-color: var(--text-color);
+  }
+}
+
 .sticked-post {
   border: 2px solid var(--emphasis-color);
 }
@@ -1372,7 +1388,7 @@ code {
 
 body {
   margin: 0;
-  font-family: 'Press Start 2P', 'Consolas', 'Courier New', monospace;
+  font-family: 'Consolas', 'Courier New', monospace;
   font-weight: 800;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -1381,7 +1397,7 @@ body {
 }
 
 code {
-  font-family: 'Press Start 2P', 'Consolas', 'Courier New', monospace;
+  font-family: 'Consolas', 'Courier New', monospace;
   font-weight: 800;
 }
 

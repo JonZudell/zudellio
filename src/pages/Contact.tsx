@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../components/input/Button";
+import AccessibleButton from "../components/input/AccessibleButton";
 import TextArea from "../components/input/TextArea";
 import TextInput from "../components/input/TextInput";
 const Contact: React.FC = () => {
@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
         <TextArea label="Message" className="w-full" inputClassName="w-full" rows={6}/>
       </div>
       <div className="flex justify-center items-center">
-        <Button text={"send_message"} decorationLeft="< " decorationRight=" >"/>
+        <AccessibleButton text={"send_message"} onClick={() => {}}decorationLeft="< " decorationRight=" >"/>
       </div>
     </div>
   );

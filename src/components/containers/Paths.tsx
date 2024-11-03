@@ -10,7 +10,6 @@ const Paths: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<SoftwareBlog />} />
-      <Route path="/:page_number" element={<SoftwareBlog />} />
       <Route path="/blog/:postId" element={<SoftwareBlog />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />

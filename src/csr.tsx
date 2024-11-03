@@ -5,7 +5,8 @@ import Root from './components/core/Root';
 import './main.css';
 
 export function hydrateApp() {
-  const container = document.getElementById('root');
+  const container = document.getElementById('main');
+  console.log("hydrating")
   if (container) {
     hydrateRoot(
       container, 
