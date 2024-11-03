@@ -6,12 +6,10 @@ import Header from './Header';
 import Footer from './Footer';
 
 
-const Root: React.FC<{ path: string }> = ({ path = "/" }) => (
+const Root: React.FC<{}> = () => (
   <Content>
     <Header />
-    <StaticRouter location={path}>
-      <Paths />
-    </StaticRouter>
+    <Paths />
     <Footer />
   </Content>
 );

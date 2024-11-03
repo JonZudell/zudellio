@@ -25,8 +25,6 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
   addThisCompilationHandler(compiler, function(compilation) {
     const logger = compilation.getLogger('StaticSiteGeneratorWebpackPlugin');
 
-    logger.info('Starting compilation');
-
     addOptimizeAssetsHandler(compilation, function(_, done) {
       var renderPromises;
 
@@ -41,19 +39,22 @@ StaticSiteGeneratorWebpackPlugin.prototype.apply = function(compiler) {
         }
 
         var assets = getAssetsFromCompilation(compilation, webpackStatsJson);
-        logger.info(assets);
         var source = asset.source();
-        logger.info(source);
         
         var render = evaluate(source, /* filename: */ self.entry, /* scope: */ self.globals, /* includeGlobals: */ true);
 
-        logger.info(typeof render);
-        logger.info(render);
+        if (typeof render !== 'function') {
+          if (render && typeof render.default === 'function') {
+            render = render.default;
+          } else {
+            throw new Error('Export from "' + self.entry + '" must be a function that returns an HTML string. Is output.libraryTarget in the configuration set to "umd"?');
+          }
+        }
+        
         if (typeof render !== 'function') {
           throw new Error('Export from "' + self.entry + '" must be a function that returns an HTML string. Is output.libraryTarget in the configuration set to "umd"?');
         }
 
-        logger.info('Rendering paths');
         renderPaths(self.crawl, self.locals, self.paths, render, assets, webpackStats, compilation)
           .nodeify(done);
       } catch (err) {
