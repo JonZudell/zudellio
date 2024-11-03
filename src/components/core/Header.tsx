@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from './Button';
+import Button from '../input/Button';
 import './Header.css'; // Assuming you have a CSS file for styles
 
 const Header: React.FC = () => {

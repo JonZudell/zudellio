@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import SoftwareBlog from "../pages";
-import About from "../pages/about";
-import Contact from "../pages/contact";
+import SoftwareBlog from "../../pages";
+import About from "../../pages/about";
+import Contact from "../../pages/contact";
 
 
 

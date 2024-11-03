@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
-import Root from './components/Root';
+import Root from './components/core/Root';
 
 interface Locals {
   path: string;

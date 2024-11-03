@@ -1,16 +1,14 @@
-// const globSync = require('glob').sync;
-// const relative = require('path').relative;
+const globSync = require('glob').sync;
+const relative = require('path').relative;
 
-// const pages = globSync('./src/pages/**/*.tsx').map((file)  => {
-//   const relativePath = relative('./src/pages', file);
-//   const route = '/' + relativePath.replace(/\.tsx$/, '').replace(/\/index$/, '');
+const pages = globSync('./src/pages/**/*.tsx').map((file)  => {
+  const relativePath = relative('./src/pages', file);
+  const route = '/' + relativePath.replace(/\.tsx$/, '').replace(/\/index$/, '');
 
-//   return route;
-// });
+  return route;
+});
 
 module.exports = {
-  title: 'My Static Site',
-  routes: [
-    "/"
-  ]
+  title: 'zudell.io',
+  routes: pages
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import Button from './Button';
+import Button from '../input/Button';
 import './Post.css';
 interface PostProps {
   postId: string;

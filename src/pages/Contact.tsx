@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "../components/Button";
-import TextArea from "../components/TextArea";
-import TextInput from "../components/TextInput";
+import Button from "../components/input/Button";
+import TextArea from "../components/input/TextArea";
+import TextInput from "../components/input/TextInput";
 const Contact: React.FC = () => {
   return (
     <div className="w-full text-xl">

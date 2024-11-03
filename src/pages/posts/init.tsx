@@ -1,5 +1,5 @@
 import React from 'react';
-import Post from '../../components/Post';
+import Post from '../../components/containers/Post';
 
 interface PostProps {
   displaySummary?: boolean;

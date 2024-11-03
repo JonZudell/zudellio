@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../components/Button";
-import PageSelector from "../components/PageSelector";
+import Button from "../components/input/Button";
+import PageSelector from "../components/input/PageSelector";
 import A11y from "./posts/a11y";
 import Authn from "./posts/authn";
 import HireMe from "./posts/hire_me";

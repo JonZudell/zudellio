@@ -1,6 +1,6 @@
 import React from 'react';
-import CodeBlock from '../../components/CodeBlock';
-import Post from '../../components/Post';
+import CodeBlock from '../../components/containers/CodeBlock';
+import Post from '../../components/containers/Post';
 interface PostProps {
   displaySummary?: boolean;
   classNames?: string;
