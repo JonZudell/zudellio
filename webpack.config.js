@@ -1,5 +1,5 @@
 const path = require('path');
-const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const StaticSiteGeneratorPlugin = require('./ssgwp');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const data = require('./src/data')
