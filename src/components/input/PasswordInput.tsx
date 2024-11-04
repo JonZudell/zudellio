@@ -10,14 +10,15 @@ interface PasswordInputProps {
   name: string;
   className?: string;
   tabIndex?: number;
+  label?: string;
 }
 
-const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ value, id, name, setter, className }, ref) => {
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ value, id, name, setter, className, label = "Password" }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className={`relative mt-2 ${className}`}>
-      <label htmlFor={id} className="block mb-2">Password</label>
+      <label htmlFor={id} className="block mb-2">{label}</label>
       <div className="flex items-center standard-shadow">
         <input 
           ref={ref} 

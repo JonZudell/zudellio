@@ -17,7 +17,7 @@ interface TextInputProps {
 const TextInput: React.FC<TextInputProps> = ({ label, className, inputClassName, inputRef, type, id, name, value, onChange, tabIndex }) => {
   return (
     <div className={`${className}`}>
-      <label className="block mb-2">{label}</label>
+      <label className="block mb-2 text-lg">{label}</label>
       <input 
         ref={inputRef} 
         type={type} 

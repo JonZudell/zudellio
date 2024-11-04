@@ -1415,6 +1415,9 @@ code {
 .m-2em {
   margin: 2em;
 }
+.mb-2em {
+  margin-bottom: 2em;
+}
 
 .py-1em {
   padding-top: 1em;
