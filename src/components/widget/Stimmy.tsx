@@ -21,50 +21,38 @@ const Stimmy: React.FC = () => {
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const centerX = canvasWidth / 2;
-      const centerY = canvasHeight / 2;
+      const topY = 50;
 
       // Create ground
       const groundShape = new b2PolygonShape();
-      groundShape.SetAsBox(0.5, 0.05);
-      const groundBody = createBody(world, b2BodyType.b2_staticBody, new b2Vec2(centerX / 30, centerY / 30), groundShape, 0);
+      groundShape.SetAsBox(0.25, 0.25);
+      const groundBody = createBody(world, b2BodyType.b2_staticBody, new b2Vec2(centerX / 30, topY / 30), groundShape, 1);
 
       // Create first pendulum bob
       const bobShape1 = new b2PolygonShape();
       bobShape1.SetAsBox(0.25, 0.25);
-      const bobBody1 = createBody(world, b2BodyType.b2_dynamicBody, new b2Vec2(centerX / 30, (centerY - 100) / 30), bobShape1, 1);
+      const bobBody1 = createBody(world, b2BodyType.b2_dynamicBody, new b2Vec2(centerX / 30, (topY + 100) / 30), bobShape1, 1);
 
       // Create second pendulum bob
       const bobShape2 = new b2PolygonShape();
       bobShape2.SetAsBox(0.25, 0.25);
-      const bobBody2 = createBody(world, b2BodyType.b2_dynamicBody, new b2Vec2(centerX / 30, (centerY - 200) / 30), bobShape2, 1);
-
-      // Create third pendulum bob
-      const bobShape3 = new b2PolygonShape();
-      bobShape3.SetAsBox(0.25, 0.25);
-      const bobBody3 = createBody(world, b2BodyType.b2_dynamicBody, new b2Vec2(centerX / 30, (centerY - 300) / 30), bobShape3, 1);
+      const bobBody2 = createBody(world, b2BodyType.b2_dynamicBody, new b2Vec2(centerX / 30, (topY + 200) / 30), bobShape2, 2);
 
       // Create revolute joint between ground and first bob
       const jointDef1 = new b2RevoluteJointDef();
-      jointDef1.Initialize(groundBody, bobBody1, new b2Vec2(centerX / 30, centerY / 30));
+      jointDef1.Initialize(groundBody, bobBody1, new b2Vec2(centerX / 30, topY / 30));
       world.CreateJoint(jointDef1);
 
       // Create revolute joint between first bob and second bob
       const jointDef2 = new b2RevoluteJointDef();
-      jointDef2.Initialize(bobBody1, bobBody2, new b2Vec2(centerX / 30, (centerY - 100) / 30));
+      jointDef2.Initialize(bobBody1, bobBody2, new b2Vec2(centerX / 30, (topY + 100) / 30));
       world.CreateJoint(jointDef2);
-
-      // Create revolute joint between second bob and third bob
-      const jointDef3 = new b2RevoluteJointDef();
-      jointDef3.Initialize(bobBody2, bobBody3, new b2Vec2(centerX / 30, (centerY - 200) / 30));
-      world.CreateJoint(jointDef3);
 
       // Apply random torque to all bobs
       const randomTorque1 = (Math.random() - 0.5) * 20;
       bobBody1.ApplyTorque(randomTorque1, true);
       const randomTorque2 = (Math.random() - 0.5) * 20;
       bobBody2.ApplyTorque(randomTorque2, true);
-      const randomTorque3 = (Math.random() - 0.5) * 20;
-      bobBody3.ApplyTorque(randomTorque3, true);
 
       let lastTime = 0;
 
@@ -76,59 +64,66 @@ const Stimmy: React.FC = () => {
           world.Step(deltaTime, 6, 2);
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          // Draw ground
-          ctx.beginPath();
-          ctx.rect(centerX - 15, centerY - 1.5, 30, 3);
-          ctx.strokeStyle = '#000';
-          ctx.stroke();
-
-          // Draw first pendulum bob
+          // Draw line connecting ground and first bob
           const bobPos1 = bobBody1.GetPosition();
           ctx.beginPath();
-          ctx.rect(bobPos1.x * 30 - 7.5, bobPos1.y * 30 - 7.5, 15, 15);
-          ctx.fillStyle = '#f00';
-          ctx.fill();
+          ctx.moveTo(Math.floor(centerX), Math.floor(topY));
+          ctx.lineTo(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30));
           ctx.strokeStyle = '#000';
+          ctx.lineWidth = 3;
           ctx.stroke();
-
-          // Draw second pendulum bob
+          // Draw line connecting first bob and second bob
           const bobPos2 = bobBody2.GetPosition();
           ctx.beginPath();
-          ctx.rect(bobPos2.x * 30 - 7.5, bobPos2.y * 30 - 7.5, 15, 15);
-          ctx.fillStyle = '#0f0';
-          ctx.fill();
+          ctx.moveTo(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30));
+          ctx.lineTo(Math.floor(bobPos2.x * 30), Math.floor(bobPos2.y * 30));
           ctx.strokeStyle = '#000';
+          ctx.lineWidth = 3;
           ctx.stroke();
 
-          // Draw third pendulum bob
-          const bobPos3 = bobBody3.GetPosition();
+          // Draw ground object as a green circle
           ctx.beginPath();
-          ctx.rect(bobPos3.x * 30 - 7.5, bobPos3.y * 30 - 7.5, 15, 15);
-          ctx.fillStyle = '#00f';
+          ctx.arc(Math.floor(centerX), Math.floor(topY), 10, 0, 2 * Math.PI);
+          ctx.fillStyle = 'green';
           ctx.fill();
+          ctx.strokeStyle = 'green';
+          ctx.stroke();
+
+          // Draw first bob as a red circle
+          ctx.beginPath();
+          ctx.arc(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30), 10, 0, 2 * Math.PI);
+          ctx.fillStyle = 'red';
+          ctx.fill();
+          ctx.strokeStyle = 'red';
+          ctx.stroke();
+
+          // Draw second bob as a blue circle
+          ctx.beginPath();
+          ctx.arc(Math.floor(bobPos2.x * 30), Math.floor(bobPos2.y * 30), 10, 0, 2 * Math.PI);
+          ctx.fillStyle = 'blue';
+          ctx.fill();
+          ctx.strokeStyle = 'blue';
+          ctx.stroke();
+
+          // Draw arc from the pendulum arm between ground object and first bob to the pendulum arm between first bob and second bob
+          const startAngle = Math.atan2(bobPos1.y - topY / 30, bobPos1.x - centerX / 30) + Math.PI;
+          const endAngle = Math.atan2(bobPos2.y - bobPos1.y, bobPos2.x - bobPos1.x) + (Math.PI * 2);
+          const arcDirection = endAngle > startAngle ? false : true;
+          ctx.beginPath();
+          ctx.arc(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30), 20, startAngle, endAngle, false);
           ctx.strokeStyle = '#000';
+          ctx.lineWidth = 2;
           ctx.stroke();
 
-          // Draw line connecting ground and first bob
-          ctx.beginPath();
-          ctx.moveTo(centerX, centerY);
-          ctx.lineTo(bobPos1.x * 30, bobPos1.y * 30);
-          ctx.strokeStyle = '#00f';
-          ctx.stroke();
-
-          // Draw line connecting first bob and second bob
-          ctx.beginPath();
-          ctx.moveTo(bobPos1.x * 30, bobPos1.y * 30);
-          ctx.lineTo(bobPos2.x * 30, bobPos2.y * 30);
-          ctx.strokeStyle = '#00f';
-          ctx.stroke();
-
-          // Draw line connecting second bob and third bob
-          ctx.beginPath();
-          ctx.moveTo(bobPos2.x * 30, bobPos2.y * 30);
-          ctx.lineTo(bobPos3.x * 30, bobPos3.y * 30);
-          ctx.strokeStyle = '#00f';
-          ctx.stroke();
+          // Draw scan lines
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+          ctx.lineWidth = .5;
+          for (let y = 0; y < canvas.height; y += 4) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+          }
         }
         requestAnimationFrame(draw);
       };
@@ -155,9 +150,9 @@ const Stimmy: React.FC = () => {
       onClick={handleClick}
       onMouseUp={handleMouseUp}
       onBlur={handleBlur}
-      width={800}
-      height={600}
-      style={{ width: '100%', height: '300px' }}
+      width={640}
+      height={480}
+      style={{ width: '100%', height: '300px', imageRendering: 'pixelated' }}
     >
     </canvas>
   );
