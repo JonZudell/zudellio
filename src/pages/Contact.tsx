@@ -4,7 +4,7 @@ import TextArea from '../components/input/TextArea';
 import TextInput from '../components/input/TextInput';
 const Contact: React.FC = () => {
   return (
-    <div className="w-full text-xl focus-within:z-20">
+    <div className="w-full text-xl">
       <div className="flex justify-center items-center">
         <h2 className="">contact</h2>
       </div>

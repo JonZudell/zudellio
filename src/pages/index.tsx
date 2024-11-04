@@ -31,12 +31,7 @@ const Index: React.FC = () => {
     <div className={''}>
       {postId ? (
         <div className="w-full">
-          <AccessibleLink
-            text={'Back'}
-            href={'/'}
-            decorationLeft="< "
-            tabIndex={-1}
-          />
+          <AccessibleLink text={'Back'} href={'/'} decorationLeft="< " />
           {posts[postId]?.component &&
             React.createElement(posts[postId].component, {
               displaySummary: false,

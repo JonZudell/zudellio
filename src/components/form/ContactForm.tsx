@@ -26,6 +26,8 @@ const ContactForm: React.FC = () => {
           onClick={() => {}}
           decorationLeft="< "
           decorationRight=" >"
+          ariaLabel={'Send Message Button'}
+          disabled={false}
         />
       </div>
     </form>

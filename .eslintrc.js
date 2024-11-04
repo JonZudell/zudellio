@@ -30,6 +30,7 @@ module.exports = {
   ],
   rules: {
     'no-undef': 'off', // Allow the use of undefined
+    'jsx-a11y/tabindex-no-positive': 'off', // Ignore tabIndex rule
   },
   settings: {
     react: {

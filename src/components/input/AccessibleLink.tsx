@@ -9,7 +9,6 @@ interface ButtonProps {
   className?: string;
   href: string;
   onClick?: Function;
-  tabIndex?: number;
 }
 
 const AccessibleLink: React.FC<ButtonProps> = ({
@@ -19,7 +18,6 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   className,
   href,
   onClick,
-  tabIndex,
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
@@ -72,7 +70,6 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   return (
     <Link
       ref={linkRef}
-      tabIndex={tabIndex}
       className={`group text-center border-none cursor-pointer span-button`}
       role="link"
       to={href}

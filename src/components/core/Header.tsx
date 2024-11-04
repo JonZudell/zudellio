@@ -6,7 +6,7 @@ import './Header.css'; // Assuming you have a CSS file for styles
 const Header: React.FC = () => {
   const location = useLocation();
   return (
-    <header className="p-4 text-center focus-within:z-10">
+    <header className="p-4 text-center">
       <h1 className="text-xl">
         zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
       </h1>

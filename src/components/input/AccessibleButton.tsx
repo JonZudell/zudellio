@@ -3,18 +3,22 @@ import whatInput from 'what-input';
 import './AccessibleButton.css';
 interface ButtonProps {
   text: string;
+  ariaLabel: string;
   decorationLeft?: string;
   decorationRight?: string;
   className?: string;
   onClick?: Function;
+  disabled?: boolean;
 }
 
-const AccessibleLink: React.FC<ButtonProps> = ({
+const AccessibleButton: React.FC<ButtonProps> = ({
   text,
   decorationLeft,
   decorationRight,
   className,
   onClick,
+  ariaLabel,
+  disabled = false,
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
@@ -57,9 +61,10 @@ const AccessibleLink: React.FC<ButtonProps> = ({
     <span
       ref={linkRef}
       tabIndex={0}
-      className={`group text-center border-none cursor-pointer span-button`}
+      className={`group text-center border-none cursor-pointer span-button ${disabled ? 'line-through' : ''}`}
       role="button"
-      onClick={onClick ? () => onClick() : undefined}
+      aria-label={ariaLabel}
+      onClick={onClick && !disabled ? () => onClick() : undefined}
       onFocus={handleFocus}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
@@ -86,4 +91,4 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   );
 };
 
-export default AccessibleLink;
+export default AccessibleButton;

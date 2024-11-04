@@ -11,7 +11,6 @@ interface TextInputProps {
   value?: string;
   required?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  tabIndex?: number;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -24,7 +23,6 @@ const TextInput: React.FC<TextInputProps> = ({
   name,
   value,
   onChange,
-  tabIndex,
 }) => {
   return (
     <div className={`${className}`}>
@@ -37,7 +35,6 @@ const TextInput: React.FC<TextInputProps> = ({
         value={value}
         className={`border standard-shadow textinput ${inputClassName}`}
         onChange={onChange}
-        tabIndex={tabIndex}
       />
     </div>
   );

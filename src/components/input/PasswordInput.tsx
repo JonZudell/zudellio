@@ -19,7 +19,6 @@ interface PasswordInputProps {
   id: string;
   name: string;
   className?: string;
-  tabIndex?: number;
   label?: string;
 }
 

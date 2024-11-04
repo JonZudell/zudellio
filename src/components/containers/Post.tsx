@@ -36,7 +36,7 @@ const Post: React.FC<PostProps> = ({
     minute: '2-digit',
   });
   return (
-    <div className="w-full focus-within:z-20">
+    <div className="w-full">
       <div className={`text-xl w-full border-2 border-post post ${classNames}`}>
         <div className="">
           <div className="text-xl">
