@@ -1377,6 +1377,10 @@ code {
 .background-color {
   background-color: var(--background-color);
 }
+
+.text-color {
+  color: var(--text-color);
+}
 .sticked-post {
   border: 2px solid var(--emphasis-color);
 }
@@ -1425,4 +1429,9 @@ code {
 /* Disable focus rings on span */
 span:focus {
   outline: none;
+}
+
+.standard-shadow {
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
 }

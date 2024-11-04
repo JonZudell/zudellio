@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the FontAwesome CSS
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { forwardRef, useState } from 'react';
@@ -14,27 +15,31 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ value,
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className={`relative mt-2 rounded-md shadow-sm ${className}`}>
+    <div className={`relative mt-2 ${className}`}>
       <label htmlFor={id} className="block mb-2">Password</label>
-      <div className="flex items-center">
+      <div className="flex items-center standard-shadow">
         <input 
           ref={ref} 
           type={showPassword ? 'text' : 'password'} 
           id={id}
           name={name}
           value={value}
-          className={`border p-2 border-2 textinput flex-grow`}
+          className={`p-2 textinput flex-grow background-color`}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value)} 
           aria-describedby={`${id}-toggle`}
         />
-        <div
+        <span
           id={`${id}-toggle`}
-          className="background-color relative inline-flex items-center mx-10 font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 h-full"
+          className="background-color inline-flex items-center font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-800 h-full"
           onClick={() => setShowPassword(!showPassword)}
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
-          <FontAwesomeIcon className="py-1em" icon={showPassword ? faEyeSlash : faEye} />
-        </div>
+          <FontAwesomeIcon 
+            icon={showPassword ? faEyeSlash : faEye} 
+            className='m-3 h-4 w-4' 
+            style={{ color: '#D3D3D3' }} // Set the color here
+          />
+        </span>
       </div>
     </div>
   );
