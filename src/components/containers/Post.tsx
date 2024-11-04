@@ -25,7 +25,7 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
     minute: '2-digit',
   });
   return (
-    <div className='w-full'>
+    <div className='w-full focus-within:z-20'>
       <div className={`text-xl w-full border-2 border-post post ${classNames}`}>
         <div className=''>
           <div className='text-xl'>

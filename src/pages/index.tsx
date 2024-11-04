@@ -25,7 +25,7 @@ const Index: React.FC = () => {
   const { postId } = useParams<{ postId?: string}>();
 
   return (
-    <>
+    <div className={"focus-within:z-10"}>
       {postId ? (
         <div className="w-full">
           <AccessibleLink text={"Back"} href={"/"} decorationLeft="< " />
@@ -47,7 +47,7 @@ const Index: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

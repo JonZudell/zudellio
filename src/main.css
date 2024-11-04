@@ -747,6 +747,11 @@ select {
   top: 0px;
   bottom: 0px;
 }
+
+.inset-y-1 {
+  top: 30px;
+  bottom: 0px;
+}
 .left-20 {
   left: 5rem;
 }
@@ -1369,7 +1374,9 @@ code {
     --border-color: var(--text-color);
   }
 }
-
+.background-color {
+  background-color: var(--background-color);
+}
 .sticked-post {
   border: 2px solid var(--emphasis-color);
 }
