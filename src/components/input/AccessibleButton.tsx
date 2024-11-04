@@ -7,7 +7,7 @@ interface ButtonProps {
   decorationLeft?: string;
   decorationRight?: string;
   className?: string;
-  onClick: Function;
+  onClick?: Function;
 }
 
 const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, onClick }) => {
@@ -31,7 +31,9 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      onClick();
+      if (onClick) {
+        onClick();
+      }
     };
 
     const buttonElement = linkRef.current;
@@ -55,7 +57,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
       tabIndex={0}
       className={`group text-center border-none cursor-pointer span-button`}
       role="button"
-      onClick={onClick()}
+      onClick={onClick ? () => onClick() : undefined}
       
     >
       {decorationLeft && (

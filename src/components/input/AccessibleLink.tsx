@@ -8,9 +8,10 @@ interface ButtonProps {
   decorationRight?: string;
   className?: string;
   href: string;
+  onClick?: Function
 }
 
-const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, href }) => {
+const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, href, onClick }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
@@ -37,7 +38,11 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      navigate(href)
+      if (onClick) {
+        onClick();
+      } else {
+        navigate(href)
+      }
     };
 
     const buttonElement = linkRef.current;

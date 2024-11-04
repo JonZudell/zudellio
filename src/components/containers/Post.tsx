@@ -1,7 +1,7 @@
 import React from 'react';
 import AccessibleLink from '../input/AccessibleLink';
+import '../../main.css';
 import './Post.css';
-
 interface PostProps {
   postId: string;
   author: string;
@@ -26,7 +26,7 @@ const Post: React.FC<PostProps> = ({ displaySummary = false, postId, author, dat
   });
   return (
     <div className='w-full'>
-      <div className={`text-xl w-full border-2 border-post ${classNames}`}>
+      <div className={`text-xl w-full border-2 border-post post ${classNames}`}>
         <div className=''>
           <div className='text-xl'>
             <h2><span className="user-purple">{author}</span>{" > " + title + " " + version}</h2>

@@ -1,3 +1,6 @@
+.post {
+  background-color: var(--background-color);
+}
 .tooltip {
   text-decoration: underline;
   text-decoration-style: dotted;
