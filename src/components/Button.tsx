@@ -52,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, 
   return (
     <span
       ref={buttonRef}
-      tabIndex={0}
+      tabIndex={0} // Make the span focusable
       className={`group text-center border-none cursor-pointer span-button`}
       onClick={onClick}
       role="link"

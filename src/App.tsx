@@ -5,9 +5,9 @@ import Content from './components/Content';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { useTheme } from './contexts/ThemeContext';
-import About from './pages/about';
-import Contact from './pages/contact';
-import SoftwareBlog from './pages';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import SoftwareBlog from './pages/SoftwareBlog';
 
 interface AppProps {
   theme: 'light' | 'dark';
