@@ -9,6 +9,7 @@ interface PasswordInputProps {
   id: string;
   name: string;
   className?: string;
+  tabIndex?: number;
 }
 
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ value, id, name, setter, className }, ref) => {
@@ -24,13 +25,13 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ value,
           id={id}
           name={name}
           value={value}
-          className={`p-2 textinput flex-grow background-color`}
+          className={`p-2 border textinput flex-grow background-color`}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value)} 
           aria-describedby={`${id}-toggle`}
         />
         <span
           id={`${id}-toggle`}
-          className="background-color inline-flex items-center font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-800 h-full"
+          className="background-color inline-flex items-center font-semibold text-gray-900 border-0 hover:bg-gray-800 h-full"
           onClick={() => setShowPassword(!showPassword)}
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >

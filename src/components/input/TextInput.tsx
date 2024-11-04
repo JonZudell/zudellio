@@ -1,5 +1,5 @@
 import React from 'react';
-import './TextInput.css';
+import '../../main.css';
 interface TextInputProps {
   label?: string;
   className?: string;
@@ -9,10 +9,12 @@ interface TextInputProps {
   id?:string;
   name?:string;
   value?:string;
-  onChange?: Function;
+  required?:boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  tabIndex?: number;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, className, inputClassName, inputRef, type, id, name, value, onChange }) => {
+const TextInput: React.FC<TextInputProps> = ({ label, className, inputClassName, inputRef, type, id, name, value, onChange, tabIndex }) => {
   return (
     <div className={`${className}`}>
       <label className="block mb-2">{label}</label>
@@ -22,8 +24,8 @@ const TextInput: React.FC<TextInputProps> = ({ label, className, inputClassName,
         id={id}
         name={name}
         value={value}
-        className={`border p-2 border-2 textinput ${inputClassName}`}
-        onChange={onChange as React.ChangeEventHandler<HTMLInputElement>} />
+        className={`border standard-shadow textinput ${inputClassName}`}
+        onChange={onChange} />
     </div>
   );
 };

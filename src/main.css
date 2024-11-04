@@ -1435,3 +1435,13 @@ span:focus {
   border: 2px solid var(--border-color);
   box-shadow: 1em 1em 0 0 var(--border-color);
 }
+
+.textinput {
+  background-color: #1a1a1a;
+  color: #d3d3d3;
+}
+
+
+/* .h-6em {
+  height: 6em;
+} */

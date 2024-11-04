@@ -9,9 +9,10 @@ interface ButtonProps {
   className?: string;
   href: string;
   onClick?: Function
+  tabIndex?: number;
 }
 
-const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, href, onClick }) => {
+const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, href, onClick, tabIndex }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
@@ -63,7 +64,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
   return (
     <Link
       ref={linkRef}
-      tabIndex={0}
+      tabIndex={tabIndex}
       className={`group text-center border-none cursor-pointer span-button`}
       role="link"
       to={href}

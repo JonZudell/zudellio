@@ -25,10 +25,10 @@ const Index: React.FC = () => {
   const { postId } = useParams<{ postId?: string}>();
 
   return (
-    <div className={"focus-within:z-10"}>
+    <div className={""}>
       {postId ? (
         <div className="w-full">
-          <AccessibleLink text={"Back"} href={"/"} decorationLeft="< " />
+          <AccessibleLink text={"Back"} href={"/"} decorationLeft="< " tabIndex={-1} />
           {posts[postId]?.component && React.createElement(posts[postId].component, { displaySummary: false })}
         </div>
       ) : (

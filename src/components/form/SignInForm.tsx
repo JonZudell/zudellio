@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { faFacebook, faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PasswordInput from '../input/PasswordInput';
+import TextInput from '../input/TextInput';
+import '../../main.css';
 
 
 const SignUpForm: React.FC = () => {
@@ -36,24 +38,27 @@ const SignUpForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 p-4 border rounded-lg shadow-lg">
       <h2 className="text-3xl font-extrabold mb-4 text-center">Sign In</h2>
+      
       <div className="mb-4">
         {error && <p className="text-red-500 text-lg">{error}</p>}
         {success && <p className="text-green-500 text-lg">{success}</p>}
-        <label htmlFor="email" className="block text-lg font-semibold text-gray-700">Email:</label>
-        <input
+        <TextInput
           type="email"
           id="email"
           name="email"
+          label="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
           data-testid="email-input"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          tabIndex={1}
+          className="mt-1 block focus:border-indigo-500 w-full"
+          inputClassName='w-full'
         />
       </div>
+      
       <div className="mb-4">
         <div className="flex justify-between items-center">
-          <label htmlFor="password" className="block text-lg font-semibold text-gray-700">Password:</label>
           <a href="/forgot-password" className="text-lg text-indigo-800 underline hover:text-indigo-600">Forgot Password?</a>
         </div>
         <PasswordInput id="password" name="password" value={password} setter={setPassword} className="w-full" />
