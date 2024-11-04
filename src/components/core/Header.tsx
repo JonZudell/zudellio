@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AccessibleLink from '../input/AccessibleLink';
 import './Header.css'; // Assuming you have a CSS file for styles
 

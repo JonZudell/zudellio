@@ -3,6 +3,16 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { forwardRef, useState } from 'react';
 import '../../main.css';
+
+const tabEvent = new KeyboardEvent('keydown', {
+  key: 'Tab',
+  keyCode: 9,
+  code: 'Tab',
+  which: 9,
+  bubbles: true,
+  cancelable: true,
+});
+
 interface PasswordInputProps {
   value: string;
   setter: Function;
@@ -33,12 +43,26 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                if (ref && 'current' in ref && ref.current) {
+                  ref.current.dispatchEvent(tabEvent);
+                }
+              }
+            }}
             aria-describedby={`${id}-toggle`}
           />
           <span
             id={`${id}-toggle`}
+            role="button" // Role for the toggle button
             className="background-color inline-flex items-center font-semibold text-gray-900 border-0 hover:bg-gray-800 h-full"
             onClick={() => setShowPassword(!showPassword)}
+            tabIndex={0} // Make the span tabbable
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setShowPassword(!showPassword);
+              }
+            }}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             <FontAwesomeIcon

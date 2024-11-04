@@ -59,7 +59,6 @@ const SignUpForm: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           data-testid="email-input"
-          tabIndex={1}
           className="mt-1 block focus:border-indigo-500 w-full"
           inputClassName="w-full"
         />
@@ -144,7 +143,7 @@ const SignUpForm: React.FC = () => {
 
       <div className="text-center text-gray-500 mt-4 text-lg">
         <p>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{`\u0020`}
           <a
             href="/signup"
             className="text-indigo-800 underline hover:text-indigo-600"

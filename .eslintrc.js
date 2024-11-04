@@ -12,6 +12,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:prettier/recommended', // Integrate Prettier with ESLint
+    'prettier' // Add this line to extend from eslint-config-prettier
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -25,11 +26,10 @@ module.exports = {
     'react-hooks',
     'jsx-a11y',
     'import',
-    'prettier', // Add Prettier plugin
+    'prettier'
   ],
   rules: {
-    'prettier/prettier': 'error', // Show Prettier errors as ESLint errors
-    // Add custom rules here
+    'no-undef': 'off', // Allow the use of undefined
   },
   settings: {
     react: {

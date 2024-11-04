@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import Post from './Post';
 import { StaticRouter } from 'react-router-dom/server';

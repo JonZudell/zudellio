@@ -37,6 +37,7 @@ const TextInput: React.FC<TextInputProps> = ({
         value={value}
         className={`border standard-shadow textinput ${inputClassName}`}
         onChange={onChange}
+        tabIndex={tabIndex}
       />
     </div>
   );

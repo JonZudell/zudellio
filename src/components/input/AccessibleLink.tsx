@@ -46,7 +46,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({
       }
     };
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = () => {
       if (onClick) {
         onClick();
       } else {

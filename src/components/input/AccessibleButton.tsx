@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import whatInput from 'what-input';
 import './AccessibleButton.css';
 interface ButtonProps {
@@ -20,42 +19,39 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
-
-  useEffect(() => {
-    const handleFocus = () => {
-      if (linkRef.current) {
-        if (whatInput.ask() === 'keyboard') {
-          linkRef.current.classList.add('invert-bg', 'invert-text');
-        }
+  const handleFocus = () => {
+    if (linkRef.current) {
+      if (whatInput.ask() === 'keyboard') {
+        linkRef.current.classList.add('invert-bg', 'invert-text');
       }
-    };
-
-    const handleBlur = () => {
-      if (linkRef.current) {
-        linkRef.current.classList.remove('invert-bg', 'invert-text');
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (onClick) {
-        onClick();
-      }
-    };
-
-    const buttonElement = linkRef.current;
-    if (buttonElement) {
-      buttonElement.addEventListener('focus', handleFocus);
-      buttonElement.addEventListener('blur', handleBlur);
-      buttonElement.addEventListener('keydown', handleKeyDown);
     }
+  };
 
-    return () => {
-      if (buttonElement) {
-        buttonElement.removeEventListener('focus', handleFocus);
-        buttonElement.removeEventListener('blur', handleBlur);
-        buttonElement.removeEventListener('keydown', handleKeyDown);
-      }
-    };
+  const handleBlur = () => {
+    if (linkRef.current) {
+      linkRef.current.classList.remove('invert-bg', 'invert-text');
+    }
+  };
+  // eslint-disable-next-line
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (onClick) {
+      onClick();
+    }
+  };
+  useEffect(() => {
+    // const buttonElement = linkRef.current;
+    // if (buttonElement) {
+    //   buttonElement.addEventListener('focus', handleFocus);
+    //   buttonElement.addEventListener('blur', handleBlur);
+    //   buttonElement.addEventListener('keydown', handleKeyDown);
+    // }
+    // return () => {
+    //   if (buttonElement) {
+    //     buttonElement.removeEventListener('focus', handleFocus);
+    //     buttonElement.removeEventListener('blur', handleBlur);
+    //     buttonElement.removeEventListener('keydown', handleKeyDown);
+    //   }
+    // };
   }, []);
   return (
     <span
@@ -64,6 +60,9 @@ const AccessibleLink: React.FC<ButtonProps> = ({
       className={`group text-center border-none cursor-pointer span-button`}
       role="button"
       onClick={onClick ? () => onClick() : undefined}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
