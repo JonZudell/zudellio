@@ -1,6 +1,6 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
-
+import Stimmy from '../../components/widget/Stimmy';
 interface PostProps {
   displaySummary?: boolean;
 }
@@ -16,7 +16,12 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
       displaySummary={displaySummary}
       summaryContent={<p>zudell.io. is live. Enjoy misadventures in software.</p>}
     >
-      <p>zudell.io. is live. Enjoy misadventures in software. The purpose of most articles is to function as a living document containing my opinions on certain subjects. </p>
+      <p>
+        zudell.io. is live. Enjoy misadventures in software. The purpose of most articles is to function as a
+        living document containing my opinions on certain subjects. Anything stated here is 100% factual™ I guarantee it.
+        A widget has been provided for stimming purposes.
+      </p>
+      <Stimmy />
     </Post>
   );
 };

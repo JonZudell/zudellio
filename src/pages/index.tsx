@@ -4,19 +4,16 @@ import AccessibleLink from "../components/input/AccessibleLink";
 import A11y from "./posts/a11y";
 import Authn from "./posts/authn";
 import HireMe from "./posts/hire_me";
-import IIFEModule from "./posts/iife_modules";
 import Init from "./posts/init";
-import SSRWONode from "./posts/ssr_wo_node";
-import STPYV8Require from "./posts/stpyv8_require";
+import StaticSiteGeneration from "./posts/ssg";
 interface PostProps {
   displaySummary?: boolean;
   classNames?: string;
 }
+
 const posts: { [key: string]: { component: React.FC<PostProps>; date: Date } } = {
   init: { component: Init, date: new Date('2024-08-30') },
-  ssr_wo_node: { component: SSRWONode, date: new Date('2024-08-31') },
-  iife_module: { component: IIFEModule, date: new Date('2024-08-31') },
-  stypyv8_require: { component: STPYV8Require, date: new Date('2024-08-31') },
+  ssg: { component: StaticSiteGeneration, date: new Date('2024-08-31') },
   authn: { component: Authn, date: new Date('2024-09-01') },
   a11y: { component: A11y, date: new Date('2024-09-02') },
 };
@@ -24,8 +21,7 @@ const sorted = Object.values(posts).sort((a, b) => b.date.getTime() - a.date.get
 
 const sticked_post: React.FC<PostProps> = HireMe
 
-const SoftwareBlog: React.FC = () => {
-  const navigate = useNavigate();
+const Index: React.FC = () => {
   const { postId } = useParams<{ postId?: string}>();
 
   return (
@@ -55,4 +51,4 @@ const SoftwareBlog: React.FC = () => {
   );
 };
 
-export default SoftwareBlog;
+export default Index;

@@ -5,20 +5,20 @@ interface PostProps {
   displaySummary?: boolean;
 }
 
-const SSRWONode: React.FC<PostProps> = ({ displaySummary = false }) => {
+const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
       date={new Date('2024-10-31T00:00:00Z')}
-      title='ssr_wo_node'
+      title='ssg'
       version='v0.1.0'
-      postId='ssr_wo_node'
+      postId='ssg'
       displaySummary={displaySummary}
-      summaryContent={<p>Server Side Rendering without a NodeJS Server</p>}
+      summaryContent={<p>Static Site Generation with webpack, react(-router), and TypeScript.</p>}
     >
       <p>This is the full content of the post.</p>
     </Post>
   );
 };
 
-export default SSRWONode;
+export default SSG;
