@@ -6,13 +6,13 @@ import './main.css';
 
 export function hydrateApp() {
   const container = document.getElementById('main');
-  console.log("hydrating")
+  console.log('hydrating');
   if (container) {
     hydrateRoot(
-      container, 
+      container,
       <BrowserRouter>
         <Root />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
   }
 }

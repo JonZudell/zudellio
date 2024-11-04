@@ -17,7 +17,7 @@ const SignUpForm: React.FC = () => {
       return;
     }
     if (agreeToTerms !== true) {
-      setError('You must agree to the terms of service')
+      setError('You must agree to the terms of service');
     }
     setError('');
     try {
@@ -29,7 +29,9 @@ const SignUpForm: React.FC = () => {
         body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
-        setSuccess('Sign up successful. Please check your email to verify your account.');
+        setSuccess(
+          'Sign up successful. Please check your email to verify your account.',
+        );
       } else {
         setError('Sign up failed. Please try again.');
       }
@@ -40,11 +42,27 @@ const SignUpForm: React.FC = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 border standard-shadow ">
-        <div className='m-2em'>
-          <h2 className="text-3xl font-extrabold mb-2em text-center">Sign Up</h2> {/* 50% larger and 30% heavier */}
-          {error && <p className="text-red-500 text-lg font-semibold text-sm mb-2em">{error}</p>} {/* 50% larger and 30% heavier */}
-          {success && <p className="text-green-500 text-lg font-semibold text-sm mb-2em">{success}</p>} {/* 50% larger and 30% heavier */}
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-md mx-auto mt-8 border standard-shadow "
+      >
+        <div className="m-2em">
+          <h2 className="text-3xl font-extrabold mb-2em text-center">
+            Sign Up
+          </h2>{' '}
+          {/* 50% larger and 30% heavier */}
+          {error && (
+            <p className="text-red-500 text-lg font-semibold text-sm mb-2em">
+              {error}
+            </p>
+          )}{' '}
+          {/* 50% larger and 30% heavier */}
+          {success && (
+            <p className="text-green-500 text-lg font-semibold text-sm mb-2em">
+              {success}
+            </p>
+          )}{' '}
+          {/* 50% larger and 30% heavier */}
           <TextInput
             type="email"
             id="email"
@@ -55,16 +73,32 @@ const SignUpForm: React.FC = () => {
             required
             data-testid="email-input"
             className="mt-1 block w-full focus:border-indigo-500 sm:text-sm w-full mb-2em"
-            inputClassName='w-full'
+            inputClassName="w-full"
           />
           <div className=" mb-2em">
-            <PasswordInput id="password" name="password" value={password} setter={setPassword} />
+            <PasswordInput
+              id="password"
+              name="password"
+              value={password}
+              setter={setPassword}
+            />
           </div>
           <div className=" mb-2em">
-            <PasswordInput id="confirm-password" name="confirm-password" label="Confirm Password" value={confirmPassword} setter={setConfirmPassword} />
+            <PasswordInput
+              id="confirm-password"
+              name="confirm-password"
+              label="Confirm Password"
+              value={confirmPassword}
+              setter={setConfirmPassword}
+            />
           </div>
           <div className="mb-4 flex justify-center">
-            <label htmlFor="agreeToTerms" className="flex items-center text-lg font-semibold"> {/* 50% larger and 30% heavier */}
+            <label
+              htmlFor="agreeToTerms"
+              className="flex items-center text-lg font-semibold"
+            >
+              {' '}
+              {/* 50% larger and 30% heavier */}
               <input
                 type="checkbox"
                 id="agreeToTerms"
@@ -73,7 +107,13 @@ const SignUpForm: React.FC = () => {
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 className="mr-2"
               />
-              I agree to the <a href="/terms" className="pl-1 text-indigo-800 underline hover:text-indigo-600">terms of service</a>
+              I agree to the{' '}
+              <a
+                href="/terms"
+                className="pl-1 text-indigo-800 underline hover:text-indigo-600"
+              >
+                terms of service
+              </a>
             </label>
           </div>
           <button
@@ -85,7 +125,13 @@ const SignUpForm: React.FC = () => {
           </button>
           <div className="text-center text-gray-500 mt-4 text-lg">
             <p>
-              Already have an account? <a href="/signin" className="text-indigo-800 underline hover:text-indigo-600">Sign In</a>
+              Already have an account?{' '}
+              <a
+                href="/signin"
+                className="text-indigo-800 underline hover:text-indigo-600"
+              >
+                Sign In
+              </a>
             </p>
           </div>
         </div>

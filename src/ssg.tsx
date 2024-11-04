@@ -9,12 +9,12 @@ interface Locals {
   [key: string]: any;
 }
 
-export default function(locals: Locals) {
+export default function (locals: Locals) {
   const html = renderToStaticMarkup(
     <StaticRouter location={locals.path}>
       <Root />
-    </StaticRouter>
+    </StaticRouter>,
   );
-  
+
   return `${html}`; // Ensure it returns a valid HTML string
 }

@@ -9,10 +9,8 @@ interface CodeBlockProps {
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code, title }) => (
-  <div className='text-lg m-2em code-block'>
-    <div className='text-center code-header'>
-      {title}
-    </div>
+  <div className="text-lg m-2em code-block">
+    <div className="text-center code-header">{title}</div>
     <SyntaxHighlighter language="javascript" showLineNumbers style={a11yDark}>
       {code}
     </SyntaxHighlighter>

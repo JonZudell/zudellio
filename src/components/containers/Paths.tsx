@@ -1,9 +1,7 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Index from "../../pages";
-import Contact from "../../pages/contact";
-
-
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Index from '../../pages';
+import Contact from '../../pages/contact';
 
 const Paths: React.FC = () => {
   return (

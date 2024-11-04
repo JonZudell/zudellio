@@ -11,7 +11,7 @@
   background-color: #1a1a1a;
   color: #d3d3d3; /* Use custom property for text color */
   box-shadow: 1em 1em 0 0 #d3d3d3;
-  outline:none;
+  outline: none;
 }
 
 .h-6em {

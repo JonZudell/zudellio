@@ -10,11 +10,15 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
     <Post
       author="jon@zudell.io"
       date={new Date('2024-10-31T00:00:00Z')}
-      title='js_modules'
-      version='v0.1.0'
-      postId='js_modules'
+      title="js_modules"
+      version="v0.1.0"
+      postId="js_modules"
       displaySummary={displaySummary}
-      summaryContent={<p>Static Site Generation with webpack, react(-router), and TypeScript.</p>}
+      summaryContent={
+        <p>
+          Static Site Generation with webpack, react(-router), and TypeScript.
+        </p>
+      }
     >
       <p>This is the full content of the post.</p>
     </Post>

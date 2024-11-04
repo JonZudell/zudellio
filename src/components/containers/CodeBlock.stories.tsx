@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Example: Story = {
   args: {
     code: "console.log('Hello, world!');",
-    title: "Example Code",
+    title: 'Example Code',
   },
   render: (args) => <CodeBlock {...args} />,
 };

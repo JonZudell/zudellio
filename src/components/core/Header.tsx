@@ -10,17 +10,24 @@ const Header: React.FC = () => {
       <h1 className="text-xl">
         zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
       </h1>
-      <nav className='text-lg'>
+      <nav className="text-lg">
         <ul
           className="flex justify-center"
-          style={{ paddingLeft: "0.5em", paddingRight: "0.5em" }}>
+          style={{ paddingLeft: '0.5em', paddingRight: '0.5em' }}
+        >
           <li>
             <AccessibleLink
               text="software"
               href="/"
-              decorationLeft='['
-              decorationRight=']'
-              className={location.pathname === '/' || location.pathname.startsWith("/blog") ? 'text-pink-300 underline' : 'hover:underline'} />
+              decorationLeft="["
+              decorationRight="]"
+              className={
+                location.pathname === '/' ||
+                location.pathname.startsWith('/blog')
+                  ? 'text-pink-300 underline'
+                  : 'hover:underline'
+              }
+            />
           </li>
           {/* <li>
             <AccessibleLink
@@ -34,13 +41,18 @@ const Header: React.FC = () => {
             <AccessibleLink
               text="contact"
               href="/contact"
-              decorationLeft='['
-              decorationRight=']'
-              className={location.pathname === '/contact' ? 'text-pink-300 underline' : 'hover:underline'} />
+              decorationLeft="["
+              decorationRight="]"
+              className={
+                location.pathname === '/contact'
+                  ? 'text-pink-300 underline'
+                  : 'hover:underline'
+              }
+            />
           </li>
         </ul>
       </nav>
     </header>
-  )
+  );
 };
 export default Header;

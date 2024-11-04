@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import whatInput from 'what-input';
-import "./AccessibleButton.css";
+import './AccessibleButton.css';
 interface ButtonProps {
   text: string;
   decorationLeft?: string;
@@ -10,7 +10,13 @@ interface ButtonProps {
   onClick?: Function;
 }
 
-const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decorationRight, className, onClick }) => {
+const AccessibleLink: React.FC<ButtonProps> = ({
+  text,
+  decorationLeft,
+  decorationRight,
+  className,
+  onClick,
+}) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
@@ -18,7 +24,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
   useEffect(() => {
     const handleFocus = () => {
       if (linkRef.current) {
-        if (whatInput.ask() === "keyboard") {
+        if (whatInput.ask() === 'keyboard') {
           linkRef.current.classList.add('invert-bg', 'invert-text');
         }
       }
@@ -58,7 +64,6 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
       className={`group text-center border-none cursor-pointer span-button`}
       role="button"
       onClick={onClick ? () => onClick() : undefined}
-      
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
@@ -66,8 +71,12 @@ const AccessibleLink: React.FC<ButtonProps> = ({ text, decorationLeft, decoratio
         </span>
       )}
       <span className={`${className}`}>
-        <span className="underline link-accent group-focus:link-accent-color-dark">{firstLetter}</span>
-        <span className="group-hover:underline group-focus:link-color-dark">{restOfText}</span>
+        <span className="underline link-accent group-focus:link-accent-color-dark">
+          {firstLetter}
+        </span>
+        <span className="group-hover:underline group-focus:link-color-dark">
+          {restOfText}
+        </span>
       </span>
       {decorationRight && (
         <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">

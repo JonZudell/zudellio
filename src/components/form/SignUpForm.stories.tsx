@@ -9,8 +9,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-};
+export const Default: Story = {};
 
 export const Success: Story = {
   play: async ({ canvasElement }) => {
@@ -29,7 +28,9 @@ export const Success: Story = {
     await userEvent.click(submitButton);
 
     // Check for expected outcomes
-    await canvas.findByText('Sign up successful. Please check your email to verify your account.');
+    await canvas.findByText(
+      'Sign up successful. Please check your email to verify your account.',
+    );
   },
 };
 
@@ -52,6 +53,4 @@ export const PasswordsDontMatch: Story = {
     // Check for expected outcomes
     await canvas.findByText('Passwords do not match');
   },
-
 };
-

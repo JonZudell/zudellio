@@ -8,7 +8,13 @@ interface TextAreaProps {
   inputRef?: React.Ref<HTMLTextAreaElement>;
 }
 
-const TextArea: React.FC<TextAreaProps> = ({ label, className, inputClassName, inputRef, rows }) => {
+const TextArea: React.FC<TextAreaProps> = ({
+  label,
+  className,
+  inputClassName,
+  inputRef,
+  rows,
+}) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -20,7 +26,11 @@ const TextArea: React.FC<TextAreaProps> = ({ label, className, inputClassName, i
   return (
     <div className={`${className}`}>
       <label className="block mb-2">{label}</label>
-      <textarea ref={inputRef} className={`border p-2 border-2 textarea ${inputClassName}`} rows={rows} />
+      <textarea
+        ref={inputRef}
+        className={`border p-2 border-2 textarea ${inputClassName}`}
+        rows={rows}
+      />
     </div>
   );
 };

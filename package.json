@@ -55,7 +55,9 @@
     "dev": "npx serve dist",
     "test": "react-scripts test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,md}'"
   },
   "browserslist": {
     "production": [
@@ -80,6 +82,7 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "eslint-plugin-prettier": "^5.2.1",
     "jest-fetch-mock": "^3.0.3",
     "msw": "^2.4.9",
     "postcss": "^8.4.47",
