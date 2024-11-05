@@ -9,6 +9,7 @@ interface ButtonProps {
   className?: string;
   onClick?: Function;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const AccessibleButton: React.FC<ButtonProps> = ({
@@ -19,8 +20,9 @@ const AccessibleButton: React.FC<ButtonProps> = ({
   onClick,
   ariaLabel,
   disabled = false,
+  type,
 }) => {
-  const linkRef = useRef<HTMLAnchorElement>(null);
+  const linkRef = useRef<HTMLButtonElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
   const handleFocus = () => {
@@ -42,32 +44,18 @@ const AccessibleButton: React.FC<ButtonProps> = ({
       onClick();
     }
   };
-  useEffect(() => {
-    // const buttonElement = linkRef.current;
-    // if (buttonElement) {
-    //   buttonElement.addEventListener('focus', handleFocus);
-    //   buttonElement.addEventListener('blur', handleBlur);
-    //   buttonElement.addEventListener('keydown', handleKeyDown);
-    // }
-    // return () => {
-    //   if (buttonElement) {
-    //     buttonElement.removeEventListener('focus', handleFocus);
-    //     buttonElement.removeEventListener('blur', handleBlur);
-    //     buttonElement.removeEventListener('keydown', handleKeyDown);
-    //   }
-    // };
-  }, []);
+  useEffect(() => {}, []);
   return (
-    <span
+    <button
       ref={linkRef}
       tabIndex={0}
       className={`group text-center border-none cursor-pointer span-button ${disabled ? 'line-through' : ''}`}
-      role="button"
       aria-label={ariaLabel}
       onClick={onClick && !disabled ? () => onClick() : undefined}
       onFocus={handleFocus}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
+      type={type}
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
@@ -87,7 +75,7 @@ const AccessibleButton: React.FC<ButtonProps> = ({
           {decorationRight}
         </span>
       )}
-    </span>
+    </button>
   );
 };
 

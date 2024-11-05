@@ -33,7 +33,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           {label}
         </label>
         <div
-          className={`flex items-center border standard-shadow focus-within:border-blue-500`}
+          className={`flex items-center border standard-shadow focus-within:border-indigo-500`}
         >
           <input
             ref={ref}
@@ -41,7 +41,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0 focus:border-blue-500`}
+            className={`p-2 border textinput flex-grow background-color border-0 focus:border-indigo-500`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }

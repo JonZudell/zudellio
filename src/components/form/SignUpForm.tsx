@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PasswordInput from '../input/PasswordInput';
 import TextInput from '../input/TextInput';
+import AccessibleLink from '../input/AccessibleLink'; // Import AccessibleLink component
+import AccessibleButton from '../input/AccessibleButton';
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -108,30 +110,26 @@ const SignUpForm: React.FC = () => {
                 className="mr-2"
               />
               I agree to the{' '}
-              <a
+              <AccessibleLink
                 href="/terms"
-                className="pl-1 text-indigo-800 underline hover:text-indigo-600"
-              >
-                terms of service
-              </a>
+                className="pl-1"
+                text="terms of service"
+              />
             </label>
           </div>
-          <button
-            type="submit"
-            data-testid="submit-button"
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Sign Up
-          </button>
-          <div className="text-center text-gray-500 mt-4 text-lg">
+          <div className="flex flex-column justify-center">
+            <AccessibleButton
+              type="submit"
+              data-testid="submit-button"
+              text="Sign Up"
+              ariaLabel="Sign Up"
+              className="w-full"
+            />
+          </div>
+          <div className="text-center mt-4 text-lg">
             <p>
               Already have an account?{' '}
-              <a
-                href="/signin"
-                className="text-indigo-800 underline hover:text-indigo-600"
-              >
-                Sign In
-              </a>
+              <AccessibleLink href="/signin" text="sign_in" />
             </p>
           </div>
         </div>
