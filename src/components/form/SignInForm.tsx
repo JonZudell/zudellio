@@ -88,7 +88,7 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
-            className="w-full text-gray-500 m-1em p-2"
+            className="w-full m-1em p-2 text-xl"
             onClick={() => (window.location.href = '/auth/')}
             decorationLeft="< "
             decorationRight=" >"
@@ -98,7 +98,9 @@ const SignUpForm: React.FC = () => {
           <AccessibleLink
             href="/forgot-password"
             className="text-lg"
-            text="Forgot Password?"
+            text="forgot_password?"
+            decorationLeft="["
+            decorationRight="]"
           />
         </div>
         <div className="relative my-4">
@@ -141,7 +143,12 @@ const SignUpForm: React.FC = () => {
         <div className="text-center mt-4 text-lg">
           <p>
             Don&apos;t have an account?{`\u0020`}
-            <AccessibleLink href="/signup" text="Sign up" />
+            <AccessibleLink
+              href="/signup"
+              text="sign_up"
+              decorationLeft="["
+              decorationRight="]"
+            />
           </p>
         </div>
       </div>

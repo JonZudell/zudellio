@@ -52,19 +52,16 @@ const SignUpForm: React.FC = () => {
           <h2 className="text-3xl font-extrabold mb-2em text-center">
             Sign Up
           </h2>{' '}
-          {/* 50% larger and 30% heavier */}
           {error && (
             <p className="text-red-500 text-lg font-semibold text-sm mb-2em">
               {error}
             </p>
           )}{' '}
-          {/* 50% larger and 30% heavier */}
           {success && (
             <p className="text-green-500 text-lg font-semibold text-sm mb-2em">
               {success}
             </p>
           )}{' '}
-          {/* 50% larger and 30% heavier */}
           <TextInput
             type="email"
             id="email"
@@ -109,11 +106,13 @@ const SignUpForm: React.FC = () => {
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 className="mr-2"
               />
-              I agree to the{' '}
+              I agree to the
               <AccessibleLink
                 href="/terms"
                 className="pl-1"
                 text="terms of service"
+                decorationLeft="["
+                decorationRight="]"
               />
             </label>
           </div>
@@ -121,15 +120,22 @@ const SignUpForm: React.FC = () => {
             <AccessibleButton
               type="submit"
               data-testid="submit-button"
-              text="Sign Up"
+              text="sign_up"
               ariaLabel="Sign Up"
-              className="w-full"
+              className="w-full text-xl"
+              decorationLeft="< "
+              decorationRight=" >"
             />
           </div>
           <div className="text-center mt-4 text-lg">
             <p>
               Already have an account?{' '}
-              <AccessibleLink href="/signin" text="sign_in" />
+              <AccessibleLink
+                href="/signin"
+                text="sign_in"
+                decorationLeft="["
+                decorationRight="]"
+              />
             </p>
           </div>
         </div>

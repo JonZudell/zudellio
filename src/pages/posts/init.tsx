@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Post from '../../components/containers/Post';
 // import Stimmy from '../../components/widget/Stimmy';
 interface PostProps {
@@ -25,10 +25,39 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
         I have a list of platitudes to enhance your smarts:
       </p>
       <ul>
-        <li>- D.R.Y. (Don't Repeat Yourself)</li>
-        <li>- S.O.L.I.D.</li>
-        <li>- Y.A.G.N.I. (You Aren't Gonna Need It)</li>
+        <li>
+          -{' '}
+          <span className="tooltip" title={"Don't Repeat Yourself"}>
+            D.R.Y.
+          </span>
+        </li>
+        <li>
+          -{' '}
+          <span
+            className="tooltip"
+            title={
+              'Single Responsibility, Open Close, Liskov Substitution, Interface Segregation, Dependancy Inversion'
+            }
+          >
+            S.O.L.I.D.
+          </span>
+        </li>
+        <li>
+          -{' '}
+          <span className="tooltip" title={"You Aren't Going to Need It"}>
+            Y.A.G.N.I.
+          </span>
+        </li>
       </ul>
+      {/* {dry ? <Tooltip target={dry}>Don't Repeat Yourself</Tooltip> : undefined}
+      {solid ? (
+        <Tooltip target={solid}>
+          Sadly the meaning of this platitude has been lost to time.
+        </Tooltip>
+      ) : undefined}
+      {yagni ? (
+        <Tooltip target={yagni}>You aren't going to need it</Tooltip>
+      ) : undefined} */}
     </Post>
   );
 };

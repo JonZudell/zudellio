@@ -36,7 +36,12 @@ const _Post: React.FC = () => {
   return (
     <div className={''}>
       <div className="w-full">
-        <AccessibleLink text={'Back'} href={'/'} decorationLeft="< " />
+        <AccessibleLink
+          text={'Back'}
+          href={'/'}
+          decorationLeft="< "
+          tabIndex={0}
+        />
         {postId &&
           Posts[postId]?.component &&
           React.createElement(Posts[postId].component, {
