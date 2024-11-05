@@ -1428,6 +1428,7 @@ code {
   --emphasis-color: theme('colors.pink.800');
   --text-color: #1a1a1a;
   --border-color: var(--text-color);
+  --focus-border-color: var(--tw-ring-color);
 }
 
 [data-theme='dark'] {
@@ -1442,6 +1443,7 @@ code {
   --emphasis-color: theme('colors.pink.600');
   --text-color: #d3d3d3;
   --border-color: var(--text-color);
+  --focus-border-color: var(--tw-ring-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1457,10 +1459,17 @@ code {
     --emphasis-color: theme('colors.pink.600');
     --text-color: #d3d3d3;
     --border-color: var(--text-color);
+    --focus-border-color: var(--tw-ring-color);
   }
 }
 .background-color {
   background-color: var(--background-color);
+}
+.focus-border-color {
+  border-color: var(--tw-ring-color);
+}
+.focus-border-color:focus-within {
+  border-color: var(--tw-ring-color);
 }
 
 .text-color {

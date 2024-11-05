@@ -4,15 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { forwardRef, useState } from 'react';
 import '../../main.css';
 
-const tabEvent = new KeyboardEvent('keydown', {
-  key: 'Tab',
-  keyCode: 9,
-  code: 'Tab',
-  which: 9,
-  bubbles: true,
-  cancelable: true,
-});
-
 interface PasswordInputProps {
   value: string;
   setter: Function;
@@ -33,7 +24,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           {label}
         </label>
         <div
-          className={`flex items-center border standard-shadow focus-within:border-indigo-500`}
+          className={`flex items-center border standard-shadow focus-within:border-blue-700`}
         >
           <input
             ref={ref}
@@ -41,17 +32,10 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0 focus:border-indigo-500`}
+            className={`p-2 border textinput flex-grow background-color border-0`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                if (ref && 'current' in ref && ref.current) {
-                  ref.current.dispatchEvent(tabEvent);
-                }
-              }
-            }}
             aria-describedby={`${id}-toggle`}
           />
           <span

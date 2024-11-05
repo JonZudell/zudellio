@@ -1,5 +1,6 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
+import SignUpForm from '../../components/form/SignUpForm';
 const id = 'a11y';
 
 interface PostProps {
@@ -79,6 +80,7 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       </p>
       <h3 className="text-xl comment-green"># Navigation</h3>
       <br />
+      <SignUpForm />
     </Post>
   );
 };

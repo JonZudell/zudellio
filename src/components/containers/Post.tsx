@@ -59,7 +59,7 @@ const Post: React.FC<PostProps> = ({
                 <div className="flex justify-center mt-4">
                   <AccessibleLink
                     text="view_post"
-                    href={`/blog/${postId}`}
+                    href={`/posts/${postId}`}
                     decorationLeft="< "
                     decorationRight=" >"
                   />
