@@ -38,11 +38,10 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto mt-8 p-4 border standard-shadow"
+      className="max-w-md mx-auto mt-8 border standard-shadow"
     >
       <div className="m-2em">
         <h2 className="text-3xl font-extrabold mb-4 text-center">Sign In</h2>
-
         <div className="mb-4">
           {error && <p className="text-red-500 text-lg">{error}</p>}
           {success && <p className="text-green-500 text-lg">{success}</p>}
@@ -50,7 +49,7 @@ const SignUpForm: React.FC = () => {
             type="email"
             id="email"
             name="email"
-            label="email"
+            label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -61,13 +60,6 @@ const SignUpForm: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <div className="flex justify-between items-center">
-            <AccessibleLink
-              href="/forgot-password"
-              className="text-lg"
-              text="Forgot Password?"
-            />
-          </div>
           <PasswordInput
             id="password"
             name="password"
@@ -96,10 +88,17 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
-            className="w-full text-gray-500 m-1em "
+            className="w-full text-gray-500 m-1em p-2"
             onClick={() => (window.location.href = '/auth/')}
             decorationLeft="< "
             decorationRight=" >"
+          />
+        </div>
+        <div className="flex flex-column justify-center pt-4">
+          <AccessibleLink
+            href="/forgot-password"
+            className="text-lg"
+            text="Forgot Password?"
           />
         </div>
         <div className="relative my-4">
@@ -114,7 +113,7 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_google"
             ariaLabel="Sign in with Google"
-            className="w-full text-gray-500 m-1em"
+            className="w-full text-gray-500 p-4"
             onClick={() => (window.location.href = '/auth/google')}
             decorationLeft="< "
             decorationRight=" >"
@@ -123,7 +122,7 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_github"
             ariaLabel="Sign in with GitHub"
-            className="w-full text-gray-500 m-1em"
+            className="w-full text-gray-500 p-4"
             onClick={() => (window.location.href = '/auth/github')}
             decorationLeft="< "
             decorationRight=" >"
@@ -132,14 +131,14 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_facebook"
             ariaLabel="Sign in with Facebook"
-            className="w-full text-gray-500 m-1em"
+            className="w-full text-gray-500 p-2"
             onClick={() => (window.location.href = '/auth/facebook')}
             decorationLeft="< "
             decorationRight=" >"
             disabled
           />
         </div>
-        <div className="text-center text-gray-500 mt-4 text-lg">
+        <div className="text-center mt-4 text-lg">
           <p>
             Don&apos;t have an account?{`\u0020`}
             <AccessibleLink href="/signup" text="Sign up" />
