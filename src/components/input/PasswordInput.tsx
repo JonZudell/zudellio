@@ -11,11 +11,15 @@ interface PasswordInputProps {
   id: string;
   name: string;
   className?: string;
+  inputClassName?: string;
   label?: string;
 }
 
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ value, id, name, setter, className, label = 'Password' }, ref) => {
+  (
+    { value, id, name, setter, className, label = 'Password', inputClassName },
+    ref,
+  ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [focusedOnEye, setFocusedOnEye] = useState(false);
 
@@ -33,7 +37,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0`}
+            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }

@@ -1465,6 +1465,9 @@ code {
 .background-color {
   background-color: var(--background-color);
 }
+.background-color-inverse {
+  background-color: var(--text-color);
+}
 .focus-border-color {
   border-color: var(--tw-ring-color);
 }

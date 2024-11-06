@@ -1,0 +1,24 @@
+input[type="checkbox"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 2em;
+  height: 2em;
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+input[type="checkbox"]:checked::before {
+  content: none;
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+input[type="checkbox"]:focus {
+  border: 2px solid blue;
+  outline: none;
+}

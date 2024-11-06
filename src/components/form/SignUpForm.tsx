@@ -72,27 +72,31 @@ const SignUpForm: React.FC = () => {
             className="mt-1 block w-full focus:border-indigo-500 sm:text-sm mb-2em"
             inputClassName="w-full"
           />
-          <div className=" mb-2em">
+          <div className="mb-2em sm:mb-4">
             <PasswordInput
               id="password"
               name="password"
               value={password}
               setter={setPassword}
+              className="w-full sm:w-3/4"
+              inputClassName="w-full sm:w-3/4"
             />
           </div>
-          <div className=" mb-2em">
+          <div className="mb-2em sm:mb-4">
             <PasswordInput
               id="confirm-password"
               name="confirm-password"
               label="Confirm Password"
               value={confirmPassword}
               setter={setConfirmPassword}
+              className="w-full sm:w-3/4"
+              inputClassName="w-full sm:w-3/4"
             />
           </div>
           <div className="mb-4 flex justify-center">
             <label
               htmlFor="agreeToTerms"
-              className="flex items-center text-lg font-semibold"
+              className="flex items-center font-semibold"
             >
               {' '}
               <input
@@ -103,14 +107,18 @@ const SignUpForm: React.FC = () => {
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 className="mr-2"
               />
-              I agree to the
-              <AccessibleLink
-                href="/terms"
-                className="pl-1"
-                text="terms of service"
-                decorationLeft="["
-                decorationRight="]"
-              />
+              <span className="text-lg">
+                I agree to the{' '}
+                <span className="tooltip" title={'Terms of Service'}>
+                  <AccessibleLink
+                    href="/terms"
+                    className="pl-1"
+                    text="TOS"
+                    decorationLeft="["
+                    decorationRight="]"
+                  />
+                </span>
+              </span>
             </label>
           </div>
           <div className="flex flex-column justify-center">

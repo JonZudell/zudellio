@@ -47,11 +47,14 @@ const AccessibleLink: React.FC<ButtonProps> = ({
       }
     };
 
-    const handleKeyDown = () => {
-      if (onClick) {
-        onClick();
-      } else {
-        navigate(href);
+    const handleKeyDown = (e: { key: string }) => {
+      // if keydown is enter or space
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (onClick) {
+          onClick();
+        } else {
+          navigate(href);
+        }
       }
     };
 

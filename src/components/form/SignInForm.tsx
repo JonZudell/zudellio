@@ -4,6 +4,7 @@ import TextInput from '../input/TextInput';
 import '../../main.css';
 import AccessibleButton from '../input/AccessibleButton';
 import AccessibleLink from '../input/AccessibleLink';
+import AccessibleCheckbox from '../input/AccessibleCheckbox';
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -65,24 +66,23 @@ const SignUpForm: React.FC = () => {
             name="password"
             value={password}
             setter={setPassword}
-            className="w-full"
+            className="w-full sm:w-3/4"
+            inputClassName="w-full sm:w-3/4"
           />
         </div>
         <div className="mb-4 flex justify-center">
-          <label
-            htmlFor="staySignedIn"
-            className="flex items-center text-lg font-semibold"
-          >
-            <input
-              type="checkbox"
-              id="staySignedIn"
-              name="staySignedIn"
-              checked={staySignedIn}
-              onChange={(e) => setStaySignedIn(e.target.checked)}
-              className="mr-2 text-lg"
-            />
-            Stay signed in
-          </label>
+          <AccessibleCheckbox
+            name="staySignedIn"
+            onChange={(e: {
+              target: {
+                checked: boolean | ((prevState: boolean) => boolean);
+              };
+            }) => setStaySignedIn(e.target.checked)}
+            className="mr-2 text-lg"
+            text={'Stay Signed in?'}
+            ariaLabel={'staySignedIn'}
+            inputId={'staySignedIn'}
+          />
         </div>
         <div className="flex flex-col items-center">
           <AccessibleButton

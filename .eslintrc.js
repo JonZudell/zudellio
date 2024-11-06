@@ -11,8 +11,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    'plugin:prettier/recommended', // Integrate Prettier with ESLint
-    'prettier', // Add this line to extend from eslint-config-prettier
+    'prettier', // Keep this line to extend from eslint-config-prettier
     'plugin:@typescript-eslint/recommended',
   ],
   parserOptions: {
@@ -26,6 +25,7 @@ module.exports = {
   rules: {
     'no-undef': 'off', // Allow the use of undefined
     'jsx-a11y/tabindex-no-positive': 'off', // Ignore tabIndex rule
+    'prettier/prettier': 'warn', // Add this line to warn on Prettier errors
   },
   settings: {
     react: {

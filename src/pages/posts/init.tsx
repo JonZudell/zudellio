@@ -49,6 +49,7 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           </span>
         </li>
       </ul>
+      <br />
       <h3 className="text-xl comment-green"># Are they platitudes?</h3>
       <p>
         Every programmer knows that code is the enemy. Less code is more better.
@@ -57,11 +58,18 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
         S.O.L.I.D. principles are the least platitude-esque and so it will not
         be acknowledged.
       </p>
+      <br />
       <h3 className="text-xl comment-green"># Better Ideas</h3>
       <ul>
         <li>- Functional Programming</li>
       </ul>
-      <p>Functional Programming.</p>
+      <p>
+        Functional Programming is simple you have functions. Functions take
+        inputs and return outputs. Everything else is a lie. The end. I am a
+        functional programmer. I am a functional programmer. I am a functional
+        programmer. I am a functional programmer. I am a functional programmer.
+      </p>
+      <br />
     </Post>
   );
 };
