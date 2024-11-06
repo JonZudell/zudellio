@@ -66,8 +66,8 @@ const SignUpForm: React.FC = () => {
             name="password"
             value={password}
             setter={setPassword}
-            className="w-full sm:w-3/4"
-            inputClassName="w-full sm:w-3/4"
+            className="w-full"
+            inputClassName="w-full"
           />
         </div>
         <div className="mb-4 flex justify-center">
@@ -79,10 +79,11 @@ const SignUpForm: React.FC = () => {
               };
             }) => setStaySignedIn(e.target.checked)}
             className="mr-2 text-lg"
-            text={'Stay Signed in?'}
             ariaLabel={'staySignedIn'}
             inputId={'staySignedIn'}
-          />
+          >
+            Stay Signed in?
+          </AccessibleCheckbox>
         </div>
         <div className="flex flex-col items-center">
           <AccessibleButton

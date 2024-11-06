@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PasswordInput from '../input/PasswordInput';
 import TextInput from '../input/TextInput';
 import AccessibleLink from '../input/AccessibleLink'; // Import AccessibleLink component
+import AccessibleCheckbox from '../input/AccessibleCheckbox'; // Import AccessibleCheckbox component
 import AccessibleButton from '../input/AccessibleButton';
 
 const SignUpForm: React.FC = () => {
@@ -72,53 +73,46 @@ const SignUpForm: React.FC = () => {
             className="mt-1 block w-full focus:border-indigo-500 sm:text-sm mb-2em"
             inputClassName="w-full"
           />
-          <div className="mb-2em sm:mb-4">
+          <div className="mb-2em">
             <PasswordInput
               id="password"
               name="password"
               value={password}
               setter={setPassword}
-              className="w-full sm:w-3/4"
-              inputClassName="w-full sm:w-3/4"
             />
           </div>
-          <div className="mb-2em sm:mb-4">
+          <div className="mb-2em">
             <PasswordInput
               id="confirm-password"
               name="confirm-password"
               label="Confirm Password"
               value={confirmPassword}
               setter={setConfirmPassword}
-              className="w-full sm:w-3/4"
-              inputClassName="w-full sm:w-3/4"
             />
           </div>
           <div className="mb-4 flex justify-center">
-            <label
-              htmlFor="agreeToTerms"
-              className="flex items-center font-semibold"
-            >
+            <label htmlFor="agreeToTerms" className="flex font-semibold">
               {' '}
-              <input
-                type="checkbox"
-                id="agreeToTerms"
+              <AccessibleCheckbox
+                inputId="agreeToTerms"
                 name="agreeToTerms"
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
-                className="mr-2"
-              />
-              <span className="text-lg">
-                I agree to the{' '}
-                <span className="tooltip" title={'Terms of Service'}>
-                  <AccessibleLink
-                    href="/terms"
-                    className="pl-1"
-                    text="TOS"
-                    decorationLeft="["
-                    decorationRight="]"
-                  />
+                ariaLabel={'Agree to Terms'}
+              >
+                <span className="text-lg">
+                  I agree to the{' '}
+                  <span className="tooltip" title={'Terms of Service'}>
+                    <AccessibleLink
+                      href="/terms"
+                      className="pl-1"
+                      text="TOS"
+                      decorationLeft="["
+                      decorationRight="]"
+                    />
+                  </span>
                 </span>
-              </span>
+              </AccessibleCheckbox>
             </label>
           </div>
           <div className="flex flex-column justify-center">

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './AccessibleCheckbox.css';
 interface AccessibleCheckboxProps {
-  text: string;
+  children: React.ReactNode;
   ariaLabel: string;
   className?: string;
+  checked?: boolean;
   disabled?: boolean;
   inputId: string;
   name: string;
@@ -11,48 +12,46 @@ interface AccessibleCheckboxProps {
 }
 
 const AccessibleCheckbox: React.FC<AccessibleCheckboxProps> = ({
-  text,
+  children,
   ariaLabel,
   className,
+  checked = false,
   disabled,
   inputId,
   name,
   onChange,
 }) => {
-  const [selected, setSelected] = useState(false);
-  useEffect(() => {
-    if (onChange) {
-      onChange({
-        target: { checked: selected },
-      } as React.ChangeEvent<HTMLInputElement>);
-    }
-  }, [selected, onChange]);
+  const [keyPressed, setKeyPressed] = useState(false);
+
   return (
-    <div>
+    <div className="flex items-center">
       <input
         id={inputId}
         name={name}
         aria-label={ariaLabel}
         disabled={disabled}
-        checked={selected}
-        onChange={() => setSelected(!selected)}
+        checked={checked}
+        onClick={() =>
+          onChange({
+            target: { checked: !checked },
+          } as React.ChangeEvent<HTMLInputElement>)
+        }
         style={{ width: '2em', height: '2em' }}
         className={`standard-shadow background-color ${className}`}
-        onClick={() => setSelected(!selected)}
         onKeyDown={(e) => {
-          (e.key === 'Enter' || e.key === ' ') && setSelected(!selected);
+          if (!keyPressed && e.key === 'Enter') {
+            onChange({
+              target: { checked: !checked },
+            } as React.ChangeEvent<HTMLInputElement>);
+            setKeyPressed(true);
+          }
         }}
+        onKeyUp={() => setKeyPressed(false)}
         type="checkbox"
-        aria-checked={selected}
-        // onMouseEnter={() => {/* handle hover state if needed */}}
-        // onMouseDown={() => {/* handle active state if needed */}}
-        // onMouseUp={() => {/* handle active state if needed */}}
-        // onMouseLeave={() => {/* handle hover state if needed */}}
-        // onBlur={() => {/* handle focus state if needed */}}
-        // onFocus={() => {/* handle focus state if needed */}}
+        aria-checked={checked}
       />
-      <label htmlFor={inputId} className="text-lg">
-        {text}
+      <label htmlFor={inputId} className="text-lg ml-2em">
+        {children}
       </label>
     </div>
   );
