@@ -49,7 +49,7 @@ const SignUpForm: React.FC = () => {
         onSubmit={handleSubmit}
         className="max-w-md mx-auto border standard-shadow "
       >
-        <div className="m-2em">
+        <div className="m-2-5em">
           <h2 className="text-3xl font-extrabold mb-2em text-center">
             Sign Up
           </h2>
@@ -90,7 +90,7 @@ const SignUpForm: React.FC = () => {
               setter={setConfirmPassword}
             />
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-2em">
             <label htmlFor="agreeToTerms" className="flex font-semibold">
               {''}
               <AccessibleCheckbox
@@ -116,18 +116,18 @@ const SignUpForm: React.FC = () => {
               </AccessibleCheckbox>
             </label>
           </div>
-          <div className="flex flex-column justify-center">
+          <div className="flex flex-column justify-center mb-1em text-2xl">
             <AccessibleButton
               type="submit"
               data-testid="submit-button"
               text="sign_up"
               ariaLabel="Sign Up"
-              className="w-full text-xl"
+              className="w-full"
               decorationLeft="< "
               decorationRight=" >"
             />
           </div>
-          <div className="text-center text-lg">
+          <div className="text-center text-lg mb-1em">
             <p>
               Already have an account?{' '}
               <AccessibleLink

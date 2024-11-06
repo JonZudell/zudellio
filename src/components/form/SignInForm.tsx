@@ -41,7 +41,7 @@ const SignUpForm: React.FC = () => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto border standard-shadow"
     >
-      <div className="m-2em">
+      <div className="m-2-5em">
         <h2 className="text-3xl font-extrabold mb-2em text-center">Sign In</h2>
         <div className="mb-2em">
           {error && <p className="text-red-500 text-lg">{error}</p>}
@@ -69,7 +69,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="flex justify-center text-lg mb-1em ">
+        <div className="flex justify-center text-lg mb-2em ">
           <AccessibleCheckbox
             name="staySignedIn"
             onChange={(e: {
@@ -84,11 +84,11 @@ const SignUpForm: React.FC = () => {
             Stay Signed in?
           </AccessibleCheckbox>
         </div>
-        <div className="flex flex-col items-center text-lg mb-1em">
+        <div className="flex flex-col items-center text-2xl mb-1em">
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
-            className="w-full m-1em text-xl"
+            className="w-full m-1em"
             onClick={() => (window.location.href = '/auth/')}
             decorationLeft="< "
             decorationRight=" >"

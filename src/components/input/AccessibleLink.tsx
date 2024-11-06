@@ -76,26 +76,22 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   return (
     <Link
       ref={linkRef}
-      className={`group text-center border-none cursor-pointer span-button`}
+      className={`group text-center border-none cursor-pointer span-button focus:outline-none`}
       role="link"
       to={href}
       tabIndex={tabIndex}
     >
       {decorationLeft && (
-        <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
+        <span className="text-center border-none cursor-pointer group-hover:text-blue-400 group-focus:text-blue-400">
           {decorationLeft}
         </span>
       )}
       <span className={`${className}`}>
-        <span className="underline link-accent group-focus:link-accent-color-dark">
-          {firstLetter}
-        </span>
-        <span className="group-hover:underline group-focus:link-color-dark">
-          {restOfText}
-        </span>
+        <span className="underline link-accent">{firstLetter}</span>
+        <span className="group-hover:underline">{restOfText}</span>
       </span>
       {decorationRight && (
-        <span className="text-center border-none cursor-pointer group-focus:href-blue group-focus:invert-bg">
+        <span className="text-center border-none cursor-pointer group-hover:text-blue-400 group-focus:text-blue-400">
           {decorationRight}
         </span>
       )}
