@@ -69,7 +69,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="flex justify-center text-lg">
+        <div className="flex justify-center text-lg mb-1em ">
           <AccessibleCheckbox
             name="staySignedIn"
             onChange={(e: {
@@ -84,7 +84,7 @@ const SignUpForm: React.FC = () => {
             Stay Signed in?
           </AccessibleCheckbox>
         </div>
-        <div className="flex flex-col items-center text-lg">
+        <div className="flex flex-col items-center text-lg mb-1em">
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
@@ -94,7 +94,7 @@ const SignUpForm: React.FC = () => {
             decorationRight=" >"
           />
         </div>
-        <div className="flex flex-column justify-center">
+        <div className="flex flex-column justify-center mb-1em">
           <AccessibleLink
             href="/forgot-password"
             className="text-lg"

@@ -92,7 +92,7 @@ const SignUpForm: React.FC = () => {
           </div>
           <div className="flex justify-center">
             <label htmlFor="agreeToTerms" className="flex font-semibold">
-              {' '}
+              {''}
               <AccessibleCheckbox
                 inputId="agreeToTerms"
                 name="agreeToTerms"
@@ -101,12 +101,13 @@ const SignUpForm: React.FC = () => {
                 ariaLabel={'Agree to Terms'}
               >
                 <span className="text-lg">
-                  I agree to the{' '}
+                  I agree to the
+                  <br />
                   <span className="tooltip" title={'Terms of Service'}>
                     <AccessibleLink
                       href="/terms"
                       className="pl-1"
-                      text="TOS"
+                      text="terms_of_service"
                       decorationLeft="["
                       decorationRight="]"
                     />
