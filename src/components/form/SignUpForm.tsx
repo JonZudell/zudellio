@@ -53,12 +53,10 @@ const SignUpForm: React.FC = () => {
             Sign Up
           </h2>{' '}
           {error && (
-            <p className="text-red-500 text-lg font-semibold text-sm mb-2em">
-              {error}
-            </p>
+            <p className="text-red-500 text-lg font-semibold mb-2em">{error}</p>
           )}{' '}
           {success && (
-            <p className="text-green-500 text-lg font-semibold text-sm mb-2em">
+            <p className="text-green-500 text-lg font-semibold mb-2em">
               {success}
             </p>
           )}{' '}
@@ -71,7 +69,7 @@ const SignUpForm: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="email-input"
-            className="mt-1 block w-full focus:border-indigo-500 sm:text-sm w-full mb-2em"
+            className="mt-1 block w-full focus:border-indigo-500 sm:text-sm mb-2em"
             inputClassName="w-full"
           />
           <div className=" mb-2em">
@@ -97,7 +95,6 @@ const SignUpForm: React.FC = () => {
               className="flex items-center text-lg font-semibold"
             >
               {' '}
-              {/* 50% larger and 30% heavier */}
               <input
                 type="checkbox"
                 id="agreeToTerms"

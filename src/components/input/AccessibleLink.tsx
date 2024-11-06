@@ -8,6 +8,7 @@ interface ButtonProps {
   decorationRight?: string;
   className?: string;
   href: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
   tabIndex?: number;
 }

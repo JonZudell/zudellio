@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Post from '../../components/containers/Post';
 // import Stimmy from '../../components/widget/Stimmy';
 interface PostProps {
@@ -49,15 +49,19 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           </span>
         </li>
       </ul>
-      {/* {dry ? <Tooltip target={dry}>Don't Repeat Yourself</Tooltip> : undefined}
-      {solid ? (
-        <Tooltip target={solid}>
-          Sadly the meaning of this platitude has been lost to time.
-        </Tooltip>
-      ) : undefined}
-      {yagni ? (
-        <Tooltip target={yagni}>You aren't going to need it</Tooltip>
-      ) : undefined} */}
+      <h3 className="text-xl comment-green"># Are they platitudes?</h3>
+      <p>
+        Every programmer knows that code is the enemy. Less code is more better.
+        Repeating yourself leads to more code so do not do that. That feature
+        management wants? You are not going to need it. Of the above the
+        S.O.L.I.D. principles are the least platitude-esque and so it will not
+        be acknowledged.
+      </p>
+      <h3 className="text-xl comment-green"># Better Ideas</h3>
+      <ul>
+        <li>- Functional Programming</li>
+      </ul>
+      <p>Functional Programming.</p>
     </Post>
   );
 };

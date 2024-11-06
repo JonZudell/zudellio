@@ -1,11 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import HireMe from './posts/hire_me';
 import { sortedPosts, sticked_post } from './_posts';
 
 const Index: React.FC = () => {
-  const { postId } = useParams<{ postId?: string }>();
-
   return (
     <div className="w-full">
       <div className="flex justify-center items-center">

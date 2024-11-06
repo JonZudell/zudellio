@@ -78,7 +78,12 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         with tab selection applies to screen readers and browsers as such it is
         a high value item.
       </p>
-      <h3 className="text-xl comment-green"># Navigation</h3>
+      <h3 className="text-xl comment-green"># Example Sign Up Form</h3>
+      <p>
+        The following form implements appropriate tab order and features an
+        accessible password field. The field can show or hide the password which
+        helps users with input difficulties.
+      </p>
       <br />
       <SignUpForm />
     </Post>

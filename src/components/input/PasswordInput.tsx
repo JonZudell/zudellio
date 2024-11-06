@@ -6,6 +6,7 @@ import '../../main.css';
 
 interface PasswordInputProps {
   value: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   setter: Function;
   id: string;
   name: string;

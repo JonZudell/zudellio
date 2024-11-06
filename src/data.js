@@ -1,5 +1,5 @@
-const globSync = require('glob').sync;
-const relative = require('path').relative;
+import { sync as globSync } from 'glob';
+import { relative } from 'path';
 
 const pages = globSync('./src/pages/**/*.tsx')
   .filter((file) => !file.includes('/_'))
@@ -16,7 +16,5 @@ const pages = globSync('./src/pages/**/*.tsx')
 
 console.log(pages); // Print the pages
 
-module.exports = {
-  title: 'zudell.io',
-  routes: pages,
-};
+export const title = 'zudell.io';
+export const routes = pages;

@@ -23,7 +23,9 @@ const ContactForm: React.FC = () => {
       <div className="flex justify-center items-center">
         <AccessibleButton
           text={'send_message'}
-          onClick={() => {}}
+          onClick={() => {
+            console.log('Message sent');
+          }}
           decorationLeft="< "
           decorationRight=" >"
           ariaLabel={'Send Message Button'}

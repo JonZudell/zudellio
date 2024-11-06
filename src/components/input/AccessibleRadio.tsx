@@ -1,24 +1,25 @@
-import './AccessibleButton.css';
-interface ButtonProps {
-  text: string;
-  ariaLabel: string;
-  decorationLeft?: string;
-  decorationRight?: string;
-  className?: string;
-  onClick?: Function;
-  disabled?: boolean;
-}
+// import './AccessibleButton.css';
+// interface ButtonProps {
+//   text: string;
+//   ariaLabel: string;
+//   decorationLeft?: string;
+//   decorationRight?: string;
+//   className?: string;
 
-const AccessibleLink: React.FC<ButtonProps> = ({
-  text,
-  decorationLeft,
-  decorationRight,
-  className,
-  onClick,
-  ariaLabel,
-  disabled = false,
-}) => {
-  return undefined;
-};
+//   onClick?: Function;
+//   disabled?: boolean;
+// }
 
-export default AccessibleLink;
+// const AccessibleLink: React.FC<ButtonProps> = ({
+//   text,
+//   decorationLeft,
+//   decorationRight,
+//   className,
+//   onClick,
+//   ariaLabel,
+//   disabled = false,
+// }) => {
+//   return undefined;
+// };
+
+// export default AccessibleLink;

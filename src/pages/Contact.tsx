@@ -1,7 +1,4 @@
 import React from 'react';
-import AccessibleButton from '../components/input/AccessibleButton';
-import TextArea from '../components/input/TextArea';
-import TextInput from '../components/input/TextInput';
 const Contact: React.FC = () => {
   return (
     <div className="w-full text-xl">
