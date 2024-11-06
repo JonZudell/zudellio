@@ -35,7 +35,7 @@ input[type="checkbox"]:focus {
 
 input[type="checkbox"]:hover {
   border: 2px solid var(--border-color);
-  border-color: var(--tw-ring-color);
+  border-color: var(--focus-border-color);
   box-shadow: 1em 1em 0 0 var(--border-color);
 }
 
@@ -63,5 +63,5 @@ input[type="checkbox"]:disabled {
 }
 [type="checkbox"]:checked:hover {
   background-color: var(--background-color);
-  border-color: var(--tw-ring-color);
+  border-color: var(--focus-border-color);
 }

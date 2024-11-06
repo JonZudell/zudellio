@@ -3,6 +3,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { forwardRef, useState } from 'react';
 import '../../main.css';
+import './PasswordInput.css';
 
 interface PasswordInputProps {
   value: string;
@@ -22,6 +23,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [focusedOnEye, setFocusedOnEye] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
       <div className={`relative mt-2 ${className}`}>
@@ -29,7 +31,9 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           {label}
         </label>
         <div
-          className={`flex items-center border standard-shadow focus-within:border-blue-700`}
+          className={`flex items-center border standard-shadow focus-within:border-blue-700 ${isHovered ? 'hovered-class' : ''}`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <input
             ref={ref}
@@ -37,7 +41,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName} sm:max-w-full max-w-xs`}
+            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }

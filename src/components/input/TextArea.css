@@ -13,6 +13,10 @@
   box-shadow: 1em 1em 0 0 #d3d3d3;
 }
 
+.textarea:hover {
+  border-color: var(--focus-border-color);
+}
+
 .h-6em {
   height: 6em;
 }

@@ -14,6 +14,10 @@
   outline: none;
 }
 
+.textinput:hover {
+  border-color: var(--focus-border-color);
+}
+
 .h-6em {
   height: 6em;
 }
