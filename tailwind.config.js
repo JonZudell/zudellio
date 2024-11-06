@@ -1,4 +1,5 @@
-import forms from '@tailwindcss/forms';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const forms = require('@tailwindcss/forms');
 
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],

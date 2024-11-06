@@ -99,6 +99,7 @@ const SignUpForm: React.FC = () => {
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 ariaLabel={'Agree to Terms'}
+                className="text-lg"
               ></AccessibleCheckbox>
               <span className="text-lg">
                 I agree to the
@@ -113,7 +114,7 @@ const SignUpForm: React.FC = () => {
               </span>
             </label>
           </div>
-          <div className="flex flex-column justify-center mb-1em text-lg">
+          <div className="flex flex-column justify-center mb-1em text-lg w-full">
             <AccessibleButton
               type="submit"
               data-testid="submit-button"

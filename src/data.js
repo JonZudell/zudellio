@@ -1,5 +1,7 @@
-import { sync as globSync } from 'glob';
-import { relative } from 'path';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const globSync = require('glob').sync;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const relative = require('path').relative;
 
 const pages = globSync('./src/pages/**/*.tsx')
   .filter((file) => !file.includes('/_'))
@@ -16,5 +18,7 @@ const pages = globSync('./src/pages/**/*.tsx')
 
 console.log(pages); // Print the pages
 
-export const title = 'zudell.io';
-export const routes = pages;
+module.exports = {
+  title: 'zudell.io',
+  routes: pages,
+};

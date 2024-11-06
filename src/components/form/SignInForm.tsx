@@ -44,8 +44,10 @@ const SignUpForm: React.FC = () => {
       <div className="m-2-5em">
         <h2 className="text-3xl font-extrabold mb-2em text-center">Sign In</h2>
         <div className="mb-2em">
-          {error && <p className="text-red-500 text-lg">{error}</p>}
-          {success && <p className="text-green-500 text-lg">{success}</p>}
+          <div role="alert" aria-live="assertive">
+            {error && <p className="text-red-500 text-lg">{error}</p>}
+            {success && <p className="text-green-500 text-lg">{success}</p>}
+          </div>
           <TextInput
             type="email"
             id="email"
@@ -77,6 +79,7 @@ const SignUpForm: React.FC = () => {
                 checked: boolean | ((prevState: boolean) => boolean);
               };
             }) => setStaySignedIn(e.target.checked)}
+            checked={staySignedIn}
             className="text-lg"
             ariaLabel={'staySignedIn'}
             inputId={'staySignedIn'}

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import whatInput from 'what-input';
+import React, { useRef } from 'react';
 import './AccessibleButton.css';
 import '../containers/Wrapper.css';
+
 interface ButtonProps {
   text: string;
   ariaLabel: string;
@@ -59,15 +59,14 @@ const AccessibleButton: React.FC<ButtonProps> = ({
     <button
       ref={linkRef}
       tabIndex={0}
-      className={`wrapper border-wrapper focus group cursor-pointer p-0-5em focus:outline-none focus:bg-custom focus:text-custom hover:bg-custom hover:text-custom`}
+      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer p-0-5em focus:outline-none focus:bg-custom focus:text-custom hover:bg-custom hover:text-custom`}
       aria-label={ariaLabel}
       onClick={onClick && !disabled ? () => onClick() : undefined}
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
       onKeyDown={handleKeyDown}
       type={type}
+      style={{ pointerEvents: disabled ? 'none' : 'auto' }}
     >
-      <span className={`${className}`}>
+      <span className={`w-full ${className}`}>
         <span className="underline link-accent">{firstLetter}</span>
         <span className="group-hover:button-inner">{restOfText}</span>
       </span>

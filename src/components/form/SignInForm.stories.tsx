@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SignInForm from './SignInForm';
 import { MemoryRouter } from 'react-router-dom';
 import React from 'react';
+import { StaticRouter } from 'react-router-dom/server';
 const meta = {
   component: SignInForm,
 } satisfies Meta<typeof SignInForm>;
@@ -13,9 +14,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     return (
-      <MemoryRouter>
+      <StaticRouter location={'/signin'}>
         <SignInForm />
-      </MemoryRouter>
+      </StaticRouter>
     );
   },
 };
