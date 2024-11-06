@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AccessibleCheckbox.css';
 interface AccessibleCheckboxProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   ariaLabel: string;
   className?: string;
   checked?: boolean;

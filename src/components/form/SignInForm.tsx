@@ -84,14 +84,12 @@ const SignUpForm: React.FC = () => {
             Stay Signed in?
           </AccessibleCheckbox>
         </div>
-        <div className="flex flex-col items-center text-2xl mb-1em">
+        <div className="flex flex-col items-center text-lg mb-1em">
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
             className="w-full m-1em"
             onClick={() => (window.location.href = '/auth/')}
-            decorationLeft="< "
-            decorationRight=" >"
           />
         </div>
         <div className="flex flex-column justify-center mb-1em">

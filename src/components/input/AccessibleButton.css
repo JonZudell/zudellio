@@ -33,3 +33,22 @@
 .invert-text {
   color: var(--background-color);
 }
+
+.hover\:bg-custom:hover {
+  background-color: var(--text-color);
+  border: 2px solid var(--tw-ring-color);
+}
+
+.hover\:text-custom:hover {
+  color: var(--background-color);
+}
+
+.focus\:bg-custom:focus {
+  background-color: var(--text-color);
+  border: 2px solid var(--tw-ring-color);
+}
+
+.focus\:text-custom:focus {
+  color: var(--background-color);
+}
+

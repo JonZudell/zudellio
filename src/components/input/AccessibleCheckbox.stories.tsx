@@ -12,11 +12,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Example: Story = {
   args: {
-    text: 'Example!',
+    children: <p>Example!</p>,
     ariaLabel: 'Accessible Button!',
     inputId: 'example-checkbox',
     name: 'exampleCheckbox',
     onChange: () => undefined,
   },
-  render: (args) => <AccessibleCheckbox {...args} />,
+  render: (args) => (
+    <AccessibleCheckbox
+      ariaLabel={args.ariaLabel}
+      inputId={args.inputId}
+      name={args.name}
+      onChange={function (): void {
+        throw new Error('Function not implemented.');
+      }}
+    >
+      {args.children}
+    </AccessibleCheckbox>
+  ),
 };

@@ -1331,6 +1331,14 @@ code {
   opacity: 0;
 }
 
+.hover\:focus-border-color:hover {
+  border-color: var(--focus-border-color);
+}
+
+.focus\:focus-border-color:focus {
+  border-color: var(--focus-border-color);
+}
+
 @media (min-width: 640px) {
   .sm\:px-6 {
     padding-left: 1.5rem;
@@ -1515,6 +1523,15 @@ code {
 .m-2-5em {
   margin: 36px;
 }
+
+.m-0-5em {
+  margin: 0.5em;
+}
+
+.p-0-5em {
+  padding: 0.5em;
+}
+
 .ml-2em {
   margin-left: 2em;
 }

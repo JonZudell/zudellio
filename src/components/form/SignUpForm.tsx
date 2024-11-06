@@ -99,32 +99,27 @@ const SignUpForm: React.FC = () => {
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 ariaLabel={'Agree to Terms'}
-              >
-                <span className="text-lg">
-                  I agree to the
-                  <br />
-                  <span className="tooltip" title={'Terms of Service'}>
-                    <AccessibleLink
-                      href="/terms"
-                      className="pl-1"
-                      text="terms_of_service"
-                      decorationLeft="["
-                      decorationRight="]"
-                    />
-                  </span>
-                </span>
-              </AccessibleCheckbox>
+              ></AccessibleCheckbox>
+              <span className="text-lg">
+                I agree to the
+                <br />
+                <AccessibleLink
+                  href="/terms"
+                  className="pl-1"
+                  text="terms_of_service"
+                  decorationLeft="["
+                  decorationRight="]"
+                />
+              </span>
             </label>
           </div>
-          <div className="flex flex-column justify-center mb-1em text-2xl">
+          <div className="flex flex-column justify-center mb-1em text-lg">
             <AccessibleButton
               type="submit"
               data-testid="submit-button"
               text="sign_up"
               ariaLabel="Sign Up"
               className="w-full"
-              decorationLeft="< "
-              decorationRight=" >"
             />
           </div>
           <div className="text-center text-lg mb-1em">
