@@ -44,6 +44,12 @@ const AccessibleCheckbox: React.FC<AccessibleCheckboxProps> = ({
         }}
         type="checkbox"
         aria-checked={selected}
+        // onMouseEnter={() => {/* handle hover state if needed */}}
+        // onMouseDown={() => {/* handle active state if needed */}}
+        // onMouseUp={() => {/* handle active state if needed */}}
+        // onMouseLeave={() => {/* handle hover state if needed */}}
+        // onBlur={() => {/* handle focus state if needed */}}
+        // onFocus={() => {/* handle focus state if needed */}}
       />
       <label htmlFor={inputId} className="text-lg">
         {text}

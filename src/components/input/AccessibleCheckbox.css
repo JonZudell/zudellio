@@ -16,9 +16,38 @@ input[type="checkbox"]:checked::before {
   display: block;
   width: 1em;
   height: 1em;
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
 }
 
 input[type="checkbox"]:focus {
-  border: 2px solid blue;
-  outline: none;
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
+}
+
+input[type="checkbox"]:hover {
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
+}
+
+input[type="checkbox"]:active {
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
+}
+
+input[type="checkbox"]:disabled {
+  border: 2px solid var(--border-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
+}
+[type="checkbox"]:checked {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+[type="checkbox"]:checked:focus {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+[type="checkbox"]:checked:hover {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
 }
