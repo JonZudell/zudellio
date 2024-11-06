@@ -39,11 +39,11 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto mt-8 border standard-shadow"
+      className="max-w-md mx-auto border standard-shadow"
     >
       <div className="m-2em">
-        <h2 className="text-3xl font-extrabold mb-4 text-center">Sign In</h2>
-        <div className="mb-4">
+        <h2 className="text-3xl font-extrabold mb-2em text-center">Sign In</h2>
+        <div className="mb-2em">
           {error && <p className="text-red-500 text-lg">{error}</p>}
           {success && <p className="text-green-500 text-lg">{success}</p>}
           <TextInput
@@ -55,12 +55,11 @@ const SignUpForm: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="email-input"
-            className="mt-1 block focus:focused-border-color w-full"
+            className="block focus:focused-border-color w-full"
             inputClassName="w-full"
           />
         </div>
-
-        <div className="mb-4">
+        <div className="mb-2em text-lg">
           <PasswordInput
             id="password"
             name="password"
@@ -70,7 +69,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="mb-4 flex justify-center">
+        <div className="flex justify-center text-lg">
           <AccessibleCheckbox
             name="staySignedIn"
             onChange={(e: {
@@ -78,24 +77,24 @@ const SignUpForm: React.FC = () => {
                 checked: boolean | ((prevState: boolean) => boolean);
               };
             }) => setStaySignedIn(e.target.checked)}
-            className="mr-2 text-lg"
+            className="text-lg"
             ariaLabel={'staySignedIn'}
             inputId={'staySignedIn'}
           >
             Stay Signed in?
           </AccessibleCheckbox>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center text-lg">
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
-            className="w-full m-1em p-2 text-xl"
+            className="w-full m-1em text-xl"
             onClick={() => (window.location.href = '/auth/')}
             decorationLeft="< "
             decorationRight=" >"
           />
         </div>
-        <div className="flex flex-column justify-center pt-4">
+        <div className="flex flex-column justify-center">
           <AccessibleLink
             href="/forgot-password"
             className="text-lg"
@@ -104,7 +103,7 @@ const SignUpForm: React.FC = () => {
             decorationRight="]"
           />
         </div>
-        <div className="relative my-4">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t"></div>
           </div>
@@ -116,7 +115,7 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_google"
             ariaLabel="Sign in with Google"
-            className="w-full text-gray-500 p-4"
+            className="w-full text-gray-500"
             onClick={() => (window.location.href = '/auth/google')}
             decorationLeft="< "
             decorationRight=" >"
@@ -125,7 +124,7 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_github"
             ariaLabel="Sign in with GitHub"
-            className="w-full text-gray-500 p-4"
+            className="w-full text-gray-500"
             onClick={() => (window.location.href = '/auth/github')}
             decorationLeft="< "
             decorationRight=" >"
@@ -134,14 +133,14 @@ const SignUpForm: React.FC = () => {
           <AccessibleButton
             text="sign_in_with_facebook"
             ariaLabel="Sign in with Facebook"
-            className="w-full text-gray-500 p-2"
+            className="w-full text-gray-500"
             onClick={() => (window.location.href = '/auth/facebook')}
             decorationLeft="< "
             decorationRight=" >"
             disabled
           />
-        </div>
-        <div className="text-center mt-4 text-lg">
+        </div> */}
+        <div className="text-center text-lg">
           <p>
             Don&apos;t have an account?{`\u0020`}
             <AccessibleLink

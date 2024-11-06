@@ -47,20 +47,20 @@ const SignUpForm: React.FC = () => {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="max-w-md mx-auto mt-8 border standard-shadow "
+        className="max-w-md mx-auto border standard-shadow "
       >
         <div className="m-2em">
           <h2 className="text-3xl font-extrabold mb-2em text-center">
             Sign Up
-          </h2>{' '}
+          </h2>
           {error && (
             <p className="text-red-500 text-lg font-semibold mb-2em">{error}</p>
-          )}{' '}
+          )}
           {success && (
             <p className="text-green-500 text-lg font-semibold mb-2em">
               {success}
             </p>
-          )}{' '}
+          )}
           <TextInput
             type="email"
             id="email"
@@ -70,10 +70,10 @@ const SignUpForm: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="email-input"
-            className="mt-1 block w-full focus:border-indigo-500 sm:text-sm mb-2em"
+            className="block w-full focus:focused-border-color mb-2em"
             inputClassName="w-full"
           />
-          <div className="mb-2em">
+          <div className="mb-2em text-lg">
             <PasswordInput
               id="password"
               name="password"
@@ -81,7 +81,7 @@ const SignUpForm: React.FC = () => {
               setter={setPassword}
             />
           </div>
-          <div className="mb-2em">
+          <div className="mb-2em text-lg">
             <PasswordInput
               id="confirm-password"
               name="confirm-password"
@@ -90,7 +90,7 @@ const SignUpForm: React.FC = () => {
               setter={setConfirmPassword}
             />
           </div>
-          <div className="mb-4 flex justify-center">
+          <div className="flex justify-center">
             <label htmlFor="agreeToTerms" className="flex font-semibold">
               {' '}
               <AccessibleCheckbox
@@ -126,7 +126,7 @@ const SignUpForm: React.FC = () => {
               decorationRight=" >"
             />
           </div>
-          <div className="text-center mt-4 text-lg">
+          <div className="text-center text-lg">
             <p>
               Already have an account?{' '}
               <AccessibleLink
