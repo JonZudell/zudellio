@@ -1517,6 +1517,17 @@ code {
   font-weight: 800;
 }
 
+.m-0_5em {
+  margin: 0.5em;
+}
+
+.m-1em {
+  margin: 1em;
+}
+.m-1_5em {
+  margin: 1.5em;
+}
+
 .m-2em {
   margin: 2em;
 }
@@ -1531,8 +1542,14 @@ code {
 .p-0-5em {
   padding: 0.5em;
 }
+.ml-0_5em {
+  margin-left: 0.5em;
+}
+.ml-0_75em {
+  margin-left: 0.75em;
+}
 .ml-1em {
-  margin-left: 2em;
+  margin-left: 1em;
 }
 .ml-2em {
   margin-left: 2em;

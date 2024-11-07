@@ -8,37 +8,50 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 class TemplateWrapperPlugin {
   apply(compiler) {
-    compiler.hooks.thisCompilation.tap('TemplateWrapperPlugin', (compilation) => {
-      compilation.hooks.processAssets.tapAsync(
-        {
-          name: 'TemplateWrapperPlugin',
-          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
-        },
-        (assets, callback) => {
-          console.log('TemplateWrapperPlugin: processAssets hook triggered');
-          data.routes.forEach(route => {
-            const assetKey = `${route.replace(/^\//, '')}index.html`; // Remove prepended /
-            
-            const asset = assets[assetKey];
-            console.log(assets)
-            if (asset) {
-              const content = asset.source();
-              const template = fs.readFileSync(path.join(__dirname, '/src/index.html'), 'utf8');
-              
-              const htmlOutput = template.replace('<!-- inject:body -->', content); // Example modification
-              console.log(`TemplateWrapperPlugin: Rewriting ${route}index.html`);
-              assets[assetKey] = {
-                source: () => htmlOutput,
-                size: () => htmlOutput.length,
-              };
-            } else {
-              console.warn(`TemplateWrapperPlugin: Asset not found for route ${route}`);
-            }
-          });
-          callback();
-        }
-      );
-    });
+    compiler.hooks.thisCompilation.tap(
+      'TemplateWrapperPlugin',
+      (compilation) => {
+        compilation.hooks.processAssets.tapAsync(
+          {
+            name: 'TemplateWrapperPlugin',
+            stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+          },
+          (assets, callback) => {
+            console.log('TemplateWrapperPlugin: processAssets hook triggered');
+            data.routes.forEach((route) => {
+              const assetKey = `${route.replace(/^\//, '')}index.html`; // Remove prepended /
+
+              const asset = assets[assetKey];
+              console.log(assets);
+              if (asset) {
+                const content = asset.source();
+                const template = fs.readFileSync(
+                  path.join(__dirname, '/src/index.html'),
+                  'utf8',
+                );
+
+                const htmlOutput = template.replace(
+                  '<!-- inject:body -->',
+                  content,
+                ); // Example modification
+                console.log(
+                  `TemplateWrapperPlugin: Rewriting ${route}index.html`,
+                );
+                assets[assetKey] = {
+                  source: () => htmlOutput,
+                  size: () => htmlOutput.length,
+                };
+              } else {
+                console.warn(
+                  `TemplateWrapperPlugin: Asset not found for route ${route}`,
+                );
+              }
+            });
+            callback();
+          },
+        );
+      },
+    );
   }
 }
 
@@ -46,7 +59,7 @@ module.exports = {
   mode: 'production',
   entry: {
     main: './src/csr.tsx',
-    ssg: './src/ssg.tsx'
+    ssg: './src/ssg.tsx',
   },
   output: {
     filename: '[name].js',
@@ -77,6 +90,10 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'scss-loader'],
+      },
     ],
   },
   plugins: [
@@ -93,7 +110,7 @@ module.exports = {
     new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
     new TemplateWrapperPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: '[name].css',
     }),
   ],
   devServer: {

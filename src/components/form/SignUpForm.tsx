@@ -49,7 +49,7 @@ const SignUpForm: React.FC = () => {
         onSubmit={handleSubmit}
         className="max-w-md mx-auto border standard-shadow "
       >
-        <div className="m-2-5em">
+        <div className="m-1_5em">
           <h2 className="text-3xl font-extrabold mb-1em text-center">
             Sign Up
           </h2>
@@ -103,12 +103,12 @@ const SignUpForm: React.FC = () => {
                 ariaLabel={'Agree to Terms'}
                 className="text-sm"
               ></AccessibleCheckbox>
-              <span className="text-sm">
+              <span className="text-lg">
                 I agree to the{' '}
                 <span className="block sm:inline">
                   <AccessibleLink
                     href="/terms"
-                    className="pl-1 text-sm"
+                    className="pl-1 text-lg"
                     text="terms_of_service"
                     decorationLeft="["
                     decorationRight="]"

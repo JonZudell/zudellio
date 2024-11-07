@@ -41,7 +41,7 @@ const SignUpForm: React.FC = () => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto border standard-shadow"
     >
-      <div className="m-2-5em">
+      <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign In</h2>
         <div className="mb-1em">
           <div role="alert" aria-live="assertive">

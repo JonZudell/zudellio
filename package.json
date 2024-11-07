@@ -20,6 +20,7 @@
     "@storybook/addon-links": "^8.3.6",
     "@storybook/addon-onboarding": "^8.3.6",
     "@storybook/preset-create-react-app": "^8.3.6",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/testing-library": "^0.2.1",
     "@tailwindcss/forms": "^0.5.9",
     "@testing-library/jest-dom": "^5.17.0",
