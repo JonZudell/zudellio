@@ -16,3 +16,8 @@
 .textinput:hover {
   border-color: var(--hover-border-color);
 }
+
+input[type="email"]:focus {
+  border-color: var(--email-focus-border-color);
+}
+

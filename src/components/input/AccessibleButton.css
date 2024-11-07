@@ -34,3 +34,6 @@
   color: var(--background-color);
 }
 
+button:hover {
+  text-decoration: underline;
+}
