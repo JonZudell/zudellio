@@ -103,12 +103,12 @@ const SignUpForm: React.FC = () => {
                 ariaLabel={'Agree to Terms'}
                 className="text-sm"
               ></AccessibleCheckbox>
-              <span className="text-lg">
+              <span className="text-sm">
                 I agree to the{' '}
                 <span className="block sm:inline">
                   <AccessibleLink
                     href="/terms"
-                    className="pl-1 text-lg"
+                    className="pl-1 text-sm"
                     text="terms_of_service"
                     decorationLeft="["
                     decorationRight="]"

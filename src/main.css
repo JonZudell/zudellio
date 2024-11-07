@@ -1437,9 +1437,10 @@ code {
   --text-color: #1a1a1a;
   --border-color: var(--text-color);
   --focus-border-color: var(--tw-ring-color);
+  --hover-border-color: theme('colors.blue.400');
 }
 
-[data-theme='dark'] {
+/* [data-theme='dark'] {
   --background-color: #1a1a1a;
   --link-button-accent-color: theme('colors.pink.400');
   --link-button-accent-color-dark: theme('colors.pink.600');
@@ -1451,8 +1452,9 @@ code {
   --emphasis-color: theme('colors.pink.600');
   --text-color: #d3d3d3;
   --border-color: var(--text-color);
-  --focus-border-color: var(--tw-ring-color);
-}
+  --focus-border-color: theme('colors.blue.400');
+  --hover-border-color: var(--tw-ring-color);
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -1467,20 +1469,9 @@ code {
     --emphasis-color: theme('colors.pink.600');
     --text-color: #d3d3d3;
     --border-color: var(--text-color);
-    --focus-border-color: var(--tw-ring-color);
+    --focus-border-color: theme('colors.blue.400');
+    --hover-border-color: var(--tw-ring-color);
   }
-}
-.background-color {
-  background-color: var(--background-color);
-}
-.background-color-inverse {
-  background-color: var(--text-color);
-}
-.focus-border-color {
-  border-color: var(--tw-ring-color);
-}
-.focus-border-color:focus-within {
-  border-color: var(--tw-ring-color);
 }
 
 .text-color {
@@ -1586,10 +1577,6 @@ span:focus {
   color: var(--text-color);
 }
 
-/* .h-6em {
-  height: 6em;
-} */
-
 input:focus,
 textarea:focus,
 select:focus {
@@ -1609,5 +1596,5 @@ select:focus {
 input:hover,
 textarea:hover,
 select:hover {
-  border-color: var(--focus-border-color);
+  border-color: var(--hover-border-color);
 }

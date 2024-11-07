@@ -36,7 +36,7 @@
 
 .hover\:bg-custom:hover {
   background-color: var(--text-color);
-  border: 2px solid var(--tw-ring-color);
+  border: 2px solid var(--focus-border-color);
 }
 
 .hover\:text-custom:hover {
@@ -45,7 +45,7 @@
 
 .focus\:bg-custom:focus {
   background-color: var(--text-color);
-  border: 2px solid var(--tw-ring-color);
+  border: 2px solid var(--focus-border-color);
 }
 
 .focus\:text-custom:focus {

@@ -8,29 +8,11 @@
 
 .textinput:focus {
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--focus-border-color);
   box-shadow: 0.5em 0.5em 0 0 var(--border-color);
   outline: none;
 }
 
 .textinput:hover {
-  border-color: var(--focus-border-color);
-}
-
-.h-6em {
-  height: 6em;
-}
-
-@media (prefers-color-scheme: dark) {
-  .textinput {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .textinput {
-    background-color: #ffffff;
-    color: #000000;
-  }
+  border-color: var(--hover-border-color);
 }

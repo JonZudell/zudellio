@@ -22,6 +22,7 @@ const TextInput: React.FC<TextInputProps> = ({
   id,
   name,
   value,
+  required,
   onChange,
 }) => {
   return (
@@ -33,7 +34,8 @@ const TextInput: React.FC<TextInputProps> = ({
         id={id}
         name={name}
         value={value}
-        className={`border standard-shadow textinput ${inputClassName}`}
+        required={required}
+        className={`border standard-shadow textinput hover:textinput focus:textinput ${inputClassName}`}
         onChange={onChange}
       />
     </div>
