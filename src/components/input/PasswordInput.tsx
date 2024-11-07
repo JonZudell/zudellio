@@ -23,6 +23,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [focusedOnEye, setFocusedOnEye] = useState(false);
+    const [hoveredOnEye, setHoveredOnEye] = useState(false);
     const [focusedOnInput, setFocusedOnInput] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -42,7 +43,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`} // Set width to 200px on small screens
+            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }
@@ -56,15 +57,21 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           />
           <span
             id={`${id}-toggle`}
-            role="button" // Role for the toggle button
-            className={`background-color inline-flex items-center font-semibold text-gray-900 border-0 hover:bg-gray-800 h-full`}
+            role="button"
+            className={`background-color inline-flex items-center font-semibold border-0 h-full`}
             onClick={() => setShowPassword(!showPassword)}
-            tabIndex={0} // Make the span tabbable
+            tabIndex={0}
             onFocus={() => {
               setFocusedOnEye(true);
             }}
             onBlur={() => {
               setFocusedOnEye(false);
+            }}
+            onMouseEnter={() => {
+              setHoveredOnEye(true);
+            }}
+            onMouseLeave={() => {
+              setHoveredOnEye(false);
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -75,10 +82,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           >
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
-              className={`m-3 h-4 w-4`}
-              style={{
-                color: `${focusedOnEye ? 'rgb(96 165 250)' : '#d3d3d3'}`,
-              }} // Set the color here
+              className={`m-3 h-4 w-4 ${focusedOnEye ? 'focused-icon' : hoveredOnEye ? 'hovered-icon' : 'not-hovered-icon'}`}
             />
           </span>
         </div>
