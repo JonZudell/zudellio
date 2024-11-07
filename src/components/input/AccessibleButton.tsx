@@ -39,7 +39,7 @@ const AccessibleButton: React.FC<ButtonProps> = ({
     <button
       ref={linkRef}
       tabIndex={0}
-      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer button focus:button hover:button`}
+      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer button focus:button hover:button active:button`}
       aria-label={ariaLabel}
       onClick={onClick && !disabled ? () => onClick() : undefined}
       onKeyDown={handleKeyDown}

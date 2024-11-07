@@ -34,6 +34,24 @@
   color: var(--background-color);
 }
 
-button:hover {
+.button:hover {
   text-decoration: underline;
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--hover-border-color);
+  outline: none;
+}
+.button:focus {
+  text-decoration: underline;
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--focus-border-color);
+  outline: none;
+}
+.button:active {
+  text-decoration: underline;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-color: var(--focus-border-color);
+  outline: none;
 }

@@ -35,9 +35,18 @@ const Post: React.FC<PostProps> = ({
     hour: '2-digit',
     minute: '2-digit',
   });
+
+  const isVerySmallScreen = window.innerWidth < 640;
+
   return (
     <div className="w-full">
-      <div className={`text-xl w-full border-2 border-post post ${classNames}`}>
+      <div
+        className={`text-xl w-full ${
+          !isVerySmallScreen || displaySummary
+            ? 'border-2 border-post post'
+            : ''
+        } ${classNames}`}
+      >
         <div className="">
           <div className="text-xl">
             <h2>
