@@ -79,6 +79,7 @@ const SignUpForm: React.FC = () => {
               name="password"
               value={password}
               setter={setPassword}
+              inputClassName="w-full"
             />
           </div>
           <div className="mb-2em text-lg">
@@ -88,6 +89,7 @@ const SignUpForm: React.FC = () => {
               label="Confirm Password"
               value={confirmPassword}
               setter={setConfirmPassword}
+              inputClassName="w-full"
             />
           </div>
           <div className="flex justify-center mb-1em">
@@ -102,14 +104,16 @@ const SignUpForm: React.FC = () => {
                 className="text-sm"
               ></AccessibleCheckbox>
               <span className="text-sm">
-                I agree to the
-                <AccessibleLink
-                  href="/terms"
-                  className="pl-1 text-sm"
-                  text="terms_of_service"
-                  decorationLeft="["
-                  decorationRight="]"
-                />
+                I agree to the{' '}
+                <span className="block sm:inline">
+                  <AccessibleLink
+                    href="/terms"
+                    className="pl-1 text-sm"
+                    text="terms_of_service"
+                    decorationLeft="["
+                    decorationRight="]"
+                  />
+                </span>
               </span>
             </label>
           </div>
@@ -125,12 +129,14 @@ const SignUpForm: React.FC = () => {
           <div className="text-center text-lg mb-1em">
             <p>
               Already have an account?{' '}
-              <AccessibleLink
-                href="/signin"
-                text="sign_in"
-                decorationLeft="["
-                decorationRight="]"
-              />
+              <span className="block sm:inline">
+                <AccessibleLink
+                  href="/signin"
+                  text="sign_in"
+                  decorationLeft="["
+                  decorationRight="]"
+                />
+              </span>
             </p>
           </div>
         </div>

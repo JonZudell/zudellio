@@ -42,7 +42,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             id={id}
             name={name}
             value={value}
-            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`}
+            className={`p-2 border textinput flex-grow background-color border-0 ${inputClassName}`} // Set width to 200px on small screens
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }
