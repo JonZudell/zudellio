@@ -1,6 +1,6 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
-// import Stimmy from '../../components/widget/Stimmy';
+import AccessibleLink from '../../components/input/AccessibleLink';
 interface PostProps {
   displaySummary?: boolean;
 }
@@ -26,13 +26,11 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
       </p>
       <ul>
         <li>
-          -{' '}
           <span className="tooltip" title={"Don't Repeat Yourself"}>
             D.R.Y.
           </span>
         </li>
         <li>
-          -{' '}
           <span
             className="tooltip"
             title={
@@ -43,7 +41,6 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           </span>
         </li>
         <li>
-          -{' '}
           <span className="tooltip" title={"You Aren't Going to Need It"}>
             Y.A.G.N.I.
           </span>
@@ -61,14 +58,24 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h3 className="text-xl comment-green"># Better Ideas</h3>
       <ul>
-        <li>- Functional Programming</li>
+        <li>
+          <AccessibleLink
+            text={'Functional Programming All Kinds'}
+            href={'/posts/functional'}
+            decorationLeft="[🔥"
+            decorationRight="🔥]"
+          ></AccessibleLink>
+        </li>
+        <li>
+          <AccessibleLink
+            text={'Testing All Kinds'}
+            href={'/posts/testing'}
+            decorationLeft="["
+            decorationRight="]"
+          ></AccessibleLink>
+        </li>
       </ul>
-      <p>
-        Functional Programming is simple you have functions. Functions take
-        inputs and return outputs. Everything else is a lie. The end. I am a
-        functional programmer. I am a functional programmer. I am a functional
-        programmer. I am a functional programmer. I am a functional programmer.
-      </p>
+      <br />
       <br />
     </Post>
   );

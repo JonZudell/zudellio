@@ -1583,3 +1583,15 @@ select:hover,
 button:hover {
   border-color: var(--hover-border-color);
 }
+
+ul li {
+  list-style-type: none;
+  position: relative;
+  padding-left: 1em;
+}
+
+ul li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+}

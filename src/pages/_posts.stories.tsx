@@ -6,6 +6,7 @@ import HireMe from './posts/hire_me';
 import Init from './posts/init';
 import StaticSiteGeneration from './posts/ssg';
 import { MemoryRouter } from 'react-router-dom';
+import Functional from './posts/functional';
 
 const meta = {} satisfies Meta<typeof A11y>;
 
@@ -13,7 +14,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const A11yStory: Story = {
   render: () => {
     return (
       <MemoryRouter>
@@ -60,6 +61,16 @@ export const StaticSiteGenerationStory: Story = {
     return (
       <MemoryRouter>
         <StaticSiteGeneration />
+      </MemoryRouter>
+    );
+  },
+};
+
+export const FunctionalStory: Story = {
+  render: () => {
+    return (
+      <MemoryRouter>
+        <Functional />
       </MemoryRouter>
     );
   },

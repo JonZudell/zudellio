@@ -83,7 +83,9 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       <p>
         The following form implements appropriate tab order and features an
         accessible password field. The field can show or hide the password which
-        helps users with input difficulties.
+        helps users with input difficulties. The tab ordering is left to the
+        screen reader to determine. Aria labels are used to provide context to
+        the user.
       </p>
       <br />
       <SignUpForm />

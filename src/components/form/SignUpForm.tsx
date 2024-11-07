@@ -110,8 +110,6 @@ const SignUpForm: React.FC = () => {
                     href="/terms"
                     className="pl-1 text-lg"
                     text="terms_of_service"
-                    decorationLeft="["
-                    decorationRight="]"
                   />
                 </span>
               </span>

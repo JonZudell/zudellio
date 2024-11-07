@@ -16,8 +16,6 @@ const pages = globSync('./src/pages/**/*.tsx')
     return route;
   });
 
-console.log(pages); // Print the pages
-
 module.exports = {
   title: 'zudell.io',
   routes: pages,
