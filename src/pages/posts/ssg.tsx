@@ -40,7 +40,6 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
         and my own custom webpack plugin / configuration I was able to write a
         Static Site Generator with webpack, react(-router), and TypeScript.
       </p>
-      <br />
       <p>
         My Template Wrapper Plugin, it reads the output assets from the webpack
         build and rewrites the index.html files with the content from the
@@ -128,7 +127,6 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
 </html>`}
         title={'index.html'}
       />
-      <br />
       <p>
         The two plugins work together to generate the static site. Inside the
         webpack configuration static-site-generator plugin is fed routes

@@ -63,7 +63,7 @@ const Post: React.FC<PostProps> = ({
 
           {displaySummary ? (
             <>
-              <div className="text-xl">{summaryContent}</div>
+              <div className="text-lg">{summaryContent}</div>
               {summaryOnly === false ? (
                 <div className="flex justify-center mt-4">
                   <AccessibleLink
@@ -76,7 +76,7 @@ const Post: React.FC<PostProps> = ({
               ) : null}
             </>
           ) : (
-            <div className="text-xl">{children}</div>
+            <div className="text-lg">{children}</div>
           )}
         </div>
       </div>

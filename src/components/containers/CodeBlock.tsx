@@ -21,7 +21,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   language = 'javascript',
   showLineNumbers = true,
 }) => (
-  <div className="text-lg m-1em code-block">
+  <div className="text-md mb-2em code-block">
     <div className="text-center code-header">{title}</div>
     <SyntaxHighlighter
       className={`text-sm font-normal ${className}`}
