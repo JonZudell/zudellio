@@ -1,16 +1,15 @@
 .textarea {
-  border: 2px solid #d3d3d3;
-  background-color: #1a1a1a;
-  color: #d3d3d3; /* Use custom property for text color */
-  border-color: #d3d3d3; /* Use custom property for border color */
-  box-shadow: 0.5em 0.5em 0 0 #d3d3d3;
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
   padding: 1em;
 }
 
 .textarea:focus {
-  background-color: #1a1a1a;
-  color: #d3d3d3; /* Use custom property for text color */
-  box-shadow: 1em 1em 0 0 #d3d3d3;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-shadow: 1em 1em 0 0 var(--border-color);
 }
 
 .textarea:hover {

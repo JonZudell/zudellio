@@ -1430,7 +1430,7 @@ code {
   --link-button-accent-color-dark: theme('colors.pink.800');
   --comment-color: theme('colors.green.600');
   --link-button-color: theme('colors.pink.600');
-  --link-button-color-dark: theme('colors.pink.600');
+  --link-button-color-dark: theme('colors.pink.400');
   --href-color: theme('colors.blue.600');
   --user-color: theme('colors.purple.600');
   --emphasis-color: theme('colors.pink.800');
@@ -1582,8 +1582,8 @@ span:focus {
 }
 
 .textinput {
-  background-color: #1a1a1a;
-  color: #d3d3d3;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 /* .h-6em {
