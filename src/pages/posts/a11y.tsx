@@ -20,6 +20,13 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         <p>
           Accessibility or a11y for short is the property of being usable by
           individuals with disabilities.{' '}
+          <a
+            className="href-blue underline"
+            href="https://dequeuniversity.com/"
+          >
+            https://dequeuniversity.com/
+          </a>{' '}
+          is the defacto authority on implementing accessibility.
         </p>
       }
     >
@@ -37,12 +44,12 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         Different disabilities require different accessibility solutions. A
         non-comprehensive list is provided below:
         <ul>
-          <li>- Poor Vision</li>
-          <li>- Color Blindness</li>
-          <li>- Blindness</li>
-          <li>- Deafness</li>
-          <li>- Impaired Cognition</li>
-          <li>- Technological Illiteracy</li>
+          <li>Poor Vision</li>
+          <li>Color Blindness</li>
+          <li>Blindness</li>
+          <li>Deafness</li>
+          <li>Impaired Cognition</li>
+          <li>Technological Illiteracy</li>
         </ul>
       </p>
       <br />

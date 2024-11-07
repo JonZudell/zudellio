@@ -26,13 +26,13 @@ const HireMe: React.FC<PostProps> = ({
           <p>I am available for hire.</p>
           <h3 className="text-xl comment-green"># Software Rates</h3>
           <ul>
-            <li>- W2: $75/hr</li>
-            <li>- Consulting: $225/hr</li>
+            <li>W2: $75/hr</li>
+            <li>Consulting: $225/hr</li>
           </ul>
           <h3 className="text-xl comment-green"># Guitar Lesson Rates</h3>
           <ul>
-            <li>- First Lesson: 30 Minutes Free</li>
-            <li>- Subsequent Lessons: $25/hr</li>
+            <li>First Lesson: 30 Minutes Free</li>
+            <li>Subsequent Lessons: $25/hr</li>
           </ul>
         </>
       }

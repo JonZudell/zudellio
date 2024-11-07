@@ -12,7 +12,7 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
       author="jon@zudell.io"
       date={new Date('2024-10-31T00:00:00Z')}
       title="ssg"
-      version="v0.1.0"
+      version="v0.4.2"
       postId="ssg"
       displaySummary={displaySummary}
       summaryContent={
@@ -26,6 +26,7 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
           </a>{' '}
           and my own custom webpack plugin / configuration I was able to write a
           Static Site Generator with webpack, react(-router), and TypeScript.
+          Routes are generated from the src/pages directory.
         </p>
       }
     >
