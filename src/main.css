@@ -1531,7 +1531,9 @@ code {
 .p-0-5em {
   padding: 0.5em;
 }
-
+.ml-1em {
+  margin-left: 2em;
+}
 .ml-2em {
   margin-left: 2em;
 }
@@ -1559,7 +1561,7 @@ span:focus {
 
 .standard-shadow {
   border: 2px solid var(--border-color);
-  box-shadow: 1em 1em 0 0 var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
 }
 
 .textinput {

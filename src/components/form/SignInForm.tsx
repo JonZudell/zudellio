@@ -42,8 +42,8 @@ const SignUpForm: React.FC = () => {
       className="max-w-md mx-auto border standard-shadow"
     >
       <div className="m-2-5em">
-        <h2 className="text-3xl font-extrabold mb-2em text-center">Sign In</h2>
-        <div className="mb-2em">
+        <h2 className="text-3xl font-extrabold mb-1em text-center">Sign In</h2>
+        <div className="mb-1em">
           <div role="alert" aria-live="assertive">
             {error && <p className="text-red-500 text-lg">{error}</p>}
             {success && <p className="text-green-500 text-lg">{success}</p>}
@@ -71,7 +71,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="flex justify-center text-lg mb-2em ">
+        <div className="flex justify-center text-lg mb-1em ">
           <AccessibleCheckbox
             name="staySignedIn"
             onChange={(e: {

@@ -59,12 +59,12 @@ const AccessibleButton: React.FC<ButtonProps> = ({
     <button
       ref={linkRef}
       tabIndex={0}
-      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer p-0-5em focus:outline-none focus:bg-custom focus:text-custom hover:bg-custom hover:text-custom`}
+      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer focus:outline-none focus:bg-custom focus:text-custom hover:bg-custom hover:text-custom`}
       aria-label={ariaLabel}
       onClick={onClick && !disabled ? () => onClick() : undefined}
       onKeyDown={handleKeyDown}
       type={type}
-      style={{ pointerEvents: disabled ? 'none' : 'auto' }}
+      style={{ pointerEvents: disabled ? 'none' : 'auto', padding: '6px' }}
     >
       <span className={`w-full ${className}`}>
         <span className="underline link-accent">{firstLetter}</span>

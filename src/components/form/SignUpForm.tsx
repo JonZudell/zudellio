@@ -50,14 +50,14 @@ const SignUpForm: React.FC = () => {
         className="max-w-md mx-auto border standard-shadow "
       >
         <div className="m-2-5em">
-          <h2 className="text-3xl font-extrabold mb-2em text-center">
+          <h2 className="text-3xl font-extrabold mb-1em text-center">
             Sign Up
           </h2>
           {error && (
-            <p className="text-red-500 text-lg font-semibold mb-2em">{error}</p>
+            <p className="text-red-500 text-lg font-semibold mb-1em">{error}</p>
           )}
           {success && (
-            <p className="text-green-500 text-lg font-semibold mb-2em">
+            <p className="text-green-500 text-lg font-semibold mb-1em">
               {success}
             </p>
           )}
@@ -70,10 +70,10 @@ const SignUpForm: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="email-input"
-            className="block w-full focus:focused-border-color mb-2em"
+            className="block w-full focus:focused-border-color mb-1em"
             inputClassName="w-full"
           />
-          <div className="mb-2em text-lg">
+          <div className="mb-1em text-lg">
             <PasswordInput
               id="password"
               name="password"
@@ -90,8 +90,8 @@ const SignUpForm: React.FC = () => {
               setter={setConfirmPassword}
             />
           </div>
-          <div className="flex justify-center mb-2em">
-            <label htmlFor="agreeToTerms" className="flex font-semibold">
+          <div className="flex justify-center mb-1em">
+            <label htmlFor="agreeToTerms" className="flex">
               {''}
               <AccessibleCheckbox
                 inputId="agreeToTerms"
@@ -99,14 +99,13 @@ const SignUpForm: React.FC = () => {
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 ariaLabel={'Agree to Terms'}
-                className="text-lg"
+                className="text-sm"
               ></AccessibleCheckbox>
-              <span className="text-lg">
+              <span className="text-sm">
                 I agree to the
-                <br />
                 <AccessibleLink
                   href="/terms"
-                  className="pl-1"
+                  className="pl-1 text-sm"
                   text="terms_of_service"
                   decorationLeft="["
                   decorationRight="]"

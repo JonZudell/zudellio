@@ -3,7 +3,7 @@
   background-color: #1a1a1a;
   color: #d3d3d3; /* Use custom property for text color */
   border-color: #d3d3d3; /* Use custom property for border color */
-  box-shadow: 1em 1em 0 0 #d3d3d3;
+  box-shadow: 0.5em 0.5em 0 0 #d3d3d3;
   padding: 1em;
 }
 

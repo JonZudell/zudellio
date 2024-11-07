@@ -23,6 +23,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [focusedOnEye, setFocusedOnEye] = useState(false);
+    const [focusedOnInput, setFocusedOnInput] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -31,7 +32,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           {label}
         </label>
         <div
-          className={`flex items-center border standard-shadow focus-within:border-blue-700 ${isHovered ? 'hovered-class' : ''}`}
+          className={`flex items-center border ${focusedOnInput ? 'focused' : isHovered ? 'hovered' : 'not-hovered'}`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -45,6 +46,12 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setter(e.target.value)
             }
+            onFocus={() => {
+              setFocusedOnInput(true);
+            }}
+            onBlur={() => {
+              setFocusedOnInput(false);
+            }}
             aria-describedby={`${id}-toggle`}
           />
           <span
