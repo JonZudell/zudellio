@@ -1581,6 +1581,7 @@ span:focus {
 
 input:hover,
 textarea:hover,
-select:hover {
+select:hover,
+button:hover {
   border-color: var(--hover-border-color);
 }

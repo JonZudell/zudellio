@@ -26,26 +26,6 @@ const AccessibleButton: React.FC<ButtonProps> = ({
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
 
-  // const handleMouseEnter = () => {
-  //   if (linkRef.current) {
-  //     linkRef.current.classList.add(
-  //       'focus-border-color',
-  //       'hover:bg-custom',
-  //       'hover:text-custom',
-  //     );
-  //   }
-  // };
-
-  // const handleMouseLeave = () => {
-  //   if (linkRef.current) {
-  //     linkRef.current.classList.remove(
-  //       'focus-border-color',
-  //       'hover:bg-custom',
-  //       'hover:text-custom',
-  //     );
-  //   }
-  // };
-
   // eslint-disable-next-line
   const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (onClick) {
@@ -59,7 +39,7 @@ const AccessibleButton: React.FC<ButtonProps> = ({
     <button
       ref={linkRef}
       tabIndex={0}
-      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer focus:outline-none focus:bg-custom focus:text-custom hover:bg-custom hover:text-custom`}
+      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer button focus:button hover:button`}
       aria-label={ariaLabel}
       onClick={onClick && !disabled ? () => onClick() : undefined}
       onKeyDown={handleKeyDown}
