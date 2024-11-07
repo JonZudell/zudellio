@@ -70,7 +70,7 @@ const SignUpForm: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="email-input"
-            className="block w-full focus:focused-border-color mb-1em"
+            className="block w-full mb-1em"
             inputClassName="w-full"
           />
           <div className="mb-1em text-lg">

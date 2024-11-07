@@ -47,7 +47,8 @@
     "stream-browserify": "^3.0.0",
     "typescript-eslint": "^8.12.2",
     "web-vitals": "^2.1.4",
-    "what-input": "^5.2.12"
+    "what-input": "^5.2.12",
+    "zxcvbn": "^4.4.2"
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
@@ -80,6 +81,7 @@
     "@storybook/react-webpack5": "^8.3.2",
     "@storybook/test": "^8.3.2",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/zxcvbn": "^4.4.5",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "eslint": "^8.57.1",
