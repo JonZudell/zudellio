@@ -8,7 +8,7 @@
 
 .textinput:focus {
   background-color: var(--background-color);
-  color: var(--focus-border-color);
+  border-color: var(--focus-border-color);
   box-shadow: 0.5em 0.5em 0 0 var(--border-color);
   outline: none;
 }

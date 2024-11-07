@@ -82,7 +82,10 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           >
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
-              className={`m-3 h-4 w-4 ${focusedOnEye ? 'focused-icon' : hoveredOnEye ? 'hovered-icon' : 'not-hovered-icon'}`}
+              className={`m-3 h-4 w-4 icon`}
+              style={{
+                color: `${focusedOnEye ? 'var(--focus-border-color)' : hoveredOnEye ? 'var(--hover-border-color)' : 'var(--border-color)'}`,
+              }} // Set the color here
             />
           </span>
         </div>
