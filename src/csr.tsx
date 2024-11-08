@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Root from './components/core/Root';
 import './main.css';
 
-export function hydrateApp() {
-  const container = document.getElementById('root');
+const container = document.getElementById('root');
+export function hydrateApp(container: HTMLElement | null) {
   console.log('hydrating');
   if (container) {
     hydrateRoot(
@@ -17,5 +17,5 @@ export function hydrateApp() {
   }
 }
 
-// Optionally call the function to hydrate the app
-hydrateApp();
+// Ensure the function to hydrate the app is called
+hydrateApp(container);

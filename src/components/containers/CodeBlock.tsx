@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import {
   a11yDark,
-  darcula,
+  a11yLight,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import './CodeBlock.css';
 
@@ -20,18 +20,37 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   className,
   language = 'javascript',
   showLineNumbers = true,
-}) => (
-  <div className="text-md mb-2em code-block">
-    <div className="text-center code-header">{title}</div>
-    <SyntaxHighlighter
-      className={`text-sm font-normal ${className}`}
-      language={language}
-      showLineNumbers={showLineNumbers}
-      style={darcula}
-    >
-      {code}
-    </SyntaxHighlighter>
-  </div>
-);
+}) => {
+  const [theme, setTheme] = useState(a11yDark);
+
+  useEffect(() => {
+    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    setTheme(darkThemeMq.matches ? a11yDark : a11yLight);
+
+    const themeChangeListener = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? a11yDark : a11yLight);
+    };
+
+    darkThemeMq.addEventListener('change', themeChangeListener);
+
+    return () => {
+      darkThemeMq.removeEventListener('change', themeChangeListener);
+    };
+  }, []);
+
+  return (
+    <div className="text-md mb-2em code-block">
+      <div className="text-center code-header">{title}</div>
+      <SyntaxHighlighter
+        className={`text-sm font-normal ${className}`}
+        language={language}
+        showLineNumbers={showLineNumbers}
+        style={theme}
+      >
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
 
 export default CodeBlock;

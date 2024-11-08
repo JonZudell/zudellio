@@ -60,7 +60,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '', // Set publicPath to an empty string
+    publicPath: '',
     libraryTarget: 'umd',
     globalObject: 'this',
     clean: true,
@@ -91,6 +91,12 @@ module.exports = {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'scss-loader'],
       },
+      {
+        test: /\.m?js$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
     ],
   },
   plugins: [
@@ -104,7 +110,6 @@ module.exports = {
         window: {},
       },
     }),
-    new webpack.ids.HashedModuleIdsPlugin(), // For long term caching
     new TemplateWrapperPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
