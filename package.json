@@ -55,7 +55,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js --mode development",
-    "dev": "serve -s dist",
+    "dev": "serve dist",
     "test": "react-scripts test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

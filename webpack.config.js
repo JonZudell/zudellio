@@ -51,6 +51,26 @@ class TemplateWrapperPlugin {
   }
 }
 
+class RewritesPlugin {
+  apply(compiler) {
+    compiler.hooks.emit.tapAsync('RewritesPlugin', (compilation, callback) => {
+      const rewrites = data.routes.map((route) => ({
+        source: route,
+        destination: `${route.replace(/^\//, '')}/index.html`,
+      }));
+
+      const rewritesJson = JSON.stringify({ rewrites }, null, 2);
+
+      compilation.assets['rewrites.json'] = {
+        source: () => rewritesJson,
+        size: () => rewritesJson.length,
+      };
+
+      callback();
+    });
+  }
+}
+
 module.exports = {
   mode: 'production',
   entry: {
@@ -114,6 +134,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
+    new RewritesPlugin(),
   ],
   optimization: {
     minimize: false, // Disable code minification

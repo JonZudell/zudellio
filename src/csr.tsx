@@ -6,7 +6,6 @@ import './main.css';
 
 const container = document.getElementById('root');
 export function hydrateApp(container: HTMLElement | null) {
-  console.log('hydrating');
   if (container) {
     hydrateRoot(
       container,

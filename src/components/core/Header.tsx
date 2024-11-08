@@ -5,7 +5,6 @@ import './Header.css'; // Assuming you have a CSS file for styles
 
 const Header: React.FC = () => {
   const location = useLocation();
-  console.log(location);
   return (
     <header className="p-4 text-center">
       <h1 className="text-xl">

@@ -4,7 +4,6 @@ import Post from './Post';
 import { StaticRouter } from 'react-router-dom/server';
 const meta = {
   component: Post,
-  tags: ['autodocs'],
 } satisfies Meta<typeof Post>;
 
 export default meta;

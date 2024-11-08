@@ -35,6 +35,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         the best functions. This is nearly self-evident. If you have a side
         effecting function you have few guarantees.
       </p>
+      <br />
       <h4 className="comment-green"># Side Effects</h4>
       <p>
         As a matter of practicality, side effects are unavoidable. Side effects
