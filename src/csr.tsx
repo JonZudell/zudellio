@@ -17,5 +17,5 @@ export function hydrateApp() {
   }
 }
 
-// Ensure the function is called to hydrate the app
+// Optionally call the function to hydrate the app
 hydrateApp();

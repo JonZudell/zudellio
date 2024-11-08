@@ -143,7 +143,7 @@ const SignUpForm: React.FC = () => {
           <p>
             Don&apos;t have an account?{`\u0020`}
             <AccessibleLink
-              href="/signup"
+              href="/auth/sign_up"
               text="sign_up"
               decorationLeft="["
               decorationRight="]"

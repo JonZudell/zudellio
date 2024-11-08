@@ -52,7 +52,7 @@ class TemplateWrapperPlugin {
 }
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     main: './src/csr.tsx',
     ssg: './src/ssg.tsx',
@@ -60,7 +60,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', // Ensure publicPath is correctly set
+    publicPath: '', // Set publicPath to an empty string
     libraryTarget: 'umd',
     globalObject: 'this',
     clean: true,
