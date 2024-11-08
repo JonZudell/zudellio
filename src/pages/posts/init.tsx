@@ -31,13 +31,8 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           </span>
         </li>
         <li>
-          <span
-            className="tooltip"
-            title={
-              'Single Responsibility, Open Close, Liskov Substitution, Interface Segregation, Dependancy Inversion'
-            }
-          >
-            S.O.L.I.D.
+          <span className="tooltip" title={'Principle of Least Surprise'}>
+            P.O.L.S.
           </span>
         </li>
         <li>
@@ -51,9 +46,8 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
       <p>
         Every programmer knows that code is the enemy. Less code is more better.
         Repeating yourself leads to more code so do not do that. That feature
-        management wants? You are not going to need it. Of the above the
-        S.O.L.I.D. principles are the least platitude-esque and so it will not
-        be acknowledged.
+        management wants? You are not going to need it. How should the interface
+        behave? In the least surprising way.
       </p>
       <br />
       <h3 className="text-xl comment-green"># Better Ideas</h3>

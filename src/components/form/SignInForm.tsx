@@ -39,14 +39,14 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto border standard-shadow"
+      className="max-w-md mx-auto border standard-shadow text-lg"
     >
       <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign In</h2>
         <div className="mb-1em">
           <div role="alert" aria-live="assertive">
-            {error && <p className="text-red-500 text-lg">{error}</p>}
-            {success && <p className="text-green-500 text-lg">{success}</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            {success && <p className="text-green-500">{success}</p>}
           </div>
           <TextInput
             type="email"
@@ -61,7 +61,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="mb-2em text-lg">
+        <div className="mb-2em">
           <PasswordInput
             id="password"
             name="password"
@@ -71,7 +71,7 @@ const SignUpForm: React.FC = () => {
             inputClassName="w-full"
           />
         </div>
-        <div className="flex justify-center text-lg mb-1em ">
+        <div className="flex justify-center mb-1em ">
           <AccessibleCheckbox
             name="staySignedIn"
             onChange={(e: {
@@ -80,14 +80,13 @@ const SignUpForm: React.FC = () => {
               };
             }) => setStaySignedIn(e.target.checked)}
             checked={staySignedIn}
-            className="text-lg"
             ariaLabel={'staySignedIn'}
             inputId={'staySignedIn'}
           >
             Stay Signed in?
           </AccessibleCheckbox>
         </div>
-        <div className="flex flex-col items-center text-lg mb-1em">
+        <div className="flex flex-col items-center mb-1em">
           <AccessibleButton
             text="sign_in"
             ariaLabel="Sign In"
@@ -98,7 +97,6 @@ const SignUpForm: React.FC = () => {
         <div className="flex flex-column justify-center mb-1em">
           <AccessibleLink
             href="/forgot-password"
-            className="text-lg"
             text="forgot_password?"
             decorationLeft="["
             decorationRight="]"
@@ -108,7 +106,7 @@ const SignUpForm: React.FC = () => {
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t"></div>
           </div>
-          <div className="relative flex justify-center text-lg">
+          <div className="relative flex justify-center">
             <span className="px-2">or</span>
           </div>
         </div>
@@ -139,7 +137,7 @@ const SignUpForm: React.FC = () => {
           decorationRight=" >"
           disabled
         />
-        <div className="text-center text-lg">
+        <div className="text-center">
           <p>
             Don&apos;t have an account?{`\u0020`}
             <AccessibleLink

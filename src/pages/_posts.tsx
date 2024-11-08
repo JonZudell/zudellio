@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AccessibleLink from '../components/input/AccessibleLink';
 import A11y from './posts/a11y';
 import Authn from './posts/authn';
-import HireMe from './posts/hire_me';
+import HireMe from './posts/_hire_me';
 import Init from './posts/init';
 import StaticSiteGeneration from './posts/ssg';
+import Functional from './posts/functional';
 export interface PostProps {
   displaySummary?: boolean;
   classNames?: string;
@@ -23,6 +24,7 @@ export const Posts: {
   ssg: { component: StaticSiteGeneration, date: new Date('2024-08-31') },
   authn: { component: Authn, date: new Date('2024-09-01') },
   a11y: { component: A11y, date: new Date('2024-09-02') },
+  functional: { component: Functional, date: new Date('2024-09-03') },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),

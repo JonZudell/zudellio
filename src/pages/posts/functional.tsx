@@ -1,5 +1,6 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
+import AccessibleLink from '../../components/input/AccessibleLink';
 
 interface PostProps {
   displaySummary?: boolean;
@@ -10,9 +11,9 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
     <Post
       author="jon@zudell.io"
       date={new Date('2024-11-01T00:00:00Z')}
-      title="functional_programming"
+      title="functional"
       version="v0.1.0"
-      postId="functional_programming"
+      postId="functional"
       displaySummary={displaySummary}
       summaryContent={
         <p>
@@ -26,7 +27,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         </p>
       }
     >
-      <h4 className="text-lg comment-green"># Functional Programming</h4>
+      <h4 className="comment-green"># Functional Programming</h4>
       <p>
         Functional Programming is simple you have functions. Functions take
         inputs and return outputs.
@@ -36,16 +37,24 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
           functional programmer. I am a functional programmer.
         </s>
         Functions can also have side effects. If a function has no side effects
-        it is a pure function. Pure functions are the best functions. Pure
-        functions are deterministic. This leads to the following properties:
-        <ul>
-          <li>Composability</li>
-          <li>Parallelizability</li>
-          <li>Reentrancy</li>
-          <li>Idempotency</li>
-          <li>Referential Transparency</li>
-          <li>Memoizability</li>
-        </ul>
+        it is a pure function. Pure functions are the best functions. This is
+        nearly self-evident. If you have a side effecting function you have few
+        guarantees.
+      </p>
+      <h4 className="comment-green"># Side Effects</h4>
+      <p>
+        As a matter of practicality, side effects are unavoidable. Side effects
+        inclue input output, user interface updates, acquiring locks, querying
+        any data source, the list goes on... The downsides of side effects can
+        be compartmentalized and mitigated. I prefer to take an{' '}
+        <AccessibleLink
+          href="/posts/oop"
+          text={'Object Oriented'}
+          decorationLeft="["
+          decorationRight="]"
+        />{' '}
+        approach to side effects. I like to encapsulate side effects in objects
+        to compartmentalize and mitigate the downsides.
       </p>
     </Post>
   );

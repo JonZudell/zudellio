@@ -41,20 +41,20 @@ const Post: React.FC<PostProps> = ({
   return (
     <div className="w-full">
       <div
-        className={`text-xl w-full ${
+        className={`text-lg w-full ${
           !isVerySmallScreen || displaySummary
             ? 'border-2 border-post post'
             : ''
         } ${classNames}`}
       >
-        <div className="">
-          <div className="text-xl">
+        <div className="text-md">
+          <div className="">
             <h2>
               <span className="user-purple">{author}</span>
               {' > ' + title + ' ' + version}
             </h2>
           </div>
-          <div className="text-xl comment-green">
+          <div className="comment-green">
             # Posted{' '}
             <span className="tooltip" title={humanReadableDate}>
               {date.getTime()}
@@ -63,7 +63,7 @@ const Post: React.FC<PostProps> = ({
 
           {displaySummary ? (
             <>
-              <div className="text-lg">{summaryContent}</div>
+              <div className="">{summaryContent}</div>
               {summaryOnly === false ? (
                 <div className="flex justify-center mt-4">
                   <AccessibleLink
@@ -76,7 +76,7 @@ const Post: React.FC<PostProps> = ({
               ) : null}
             </>
           ) : (
-            <div className="text-lg">{children}</div>
+            <div className="">{children}</div>
           )}
         </div>
       </div>

@@ -27,7 +27,7 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className={`${className}`}>
-      <label className="block mb-2 text-lg">{label}</label>
+      <label className="block mb-2">{label}</label>
       <input
         ref={inputRef}
         type={type}

@@ -109,12 +109,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new webpack.HotModuleReplacementPlugin(),
   ],
-  devServer: {
-    static: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000,
-    hot: true, // Enable HMR
+  optimization: {
+    minimize: false, // Disable code minification
   },
 };

@@ -28,7 +28,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       <label className="block mb-2">{label}</label>
       <textarea
         ref={inputRef}
-        className={`border p-2 border-2 textarea ${inputClassName}`}
+        className={`border p-2 border-2 textarea hover:textarea focus:textarea ${inputClassName}`}
         rows={rows}
       />
     </div>

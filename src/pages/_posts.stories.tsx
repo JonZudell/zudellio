@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import A11y from './posts/a11y';
 import Authn from './posts/authn';
-import HireMe from './posts/hire_me';
+import HireMe from './posts/_hire_me';
 import Init from './posts/init';
 import StaticSiteGeneration from './posts/ssg';
 import { MemoryRouter } from 'react-router-dom';

@@ -1,4 +1,4 @@
-/* .textarea {
+.textarea {
   border: 2px solid var(--border-color);
   background-color: var(--background-color);
   color: var(--text-color);
@@ -7,15 +7,16 @@
 }
 
 .textarea:focus {
+  border: 2px solid var(--focus-border-color);
   background-color: var(--background-color);
   color: var(--text-color);
-  box-shadow: 1em 1em 0 0 var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
 }
 
 .textarea:hover {
-  border-color: var(--focus-border-color);
+  border-color: var(--hover-border-color);
 }
 
 .h-6em {
   height: 6em;
-} */
+}

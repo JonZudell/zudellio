@@ -50,7 +50,7 @@ const AccessibleCheckbox: React.FC<AccessibleCheckboxProps> = ({
         type="checkbox"
         aria-checked={checked}
       />
-      <label htmlFor={inputId} className="text-lg ml-0_75em">
+      <label htmlFor={inputId} className="ml-0_75em">
         {children}
       </label>
     </div>
