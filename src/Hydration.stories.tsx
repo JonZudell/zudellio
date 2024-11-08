@@ -1,46 +1,38 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StoryObj, Meta } from '@storybook/react';
 import { hydrateApp } from './csr'; // Adjust the import path as necessary
 import Root from './components/core/Root';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 
-// export default {
-//   title: 'Hydration',
-//   component: Root,
-// } as Meta;
-// const meta = {} satisfies Meta<typeof Root>;
-
-// export default meta;
-
-// type Story = StoryObj<typeof meta>;
-// const Template: Story = () => {
-//   useEffect(() => {
-//     const container = document.getElementById('root');
-//     hydrateApp(container);
-//   }, []);
-
-//   return (
-//     <div id="root">
-//       <BrowserRouter>
-//         <Root />
-//       </BrowserRouter>
-//     </div>
-//   );
-// };
-
-// export default Template;
-const meta = {} satisfies Meta<typeof Root>;
+const meta = {
+  title: 'Hydration',
+  component: Root,
+} satisfies Meta<typeof Root>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+interface HydratedRootProps {
+  path: string;
+}
+
+const HydratedRoot: React.FC<HydratedRootProps> = ({ path }) => {
+  React.useEffect(() => {
+    const container = document.getElementById('root');
+    console.log('hydrating');
+    hydrateApp(container);
+    console.log('hydrated');
+  }, []);
+
+  return (
+    <main id="root">
+      <StaticRouter location={path}>
+        <Root />
+      </StaticRouter>
+    </main>
+  );
+};
 
 export const RootStory: Story = {
-  render: () => {
-    return (
-      <MemoryRouter>
-        <Root />
-      </MemoryRouter>
-    );
-  },
+  render: () => <HydratedRoot path="/" />,
 };
