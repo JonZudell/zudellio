@@ -30,7 +30,8 @@ const Header: React.FC = () => {
           decorationLeft="["
           decorationRight="]"
           className={
-            location.pathname === '/contact'
+            location.pathname === '/contact' ||
+            location.pathname === '/contact/'
               ? 'text-pink-300 underline'
               : 'hover:underline'
           }

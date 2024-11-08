@@ -54,10 +54,13 @@ class TemplateWrapperPlugin {
 class RewritesPlugin {
   apply(compiler) {
     compiler.hooks.emit.tapAsync('RewritesPlugin', (compilation, callback) => {
-      const rewrites = data.routes.map((route) => ({
-        source: route,
-        destination: `${route.replace(/^\//, '')}/index.html`,
-      }));
+      const rewrites = data.routes.map((route) => {
+        const source = route === '/' ? route : route.replace(/\/$/, '');
+        return {
+          source: source,
+          destination: `${source.replace(/^\//, '')}/index.html`,
+        };
+      });
 
       const rewritesJson = JSON.stringify({ rewrites }, null, 2);
 

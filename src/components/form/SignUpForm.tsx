@@ -97,7 +97,7 @@ const SignUpForm: React.FC = () => {
               className=""
             ></AccessibleCheckbox>
             <span className="">
-              I agree to the{' '}
+              I agree to the
               <span className="block sm:inline">
                 <AccessibleLink
                   href="/terms"
@@ -119,7 +119,7 @@ const SignUpForm: React.FC = () => {
         </div>
         <div className="text-center mb-1em">
           <p>
-            Already have an account?{' '}
+            Already have an account?
             <span className="block sm:inline">
               <AccessibleLink
                 href="/auth/sign_in"

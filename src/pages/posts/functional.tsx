@@ -41,13 +41,13 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         As a matter of practicality, side effects are unavoidable. Side effects
         inclue input output, user interface updates, acquiring locks, querying
         any data source, the list goes on... The downsides of side effects can
-        be compartmentalized and mitigated. I prefer to take an{' '}
+        be compartmentalized and mitigated. I prefer to take an
         <AccessibleLink
           href="/posts/oop"
           text={'Object Oriented'}
           decorationLeft="["
           decorationRight="]"
-        />{' '}
+        />
         approach to side effects. I like to encapsulate side effects in objects
         to compartmentalize and mitigate the downsides.
       </p>

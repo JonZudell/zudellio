@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Root from './components/core/Root';
 import './main.css';
 
-const container = document.getElementById('root');
+export const container = document.getElementById('root');
+
 export function hydrateApp(container: HTMLElement | null) {
   if (container) {
     hydrateRoot(
@@ -16,5 +17,15 @@ export function hydrateApp(container: HTMLElement | null) {
   }
 }
 
-// Ensure the function to hydrate the app is called
+console.log('Window location:', window.location.href);
+export const before = container?.innerHTML;
+console.log('Container HTML before hydrate:', before);
+
 hydrateApp(container);
+export const after = container?.innerHTML;
+console.log('Container HTML after hydrate:', after);
+if (before !== after) {
+  console.log('HTML content has changed after hydration.');
+} else {
+  console.log('HTML content remains the same after hydration.');
+}

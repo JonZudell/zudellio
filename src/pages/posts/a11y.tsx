@@ -19,13 +19,13 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       summaryContent={
         <p>
           Accessibility or a11y for short is the property of being usable by
-          individuals with disabilities.{' '}
+          individuals with disabilities.
           <a
             className="href-blue underline"
             href="https://dequeuniversity.com/"
           >
             https://dequeuniversity.com/
-          </a>{' '}
+          </a>
           is the defacto authority on implementing accessibility.
         </p>
       }
@@ -33,10 +33,10 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       <h3 className="comment-green"># Overview</h3>
       <p>
         Accessibility or a11y for short is the property of being usable by
-        individuals with disabilities.{' '}
+        individuals with disabilities.
         <a className="href-blue underline" href="https://dequeuniversity.com/">
           https://dequeuniversity.com/
-        </a>{' '}
+        </a>
         is the defacto authority on implementing accessibility.
       </p>
       <br />
@@ -67,13 +67,13 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         enabled the effects of dynamic content on screen readers must be
         examined. When properly implemented client side code will leverage
         native accessibility features to enhace the user experience. Consider
-        using the{' '}
+        using the
         <a
           className="href-blue underline"
           href="https://cauldron.dequelabs.com/"
         >
           Cauldron React Library
-        </a>{' '}
+        </a>
         it contains many common component patterns implemented to use ARIA
         features.
       </p>
