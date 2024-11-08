@@ -207,6 +207,7 @@ a {
   text-decoration: inherit;
 }
 
+
 /*
 Add the correct font weight in Edge and Safari.
 */
@@ -1487,6 +1488,19 @@ code {
 
 .href-blue {
   color: var(--href-color);
+  text-decoration-style: underline;
+}
+
+.href-blue:hover {
+  color: var(--link-button-accent-color);
+}
+
+.inline-span::before {
+  content: ' ';
+}
+
+.inline-span::after {
+  content: ' ';
 }
 
 .user-purple {

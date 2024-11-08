@@ -45,8 +45,8 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         <AccessibleLink
           href="/posts/oop"
           text={'Object Oriented'}
-          decorationLeft="["
-          decorationRight="]"
+          decorationLeft=" ["
+          decorationRight="] "
         />
         approach to side effects. I like to encapsulate side effects in objects
         to compartmentalize and mitigate the downsides.

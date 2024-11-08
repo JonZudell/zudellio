@@ -18,12 +18,14 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
       summaryContent={
         <p>
           Using a slightly modified version of this repositories webpack plugin
-          <a
-            className="href-blue"
-            href="https://github.com/markdalgleish/static-site-generator-webpack-plugin"
-          >
-            markdalgleish/static-site-generator-webpack-plugin
-          </a>
+          <span className="inline-span">
+            <a
+              className="href-blue"
+              href="https://github.com/markdalgleish/static-site-generator-webpack-plugin"
+            >
+              markdalgleish/static-site-generator-webpack-plugin
+            </a>
+          </span>
           and my own custom webpack plugin / configuration I was able to write a
           Static Site Generator with webpack, react(-router), and TypeScript.
           Routes are generated from the src/pages directory.
@@ -32,12 +34,14 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
     >
       <p>
         Using a slightly modified version of this repositories webpack plugin
-        <a
-          className="href-blue"
-          href="https://github.com/markdalgleish/static-site-generator-webpack-plugin"
-        >
-          markdalgleish/static-site-generator-webpack-plugin
-        </a>
+        <span className="inline-span">
+          <a
+            className="href-blue"
+            href="https://github.com/markdalgleish/static-site-generator-webpack-plugin"
+          >
+            markdalgleish/static-site-generator-webpack-plugin
+          </a>
+        </span>
         and my own custom webpack plugin / configuration I was able to write a
         Static Site Generator with webpack, react(-router), and TypeScript.
       </p>

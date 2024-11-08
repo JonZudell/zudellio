@@ -20,12 +20,14 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         <p>
           Accessibility or a11y for short is the property of being usable by
           individuals with disabilities.
-          <a
-            className="href-blue underline"
-            href="https://dequeuniversity.com/"
-          >
-            https://dequeuniversity.com/
-          </a>
+          <span className="inline-span">
+            <a
+              className="href-blue underline"
+              href="https://dequeuniversity.com/"
+            >
+              https://dequeuniversity.com/
+            </a>
+          </span>
           is the defacto authority on implementing accessibility.
         </p>
       }
@@ -34,9 +36,14 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       <p>
         Accessibility or a11y for short is the property of being usable by
         individuals with disabilities.
-        <a className="href-blue underline" href="https://dequeuniversity.com/">
-          https://dequeuniversity.com/
-        </a>
+        <span className="inline-span">
+          <a
+            className="href-blue underline"
+            href="https://dequeuniversity.com/"
+          >
+            https://dequeuniversity.com/
+          </a>
+        </span>
         is the defacto authority on implementing accessibility.
       </p>
       <br />
@@ -68,12 +75,14 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
         examined. When properly implemented client side code will leverage
         native accessibility features to enhace the user experience. Consider
         using the
-        <a
-          className="href-blue underline"
-          href="https://cauldron.dequelabs.com/"
-        >
-          Cauldron React Library
-        </a>
+        <span className="inline-span">
+          <a
+            className="href-blue underline"
+            href="https://cauldron.dequelabs.com/"
+          >
+            Cauldron React Library
+          </a>
+        </span>
         it contains many common component patterns implemented to use ARIA
         features.
       </p>
