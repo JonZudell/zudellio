@@ -36,21 +36,23 @@ const AccessibleButton: React.FC<ButtonProps> = ({
     }
   };
   return (
-    <button
-      ref={linkRef}
-      tabIndex={0}
-      className={`w-full ${className} wrapper border-wrapper focus group cursor-pointer button focus:button hover:button active:button`}
-      aria-label={ariaLabel}
-      onClick={onClick && !disabled ? () => onClick() : undefined}
-      onKeyDown={handleKeyDown}
-      type={type}
-      style={{ pointerEvents: disabled ? 'none' : 'auto', padding: '6px' }}
-    >
-      <span className={`w-full ${className}`}>
-        <span className="underline link-accent">{firstLetter}</span>
-        <span className="group-hover:button-inner">{restOfText}</span>
-      </span>
-    </button>
+    <div className={`${className} mx-auto`}>
+      <button
+        ref={linkRef}
+        tabIndex={0}
+        className={`w-full wrapper border-wrapper focus group cursor-pointer button focus:button hover:button active:button`}
+        aria-label={ariaLabel}
+        onClick={onClick && !disabled ? () => onClick() : undefined}
+        onKeyDown={handleKeyDown}
+        type={type}
+        style={{ pointerEvents: disabled ? 'none' : 'auto', padding: '6px' }}
+      >
+        <span className={`w-full`}>
+          <span className="underline link-accent">{firstLetter}</span>
+          <span className="group-hover:button-inner">{restOfText}</span>
+        </span>
+      </button>
+    </div>
   );
 };
 

@@ -13,9 +13,8 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const userTheme = localStorage.getItem('theme') as Theme | null;
-    if (userTheme) {
-      return userTheme;
+    if (typeof window.matchMedia === 'undefined') {
+      return 'dark';
     }
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
       .matches
@@ -23,10 +22,6 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       : 'light';
     return systemTheme;
   });
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
@@ -42,6 +37,8 @@ const useTheme = (): ThemeContextProps => {
   }
   return context;
 };
+import AccessibleButton from '../components/input/AccessibleButton';
+
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
@@ -54,9 +51,12 @@ const ThemeToggle: React.FC = () => {
   }, [theme]);
 
   return (
-    <button onClick={toggleTheme}>
-      Switch to {theme === 'light' ? 'dark' : 'light'} mode
-    </button>
+    <AccessibleButton
+      onClick={toggleTheme}
+      text={`${theme === 'light' ? 'dark' : 'light'}_mode`}
+      ariaLabel={'Toggle Theme'}
+      className="w-36"
+    />
   );
 };
 export { ThemeProvider, ThemeToggle };
