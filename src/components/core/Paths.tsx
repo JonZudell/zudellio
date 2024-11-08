@@ -10,6 +10,7 @@ const Paths: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/iframe.html" element={<Index />} />
       <Route path="/posts/:postId" element={<_Post />} />
       <Route path="/auth/sign_up" element={<SignUpPage />} />
       <Route path="/auth/sign_in" element={<SignInPage />} />

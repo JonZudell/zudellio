@@ -5,6 +5,7 @@ import './Header.css'; // Assuming you have a CSS file for styles
 
 const Header: React.FC = () => {
   const location = useLocation();
+  console.log(location);
   return (
     <header className="p-4 text-center">
       <h1 className="text-xl">
@@ -17,7 +18,9 @@ const Header: React.FC = () => {
           decorationLeft="["
           decorationRight="]"
           className={
-            location.pathname === '/' || location.pathname.startsWith('/blog')
+            location.pathname === '/' ||
+            location.pathname === '/iframe.html' ||
+            location.pathname.startsWith('/post')
               ? 'text-pink-300 underline'
               : 'hover:underline'
           }
