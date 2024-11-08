@@ -52,8 +52,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "build-dev": "webpack --config webpack.config.js --mode development",
-    "dev": "npx serve dist",
+    "dev": "webpack serve --config webpack.config.js",
     "test": "react-scripts test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -97,7 +96,8 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.2",
     "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   },
   "msw": {
     "workerDirectory": [

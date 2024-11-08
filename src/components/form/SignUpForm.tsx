@@ -44,102 +44,98 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-md mx-auto border standard-shadow "
-      >
-        <div className="m-1_5em">
-          <h2 className="text-3xl font-extrabold mb-1em text-center">
-            Sign Up
-          </h2>
-          {error && (
-            <p className="text-red-500 text-lg font-semibold mb-1em">{error}</p>
-          )}
-          {success && (
-            <p className="text-green-500 text-lg font-semibold mb-1em">
-              {success}
-            </p>
-          )}
-          <TextInput
-            type="email"
-            id="email"
-            name="email"
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            data-testid="email-input"
-            className="block w-full mb-1em"
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto border standard-shadow text-lg"
+    >
+      <div className="m-1_5em">
+        <h2 className="text-3xl font-extrabold mb-1em text-center">Sign Up</h2>
+        {error && (
+          <p className="text-red-500 text-lg font-semibold mb-1em">{error}</p>
+        )}
+        {success && (
+          <p className="text-green-500 text-lg font-semibold mb-1em">
+            {success}
+          </p>
+        )}
+        <TextInput
+          type="email"
+          id="email"
+          name="email"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          data-testid="email-input"
+          className="block w-full mb-1em"
+          inputClassName="w-full"
+        />
+        <div className="mb-1em text-lg">
+          <PasswordInput
+            id="password"
+            name="password"
+            value={password}
+            setter={setPassword}
             inputClassName="w-full"
           />
-          <div className="mb-1em text-lg">
-            <PasswordInput
-              id="password"
-              name="password"
-              value={password}
-              setter={setPassword}
-              inputClassName="w-full"
-            />
-          </div>
-          <div className="mb-2em text-lg">
-            <PasswordInput
-              id="confirm-password"
-              name="confirm-password"
-              label="Confirm Password"
-              value={confirmPassword}
-              setter={setConfirmPassword}
-              inputClassName="w-full"
-            />
-          </div>
-          <div className="flex justify-center mb-1em">
-            <label htmlFor="agreeToTerms" className="flex">
-              {''}
-              <AccessibleCheckbox
-                inputId="agreeToTerms"
-                name="agreeToTerms"
-                checked={agreeToTerms}
-                onChange={(e) => setAgreeToTerms(e.target.checked)}
-                ariaLabel={'Agree to Terms'}
-                className="text-sm"
-              ></AccessibleCheckbox>
-              <span className="text-lg">
-                I agree to the{' '}
-                <span className="block sm:inline">
-                  <AccessibleLink
-                    href="/terms"
-                    className="pl-1 text-lg"
-                    text="terms_of_service"
-                  />
-                </span>
-              </span>
-            </label>
-          </div>
-          <div className="flex flex-column justify-center mb-1em text-lg w-full">
-            <AccessibleButton
-              type="submit"
-              data-testid="submit-button"
-              text="sign_up"
-              ariaLabel="Sign Up"
-              className="w-full"
-            />
-          </div>
-          <div className="text-center text-lg mb-1em">
-            <p>
-              Already have an account?{' '}
+        </div>
+        <div className="mb-2em text-lg">
+          <PasswordInput
+            id="confirm-password"
+            name="confirm-password"
+            label="Confirm Password"
+            value={confirmPassword}
+            setter={setConfirmPassword}
+            inputClassName="w-full"
+          />
+        </div>
+        <div className="flex justify-center mb-1em">
+          <label htmlFor="agreeToTerms" className="flex">
+            {''}
+            <AccessibleCheckbox
+              inputId="agreeToTerms"
+              name="agreeToTerms"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+              ariaLabel={'Agree to Terms'}
+              className="text-sm"
+            ></AccessibleCheckbox>
+            <span className="text-lg">
+              I agree to the{' '}
               <span className="block sm:inline">
                 <AccessibleLink
-                  href="/signin"
-                  text="sign_in"
-                  decorationLeft="["
-                  decorationRight="]"
+                  href="/terms"
+                  className="pl-1 text-lg"
+                  text="terms_of_service"
                 />
               </span>
-            </p>
-          </div>
+            </span>
+          </label>
         </div>
-      </form>
-    </div>
+        <div className="flex flex-column justify-center mb-1em text-lg w-full">
+          <AccessibleButton
+            type="submit"
+            data-testid="submit-button"
+            text="sign_up"
+            ariaLabel="Sign Up"
+            className="w-full"
+          />
+        </div>
+        <div className="text-center text-lg mb-1em">
+          <p>
+            Already have an account?{' '}
+            <span className="block sm:inline">
+              <AccessibleLink
+                href="/auth/sign_in"
+                text="sign_in"
+                decorationLeft="["
+                decorationRight="]"
+              />
+            </span>
+          </p>
+        </div>
+      </div>
+    </form>
   );
 };
 

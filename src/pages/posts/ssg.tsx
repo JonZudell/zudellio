@@ -59,12 +59,10 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
             stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
           },
           (assets, callback) => {
-            console.log('TemplateWrapperPlugin: processAssets hook triggered');
             data.routes.forEach((route) => {
               const assetKey = \`\${route.replace(/^\\//, '')}index.html\`;
 
               const asset = assets[assetKey];
-              console.log(assets);
               if (asset) {
                 const content = asset.source();
                 const template = fs.readFileSync(
@@ -76,9 +74,6 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
                   '<!-- inject:body -->',
                   content,
                 ); // Example modification
-                console.log(
-                  \`TemplateWrapperPlugin: Rewriting \${route}index.html\`,
-                );
                 assets[assetKey] = {
                   source: () => htmlOutput,
                   size: () => htmlOutput.length,

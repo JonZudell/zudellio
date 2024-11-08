@@ -31,7 +31,7 @@ const AccessibleCheckbox: React.FC<AccessibleCheckboxProps> = ({
         aria-label={ariaLabel}
         disabled={disabled}
         checked={checked}
-        onClick={() =>
+        onChange={() =>
           onChange({
             target: { checked: !checked },
           } as React.ChangeEvent<HTMLInputElement>)

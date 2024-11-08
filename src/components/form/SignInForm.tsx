@@ -104,7 +104,7 @@ const SignUpForm: React.FC = () => {
             decorationRight="]"
           />
         </div>
-        {/* <div className="relative">
+        <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t"></div>
           </div>
@@ -112,35 +112,33 @@ const SignUpForm: React.FC = () => {
             <span className="px-2">or</span>
           </div>
         </div>
-        <div className="flex flex-col items-center">
-          <AccessibleButton
-            text="sign_in_with_google"
-            ariaLabel="Sign in with Google"
-            className="w-full text-gray-500"
-            onClick={() => (window.location.href = '/auth/google')}
-            decorationLeft="< "
-            decorationRight=" >"
-            disabled
-          />
-          <AccessibleButton
-            text="sign_in_with_github"
-            ariaLabel="Sign in with GitHub"
-            className="w-full text-gray-500"
-            onClick={() => (window.location.href = '/auth/github')}
-            decorationLeft="< "
-            decorationRight=" >"
-            disabled
-          />
-          <AccessibleButton
-            text="sign_in_with_facebook"
-            ariaLabel="Sign in with Facebook"
-            className="w-full text-gray-500"
-            onClick={() => (window.location.href = '/auth/facebook')}
-            decorationLeft="< "
-            decorationRight=" >"
-            disabled
-          />
-        </div> */}
+        <AccessibleButton
+          text="sign_in_with_google"
+          ariaLabel="Sign in with Google"
+          className="w-full text-gray-500"
+          onClick={() => (window.location.href = '/auth/google')}
+          decorationLeft="< "
+          decorationRight=" >"
+          disabled
+        />
+        <AccessibleButton
+          text="sign_in_with_github"
+          ariaLabel="Sign in with GitHub"
+          className="w-full text-gray-500"
+          onClick={() => (window.location.href = '/auth/github')}
+          decorationLeft="< "
+          decorationRight=" >"
+          disabled
+        />
+        <AccessibleButton
+          text="sign_in_with_facebook"
+          ariaLabel="Sign in with Facebook"
+          className="w-full text-gray-500"
+          onClick={() => (window.location.href = '/auth/facebook')}
+          decorationLeft="< "
+          decorationRight=" >"
+          disabled
+        />
         <div className="text-center text-lg">
           <p>
             Don&apos;t have an account?{`\u0020`}

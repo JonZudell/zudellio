@@ -18,12 +18,10 @@ class TemplateWrapperPlugin {
             stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
           },
           (assets, callback) => {
-            console.log('TemplateWrapperPlugin: processAssets hook triggered');
             data.routes.forEach((route) => {
               const assetKey = `${route.replace(/^\//, '')}index.html`; // Remove prepended /
 
               const asset = assets[assetKey];
-              console.log(assets);
               if (asset) {
                 const content = asset.source();
                 const template = fs.readFileSync(
@@ -35,9 +33,6 @@ class TemplateWrapperPlugin {
                   '<!-- inject:body -->',
                   content,
                 ); // Example modification
-                console.log(
-                  `TemplateWrapperPlugin: Rewriting ${route}index.html`,
-                );
                 assets[assetKey] = {
                   source: () => htmlOutput,
                   size: () => htmlOutput.length,
@@ -57,7 +52,7 @@ class TemplateWrapperPlugin {
 }
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     main: './src/csr.tsx',
     ssg: './src/ssg.tsx',
@@ -65,6 +60,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/', // Ensure publicPath is correctly set
     libraryTarget: 'umd',
     globalObject: 'this',
     clean: true,
@@ -113,10 +109,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000,
+    hot: true, // Enable HMR
   },
 };
