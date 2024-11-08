@@ -56,7 +56,7 @@ const Post: React.FC<PostProps> = ({
           </div>
           <div className="comment-green">
             # Posted
-            <span className="tooltip" title={humanReadableDate}>
+            <span className="tooltip ml-0_5em" title={humanReadableDate}>
               {date.getTime()}
             </span>
           </div>

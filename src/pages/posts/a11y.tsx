@@ -43,15 +43,15 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       <p>
         Different disabilities require different accessibility solutions. A
         non-comprehensive list is provided below:
-        <ul>
-          <li>Poor Vision</li>
-          <li>Color Blindness</li>
-          <li>Blindness</li>
-          <li>Deafness</li>
-          <li>Impaired Cognition</li>
-          <li>Technological Illiteracy</li>
-        </ul>
       </p>
+      <ul>
+        <li>Poor Vision</li>
+        <li>Color Blindness</li>
+        <li>Blindness</li>
+        <li>Deafness</li>
+        <li>Impaired Cognition</li>
+        <li>Technological Illiteracy</li>
+      </ul>
       <br />
       <p>
         In the case of visual impairments there are two user cohorts that must
