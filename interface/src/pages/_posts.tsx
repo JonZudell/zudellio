@@ -7,6 +7,7 @@ import HireMe from './posts/_hire_me';
 import Init from './posts/init';
 import StaticSiteGeneration from './posts/ssg';
 import Functional from './posts/functional';
+import ObjectOriented from './posts/oop';
 export interface PostProps {
   displaySummary?: boolean;
   classNames?: string;
@@ -25,6 +26,7 @@ export const Posts: {
   authn: { component: Authn, date: new Date('2024-09-01') },
   a11y: { component: A11y, date: new Date('2024-09-02') },
   functional: { component: Functional, date: new Date('2024-09-03') },
+  oop: { component: ObjectOriented, date: new Date('2024-09-03') },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),
@@ -38,12 +40,13 @@ const _Post: React.FC = () => {
   return (
     <div className={''}>
       <div className="w-full">
-        <AccessibleLink text={'Back'} href={'/'} decorationLeft="< " />
+        <AccessibleLink text={'Back'} href={'/'} decorationLeft="< " ariaLabel={'Go to Home Page'} />
         {postId &&
           Posts[postId]?.component &&
           React.createElement(Posts[postId].component, {
             displaySummary: false,
           })}
+        <AccessibleLink text={'Back'} href={'/'} decorationLeft="< " ariaLabel={'Go to Home Page'} />
       </div>
     </div>
   );

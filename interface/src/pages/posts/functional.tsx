@@ -44,6 +44,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         be compartmentalized and mitigated. I prefer to take an
         <AccessibleLink
           href="/posts/oop"
+          ariaLabel="Go to Object Oriented Programming Post"
           text={'Object Oriented'}
           decorationLeft=" ["
           decorationRight="] "

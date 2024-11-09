@@ -2,7 +2,6 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import CodeBlock from './CodeBlock';
 import { ThemeProvider } from '../../contexts/ThemeProvider';
-import Content from '../core/Content'; // Adjust the path as necessary
 
 const meta = {
   component: CodeBlock,

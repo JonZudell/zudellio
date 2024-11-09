@@ -100,6 +100,7 @@ const SignUpForm: React.FC = () => {
             text="forgot_password?"
             decorationLeft="["
             decorationRight="]"
+            ariaLabel='Forgot Password'
           />
         </div>
         <div className="relative flex justify-center">
@@ -138,6 +139,7 @@ const SignUpForm: React.FC = () => {
             <AccessibleLink
               href="/auth/sign_up"
               text="sign_up"
+              ariaLabel="Sign Up"
               decorationLeft="["
               decorationRight="]"
             />

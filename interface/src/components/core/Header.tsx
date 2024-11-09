@@ -14,6 +14,7 @@ const Header: React.FC = () => {
         <AccessibleLink
           text="software"
           href="/"
+          ariaLabel='Software'
           decorationLeft="["
           decorationRight="]"
           className={
@@ -27,6 +28,7 @@ const Header: React.FC = () => {
         <AccessibleLink
           text="contact"
           href="/contact"
+          ariaLabel='Contact'
           decorationLeft="["
           decorationRight="]"
           className={

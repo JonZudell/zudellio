@@ -103,6 +103,7 @@ const SignUpForm: React.FC = () => {
                   href="/terms"
                   className="pl-1"
                   text="terms_of_service"
+                  ariaLabel="Terms of Service"
                   decorationLeft="["
                   decorationRight="]"
                 />
@@ -126,6 +127,7 @@ const SignUpForm: React.FC = () => {
               <AccessibleLink
                 href="/auth/sign_in"
                 text="sign_in"
+                ariaLabel='Sign In'
                 decorationLeft="["
                 decorationRight="]"
               />

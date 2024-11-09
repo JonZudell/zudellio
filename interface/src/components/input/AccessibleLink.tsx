@@ -11,6 +11,7 @@ interface ButtonProps {
   // eslint-disable-next-line @typescript-eslint/ban-types
   onClick?: Function;
   tabIndex?: number;
+  ariaLabel: string;
 }
 
 const AccessibleLink: React.FC<ButtonProps> = ({
@@ -21,6 +22,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({
   href,
   onClick,
   tabIndex,
+  ariaLabel,
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const firstLetter = text.charAt(0);
@@ -80,6 +82,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({
       role="link"
       to={href}
       tabIndex={tabIndex}
+      aria-label={ariaLabel}
     >
       {decorationLeft && (
         <span className="text-center border-none cursor-pointer group-hover:text-blue-400 group-focus:text-blue-400">

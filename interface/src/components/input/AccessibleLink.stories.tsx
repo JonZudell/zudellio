@@ -17,6 +17,7 @@ export const Default: Story = {
     href: '/',
     decorationLeft: '[',
     decorationRight: ']',
+    ariaLabel: 'Example Link', // Added ariaLabel property
   },
   render: (args) => (
     <MemoryRouter>
