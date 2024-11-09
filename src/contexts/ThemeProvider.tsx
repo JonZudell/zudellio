@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -41,6 +47,8 @@ import AccessibleButton from '../components/input/AccessibleButton';
 
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [hidden, setHidden] = useState(true);
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -49,14 +57,19 @@ const ThemeToggle: React.FC = () => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
-
+  useEffect(() => {
+    hidden && setHidden(false);
+  }, [hidden]);
   return (
-    <AccessibleButton
-      onClick={toggleTheme}
-      text={`${theme === 'light' ? 'dark' : 'light'}_mode`}
-      ariaLabel={'Toggle Theme'}
-      className="w-36"
-    />
+    <>
+      <AccessibleButton
+        inputId="theme-toggle"
+        onClick={toggleTheme}
+        text={`${theme === 'light' ? 'dark' : 'light'}_mode`}
+        ariaLabel={'Toggle Theme'}
+        className={`${hidden ? 'hidden' : ''} w-36`}
+      />
+    </>
   );
 };
 export { ThemeProvider, ThemeToggle };

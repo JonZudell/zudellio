@@ -35,51 +35,36 @@ const Post: React.FC<PostProps> = ({
     hour: '2-digit',
     minute: '2-digit',
   });
-
-  const isVerySmallScreen = window.innerWidth < 640;
-
   return (
-    <div className="w-full">
-      <div
-        className={`text-lg w-full ${
-          !isVerySmallScreen || displaySummary
-            ? 'border-2 border-post post'
-            : ''
-        } ${classNames}`}
-      >
-        <div className="text-md">
-          <div className="">
-            <h2>
-              <span className="user-purple">{author}</span>
-              {' > ' + title + ' ' + version}
-            </h2>
-          </div>
-          <div className="comment-green">
-            # Posted
-            <span className="tooltip ml-0_5em" title={humanReadableDate}>
-              {date.getTime()}
-            </span>
-          </div>
-
-          {displaySummary ? (
-            <>
-              <div className="">{summaryContent}</div>
-              {summaryOnly === false ? (
-                <div className="flex justify-center mt-4">
-                  <AccessibleLink
-                    text="view_post"
-                    href={`/posts/${postId}`}
-                    decorationLeft="< "
-                    decorationRight=" >"
-                  />
-                </div>
-              ) : null}
-            </>
-          ) : (
-            <div className="">{children}</div>
-          )}
-        </div>
+    <div className={`w-full border-2 border-post post ${classNames}`}>
+      <h2>
+        <span className="user-purple">{author}</span>
+        {' > ' + title + ' ' + version}
+      </h2>
+      <div className="comment-green">
+        # Posted
+        <span className="tooltip ml-0_5em" title={humanReadableDate}>
+          {date.getTime()}
+        </span>
       </div>
+
+      {displaySummary ? (
+        <>
+          <div className="">{summaryContent}</div>
+          {summaryOnly === false ? (
+            <div className="flex justify-center mt-4">
+              <AccessibleLink
+                text="view_post"
+                href={`/posts/${postId}`}
+                decorationLeft="< "
+                decorationRight=" >"
+              />
+            </div>
+          ) : null}
+        </>
+      ) : (
+        <div className="w-full">{children}</div>
+      )}
     </div>
   );
 };

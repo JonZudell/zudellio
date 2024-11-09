@@ -39,7 +39,7 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto border standard-shadow text-lg"
+      className="max-w-md mx-auto border standard-shadow "
     >
       <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign In</h2>
@@ -102,13 +102,8 @@ const SignUpForm: React.FC = () => {
             decorationRight="]"
           />
         </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <span className="px-2">or</span>
-          </div>
+        <div className="relative flex justify-center">
+          <span className="px-2 select-none">- or -</span>
         </div>
         <AccessibleButton
           text="sign_in_with_google"

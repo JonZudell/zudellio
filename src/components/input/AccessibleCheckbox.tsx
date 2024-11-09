@@ -36,8 +36,8 @@ const AccessibleCheckbox: React.FC<AccessibleCheckboxProps> = ({
             target: { checked: !checked },
           } as React.ChangeEvent<HTMLInputElement>)
         }
-        style={{ width: '22px', height: '22px' }}
-        className={`standard-shadow background-color ${className}`}
+        style={{ width: '24px', height: '24px' }}
+        className={`checkbox standard-shadow background-color  ${className}`}
         onKeyDown={(e) => {
           if (!keyPressed && e.key === 'Enter') {
             onChange({

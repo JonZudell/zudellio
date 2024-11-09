@@ -2,7 +2,7 @@ import React from 'react';
 import ContactForm from '../components/form/ContactForm';
 const Contact: React.FC = () => {
   return (
-    <div className="w-full text-xl">
+    <div className="w-full ">
       <div className="flex justify-center items-center">
         <h2 className="">contact</h2>
       </div>

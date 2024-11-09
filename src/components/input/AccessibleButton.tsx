@@ -3,6 +3,7 @@ import './AccessibleButton.css';
 import '../containers/Wrapper.css';
 
 interface ButtonProps {
+  inputId?: string;
   text: string;
   ariaLabel: string;
   decorationLeft?: string;
@@ -15,6 +16,7 @@ interface ButtonProps {
 }
 
 const AccessibleButton: React.FC<ButtonProps> = ({
+  inputId,
   text,
   className,
   onClick,
@@ -22,7 +24,6 @@ const AccessibleButton: React.FC<ButtonProps> = ({
   disabled = false,
   type,
 }) => {
-  const linkRef = useRef<HTMLButtonElement>(null);
   const firstLetter = text.charAt(0);
   const restOfText = text.slice(1);
 
@@ -30,29 +31,25 @@ const AccessibleButton: React.FC<ButtonProps> = ({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
     if (onClick) {
       // if key is enter or space
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (event.key === 'Enter') {
         onClick();
       }
     }
   };
   return (
-    <div className={`${className} mx-auto`}>
-      <button
-        ref={linkRef}
-        tabIndex={0}
-        className={`w-full wrapper border-wrapper focus group cursor-pointer button focus:button hover:button active:button`}
-        aria-label={ariaLabel}
-        onClick={onClick && !disabled ? () => onClick() : undefined}
-        onKeyDown={handleKeyDown}
-        type={type}
-        style={{ pointerEvents: disabled ? 'none' : 'auto', padding: '6px' }}
-      >
-        <span className={`w-full`}>
-          <span className="underline link-accent">{firstLetter}</span>
-          <span className="group-hover:button-inner">{restOfText}</span>
-        </span>
-      </button>
-    </div>
+    <button
+      id={inputId}
+      tabIndex={0}
+      className={`${className} mx-auto wrapper border-wrapper focus group cursor-pointer button focus:button hover:button active:button`}
+      aria-label={ariaLabel}
+      onClick={onClick && !disabled ? () => onClick() : undefined}
+      onKeyDown={handleKeyDown}
+      type={type}
+      style={{ padding: '8px' }}
+    >
+      <span className="underline link-accent">{firstLetter}</span>
+      <span className="group-hover:button-inner">{restOfText}</span>
+    </button>
   );
 };
 

@@ -46,7 +46,7 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto border standard-shadow text-lg"
+      className="max-w-md mx-auto border standard-shadow "
     >
       <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign Up</h2>

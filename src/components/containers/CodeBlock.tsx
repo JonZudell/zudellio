@@ -30,7 +30,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     const themeChangeListener = (e: MediaQueryListEvent) => {
       setTheme(e.matches ? a11yDark : a11yLight);
     };
-
+    const themeProvider = document.documentElement.getAttribute('data-theme');
+    if (themeProvider) {
+      setTheme(themeProvider === 'dark' ? a11yDark : a11yLight);
+    }
     darkThemeMq.addEventListener('change', themeChangeListener);
 
     return () => {
@@ -39,13 +42,14 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   }, []);
 
   return (
-    <div className="text-md mb-2em code-block">
+    <div className="mb-2em code-block">
       <div className="text-center code-header">{title}</div>
       <SyntaxHighlighter
-        className={`text-sm font-normal ${className}`}
+        className={`${className}`}
         language={language}
         showLineNumbers={showLineNumbers}
         style={theme}
+        wrapLongLines={true}
       >
         {code}
       </SyntaxHighlighter>

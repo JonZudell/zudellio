@@ -42,7 +42,7 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
         </li>
       </ul>
       <br />
-      <h3 className="text-xl comment-green"># Are they platitudes?</h3>
+      <h3 className=" comment-green"># Are they platitudes?</h3>
       <p>
         Every programmer knows that code is the enemy. Less code is more better.
         Repeating yourself leads to more code so do not do that. That feature
@@ -50,7 +50,7 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
         behave? In the least surprising way.
       </p>
       <br />
-      <h3 className="text-xl comment-green"># Better Ideas</h3>
+      <h3 className=" comment-green"># Better Ideas</h3>
       <ul>
         <li>
           <AccessibleLink

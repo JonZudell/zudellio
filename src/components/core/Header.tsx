@@ -7,10 +7,10 @@ const Header: React.FC = () => {
   const location = useLocation();
   return (
     <header className="p-4 text-center">
-      <h1 className="text-xl">
+      <h1 className="">
         zudell.io.<span className="blinking-cursor" aria-hidden="true"></span>
       </h1>
-      <nav className="text-lg">
+      <nav className="">
         <AccessibleLink
           text="software"
           href="/"
