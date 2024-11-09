@@ -158,6 +158,8 @@ module.exports = {
     new RewritesPlugin(),
   ],
   optimization: {
-    minimize: false, // Disable code minification
+    minimize: true, // Disable code minification
+    sideEffects: true, // Enable tree shaking
+    usedExports: true, // Enable tree shaking
   },
 };
