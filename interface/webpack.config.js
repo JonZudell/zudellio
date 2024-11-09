@@ -24,10 +24,28 @@ class TemplateWrapperPlugin {
               const asset = assets[assetKey];
               if (asset) {
                 const content = asset.source();
-                const template = fs.readFileSync(
+                let template = fs.readFileSync(
                   path.join(__dirname, '/src/index.html'),
                   'utf8',
                 );
+
+                // Append chunked CSS and JS files with content hashes
+                const mainCss = Object.keys(assets).find((key) => key.startsWith('main') && key.endsWith('.css'));
+                const mainJs = Object.keys(assets).find((key) => key.startsWith('main') && key.endsWith('.js'));
+
+                if (mainCss) {
+                  template = template.replace(
+                    '</head>',
+                    `<link rel="stylesheet" href="/${mainCss}"></head>`
+                  );
+                }
+
+                if (mainJs) {
+                  template = template.replace(
+                    '</body>',
+                    `<script defer src="/${mainJs}"></script></body>`
+                  );
+                }
 
                 const htmlOutput = template.replace(
                   '<!-- inject:body -->',
@@ -81,7 +99,7 @@ module.exports = {
     ssg: './src/ssg.tsx',
   },
   output: {
-    filename: '[name].js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '',
     libraryTarget: 'umd',
@@ -135,7 +153,7 @@ module.exports = {
     }),
     new TemplateWrapperPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].[contenthash].css',
     }),
     new RewritesPlugin(),
   ],
