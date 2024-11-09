@@ -6,6 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const data = require('./src/data');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 class TemplateWrapperPlugin {
   apply(compiler) {
@@ -91,7 +93,6 @@ class RewritesPlugin {
     });
   }
 }
-
 module.exports = {
   mode: 'production',
   entry: {
@@ -101,7 +102,6 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
     libraryTarget: 'umd',
     globalObject: 'this',
     clean: true,
@@ -156,6 +156,11 @@ module.exports = {
       filename: '[name].[contenthash].css',
     }),
     new RewritesPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public', to: 'public' },
+      ],
+    }),
   ],
   optimization: {
     minimize: true, // Disable code minification
