@@ -6,6 +6,7 @@ interface TextAreaProps {
   className?: string;
   inputClassName?: string;
   inputRef?: React.Ref<HTMLTextAreaElement>;
+  inputId: string;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -14,6 +15,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   inputClassName,
   inputRef,
   rows,
+  inputId,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -25,8 +27,11 @@ const TextArea: React.FC<TextAreaProps> = ({
 
   return (
     <div className={`${className}`}>
-      <label className="block mb-2">{label}</label>
+      <label htmlFor={inputId} className="block mb-2">
+        {label}
+      </label>
       <textarea
+        id={inputId}
         ref={inputRef}
         className={`border p-2 border-2 textarea hover:textarea focus:textarea ${inputClassName}`}
         rows={rows}

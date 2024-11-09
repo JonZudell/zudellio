@@ -4,6 +4,7 @@ import {
   a11yDark,
   a11yLight,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { useTheme } from '../../contexts/ThemeProvider';
 import './CodeBlock.css';
 
 interface CodeBlockProps {
@@ -21,25 +22,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   language = 'javascript',
   showLineNumbers = true,
 }) => {
-  const [theme, setTheme] = useState(a11yDark);
+  const { theme } = useTheme();
+  const [syntaxTheme, setSyntaxTheme] = useState(a11yDark);
 
   useEffect(() => {
-    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
-    setTheme(darkThemeMq.matches ? a11yDark : a11yLight);
-
-    const themeChangeListener = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? a11yDark : a11yLight);
-    };
-    const themeProvider = document.documentElement.getAttribute('data-theme');
-    if (themeProvider) {
-      setTheme(themeProvider === 'dark' ? a11yDark : a11yLight);
-    }
-    darkThemeMq.addEventListener('change', themeChangeListener);
-
-    return () => {
-      darkThemeMq.removeEventListener('change', themeChangeListener);
-    };
-  }, []);
+    setSyntaxTheme(theme === 'dark' ? a11yDark : a11yLight);
+  }, [theme]);
 
   return (
     <div className="mb-2em code-block">
@@ -48,8 +36,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         className={`${className}`}
         language={language}
         showLineNumbers={showLineNumbers}
-        style={theme}
-        wrapLongLines={true}
+        style={syntaxTheme}
+        lineProps={{
+          style: { wordBreak: 'normal', whiteSpace: 'pre-wrap' },
+        }}
+        wrapLines={true}
+        key={theme} // Force refresh when theme changes
+        codeTagProps={{
+          style: { fontWeight: '400' },
+        }}
+        overflowX="auto"
       >
         {code}
       </SyntaxHighlighter>

@@ -27,7 +27,9 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className={`${className}`}>
-      <label className="block mb-2">{label}</label>
+      <label htmlFor={id} className="block mb-2">
+        {label}
+      </label>
       <input
         ref={inputRef}
         type={type}
@@ -35,6 +37,7 @@ const TextInput: React.FC<TextInputProps> = ({
         name={name}
         value={value}
         required={required}
+        aria-label={label}
         className={`border standard-shadow textinput hover:textinput focus:textinput ${inputClassName}`}
         onChange={onChange}
       />

@@ -14,6 +14,7 @@ const ContactForm: React.FC = () => {
       </div>
       <div className="flex justify-center items-center py-2em">
         <TextArea
+          inputId="contact-message"
           label="Message"
           className="w-full"
           inputClassName="w-full"

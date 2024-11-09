@@ -27,7 +27,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         </p>
       }
     >
-      <h4 className="comment-green"># Functional Programming</h4>
+      <h3 className="comment-green"># Functional Programming</h3>
       <p>
         Functional Programming is simple you have functions. Functions take
         inputs and return outputs. Functions can also have side effects. If a
@@ -36,7 +36,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         effecting function you have few guarantees.
       </p>
       <br />
-      <h4 className="comment-green"># Side Effects</h4>
+      <h3 className="comment-green"># Side Effects</h3>
       <p>
         As a matter of practicality, side effects are unavoidable. Side effects
         inclue input output, user interface updates, acquiring locks, querying

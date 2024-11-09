@@ -6,6 +6,7 @@ import HireMe from './posts/_hire_me';
 import Init from './posts/init';
 import StaticSiteGeneration from './posts/ssg';
 import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from '../contexts/ThemeProvider'; // or the correct module for ThemeProvider
 import Functional from './posts/functional';
 
 const meta = {} satisfies Meta<typeof A11y>;
@@ -22,6 +23,13 @@ export const A11yStory: Story = {
       </MemoryRouter>
     );
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
 };
 
 export const AuthnStory: Story = {
@@ -64,6 +72,13 @@ export const StaticSiteGenerationStory: Story = {
       </MemoryRouter>
     );
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
 };
 
 export const FunctionalStory: Story = {

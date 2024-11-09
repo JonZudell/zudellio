@@ -1,5 +1,6 @@
 .code-block {
   border: 2px solid var(--border-color);
+  font-weight: 400;
   box-shadow: 0.5em 0.5em 0 0 var(--border-color);
 }
 .code-header {

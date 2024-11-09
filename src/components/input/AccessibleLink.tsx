@@ -72,7 +72,7 @@ const AccessibleLink: React.FC<ButtonProps> = ({
         buttonElement.removeEventListener('keydown', handleKeyDown);
       }
     };
-  }, []);
+  }, [href, navigate, onClick]);
   return (
     <Link
       ref={linkRef}

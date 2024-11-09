@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -19,15 +13,28 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window.matchMedia === 'undefined') {
-      return 'dark';
+    if (typeof document !== 'undefined') {
+      const dataTheme = document.documentElement.getAttribute('data-theme');
+      if (dataTheme === 'dark' || dataTheme === 'light') {
+        return dataTheme as Theme;
+      }
+      const cookieMatch = document.cookie.match(/theme=(dark|light)/);
+      if (cookieMatch) {
+        return cookieMatch[1] as Theme;
+      }
     }
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-      .matches
-      ? 'dark'
-      : 'light';
-    return systemTheme;
+    if (typeof window.matchMedia !== 'undefined') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    }
+    return 'dark';
   });
+
+  useEffect(() => {
+    document.cookie = `theme=${theme}; path=/; max-age=31536000`;
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
@@ -36,18 +43,18 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-const useTheme = (): ThemeContextProps => {
+export const useTheme = (): ThemeContextProps => {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
 };
+
 import AccessibleButton from '../components/input/AccessibleButton';
 
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const [hidden, setHidden] = useState(true);
 
   const toggleTheme = () => {
@@ -55,21 +62,18 @@ const ThemeToggle: React.FC = () => {
   };
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-  useEffect(() => {
     hidden && setHidden(false);
   }, [hidden]);
+
   return (
-    <>
-      <AccessibleButton
-        inputId="theme-toggle"
-        onClick={toggleTheme}
-        text={`${theme === 'light' ? 'dark' : 'light'}_mode`}
-        ariaLabel={'Toggle Theme'}
-        className={`${hidden ? 'hidden' : ''} w-36`}
-      />
-    </>
+    <AccessibleButton
+      inputId="theme-toggle"
+      onClick={toggleTheme}
+      text={`${theme === 'light' ? 'dark' : 'light'}_mode`}
+      ariaLabel={'Toggle Theme'}
+      className={`${hidden ? 'hidden' : ''} w-36`}
+    />
   );
 };
+
 export { ThemeProvider, ThemeToggle };

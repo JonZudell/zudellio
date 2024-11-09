@@ -14,6 +14,7 @@ export const Example: Story = {
   args: {
     rows: 5,
     label: 'Enter Text',
+    inputId: 'example-textarea',
   },
   render: (args) => <TextArea {...args} />,
 };

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import './AccessibleButton.css';
 import '../containers/Wrapper.css';
 
