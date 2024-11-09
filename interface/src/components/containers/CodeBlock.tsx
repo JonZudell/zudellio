@@ -45,7 +45,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         codeTagProps={{
           style: { fontWeight: '400' },
         }}
-        overflowX="auto"
       >
         {code}
       </SyntaxHighlighter>
