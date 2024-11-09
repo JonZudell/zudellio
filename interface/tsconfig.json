@@ -2,10 +2,12 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "jsx": "react",
     "strict": true,
-    "esModuleInterop": true,
+    "sourceMap": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist"
   },

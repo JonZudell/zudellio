@@ -16,7 +16,7 @@ const ContactForm: React.FC = () => {
         <TextArea
           inputId="contact-message"
           label="Message"
-          className="w-full"
+          className="w-full max-w-md"
           inputClassName="w-full"
           rows={6}
         />
@@ -31,6 +31,7 @@ const ContactForm: React.FC = () => {
           decorationRight=" >"
           ariaLabel={'Send Message Button'}
           disabled={false}
+          className='w-36'
         />
       </div>
     </form>
