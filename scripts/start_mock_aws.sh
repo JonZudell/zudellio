@@ -62,6 +62,7 @@ run_terraform() {
 start_moto_server 
 init_terraform
 run_terraform
+
 # Check if the moto3 server is still running
 if ps -p $MOTO_PID > /dev/null; then
   echo "moto3 server is still running with PID $MOTO_PID"

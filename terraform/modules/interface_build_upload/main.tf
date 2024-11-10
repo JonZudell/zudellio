@@ -25,7 +25,6 @@ resource "aws_s3_bucket_object" "interface_files" {
   bucket = aws_s3_bucket.interface_bucket.id
   key    = each.value
   source = "${var.interface_dir}/dist/${each.value}"
-  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {
@@ -52,4 +51,9 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
       }
     }
   }
+}
+
+output "bucket_name" {
+  description = "The ID of the S3 bucket"
+  value       = var.bucket_name
 }
