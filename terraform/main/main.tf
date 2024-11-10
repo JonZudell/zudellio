@@ -10,16 +10,8 @@ provider "aws" {
   }
 }
 
-resource "aws_s3_bucket" "zudellio_cdn" {
-  bucket = "zudellio_cdn"
-}
-
-resource "aws_dynamodb_table" "zudellio_contact" {
-  name           = "zudellio_contact"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "id"
-  attribute {
-    name = "id"
-    type = "S"
-  }
+module "interface_build_upload" {
+  source = "../modules/interface_build_upload"
+  interface_dir = "${path.module}/../../interface"
+  bucket_name = "zudellio_cdn"
 }

@@ -56,7 +56,7 @@ run_terraform() {
 cd "$(dirname "$0")"
 
 # Change to the terraform directory
-cd ../terraform
+cd ../terraform/main
 
 # Run terraform
 start_moto_server
