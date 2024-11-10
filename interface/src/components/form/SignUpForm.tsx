@@ -50,10 +50,10 @@ const SignUpForm: React.FC = () => {
     >
       <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign Up</h2>
-        {error && <p className="text-red-500 font-semibold mb-1em">{error}</p>}
-        {success && (
-          <p className="text-green-500 font-semibold mb-1em">{success}</p>
-        )}
+        <div id="ssr-inject:form-feedback" role="alert" aria-live="assertive">
+          {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-500">{success}</p>}
+        </div>
         <TextInput
           type="email"
           id="email"

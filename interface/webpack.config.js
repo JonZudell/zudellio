@@ -8,6 +8,7 @@ const data = require('./src/data');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin'); // Add TerserPlugin
 
 class TemplateWrapperPlugin {
   apply(compiler) {
@@ -163,7 +164,17 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimize: true, // Disable code minification
+    minimize: false, // Disable code minification
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false, // Ensure comments are preserved
+        terserOptions: {
+          format: {
+            comments: true, // Preserve comments
+          },
+        },
+      }),
+    ],
     sideEffects: true, // Enable tree shaking
     usedExports: true, // Enable tree shaking
   },

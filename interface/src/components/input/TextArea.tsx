@@ -7,6 +7,7 @@ interface TextAreaProps {
   inputClassName?: string;
   inputRef?: React.Ref<HTMLTextAreaElement>;
   inputId: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -15,6 +16,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   inputClassName,
   inputRef,
   rows,
+  onChange,
   inputId,
 }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -33,6 +35,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       <textarea
         id={inputId}
         ref={inputRef}
+        onChange={onChange}
         className={`border p-2 border-2 textarea hover:textarea focus:textarea ${inputClassName}`}
         rows={rows}
       />
