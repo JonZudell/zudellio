@@ -1,0 +1,10 @@
+.wrapper {
+  background-color: var(--background-color);
+}
+
+.border-wrapper {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  margin-top: 1em;
+  margin-bottom: 1em;
+}

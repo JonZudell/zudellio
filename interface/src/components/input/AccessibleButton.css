@@ -1,0 +1,57 @@
+.link-accent {
+  color: var(--link-button-accent-color);
+}
+
+.link-color {
+  color: var(--link-button-color);
+}
+
+.link-color .invert-text {
+  color: var(--link-button-accent-color-dark);
+}
+
+.link-accent-dark {
+  color: var(--link-button-accent-color-dark);
+}
+
+.link-accent-dark .invert-text {
+  color: var(--link-button-accent-color);
+}
+
+.link-color-dark {
+  color: var(--link-button-color-dark);
+}
+
+.link-color-dark .invert-text {
+  color: var(--link-button-color);
+}
+
+.invert-bg {
+  background-color: var(--text-color);
+}
+
+.invert-text {
+  color: var(--background-color);
+}
+
+.button:hover {
+  text-decoration: underline;
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--hover-border-color);
+  outline: none;
+}
+.button:focus {
+  text-decoration: underline;
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--focus-border-color);
+  outline: none;
+}
+.button:active {
+  text-decoration: underline;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-color: var(--focus-border-color);
+  outline: none;
+}

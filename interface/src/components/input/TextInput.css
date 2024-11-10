@@ -1,0 +1,23 @@
+.textinput {
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  padding: 1em;
+}
+
+.textinput:focus {
+  background-color: var(--background-color);
+  border-color: var(--focus-border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  outline: none;
+}
+
+.textinput:hover {
+  border-color: var(--hover-border-color);
+}
+
+input[type="email"]:focus {
+  border-color: var(--email-focus-border-color);
+}
+
