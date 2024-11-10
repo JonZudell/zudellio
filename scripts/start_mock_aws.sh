@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Change to the scripts directory
+cd "$(dirname "$0")" || exit
+
+# Change to the terraform directory
+cd ../terraform/main || exit
+
 # Set mock AWS credentials
 export AWS_ACCESS_KEY_ID="mock_access_key"
 export AWS_SECRET_ACCESS_KEY="mock_secret_key"
@@ -41,7 +47,7 @@ run_terraform() {
   terraform plan
 
   # Prompt for user input
-  read -p "Do you want to apply the terraform plan? (y/n): " user_input
+  read -rp "Do you want to apply the terraform plan? (y/n): " user_input
 
   if [ "$user_input" == "y" ]; then
     terraform apply --auto-approve
@@ -52,14 +58,8 @@ run_terraform() {
   fi
 }
 
-# Change to the scripts directory
-cd "$(dirname "$0")"
-
-# Change to the terraform directory
-cd ../terraform/main
-
 # Run terraform
-start_moto_server
+start_moto_server 
 init_terraform
 run_terraform
 # Check if the moto3 server is still running
