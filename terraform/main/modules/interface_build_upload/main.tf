@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "interface_bucket" {
   bucket = var.bucket_name
 }
 
-resource "aws_s3_bucket_object" "interface_files" {
+resource "aws_s3_object" "interface_files" {
   depends_on = [null_resource.build_interface, aws_s3_bucket.interface_bucket]
   for_each = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
 

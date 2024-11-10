@@ -55,6 +55,13 @@ resource "aws_iam_policy" "api_gateway_policy" {
           "s3:GetObject"
         ],
         Resource = "arn:aws:s3:::${var.s3_bucket_name}/*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "execute-api:Invoke"
+        ],
+        Resource = "*"
       }
     ]
   })

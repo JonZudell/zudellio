@@ -21,7 +21,7 @@ resource "null_resource" "docker_build" {
 variable "region" {
   description = "The AWS region to deploy to"
   type        = string
-  default     = "us-west-1"
+  default     = "us-east-1"
 }
 
 variable "ecr_repo_name" {
