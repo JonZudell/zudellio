@@ -19,6 +19,7 @@ const Header: React.FC = () => {
           decorationRight="]"
           className={
             location.pathname === '/' ||
+            location.pathname === '/index.html' ||
             location.pathname === '/iframe.html' ||
             location.pathname.startsWith('/post')
               ? 'text-pink-300 underline'
@@ -33,7 +34,8 @@ const Header: React.FC = () => {
           decorationRight="]"
           className={
             location.pathname === '/contact' ||
-            location.pathname === '/contact/'
+            location.pathname === '/contact/'||
+            location.pathname === '/contact/index.html'
               ? 'text-pink-300 underline'
               : 'hover:underline'
           }

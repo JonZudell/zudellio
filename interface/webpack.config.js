@@ -95,7 +95,7 @@ class RewritesPlugin {
   }
 }
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     main: './src/csr.tsx',
     ssg: './src/ssg.tsx',

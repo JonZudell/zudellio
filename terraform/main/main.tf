@@ -34,5 +34,5 @@ module "interface_build_upload" {
 
 module "api_gateway" {
   source = "./modules/api_gateway"
-  s3_bucket_name = "${module.interface_build_upload.bucket_name}"
+  bucket = "${module.interface_build_upload.bucket}"  
 }
