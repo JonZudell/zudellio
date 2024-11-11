@@ -16,7 +16,7 @@ resource "aws_api_gateway_rest_api" "api" {
 resource "aws_api_gateway_resource" "static" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
-  path_part   = "index.html"
+  path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "static_get" {
@@ -99,6 +99,7 @@ resource "aws_api_gateway_integration" "static_s3" {
   uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.bucket.id}/*"
   credentials             = aws_iam_role.api_gateway_role.arn
   passthrough_behavior    = "WHEN_NO_MATCH"
+  connection_type         = "INTERNET"
 }
 
 resource "aws_api_gateway_method_response" "static_200" {

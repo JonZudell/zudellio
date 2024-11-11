@@ -8,10 +8,6 @@ variable "bucket_name" {
 }
 
 resource "null_resource" "build_interface" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-
   provisioner "local-exec" {
     command = "cd ${var.interface_dir} && npm run build"
   }
