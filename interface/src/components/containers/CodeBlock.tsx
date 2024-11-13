@@ -43,7 +43,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         wrapLines={true}
         key={theme} // Force refresh when theme changes
         codeTagProps={{
-          style: { fontWeight: '400' },
+          style: { fontWeight: '600' }, // Increased font weight
         }}
       >
         {code}

@@ -1439,6 +1439,8 @@ code {
   --border-color: var(--text-color);
   --focus-border-color: var(--tw-ring-color);
   --hover-border-color: theme('colors.blue.400');
+  --inline-code-color: #d63384;
+  --inline-code-background-color: theme('colors.gray.100');
 }
 
 
@@ -1458,6 +1460,8 @@ code {
     --border-color: var(--text-color);
     --focus-border-color: var(--tw-ring-color);
     --hover-border-color: theme('colors.blue.400');
+    --inline-code-color: #d63384;
+    --inline-code-background-color: theme('colors.gray.300');
   }
 }
 
@@ -1475,6 +1479,8 @@ code {
   --border-color: var(--text-color);
   --focus-border-color: var(--tw-ring-color);
   --hover-border-color: theme('colors.blue.400');
+  --inline-code-color: #d63384;
+  --inline-code-background-color: theme('colors.gray.100');
 }
 
 [data-theme='dark'] {
@@ -1491,6 +1497,8 @@ code {
   --border-color: var(--text-color);
   --focus-border-color: var(--tw-ring-color);
   --hover-border-color: theme('colors.blue.400');
+  --inline-code-color: #d63384;
+  --inline-code-background-color: theme('colors.gray.300');
 }
 
 .text-color {
@@ -1626,4 +1634,11 @@ ul li::before {
   content: '-';
   position: absolute;
   left: 0;
+}
+
+.inline-code {
+  background-color: var(--inline-code-background-color);
+  color: var(--inline-code-color);
+  padding: 0.2em 0.4em;
+  font-family: 'Consolas', 'Courier New', monospace;
 }
