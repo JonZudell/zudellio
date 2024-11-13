@@ -47,6 +47,11 @@ module "production" {
   }
   source          = "../stage_account"
   account_email    = "jon+production@zudell.io"
+  bucket_infix     = "production"
   account_name    = "ProductionAccount"
   root_account_id = var.root_account_id
+}
+
+output "s3_website_url" {
+  value = module.production.s3_website_url
 }

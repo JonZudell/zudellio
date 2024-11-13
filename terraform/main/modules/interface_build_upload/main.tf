@@ -2,9 +2,8 @@ variable "interface_dir" {
   type        = string
 }
 
-variable "bucket_name" {
-  description = "The name of the S3 bucket"
-  type        = string
+variable "bucket" {
+  description = "The S3 bucket"
 }
 
 resource "null_resource" "build_interface" {
@@ -13,41 +12,14 @@ resource "null_resource" "build_interface" {
   }
 }
 
-resource "aws_s3_bucket" "interface_bucket" {
-  bucket = var.bucket_name 
-}
-
-resource "aws_s3_bucket_public_access_block" "interface_bucket_public_access_block" {
-  bucket = aws_s3_bucket.interface_bucket.id
-
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
-resource "aws_s3_bucket_ownership_controls" "interface_bucket_ownership_controls" {
-  bucket = aws_s3_bucket.interface_bucket.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "interface_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.interface_bucket_ownership_controls]
-
-  bucket = aws_s3_bucket.interface_bucket.id
-  acl    = "public-read"
-}
-
 resource "aws_s3_object" "interface_files" {
   lifecycle {
     create_before_destroy = true
   }
-  depends_on = [null_resource.build_interface, aws_s3_bucket.interface_bucket]
+  depends_on = [null_resource.build_interface, var.bucket]
   for_each = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
 
-  bucket = aws_s3_bucket.interface_bucket.id
+  bucket = var.bucket.id
   key    = each.value
   content_type = lookup({
     "html" = "text/html",
@@ -64,7 +36,7 @@ resource "aws_s3_object" "interface_files" {
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {
-  bucket = aws_s3_bucket.interface_bucket.id
+  bucket = var.bucket.id
 
   index_document {
     suffix = "index.html"
@@ -85,7 +57,6 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
   }
 }
 
-output "bucket" {
-  description = "The ID of the S3 bucket"
-  value       = aws_s3_bucket.interface_bucket
+output "s3_website_url" {
+  value       = var.bucket.website_endpoint
 }

@@ -107,3 +107,7 @@ output "terraform_state_bucket" {
 output "terraform_locks_table" {
   value = module.tf_state_bootstrap.terraform_dynamodb_locks
 }
+
+output "s3_website_url" {
+  value = module.organization.s3_website_url
+}
