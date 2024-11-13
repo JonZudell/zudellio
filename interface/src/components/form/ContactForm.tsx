@@ -33,7 +33,12 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <form action="/contact" method="post" onSubmit={handleSubmit}>
+    <form
+      action="/contact"
+      method="post"
+      onSubmit={handleSubmit}
+      className="mx-auto"
+    >
       <div className="flex justify-center py-1em">
         <p>Submit this form with a message.</p>
       </div>
@@ -52,7 +57,9 @@ const ContactForm: React.FC = () => {
           label="Message"
           className="w-full max-w-xl"
           inputClassName="w-full"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setMessage(e.target.value)
+          }
           rows={6}
         />
       </div>

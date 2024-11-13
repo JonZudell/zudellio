@@ -56,7 +56,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
             showLineNumbers={showLineNumbers}
             style={syntaxTheme}
             lineProps={{
-              style: { wordBreak: 'break-all', whiteSpace: 'white-space-trim' },
+              style: { display: 'block', wordBreak: 'break-all' },
             }}
             wrapLines={true}
             wrapLongLines={true}
@@ -67,6 +67,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
                 //fontSize: containerWidth < 500 ? '0.5em' : '1em',
               }, // Adjust font size for small screens
             }}
+            //overflowWrap="break-word"
           >
             {code}
           </SyntaxHighlighter>
