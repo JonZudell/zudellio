@@ -6,17 +6,19 @@ variable "bucket" {
   description = "The S3 bucket"
 }
 
-resource "null_resource" "build_interface" {
-  provisioner "local-exec" {
-    command = "cd ${var.interface_dir} && npm run build"
-  }
-}
+# resource "null_resource" "build_interface" {
+
+#   provisioner "local-exec" {
+#     command = "cd ${var.interface_dir} && npm run build"
+#   }
+# }
 
 resource "aws_s3_object" "interface_files" {
+  etag = filemd5("${var.interface_dir}/dist/${each.value}")
   lifecycle {
     create_before_destroy = true
   }
-  depends_on = [null_resource.build_interface, var.bucket]
+  depends_on = [var.bucket]
   for_each = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
 
   bucket = var.bucket.id

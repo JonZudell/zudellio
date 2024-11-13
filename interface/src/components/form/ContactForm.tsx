@@ -33,44 +33,42 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <form
-      action="/contact"
-      method="post"
-      onSubmit={handleSubmit}
-      className="mx-auto"
-    >
-      <div className="flex justify-center py-1em">
-        <p>Submit this form with a message.</p>
-      </div>
-      <div id="ssr-inject:form-feedback" role="alert" aria-live="assertive">
-        {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-500">{success}</p>}
-      </div>
-      <div className="flex justify-center items-center">
-        <TextInput label="Email" className="w-64" inputClassName="w-full" />
-        <span className="m-0_5em"></span>
-        <TextInput label="Name" className="w-64" inputClassName="w-full" />
-      </div>
-      <div className="flex justify-center items-center py-2em">
-        <TextArea
-          inputId="contact-message"
-          label="Message"
-          className="w-full max-w-xl"
-          inputClassName="w-full"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setMessage(e.target.value)
-          }
-          rows={6}
-        />
-      </div>
-      <div className="flex justify-center items-center">
-        <AccessibleButton
-          text={'send_message'}
-          type="submit"
-          ariaLabel={'Send Message Button'}
-          disabled={false}
-          className="w-36"
-        />
+    <form action="/contact" method="post" onSubmit={handleSubmit} className="">
+      {' '}
+      <div className="mx-auto">
+        <div className="flex justify-center py-1em">
+          <p>Submit this form with a message.</p>
+        </div>
+        <div id="ssr-inject:form-feedback" role="alert" aria-live="assertive">
+          {error && <p className="text-red-500">{error}</p>}
+          {success && <p className="text-green-500">{success}</p>}
+        </div>
+        <div className="flex justify-center items-center">
+          <TextInput label="Email" className="w-64" inputClassName="w-full" />
+          <span className="m-0_5em"></span>
+          <TextInput label="Name" className="w-64" inputClassName="w-full" />
+        </div>
+        <div className="flex justify-center items-center py-2em">
+          <TextArea
+            inputId="contact-message"
+            label="Message"
+            className="w-full max-w-xl"
+            inputClassName="w-full"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setMessage(e.target.value)
+            }
+            rows={6}
+          />
+        </div>
+        <div className="flex justify-center items-center">
+          <AccessibleButton
+            text={'send_message'}
+            type="submit"
+            ariaLabel={'Send Message Button'}
+            disabled={false}
+            className="w-36"
+          />
+        </div>
       </div>
     </form>
   );

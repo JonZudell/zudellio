@@ -7,7 +7,8 @@ const webpack = require('webpack');
 const data = require('./src/data');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin'); // Add TerserPlugin
 
 class TemplateWrapperPlugin {
@@ -33,20 +34,24 @@ class TemplateWrapperPlugin {
                 );
 
                 // Append chunked CSS and JS files with content hashes
-                const mainCss = Object.keys(assets).find((key) => key.startsWith('main') && key.endsWith('.css'));
-                const mainJs = Object.keys(assets).find((key) => key.startsWith('main') && key.endsWith('.js'));
+                const mainCss = Object.keys(assets).find(
+                  (key) => key.startsWith('main') && key.endsWith('.css'),
+                );
+                const mainJs = Object.keys(assets).find(
+                  (key) => key.startsWith('main') && key.endsWith('.js'),
+                );
 
                 if (mainCss) {
                   template = template.replace(
                     '</head>',
-                    `<link rel="stylesheet" href="/${mainCss}"></head>`
+                    `<link rel="stylesheet" href="/${mainCss}"></head>`,
                   );
                 }
 
                 if (mainJs) {
                   template = template.replace(
                     '</body>',
-                    `<script defer src="/${mainJs}"></script></body>`
+                    `<script defer src="/${mainJs}"></script></body>`,
                   );
                 }
 
@@ -158,13 +163,11 @@ module.exports = {
     }),
     new RewritesPlugin(),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public', to: 'public' },
-      ],
+      patterns: [{ from: 'public', to: 'public' }],
     }),
   ],
   optimization: {
-    minimize: false, // Disable code minification
+    minimize: true, // Disable code minification
     minimizer: [
       new TerserPlugin({
         extractComments: false, // Ensure comments are preserved

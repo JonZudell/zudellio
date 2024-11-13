@@ -5,9 +5,7 @@ interface ContentProps {
 }
 
 const Content: React.FC<ContentProps> = ({ children }) => (
-  <div className="flex max-w-screen-md mx-auto w-md">
-    <div className="m-0_5em">{children}</div>
-  </div>
+  <div className="flex max-w-screen-md mx-auto w-md">{children}</div>
 );
 
 export default Content;
