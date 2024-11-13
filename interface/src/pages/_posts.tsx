@@ -28,7 +28,7 @@ export const Posts: {
   functional: { component: Functional, date: new Date('2024-09-20') },
   oop: { component: ObjectOriented, date: new Date('2024-10-10') },
   aws_tf_bootstrap: { component: AWSTF, date: new Date('2024-10-12') },
-  authn: { component: Authn, date: new Date('2024-09-15') },
+  // authn: { component: Authn, date: new Date('2024-09-15') },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),

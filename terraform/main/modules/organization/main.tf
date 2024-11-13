@@ -40,16 +40,6 @@ module "security" {
   root_account_id = var.root_account_id
 }
 
-# module "production" {
-#   providers = {
-#     aws.root   = aws.root
-#     aws.target = aws.production
-#   }
-#   source          = "../nonroot_account"
-#   account_name    = "production"
-#   root_account_id = var.root_account_id
-# }
-
 module "production" {
   providers = {
     aws.root   = aws.root

@@ -24,30 +24,47 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 }) => {
   const { theme } = useTheme();
   const [syntaxTheme, setSyntaxTheme] = useState(a11yDark);
+  const [containerWidth, setContainerWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setContainerWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   useEffect(() => {
     setSyntaxTheme(theme === 'dark' ? a11yDark : a11yLight);
   }, [theme]);
-
   return (
     <div className="mb-2em code-block">
-      <div className="text-center code-header">{title}</div>
-      <SyntaxHighlighter
-        className={`${className}`}
-        language={language}
-        showLineNumbers={showLineNumbers}
-        style={syntaxTheme}
-        lineProps={{
-          style: { wordBreak: 'normal', whiteSpace: 'pre-wrap' },
-        }}
-        wrapLines={true}
-        key={theme} // Force refresh when theme changes
-        codeTagProps={{
-          style: { fontWeight: '600' }, // Increased font weight
-        }}
-      >
-        {code}
-      </SyntaxHighlighter>
+      {containerWidth < 400 ? (
+        <div className="rotate-message">Rotate Screen to view code</div>
+      ) : (
+        <>
+          <div className="text-center code-header">{title}</div>
+          <SyntaxHighlighter
+            className={`${className} max-w-screen-md`}
+            language={language}
+            showLineNumbers={showLineNumbers}
+            style={syntaxTheme}
+            lineProps={{
+              style: { wordBreak: 'normal', whiteSpace: 'pre-wrap' },
+            }}
+            wrapLines={true}
+            key={theme} // Force refresh when theme changes
+            customStyle={{ overflowX: 'scroll' }} // Increased font weight and prevent overflow
+            codeTagProps={{
+              style: { fontWeight: '600' }, // Increased font weight
+            }}
+          >
+            {code}
+          </SyntaxHighlighter>
+        </>
+      )}
     </div>
   );
 };

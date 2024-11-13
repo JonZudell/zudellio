@@ -45,8 +45,17 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
   })
 }
 
-# module "interface_build_upload" {
-#   source = "../interface_build_upload"
-#   interface_dir = "${path.module}/../../../interface"
-#   bucket_name = module.nonroot_account.bucket_name
-# }
+resource "aws_s3_bucket" "static_website" {
+  bucket = "zudellio-${var.account_name}-static-website"
+  acl    = "public-read"
+
+  website {
+    index_document = "index.html"
+  }
+}
+
+module "interface_build_upload" {
+  source = "../interface_build_upload"
+  interface_dir = "${abspath(path.module)}/../../../../interface"
+  bucket_name = aws_s3_bucket.static_website.bucket
+}

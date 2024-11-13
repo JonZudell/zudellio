@@ -56,7 +56,7 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           <AccessibleLink
             text={'Functional Programming All Kinds'}
             href={'/posts/functional'}
-            ariaLabel={'/posts/functional'} 
+            ariaLabel={'/posts/functional'}
             decorationLeft="[🔥"
             decorationRight="🔥]"
           ></AccessibleLink>
@@ -67,8 +67,8 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
             href={'/posts/testing'}
             decorationLeft="["
             decorationRight="]"
-            ariaLabel={'/posts/testing'}>
-            </AccessibleLink>
+            ariaLabel={'/posts/testing'}
+          ></AccessibleLink>
         </li>
       </ul>
       <br />

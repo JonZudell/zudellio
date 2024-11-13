@@ -59,7 +59,6 @@ resource "aws_s3_object" "interface_files" {
     "gif"  = "image/gif",
     "svg"  = "image/svg+xml"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
-  #content_type   = "text/html"
   acl="public-read"
   source = "${var.interface_dir}/dist/${each.value}"
 }
