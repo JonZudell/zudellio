@@ -23,8 +23,8 @@ module "monitoring" {
     aws.target = aws.monitoring
   }
   source          = "../nonroot_account"
+  account_email    = "jon+monitoring@zudell.io"
   account_name    = "MonitoringAccount"
-  account_email   = "jon+monitoring@zudell.io"
   root_account_id = var.root_account_id
 
 }
@@ -35,18 +35,28 @@ module "security" {
     aws.target = aws.security
   }
   source          = "../nonroot_account"
+  account_email    = "jon+security@zudell.io"
   account_name    = "SecurityAccount"
-  account_email   = "jon+security@zudell.io"
   root_account_id = var.root_account_id
 }
+
+# module "production" {
+#   providers = {
+#     aws.root   = aws.root
+#     aws.target = aws.production
+#   }
+#   source          = "../nonroot_account"
+#   account_name    = "production"
+#   root_account_id = var.root_account_id
+# }
 
 module "production" {
   providers = {
     aws.root   = aws.root
     aws.target = aws.production
   }
-  source          = "../nonroot_account"
+  source          = "../stage_account"
+  account_email    = "jon+production@zudell.io"
   account_name    = "ProductionAccount"
-  account_email   = "jon+production@zudell.io"
   root_account_id = var.root_account_id
 }
