@@ -41,7 +41,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   }, [theme]);
   return (
     <div className="mb-2em code-block">
-      {containerWidth < 500 ? (
+      {/* {containerWidth < 500 ? ( */}
+      {containerWidth < 0 ? (
         <div className="rotate-message my-2em text-center">
           <div className="rotate-icon">🔄</div>
           <div>Rotate Screen to view code</div>
@@ -50,18 +51,21 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         <>
           <div className="text-center code-header">{title}</div>
           <SyntaxHighlighter
-            className={`${className} max-w-full`} // Ensure max width is 100% of the container
+            className={`${className}`} // Ensure max width is 100% of the container
             language={language}
             showLineNumbers={showLineNumbers}
             style={syntaxTheme}
             lineProps={{
-              style: { wordBreak: 'normal', whiteSpace: 'pre-wrap' },
+              style: { wordBreak: 'break-all', whiteSpace: 'white-space-trim' },
             }}
             wrapLines={true}
+            wrapLongLines={true}
             key={theme} // Force refresh when theme changes
-            customStyle={{ overflowX: 'auto' }} // Allow horizontal scrolling if needed
             codeTagProps={{
-              style: { fontWeight: '600' }, // Increased font weight
+              style: {
+                fontWeight: '600',
+                //fontSize: containerWidth < 500 ? '0.5em' : '1em',
+              }, // Adjust font size for small screens
             }}
           >
             {code}
