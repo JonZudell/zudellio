@@ -1,6 +1,6 @@
 # Node modules
 node_modules/
-
+.vscode/
 # Build directories
 build/
 dist/
@@ -59,3 +59,5 @@ override.tf.json
 .terraformrc.json
 *.tfvars
 *.tfvars.json
+
+./**/__pycache__/
