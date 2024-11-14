@@ -30,6 +30,11 @@ variable "bucket_infix" {
   type        = string
 }
 
+variable "environment" {
+  description = "The environment to deploy to"
+  type        = string
+}
+
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -90,15 +95,16 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   restrict_public_buckets = false
 }
 
-module "interface_build_upload" {
+module "interface_upload" {
   providers = {
     aws.target = aws.target
   }
-  source = "../interface_build_upload"
+  source = "../interface_upload"
   interface_dir = "${abspath(path.module)}/../../../../interface"
   bucket = aws_s3_bucket.static_website
+  environment = var.environment
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"
-  value       = module.interface_build_upload.s3_website_url
+  value       = module.interface_upload.s3_website_url
 }

@@ -65,9 +65,10 @@ module "development" {
     aws.target = aws.development
   }
   source          = "../stage_account"
-  account_email    = "jon+development@zudell.io"
-  bucket_infix     = "development"
+  account_email   = "jon+development@zudell.io"
+  bucket_infix    = "development"
   account_name    = "DevelopmentAccount"
+  environment     = "development"
   root_account_id = var.root_account_id
 }
 
@@ -77,8 +78,9 @@ module "production" {
     aws.target = aws.production
   }
   source          = "../stage_account"
-  account_email    = "jon+production@zudell.io"
-  bucket_infix     = "production"
+  account_email   = "jon+production@zudell.io"
+  bucket_infix    = "production"
+  environment     = "production"
   account_name    = "ProductionAccount"
   root_account_id = var.root_account_id
 }
