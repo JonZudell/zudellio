@@ -3,6 +3,14 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
+      configuration_aliases = [
+        aws.root,
+        aws.infrastructure,
+        aws.monitoring,
+        aws.security,
+        aws.development,
+        aws.production,
+      ]
     }
   }
 }
@@ -12,9 +20,20 @@ variable "root_account_id" {
 }
 
 resource "aws_organizations_organization" "org" {
-  provider                      = aws.root
   aws_service_access_principals = ["sso.amazonaws.com", "cloudtrail.amazonaws.com", "config.amazonaws.com"]
   feature_set                   = "ALL"
+}
+
+module "infrastructure" {
+  providers = {
+    aws.root   = aws.root
+    aws.target = aws.infrastructure
+  }
+  source          = "../infra_account"
+  account_email    = "jon+infrastructure@zudell.io"
+  bucket_infix     = "infrastructure"
+  account_name    = "InfrastructureAccount"
+  root_account_id = var.root_account_id
 }
 
 module "monitoring" {
@@ -40,6 +59,18 @@ module "security" {
   root_account_id = var.root_account_id
 }
 
+module "development" {
+  providers = {
+    aws.root   = aws.root
+    aws.target = aws.development
+  }
+  source          = "../stage_account"
+  account_email    = "jon+development@zudell.io"
+  bucket_infix     = "development"
+  account_name    = "DevelopmentAccount"
+  root_account_id = var.root_account_id
+}
+
 module "production" {
   providers = {
     aws.root   = aws.root
@@ -52,6 +83,10 @@ module "production" {
   root_account_id = var.root_account_id
 }
 
-output "s3_website_url" {
+output "development_s3_website_url" {
+  value = module.development.s3_website_url
+}
+
+output "production_s3_website_url" {
   value = module.production.s3_website_url
 }

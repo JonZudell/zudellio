@@ -3,6 +3,10 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
+      configuration_aliases = [
+        aws.root,
+        aws.target,
+      ]
     }
   }
 }
@@ -26,7 +30,6 @@ variable "bucket_infix" {
   type        = string
 }
 
-
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -49,12 +52,16 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
     ]
   })
 }
-
+resource "random_id" "static_website" {
+  byte_length = 8
+}
 resource "aws_s3_bucket" "static_website" {
-  bucket = "zudellio-${var.bucket_infix}-static-website"
+  provider = aws.target
+  bucket = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
 }
 
 resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" {
+  provider = aws.target
   bucket = aws_s3_bucket.static_website.id
 
   rule {
@@ -63,6 +70,7 @@ resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" 
 }
 
 resource "aws_s3_bucket_acl" "static_website_acl" {
+  provider = aws.target
   depends_on = [
       aws_s3_bucket_ownership_controls.static_website_ownership_controls, 
       aws_s3_bucket.static_website,
@@ -73,6 +81,7 @@ resource "aws_s3_bucket_acl" "static_website_acl" {
 
 }
 resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
+  provider = aws.target
   bucket = aws_s3_bucket.static_website.id
 
   block_public_acls       = false
@@ -82,6 +91,9 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
 }
 
 module "interface_build_upload" {
+  providers = {
+    aws.target = aws.target
+  }
   source = "../interface_build_upload"
   interface_dir = "${abspath(path.module)}/../../../../interface"
   bucket = aws_s3_bucket.static_website

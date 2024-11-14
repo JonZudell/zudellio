@@ -1,3 +1,14 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+      configuration_aliases = [
+        aws.target,
+      ]
+    }
+  }
+}
 variable "interface_dir" {
   type        = string
 }
@@ -6,14 +17,8 @@ variable "bucket" {
   description = "The S3 bucket"
 }
 
-# resource "null_resource" "build_interface" {
-
-#   provisioner "local-exec" {
-#     command = "cd ${var.interface_dir} && npm run build"
-#   }
-# }
-
 resource "aws_s3_object" "interface_files" {
+  provider = aws.target
   etag = filemd5("${var.interface_dir}/dist/${each.value}")
   lifecycle {
     create_before_destroy = true
@@ -38,6 +43,7 @@ resource "aws_s3_object" "interface_files" {
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {
+  provider = aws.target
   bucket = var.bucket.id
 
   index_document {

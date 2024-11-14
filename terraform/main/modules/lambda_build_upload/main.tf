@@ -1,21 +1,25 @@
-provider "aws" {
-  region = var.region
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
 }
-
 resource "aws_ecr_repository" "lambda_repo" {
   name = var.ecr_repo_name
 }
 
-resource "null_resource" "docker_build" {
-  provisioner "local-exec" {
-    command = <<EOT
-      docker build -t ${aws_ecr_repository.lambda_repo.repository_url}:latest .
-      aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${aws_ecr_repository.lambda_repo.repository_url}
-      docker push ${aws_ecr_repository.lambda_repo.repository_url}:latest
-    EOT
-  }
+# resource "null_resource" "docker_build" {
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       docker build -t ${aws_ecr_repository.lambda_repo.repository_url}:latest .
+#       aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${aws_ecr_repository.lambda_repo.repository_url}
+#       docker push ${aws_ecr_repository.lambda_repo.repository_url}:latest
+#     EOT
+#   }
 
-  depends_on = [aws_ecr_repository.lambda_repo]
+#   depends_on = [aws_ecr_repository.lambda_repo]
 }
 
 variable "region" {

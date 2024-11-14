@@ -8,3 +8,13 @@ cd ../interface || exit
 
 # Run npm build
 npm run build
+
+cd ../interface/main || exit
+
+# Initialize Terraform if not already initialized
+if [ ! -d ".terraform" ]; then
+  terraform init
+fi
+
+# Apply Terraform configuration
+terraform apply -auto-approve

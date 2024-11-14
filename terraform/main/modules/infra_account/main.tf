@@ -10,6 +10,12 @@ terraform {
     }
   }
 }
+
+variable "bucket_infix" {
+  description = "The name of the S3 bucket"
+  type        = string
+}
+
 variable "root_account_id" {
   description = "The AWS account ID of the root account"
   type        = string

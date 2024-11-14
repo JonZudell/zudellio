@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="p-4 text-center">
       <ThemeToggle />
-      <p>&copy; 2024 zudell.io. All rights reserved.</p>
+      <p>&copy; 2024 zudell.io. ALL YOUR BASE ARE BELONG TO US.</p>
     </footer>
   );
 };

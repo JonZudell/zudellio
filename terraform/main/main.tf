@@ -13,36 +13,6 @@ terraform {
     dynamodb_table = "terraform-locks"
   }
 }
-variable "root_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "monitoring_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "security_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "production_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "root_account_name" {
-  description = "AWS Account Name"
-  type        = string
-}
-
-variable "profile_suffix" {
-  description = "AWS Configuration Profile"
-  type        = string
-}
-
 provider "aws" {
   alias                    = "root"
   shared_credentials_files = ["~/.aws/credentials"]
@@ -50,6 +20,15 @@ provider "aws" {
   profile                  = "${var.root_account_name}${var.profile_suffix}"
   region                   = "us-east-1"
   allowed_account_ids      = [var.root_account_id]
+}
+
+provider "aws" {
+  alias                    = "infrastructure"
+  shared_credentials_files = ["~/.aws/credentials"]
+  shared_config_files      = ["~/.aws/config"]
+  profile                  = "infrastructure${var.profile_suffix}"
+  region                   = "us-east-1"
+  allowed_account_ids      = [var.infrastructure_account_id]
 }
 
 provider "aws" {
@@ -70,6 +49,14 @@ provider "aws" {
   allowed_account_ids      = [var.security_account_id]
 }
 
+provider "aws" {
+  alias                    = "development"
+  shared_credentials_files = ["~/.aws/credentials"]
+  shared_config_files      = ["~/.aws/config"]
+  profile                  = "development${var.profile_suffix}"
+  region                   = "us-east-1"
+  allowed_account_ids      = [var.development_account_id]
+}
 
 provider "aws" {
   alias                    = "production"
@@ -79,6 +66,46 @@ provider "aws" {
   region                   = "us-east-1"
   allowed_account_ids      = [var.production_account_id]
 }
+variable "root_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "infrastructure_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "monitoring_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "security_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "development_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "production_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "root_account_name" {
+  description = "AWS Account Name"
+  type        = string
+}
+
+variable "profile_suffix" {
+  description = "AWS Configuration Profile"
+  type        = string
+}
+
 
 module "tf_state_bootstrap" {
   providers = {
@@ -91,10 +118,12 @@ module "tf_state_bootstrap" {
 
 module "organization" {
   providers = {
-    aws.root       = aws.root
-    aws.monitoring = aws.monitoring
-    aws.security   = aws.security
-    aws.production = aws.production
+    aws.root           = aws.root
+    aws.infrastructure = aws.infrastructure
+    aws.monitoring     = aws.monitoring
+    aws.security       = aws.security
+    aws.development    = aws.development
+    aws.production     = aws.production
   }
   source          = "./modules/organization"
   root_account_id = var.root_account_id
@@ -108,6 +137,10 @@ output "terraform_locks_table" {
   value = module.tf_state_bootstrap.terraform_dynamodb_locks
 }
 
-output "s3_website_url" {
-  value = module.organization.s3_website_url
+output "development_s3_website_url" {
+  value = module.organization.development_s3_website_url
+}
+
+output "production_s3_website_url" {
+  value = module.organization.production_s3_website_url
 }
