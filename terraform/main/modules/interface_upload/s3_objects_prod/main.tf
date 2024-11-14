@@ -27,7 +27,6 @@ resource "aws_s3_object" "interface_files_prod" {
   provider = aws.target
   lifecycle {
     create_before_destroy = true
-    prevent_destroy = true
   }
   depends_on = [var.bucket]
   for_each = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])

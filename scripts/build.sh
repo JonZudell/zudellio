@@ -6,10 +6,15 @@ cd "$(dirname "$0")" || exit
 # Navigate to the interface directory
 cd ../interface || exit
 
-# Run npm build
-npm run build
+# Check if files in interface src have been updated more recently than files in interface dist
+if [ "$(find src -type f -newer dist -print -quit)" ]; then
+  echo "Source files have been updated more recently than dist files. Running npm build."
+  npm run build
+else
+  echo "No updates in source files. Skipping npm build."
+fi
 
-cd ../interface/main || exit
+cd ../terraform/main || exit
 
 # Initialize Terraform if not already initialized
 if [ ! -d ".terraform" ]; then
@@ -17,4 +22,4 @@ if [ ! -d ".terraform" ]; then
 fi
 
 # Apply Terraform configuration
-terraform apply -auto-approve
+terraform apply
