@@ -1,13 +1,21 @@
 {
     "contact": {
-        "post": {},
+        "post": {
+            "type": "lambda",
+            "handler": "handler.py",
+            "Dockerfile": "Dockerfile"
+        },
         "get": {
             "type": "static",
             "destination": "contact/index.html"
         }
     },
     "healthcheck": {
-        "get": {}
+        "get": {
+            "type": "lambda",
+            "handler": "handler.py",
+            "Dockerfile": "Dockerfile"
+        }
     },
     "posts": {
         "ssg": {
