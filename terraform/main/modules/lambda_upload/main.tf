@@ -6,9 +6,9 @@ terraform {
     }
   }
 }
-resource "aws_ecr_repository" "lambda_repo" {
-  name = var.ecr_repo_name
-}
+# resource "aws_ecr_repository" "lambda_repo" {
+#   name = var.ecr_repo_name
+# }
 
 # resource "null_resource" "docker_build" {
 #   provisioner "local-exec" {
@@ -20,7 +20,7 @@ resource "aws_ecr_repository" "lambda_repo" {
 #   }
 
 #   depends_on = [aws_ecr_repository.lambda_repo]
-}
+# }
 
 variable "region" {
   description = "The AWS region to deploy to"

@@ -1,0 +1,8 @@
+{
+    "contact": {
+        "post": {}
+    },
+    "healthcheck": {
+        "get": {}
+    }
+}

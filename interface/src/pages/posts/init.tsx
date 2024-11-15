@@ -71,8 +71,6 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
           ></AccessibleLink>
         </li>
       </ul>
-      <br />
-      <br />
     </Post>
   );
 };

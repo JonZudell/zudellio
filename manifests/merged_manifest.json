@@ -1,0 +1,70 @@
+{
+    "contact": {
+        "post": {},
+        "get": {
+            "type": "static",
+            "destination": "contact/index.html"
+        }
+    },
+    "healthcheck": {
+        "get": {}
+    },
+    "posts": {
+        "ssg": {
+            "get": {
+                "type": "static",
+                "destination": "posts/ssg/index.html"
+            }
+        },
+        "oop": {
+            "get": {
+                "type": "static",
+                "destination": "posts/oop/index.html"
+            }
+        },
+        "init": {
+            "get": {
+                "type": "static",
+                "destination": "posts/init/index.html"
+            }
+        },
+        "functional": {
+            "get": {
+                "type": "static",
+                "destination": "posts/functional/index.html"
+            }
+        },
+        "aws_tf_bootstrap": {
+            "get": {
+                "type": "static",
+                "destination": "posts/aws_tf_bootstrap/index.html"
+            }
+        },
+        "authn": {
+            "get": {
+                "type": "static",
+                "destination": "posts/authn/index.html"
+            }
+        },
+        "a11y": {
+            "get": {
+                "type": "static",
+                "destination": "posts/a11y/index.html"
+            }
+        }
+    },
+    "auth": {
+        "sign_up": {
+            "get": {
+                "type": "static",
+                "destination": "auth/sign_up/index.html"
+            }
+        },
+        "sign_in": {
+            "get": {
+                "type": "static",
+                "destination": "auth/sign_in/index.html"
+            }
+        }
+    }
+}

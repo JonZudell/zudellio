@@ -91,3 +91,10 @@ def test_add():
     result = left + right
     assert result.magnitude == 2
     assert result.unit == Units.KM.value
+
+def test_sub():
+    left = Dimension(1, Units.KM.value)
+    right = Dimension(1000, Units.M.value)
+    result = left - right
+    assert result.magnitude == 0
+    assert result.unit == Units.M.value

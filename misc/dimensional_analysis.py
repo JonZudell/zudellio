@@ -70,6 +70,8 @@ class Dimension:
     def reduce(self) -> "Dimension":
         order = self.unit.order
         magnitude = self.magnitude
+        if magnitude == 0:
+            return Dimension(0, Units.M.value)
         while magnitude >= 10:
             magnitude /= 10
             order += 1
@@ -85,6 +87,7 @@ class Dimension:
         
 ExpressionType = Union["Expression", Dimension]
 class Expression:
+    '''The Single Responsibility of this class is to compose oprands and an operation.'''
     def __init__(self, left: ExpressionType, right: ExpressionType, operation: Operation):
         self.left = left
         self.right = right

@@ -1504,6 +1504,11 @@ code {
 .text-color {
   color: var(--text-color);
 }
+
+.text-color-emphasis {
+  color: var(--inline-code-color);
+}
+
 .sticked-post {
   border: 2px solid var(--emphasis-color);
 }
