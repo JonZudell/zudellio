@@ -1,6 +1,5 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
-import CodeBlock from '../../components/containers/CodeBlock';
 import AccessibleLink from '../../components/input/AccessibleLink';
 
 interface PostProps {
@@ -53,15 +52,6 @@ const ObjectOriented: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h3 className="comment-green"># Gooder ideas for big thinkin&apos;</h3>
       <ul>
-        <li>
-          <AccessibleLink
-            text={'Algebraic Types All Kinds'}
-            href={'/posts/algebraic'}
-            ariaLabel={'/posts/algebraic'}
-            decorationLeft="[🔥"
-            decorationRight="🔥]"
-          ></AccessibleLink>
-        </li>
         <li>
           <AccessibleLink
             text={'S.O.L.I.D. Principles but mostly S L I and D'}

@@ -1,0 +1,16 @@
+{
+  "contact": {
+    "post": {
+      "type": "lambda",
+      "handler": "handler.py",
+      "Dockerfile": "Dockerfile"
+    }
+  },
+  "healthcheck": {
+    "get": {
+      "type": "lambda",
+      "handler": "handler.py",
+      "Dockerfile": "Dockerfile"
+    }
+  }
+}
