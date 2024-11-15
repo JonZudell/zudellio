@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+import glob
 import json
 import os
+import sys
 
 
 current_file_path = os.path.abspath(__file__)
@@ -38,10 +40,10 @@ def split_and_group_json(data):
     return grouped_data
 
 
-def main():
-    input_file = f"{MANIFESTS_DIR}/merged_manifest.json"
-    output_file = f"{MANIFESTS_DIR}/flattened_manifest.json"
-
+def main(date_str):
+    input_file = f"{MANIFESTS_DIR}/merged_manifest{date_str}.json"
+    output_file = f"{MANIFESTS_DIR}/flattened_manifest{date_str}.json"
+    
     with open(input_file, "r") as f:
         data = json.load(f)
 
@@ -53,4 +55,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 2:
+        print("Usage: merge_manifest_rewrites.py <date_str>")
+        sys.exit(1)
+
+    date_str = sys.argv[1]
+    main(date_str=date_str)

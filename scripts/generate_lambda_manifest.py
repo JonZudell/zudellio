@@ -2,6 +2,7 @@
 import os
 import json
 from datetime import datetime
+import sys
 
 # Get the absolute path of the current file
 current_file_path = os.path.abspath(__file__)
@@ -35,11 +36,15 @@ def generate_json(dir_path, indent=2):
     return result
 
 
-# Get the current timestamp
-timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: merge_manifest_rewrites.py <date_str>")
+        sys.exit(1)
 
-# Generate the JSON and save to manifest with timestamp
-manifest = generate_json(LAMBDAS_DIR)
-manifest_path = os.path.join(MANIFESTS_DIR, f"manifest_{timestamp}.json")
-with open(manifest_path, "w") as f:
-    json.dump(manifest, f, indent=2)
+    date_str = sys.argv[1]
+
+    # Generate the JSON and save to manifest with timestamp
+    manifest = generate_json(LAMBDAS_DIR)
+    manifest_path = os.path.join(MANIFESTS_DIR, f"manifest_{date_str}.json")
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)

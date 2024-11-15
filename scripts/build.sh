@@ -14,12 +14,22 @@ else
   echo "No updates in source files. Skipping npm build."
 fi
 
-cd ../terraform/main || exit
+cd ../ || exit
 
-# Initialize Terraform if not already initialized
-if [ ! -d ".terraform" ]; then
-  terraform init
-fi
+# Get the latest commit hash
+commit_hash=$(git rev-parse HEAD)
+echo "Latest commit hash: $commit_hash"
 
-# Apply Terraform configuration
-terraform apply
+python ./scripts/generate_lambda_manifest.py "$commit_hash"
+python ./scripts/merge_manifest_rewrites.py "$commit_hash"
+python ./scripts/flatten_manifest.py "$commit_hash"
+
+cd terraform/main || exit
+
+# # Initialize Terraform if not already initialized
+# if [ ! -d ".terraform" ]; then
+#   terraform init
+# fi
+
+# # Apply Terraform configuration
+# terraform apply

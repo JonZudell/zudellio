@@ -2,6 +2,7 @@
 import json
 import os
 import glob
+import sys
 
 
 def recursive_update(d, u):
@@ -50,7 +51,7 @@ def parse_rewrites(rewrites, most_recent_manifest):
     return new_manifest
 
 
-def merge_manifest_rewrites():
+def merge_manifest_rewrites(date_str):
     # get the most recent manifest
     most_recent_manifest = get_most_recent_manifest()
 
@@ -64,11 +65,16 @@ def merge_manifest_rewrites():
 
     # Save the updated manifest
     with open(
-        os.path.join(os.path.dirname(__file__), "../manifests/merged_manifest.json"),
+        os.path.join(os.path.dirname(__file__), f"../manifests/merged_manifest_{date_str}.json"),
         "w",
     ) as f:
         json.dump(updated_manifest, f, indent=4)
 
 
 if __name__ == "__main__":
-    merge_manifest_rewrites()
+    if len(sys.argv) != 2:
+        print("Usage: merge_manifest_rewrites.py <date_str>")
+        sys.exit(1)
+
+    date_str = sys.argv[1]
+    merge_manifest_rewrites(date_str=date_str)
