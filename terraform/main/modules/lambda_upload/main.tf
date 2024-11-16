@@ -6,9 +6,54 @@ terraform {
     }
   }
 }
-# resource "aws_ecr_repository" "lambda_repo" {
-#   name = var.ecr_repo_name
-# }
+
+resource "aws_ecr_registry_policy" "lambda_repo_policy" {
+  registry_id = aws_ecr_repository.lambda_repo.registry_id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = "*"
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+      }
+    ]
+  })
+}
+resource "aws_ecr_lifecycle_policy" "lambda_repo_lifecycle" {
+  repository = aws_ecr_repository.lambda_repo.name
+
+  policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1
+        description  = "Expire untagged images older than 30 days"
+        selection    = {
+          tagStatus = "untagged"
+          countType = "sinceImagePushed"
+          countUnit = "days"
+          countNumber = 30
+        }
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}
+resource "aws_ecr_repository" "lambda_repo" {
+  for_each = {
+    for key, value in jsondecode(file("${var.manifests_dir}/FLATTENED_MANIFEST_7EC7D68E.JSON")) : key => value
+    if value.type == "lambda"
+  }
+  name = "zudellio_${var.ecr_repo_name}_${each.key}"
+  image = replace(each.value.image, ":${split(":", each.value.image)[1]}", "")
+}
 
 # resource "null_resource" "docker_build" {
 #   provisioner "local-exec" {
