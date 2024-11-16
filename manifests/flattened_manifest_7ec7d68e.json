@@ -1,8 +1,8 @@
 {
     "contact_post": {
         "type": "lambda",
-        "handler": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/handler.py",
-        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile"
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
+        "image": "contact_post:7ec7d68e"
     },
     "contact_get": {
         "type": "static",
@@ -10,8 +10,8 @@
     },
     "healthcheck_get": {
         "type": "lambda",
-        "handler": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/handler.py",
-        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
+        "image": "healthcheck_get:7ec7d68e"
     },
     "posts_ssg_get": {
         "type": "static",

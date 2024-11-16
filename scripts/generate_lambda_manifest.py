@@ -12,7 +12,7 @@ LAMBDAS_DIR = os.path.join(os.path.dirname(current_file_path), "../lambdas")
 MANIFESTS_DIR = os.path.join(os.path.dirname(current_file_path), "../manifests")
 
 
-def generate_json(dir_path, indent=2):
+def generate_json(dir_path, commit_hash, indent=2):
     result = {}
     for item in os.listdir(dir_path):
         item_path = os.path.join(dir_path, item)
@@ -26,9 +26,6 @@ def generate_json(dir_path, indent=2):
             ):
                 result[item] = {
                     "type": "lambda",
-                    "handler": os.path.join(item_path, next(
-                        child for child in children if child.endswith("handler.py")
-                    )),
                     "Dockerfile": os.path.join(item_path, "Dockerfile"),
                 }
             else:
@@ -38,13 +35,13 @@ def generate_json(dir_path, indent=2):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: merge_manifest_rewrites.py <date_str>")
+        print("Usage: merge_manifest_rewrites.py <commit_hash>")
         sys.exit(1)
 
-    date_str = sys.argv[1]
+    commit_hash = sys.argv[1]
 
     # Generate the JSON and save to manifest with timestamp
-    manifest = generate_json(LAMBDAS_DIR)
-    manifest_path = os.path.join(MANIFESTS_DIR, f"manifest_{date_str}.json")
+    manifest = generate_json(LAMBDAS_DIR, commit_hash)
+    manifest_path = os.path.join(MANIFESTS_DIR, f"manifest_{commit_hash}.json")
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)

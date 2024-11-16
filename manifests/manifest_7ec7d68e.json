@@ -2,14 +2,12 @@
   "contact": {
     "post": {
       "type": "lambda",
-      "handler": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/handler.py",
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile"
     }
   },
   "healthcheck": {
     "get": {
       "type": "lambda",
-      "handler": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/handler.py",
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
     }
   }
