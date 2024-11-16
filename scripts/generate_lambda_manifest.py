@@ -26,10 +26,10 @@ def generate_json(dir_path, indent=2):
             ):
                 result[item] = {
                     "type": "lambda",
-                    "handler": next(
+                    "handler": os.path.join(item_path, next(
                         child for child in children if child.endswith("handler.py")
-                    ),
-                    "Dockerfile": "Dockerfile",
+                    )),
+                    "Dockerfile": os.path.join(item_path, "Dockerfile"),
                 }
             else:
                 result[item] = generate_json(item_path, indent + 2)

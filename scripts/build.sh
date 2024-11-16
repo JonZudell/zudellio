@@ -17,13 +17,13 @@ fi
 cd ../ || exit
 
 # Get the latest commit hash
-commit_hash=$(git rev-parse HEAD)
+commit_hash=$(git rev-parse --short=8 HEAD)
 echo "Latest commit hash: $commit_hash"
 
 python ./scripts/generate_lambda_manifest.py "$commit_hash"
 python ./scripts/merge_manifest_rewrites.py "$commit_hash"
 python ./scripts/flatten_manifest.py "$commit_hash"
-
+./scripts/build_lambda_images.sh
 cd terraform/main || exit
 
 # # Initialize Terraform if not already initialized

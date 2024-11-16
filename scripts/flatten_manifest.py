@@ -41,8 +41,8 @@ def split_and_group_json(data):
 
 
 def main(date_str):
-    input_file = f"{MANIFESTS_DIR}/merged_manifest{date_str}.json"
-    output_file = f"{MANIFESTS_DIR}/flattened_manifest{date_str}.json"
+    input_file = f"{MANIFESTS_DIR}/merged_manifest_{date_str}.json"
+    output_file = f"{MANIFESTS_DIR}/flattened_manifest_{date_str}.json"
     
     with open(input_file, "r") as f:
         data = json.load(f)

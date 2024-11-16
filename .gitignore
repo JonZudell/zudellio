@@ -61,3 +61,5 @@ override.tf.json
 *.tfvars.json
 
 ./**/__pycache__/
+
+build/*
