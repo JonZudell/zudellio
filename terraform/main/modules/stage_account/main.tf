@@ -62,12 +62,12 @@ resource "random_id" "static_website" {
 }
 resource "aws_s3_bucket" "static_website" {
   provider = aws.target
-  bucket = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
+  bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
 }
 
 resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" {
   provider = aws.target
-  bucket = aws_s3_bucket.static_website.id
+  bucket   = aws_s3_bucket.static_website.id
 
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -77,17 +77,17 @@ resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" 
 resource "aws_s3_bucket_acl" "static_website_acl" {
   provider = aws.target
   depends_on = [
-      aws_s3_bucket_ownership_controls.static_website_ownership_controls, 
-      aws_s3_bucket.static_website,
-      aws_s3_bucket_public_access_block.static_website_public_access_block
-    ]
+    aws_s3_bucket_ownership_controls.static_website_ownership_controls,
+    aws_s3_bucket.static_website,
+    aws_s3_bucket_public_access_block.static_website_public_access_block
+  ]
   bucket = aws_s3_bucket.static_website.id
   acl    = "public-read"
 
 }
 resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
   provider = aws.target
-  bucket = aws_s3_bucket.static_website.id
+  bucket   = aws_s3_bucket.static_website.id
 
   block_public_acls       = false
   block_public_policy     = false
@@ -99,10 +99,10 @@ module "interface_upload" {
   providers = {
     aws.target = aws.target
   }
-  source = "../interface_upload"
+  source        = "../interface_upload"
   interface_dir = "${abspath(path.module)}/../../../../interface"
-  bucket = aws_s3_bucket.static_website
-  environment = var.environment
+  bucket        = aws_s3_bucket.static_website
+  environment   = var.environment
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"

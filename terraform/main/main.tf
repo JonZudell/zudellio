@@ -125,8 +125,11 @@ module "organization" {
     aws.development    = aws.development
     aws.production     = aws.production
   }
-  source          = "./modules/organization"
-  root_account_id = var.root_account_id
+  source                 = "./modules/organization"
+  manifests_dir          = "${path.module}/../../manifests/"
+  root_account_id        = var.root_account_id
+  development_account_id = var.development_account_id
+  production_account_id  = var.production_account_id
 }
 
 output "terraform_state_bucket" {
@@ -143,4 +146,8 @@ output "development_s3_website_url" {
 
 output "production_s3_website_url" {
   value = module.organization.production_s3_website_url
+}
+
+output "repository_names" {
+  value = module.organization.repository_names
 }

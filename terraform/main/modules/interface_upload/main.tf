@@ -16,7 +16,7 @@ variable "environment" {
 }
 
 variable "interface_dir" {
-  type        = string
+  type = string
 }
 
 variable "bucket" {
@@ -25,12 +25,12 @@ variable "bucket" {
 
 resource "aws_s3_object" "interface_files" {
   provider = aws.target
-  etag = filemd5("${var.interface_dir}/dist/${each.value}")
+  etag     = filemd5("${var.interface_dir}/dist/${each.value}")
   lifecycle {
     create_before_destroy = true
   }
   depends_on = [var.bucket]
-  for_each = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
+  for_each   = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
 
   bucket = var.bucket.id
   key    = each.value
@@ -44,18 +44,18 @@ resource "aws_s3_object" "interface_files" {
     "gif"  = "image/gif",
     "svg"  = "image/svg+xml"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
-  acl="public-read"
+  acl    = "public-read"
   source = "${var.interface_dir}/dist/${each.value}"
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {
   provider = aws.target
-  bucket = var.bucket.id
+  bucket   = var.bucket.id
 
   index_document {
     suffix = "index.html"
   }
-  
+
   dynamic "routing_rule" {
     for_each = jsondecode(file("${var.interface_dir}/dist/rewrites.json")).rewrites
 
@@ -72,5 +72,5 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
 }
 
 output "s3_website_url" {
-  value       = var.bucket.website_endpoint
+  value = var.bucket.website_endpoint
 }

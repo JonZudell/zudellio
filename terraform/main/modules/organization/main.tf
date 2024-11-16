@@ -19,6 +19,20 @@ variable "root_account_id" {
   description = "The account number of the root account"
 }
 
+variable "development_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "production_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "manifests_dir" {
+  description = "The directory containing manifests"
+}
+
 resource "aws_organizations_organization" "org" {
   aws_service_access_principals = ["sso.amazonaws.com", "cloudtrail.amazonaws.com", "config.amazonaws.com"]
   feature_set                   = "ALL"
@@ -29,11 +43,14 @@ module "infrastructure" {
     aws.root   = aws.root
     aws.target = aws.infrastructure
   }
-  source          = "../infra_account"
-  account_email    = "jon+infrastructure@zudell.io"
-  bucket_infix     = "infrastructure"
-  account_name    = "InfrastructureAccount"
-  root_account_id = var.root_account_id
+  source                 = "../infra_account"
+  account_email          = "jon+infrastructure@zudell.io"
+  bucket_infix           = "infrastructure"
+  account_name           = "InfrastructureAccount"
+  manifests_dir          = var.manifests_dir
+  root_account_id        = var.root_account_id
+  development_account_id = var.development_account_id
+  production_account_id  = var.production_account_id
 }
 
 module "monitoring" {
@@ -42,7 +59,7 @@ module "monitoring" {
     aws.target = aws.monitoring
   }
   source          = "../nonroot_account"
-  account_email    = "jon+monitoring@zudell.io"
+  account_email   = "jon+monitoring@zudell.io"
   account_name    = "MonitoringAccount"
   root_account_id = var.root_account_id
 
@@ -54,7 +71,7 @@ module "security" {
     aws.target = aws.security
   }
   source          = "../nonroot_account"
-  account_email    = "jon+security@zudell.io"
+  account_email   = "jon+security@zudell.io"
   account_name    = "SecurityAccount"
   root_account_id = var.root_account_id
 }
@@ -91,4 +108,8 @@ output "development_s3_website_url" {
 
 output "production_s3_website_url" {
   value = module.production.s3_website_url
+}
+
+output "repository_names" {
+  value = module.infrastructure.repository_names
 }

@@ -31,6 +31,18 @@ variable "account_email" {
   type        = string
 }
 
+variable "manifests_dir" {
+  description = "The directory containing manifests"
+}
+variable "development_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "production_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -54,3 +66,16 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
   })
 }
 
+module "ecr" {
+  source = "../ecr"
+  providers = {
+    aws.target = aws.target
+  }
+  manifests_dir = var.manifests_dir
+  development_account_id = var.development_account_id
+  production_account_id = var.production_account_id
+}
+
+output "repository_names" {
+  value = module.ecr.repository_names
+}

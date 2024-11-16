@@ -3,9 +3,7 @@ cd "$(dirname "$0")" || exit
 
 cd ../terraform/main || exit
 
-if [ ! -d ".terraform" ]; then
-  terraform init
-fi
+terraform init
 
 # Apply Terraform configuration
 terraform apply

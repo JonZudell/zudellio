@@ -78,7 +78,7 @@ resource "aws_s3_bucket_policy" "interface_bucket_policy" {
         Principal = {
           AWS = "${aws_iam_role.api_gateway_role.arn}"
         },
-        Action = "s3:GetObject"
+        Action   = "s3:GetObject"
         Resource = "${var.bucket.arn}/*"
       }
     ]
@@ -135,5 +135,5 @@ resource "aws_api_gateway_stage" "production" {
 }
 
 output "api_url" {
-  value = "${aws_api_gateway_deployment.api.invoke_url}"
+  value = aws_api_gateway_deployment.api.invoke_url
 }
