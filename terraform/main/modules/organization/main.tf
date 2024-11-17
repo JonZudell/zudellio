@@ -98,6 +98,7 @@ module "development" {
   infrastructure_profile = var.infrastructure_profile
   commit_hash     = var.commit_hash
   repositories    = module.infrastructure.repositories
+  manifests_dir   = var.manifests_dir
 }
 module "production" {
   providers = {

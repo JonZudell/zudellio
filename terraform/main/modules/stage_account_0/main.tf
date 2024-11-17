@@ -46,6 +46,9 @@ variable "infrastructure_profile" {
 variable "commit_hash" {
   type = string
 }
+variable "manifests_dir" {
+  type = string
+}
 
 resource "aws_organizations_account" "account" {
   provider = aws.root
@@ -119,6 +122,23 @@ module "interface_upload" {
   environment   = var.environment
 }
 
+resource "aws_iam_role" "lambda_exec" {
+  provider = aws.target
+  name     = "zudellio_lambda_exec_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
 module "lambda" {
   providers = {
     aws.target = aws.target
@@ -129,6 +149,8 @@ module "lambda" {
   lambda_name  = each.key
   infrastructure_profile = var.infrastructure_profile
   commit_hash = var.commit_hash
+  lambda_exec = aws_iam_role.lambda_exec
+  manifests_dir = var.manifests_dir
 }
 
 output "s3_website_url" {
