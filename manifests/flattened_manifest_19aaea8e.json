@@ -1,0 +1,60 @@
+{
+    "contact_post": {
+        "type": "lambda",
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
+        "image": "contact_post:19aaea8e"
+    },
+    "contact_get": {
+        "type": "static",
+        "destination": "contact/index.html"
+    },
+    "healthcheck_get": {
+        "type": "lambda",
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
+        "image": "healthcheck_get:19aaea8e"
+    },
+    "posts_ssg_get": {
+        "type": "static",
+        "destination": "posts/ssg/index.html"
+    },
+    "posts_solid_get": {
+        "type": "static",
+        "destination": "posts/solid/index.html"
+    },
+    "posts_oop_get": {
+        "type": "static",
+        "destination": "posts/oop/index.html"
+    },
+    "posts_init_get": {
+        "type": "static",
+        "destination": "posts/init/index.html"
+    },
+    "posts_functional_get": {
+        "type": "static",
+        "destination": "posts/functional/index.html"
+    },
+    "posts_cicd_get": {
+        "type": "static",
+        "destination": "posts/cicd/index.html"
+    },
+    "posts_aws_tf_bootstrap_get": {
+        "type": "static",
+        "destination": "posts/aws_tf_bootstrap/index.html"
+    },
+    "posts_authn_get": {
+        "type": "static",
+        "destination": "posts/authn/index.html"
+    },
+    "posts_a11y_get": {
+        "type": "static",
+        "destination": "posts/a11y/index.html"
+    },
+    "auth_sign_up_get": {
+        "type": "static",
+        "destination": "auth/sign_up/index.html"
+    },
+    "auth_sign_in_get": {
+        "type": "static",
+        "destination": "auth/sign_in/index.html"
+    }
+}

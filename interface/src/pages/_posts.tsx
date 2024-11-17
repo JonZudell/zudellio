@@ -10,6 +10,7 @@ import Functional from './posts/functional';
 import ObjectOriented from './posts/oop';
 import AWSTF from './posts/aws_tf_bootstrap';
 import Solid from './posts/solid';
+import CICD from './posts/cicd';
 export interface PostProps {
   displaySummary?: boolean;
   classNames?: string;
@@ -30,6 +31,7 @@ export const Posts: {
   oop: { component: ObjectOriented, date: new Date('2024-10-10') },
   aws_tf_bootstrap: { component: AWSTF, date: new Date('2024-10-12') },
   solid: { component: Solid, date: new Date('2024-10-15') },
+  cicd: { component: CICD, date: new Date('2024-11-17') },
   // authn: { component: Authn, date: new Date('2024-09-15') },
 };
 export const sortedPosts = Object.values(Posts).sort(

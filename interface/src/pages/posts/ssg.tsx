@@ -26,8 +26,10 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
               markdalgleish/static-site-generator-webpack-plugin
             </a>
           </span>
-          and my own custom webpack plugin / configuration I was able to write a
-          Static Site Generator with webpack, react(-router), and TypeScript.
+          and my own custom webpack plugin / configuration I was able to write a{' '}
+          <span className="text-color-emphasis">
+            Static Site Generator with webpack, react(-router), and TypeScript.
+          </span>{' '}
           Routes are generated from the src/pages directory.
         </p>
       }
@@ -42,8 +44,11 @@ const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
             markdalgleish/static-site-generator-webpack-plugin
           </a>
         </span>
-        and my own custom webpack plugin / configuration I was able to write a
-        Static Site Generator with webpack, react(-router), and TypeScript.
+        and my own custom webpack plugin / configuration I was able to write a{' '}
+        <span className="text-color-emphasis">
+          Static Site Generator with webpack, react(-router), and TypeScript.
+        </span>{' '}
+        Routes are generated from the src/pages directory.
       </p>
       <p>
         My Template Wrapper Plugin, it reads the output assets from the webpack

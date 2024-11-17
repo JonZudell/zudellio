@@ -18,8 +18,12 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
       displaySummary={displaySummary}
       summaryContent={
         <p>
-          Accessibility or a11y for short is the property of being usable by
-          individuals with disabilities.
+          <span className="text-color-emphasis"> Accessibility or a11y</span>{' '}
+          for short is the property of being usable by{' '}
+          <span className="text-color-emphasis">
+            individuals with disabilities
+          </span>
+          .
           <span className="inline-span">
             <a
               className="href-blue underline"
@@ -34,7 +38,7 @@ const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
     >
       <h3 className="comment-green"># Overview</h3>
       <p>
-        Accessibility or a11y for short is the property of being usable by
+        Accessibility or a11y for short is the property of being usable by{' '}
         individuals with disabilities.
         <span className="inline-span">
           <a

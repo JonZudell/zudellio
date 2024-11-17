@@ -16,16 +16,23 @@ const AWSTF: React.FC<PostProps> = ({ displaySummary = false }) => {
       displaySummary={displaySummary}
       summaryContent={
         <p>
-          Bootstrapping Terraform to manage your AWS environment can be a huge
-          pain. The issue is terraform will not be able to create the the bucket
-          or dynamodb table to store the state. This is a chicken and egg
-          problem. Here&apos;s a brief guide on to set it up.
+          <span className="text-color-emphasis">Bootstrapping Terraform</span>{' '}
+          to manage your{' '}
+          <span className="text-color-emphasis">AWS environment</span> can be a
+          huge pain. The issue is terraform will not be able to create the the
+          bucket or dynamodb table to store the state. This is a{' '}
+          <span className="text-color-emphasis">chicken and egg</span> problem.
+          Here&apos;s a brief guide on to set it up.
         </p>
       }
     >
       <p>
-        Bootstrapping Terraform to manage your AWS environment can be a huge
-        pain. Here&apos;s a brief guide on to set it up.
+        <span className="text-color-emphasis">Bootstrapping Terraform</span> to
+        manage your <span className="text-color-emphasis">AWS environment</span>{' '}
+        can be a huge pain. The issue is terraform will not be able to create
+        the the bucket or dynamodb table to store the state. This is a{' '}
+        <span className="text-color-emphasis">chicken and egg</span> problem.
+        Here&apos;s a brief guide on to set it up.
       </p>
       <br />
       <h3 className="comment-green"># Software Dependancies</h3>

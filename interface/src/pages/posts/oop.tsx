@@ -43,11 +43,27 @@ const ObjectOriented: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h3 className="comment-green"># What are objects?</h3>
       <p>
+        <span className="text-color-emphasis">
+          Objects are implemented as references
+        </span>
         Objects consist of functions and data. That&apos;s it. Which is a neat
-        idea when the alternative is reading{' '}
-        <span className="text-color-emphasis">assembly</span> and{' '}
-        <span className="text-color-emphasis">registers</span>. Some people
-        refer to functions as methods; they are wrong.
+        idea when the alternative is{' '}
+        <span className="text-color-emphasis">
+          reading assembly instructions
+        </span>{' '}
+        and <span className="text-color-emphasis">tracking registers</span>.
+        Some people refer to functions as methods; they are wrong.
+      </p>
+      <br />
+      <h3 className="comment-green"># Why is it the most popular paradigm?</h3>
+      <p>
+        In the day that OOP came out software engineers faced different
+        problems. If you programmed in{' '}
+        <span className="text-color-emphasis">assembly</span>, or{' '}
+        <span className="text-color-emphasis">C</span> you would think in data
+        structures and algorithms instead of &quot;Objects&quot; object oriented
+        programming states you should encapusulate common functionality and data
+        together.
       </p>
       <br />
       <h3 className="comment-green"># Gooder ideas for big thinkin&apos;</h3>
