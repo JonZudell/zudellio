@@ -76,8 +76,8 @@ resource "aws_ecr_repository" "lambda_repo" {
   name = "zudellio_${split(":", each.value.image)[0]}"
 }
 
-output "repository_names" {
+output "repositories" {
   value = {
-    for repo in aws_ecr_repository.lambda_repo : repo.name => repo.repository_url
+    for repo in aws_ecr_repository.lambda_repo : repo.name => repo
   }
 }

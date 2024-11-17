@@ -33,6 +33,14 @@ variable "manifests_dir" {
   description = "The directory containing manifests"
 }
 
+variable "infrastructure_profile" {
+  type = string
+}
+
+variable "commit_hash" {
+  type = string
+}
+
 resource "aws_organizations_organization" "org" {
   aws_service_access_principals = ["sso.amazonaws.com", "cloudtrail.amazonaws.com", "config.amazonaws.com"]
   feature_set                   = "ALL"
@@ -87,8 +95,10 @@ module "development" {
   account_name    = "DevelopmentAccount"
   environment     = "development"
   root_account_id = var.root_account_id
+  infrastructure_profile = var.infrastructure_profile
+  commit_hash     = var.commit_hash
+  repositories    = module.infrastructure.repositories
 }
-
 module "production" {
   providers = {
     aws.root   = aws.root
@@ -111,5 +121,5 @@ output "production_s3_website_url" {
 }
 
 output "repository_names" {
-  value = module.infrastructure.repository_names
+  value = [for repository in module.infrastructure.repositories : repository.repository_url]
 }

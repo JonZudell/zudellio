@@ -35,6 +35,18 @@ variable "environment" {
   type        = string
 }
 
+variable "repositories" {
+  description = "List of repositories the be deployed to lambdas"
+}
+
+variable "infrastructure_profile" {
+  type = string
+}
+
+variable "commit_hash" {
+  type = string
+}
+
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -60,6 +72,7 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
 resource "random_id" "static_website" {
   byte_length = 8
 }
+
 resource "aws_s3_bucket" "static_website" {
   provider = aws.target
   bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
@@ -85,6 +98,7 @@ resource "aws_s3_bucket_acl" "static_website_acl" {
   acl    = "public-read"
 
 }
+
 resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
   provider = aws.target
   bucket   = aws_s3_bucket.static_website.id
@@ -105,7 +119,17 @@ module "interface_upload" {
   environment   = var.environment
 }
 
-
+module "lambda" {
+  providers = {
+    aws.target = aws.target
+  }
+  source     = "../lambda"
+  for_each   = toset(var.repositories)
+  repository = each.value
+  lambda_name  = each.key
+  infrastructure_profile = var.infrastructure_profile
+  commit_hash = var.commit_hash
+}
 
 output "s3_website_url" {
   description = "The URL of the S3 static website"

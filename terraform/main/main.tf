@@ -106,6 +106,9 @@ variable "profile_suffix" {
   type        = string
 }
 
+data "external" "commit_hash" {
+  program = ["bash", "-c", "git rev-parse --short=8 HEAD"]
+}
 
 module "tf_state_bootstrap" {
   providers = {
@@ -130,6 +133,8 @@ module "organization" {
   root_account_id        = var.root_account_id
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
+  infrastructure_profile = "infrastructure${var.profile_suffix}"
+  commit_hash            = data.external.commit_hash
 }
 
 output "terraform_state_bucket" {
@@ -150,4 +155,8 @@ output "production_s3_website_url" {
 
 output "repository_names" {
   value = module.organization.repository_names
+}
+
+output "git_commit_hash" {
+  value = data.external.commit_hash
 }

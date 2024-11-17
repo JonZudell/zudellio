@@ -71,11 +71,11 @@ module "ecr" {
   providers = {
     aws.target = aws.target
   }
-  manifests_dir = var.manifests_dir
+  manifests_dir          = var.manifests_dir
   development_account_id = var.development_account_id
-  production_account_id = var.production_account_id
+  production_account_id  = var.production_account_id
 }
 
-output "repository_names" {
-  value = module.ecr.repository_names
+output "repositories" {
+  value = module.ecr.repositories
 }
