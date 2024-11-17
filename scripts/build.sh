@@ -23,13 +23,15 @@ echo "Latest commit hash: $commit_hash"
 python ./scripts/generate_lambda_manifest.py "$commit_hash"
 python ./scripts/merge_manifest_rewrites.py "$commit_hash"
 python ./scripts/flatten_manifest.py "$commit_hash"
+
 ./scripts/build_lambda_images.sh ./manifests/flattened_manifest_"$commit_hash".json "$commit_hash"
+
 cd terraform/main || exit
 
-# # Initialize Terraform if not already initialized
-# if [ ! -d ".terraform" ]; then
-#   terraform init
-# fi
+# Initialize Terraform if not already initialized
+if [ ! -d ".terraform" ]; then
+  terraform init
+fi
 
-# # Apply Terraform configuration
-# terraform apply
+# Apply Terraform configuration
+terraform apply

@@ -53,12 +53,17 @@ resource "null_resource" "docker_login" {
 }
 
 resource "null_resource" "docker_build" {
+  lifecycle {
+    create_before_destroy = true
+  }
+  triggers = {
+    commit_hash = var.commit_hash
+  }
   depends_on = [null_resource.docker_login]
   provisioner "local-exec" {
     command = <<EOT
       set -e
-      DOCKERFILE_DIR=$(dirname ${local.lambda_manifests[local.trimmed_lambda_name].Dockerfile})
-      docker build -t ${var.repository.repository_url}:${var.commit_hash} -f ${local.lambda_manifests[local.trimmed_lambda_name].Dockerfile} $DOCKERFILE_DIR
+      docker tag ${local.trimmed_lambda_name}:${var.commit_hash} ${var.repository.repository_url}:${var.commit_hash}
       docker push ${var.repository.repository_url}:${var.commit_hash}
     EOT
   }
