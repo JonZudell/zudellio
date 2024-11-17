@@ -17,7 +17,10 @@ variable "development_account_id" {
   description = "AWS Account Number"
   type        = string
 }
-
+variable "root_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
 variable "production_account_id" {
   description = "AWS Account Number"
   type        = string
@@ -33,7 +36,23 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "*"
+            "arn:aws:iam::${var.root_account_id}:root"
+          ]
+        }
+        Action = [
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = [
+            "arn:aws:iam::${var.development_account_id}:role/*",
+            "arn:aws:iam::${var.production_account_id}:role/*"
           ]
         }
         Action = [
@@ -80,4 +99,8 @@ output "repositories" {
   value = {
     for repo in aws_ecr_repository.lambda_repo : repo.name => repo
   }
+}
+
+output "lambda_repo_policy" {
+  value =  aws_ecr_repository_policy.lambda_repo_policy
 }

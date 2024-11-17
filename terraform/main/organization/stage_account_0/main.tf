@@ -16,11 +16,17 @@ variable "account_name" {
   type        = string
 }
 
+variable "lambda_repo_policy" {
+
+}
 variable "root_account_id" {
   description = "The ID of the root AWS account"
   type        = string
 }
-
+variable "infrastructure_account_id" {
+  description = "The ID of the infrastructure Account"
+  type        = string
+}
 variable "account_email" {
   description = "The email address of the account"
   type        = string
@@ -114,9 +120,9 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   restrict_public_buckets = false
 }
 
-resource "aws_iam_role" "lambda_exec" {
+resource "aws_iam_role" "repo_read_role" {
   provider = aws.target
-  name     = "zudellio_lambda_exec_role"
+  name     = "zudellio_repo_read_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -133,12 +139,12 @@ resource "aws_iam_role" "lambda_exec" {
 }
 resource "aws_iam_role_policy_attachment" "lambda_exec_policy" {
   provider   = aws.target
-  role       = aws_iam_role.lambda_exec.name
+  role       = aws_iam_role.repo_read_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 resource "aws_iam_role_policy" "ecr_read_policy" {
   name     = "ecr_read_policy"
-  role     = aws_iam_role.lambda_exec.id
+  role     = aws_iam_role.repo_read_role.id
   provider = aws.target
   policy = jsonencode({
     Version = "2012-10-17"
@@ -150,13 +156,14 @@ resource "aws_iam_role_policy" "ecr_read_policy" {
           "ecr:BatchGetImage",
           "ecr:BatchCheckLayerAvailability"
         ]
-        Resource = "*"
+        Resource = "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
       }
     ]
   })
 }
 
 module "interface_upload" {
+  depends_on = [var.lambda_repo_policy]
   providers = {
     aws.target = aws.target
   }
@@ -176,7 +183,7 @@ module "lambda" {
   lambda_name            = each.key
   infrastructure_profile = var.infrastructure_profile
   commit_hash            = var.commit_hash
-  lambda_exec            = aws_iam_role.lambda_exec
+  lambda_exec            = aws_iam_role.repo_read_role
   manifests_dir          = var.manifests_dir
 }
 

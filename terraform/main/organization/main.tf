@@ -18,6 +18,10 @@ terraform {
 variable "root_account_id" {
   description = "The account number of the root account"
 }
+variable "infrastructure_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
 
 variable "development_account_id" {
   description = "AWS Account Number"
@@ -89,16 +93,18 @@ module "development" {
     aws.root   = aws.root
     aws.target = aws.development
   }
-  source                 = "./stage_account_0"
-  account_email          = "jon+development@zudell.io"
-  bucket_infix           = "development"
-  account_name           = "DevelopmentAccount"
-  environment            = "development"
-  root_account_id        = var.root_account_id
-  infrastructure_profile = var.infrastructure_profile
-  commit_hash            = var.commit_hash
-  repositories           = module.infrastructure.repositories
-  manifests_dir          = var.manifests_dir
+  source                    = "./stage_account_0"
+  account_email             = "jon+development@zudell.io"
+  bucket_infix              = "development"
+  account_name              = "DevelopmentAccount"
+  environment               = "development"
+  lambda_repo_policy        = module.infrastructure
+  root_account_id           = var.root_account_id
+  infrastructure_account_id = var.infrastructure_account_id
+  infrastructure_profile    = var.infrastructure_profile
+  commit_hash               = var.commit_hash
+  repositories              = module.infrastructure.repositories
+  manifests_dir             = var.manifests_dir
 }
 module "production" {
   providers = {

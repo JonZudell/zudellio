@@ -53,6 +53,7 @@ resource "null_resource" "docker_login" {
   provisioner "local-exec" {
     command = <<EOT
       set -e
+      docker logout ${var.repository.repository_url} || true
       aws ecr get-login-password | docker login --username AWS --password-stdin ${var.repository.repository_url}
     EOT
   }

@@ -74,8 +74,13 @@ module "ecr" {
   manifests_dir          = var.manifests_dir
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
+  root_account_id        = var.root_account_id
 }
 
 output "repositories" {
   value = module.ecr.repositories
+}
+
+output "lambda_repo_policy" {
+  value = module.ecr.lambda_repo_policy
 }

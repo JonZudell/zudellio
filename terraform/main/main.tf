@@ -131,6 +131,7 @@ module "organization" {
   source                 = "./organization"
   manifests_dir          = "${path.module}/../../manifests/"
   root_account_id        = var.root_account_id
+  infrastructure_account_id = var.infrastructure_account_id
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
   infrastructure_profile = "infrastructure${var.profile_suffix}"
