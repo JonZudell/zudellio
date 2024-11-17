@@ -28,6 +28,9 @@ resource "aws_s3_object" "interface_files" {
   etag     = filemd5("${var.interface_dir}/dist/${each.value}")
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+      etag,
+    ]
   }
   depends_on = [var.bucket]
   for_each   = toset([for file in fileset("${var.interface_dir}/dist", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
@@ -46,6 +49,7 @@ resource "aws_s3_object" "interface_files" {
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
   acl    = "public-read"
   source = "${var.interface_dir}/dist/${each.value}"
+  
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {

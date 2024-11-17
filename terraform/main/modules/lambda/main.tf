@@ -43,35 +43,25 @@ locals {
 
   trimmed_lambda_name = replace(var.lambda_name, "zudellio_", "")
 }
-
-resource "null_resource" "docker_build" {
+resource "null_resource" "docker_login" {
   provisioner "local-exec" {
     command = <<EOT
+      set -e
+      aws ecr get-login-password | docker login --username AWS --password-stdin ${var.repository.repository_url}
+    EOT
+  }
+}
+
+resource "null_resource" "docker_build" {
+  depends_on = [null_resource.docker_login]
+  provisioner "local-exec" {
+    command = <<EOT
+      set -e
       DOCKERFILE_DIR=$(dirname ${local.lambda_manifests[local.trimmed_lambda_name].Dockerfile})
       docker build -t ${var.repository.repository_url}:${var.commit_hash} -f ${local.lambda_manifests[local.trimmed_lambda_name].Dockerfile} $DOCKERFILE_DIR
       docker push ${var.repository.repository_url}:${var.commit_hash}
     EOT
   }
-}
-
-resource "aws_iam_role_policy" "ecr_read_policy" {
-  name     = "ecr_read_policy"
-  role     = var.lambda_exec.id
-  provider = aws.target
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
-        ]
-        Resource = var.repository.arn
-      }
-    ]
-  })
 }
 
 resource "aws_lambda_function" "lambda" {
@@ -83,10 +73,4 @@ resource "aws_lambda_function" "lambda" {
   timeout       = 15
 
   image_uri = "${var.repository.repository_url}:${var.commit_hash}"
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_exec_policy" {
-  provider   = aws.target
-  role       = var.lambda_exec.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }

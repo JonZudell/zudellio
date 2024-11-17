@@ -139,6 +139,31 @@ resource "aws_iam_role" "lambda_exec" {
     ]
   })
 }
+resource "aws_iam_role_policy" "ecr_read_policy" {
+  name     = "ecr_read_policy"
+  role     = aws_iam_role.lambda_exec.id
+  provider = aws.target
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+resource "aws_iam_role_policy_attachment" "lambda_exec_policy" {
+  provider   = aws.target
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 module "lambda" {
   providers = {
     aws.target = aws.target
