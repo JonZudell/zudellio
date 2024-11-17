@@ -44,6 +44,12 @@ locals {
   trimmed_lambda_name = replace(var.lambda_name, "zudellio_", "")
 }
 resource "null_resource" "docker_login" {
+  lifecycle {
+    create_before_destroy = true
+  }
+  triggers = {
+    commit_hash = var.commit_hash
+  }
   provisioner "local-exec" {
     command = <<EOT
       set -e
@@ -52,7 +58,7 @@ resource "null_resource" "docker_login" {
   }
 }
 
-resource "null_resource" "docker_build" {
+resource "null_resource" "docker_push" {
   lifecycle {
     create_before_destroy = true
   }
@@ -70,7 +76,7 @@ resource "null_resource" "docker_build" {
 }
 
 resource "aws_lambda_function" "lambda" {
-  depends_on    = [null_resource.docker_build]
+  depends_on    = [null_resource.docker_push]
   provider      = aws.target
   function_name = var.lambda_name
   role          = var.lambda_exec.arn
