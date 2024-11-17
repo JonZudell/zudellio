@@ -64,7 +64,7 @@ resource "aws_lambda_function" "lambda" {
   package_type  = "Image"
   timeout       = 15
 
-  image_uri = var.repository.repostiry_url
+  image_uri = var.repository.repository_url
 }
 
 resource "aws_iam_role" "lambda_exec" {

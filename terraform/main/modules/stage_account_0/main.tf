@@ -124,7 +124,7 @@ module "lambda" {
     aws.target = aws.target
   }
   source     = "../lambda"
-  for_each   = toset(var.repositories)
+  for_each   = var.repositories
   repository = each.value
   lambda_name  = each.key
   infrastructure_profile = var.infrastructure_profile

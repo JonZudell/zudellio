@@ -120,6 +120,6 @@ output "production_s3_website_url" {
   value = module.production.s3_website_url
 }
 
-output "repository_names" {
-  value = [for repository in module.infrastructure.repositories : repository.repository_url]
+output "repositories" {
+  value = module.infrastructure.repositories
 }
