@@ -49,7 +49,8 @@ const Solid: React.FC<PostProps> = ({ displaySummary = false }) => {
         assed. When objects start to handle address too many concerns it causes
         an exponential growth in complexity. The point of Object Oriented
         Programming is to encapsulate data and functionality. When done
-        appropriately this minimizes coupling.
+        appropriately this minimizes coupling. When features can not be isolated
+        to specific classes they are described as cross-cutting concerns.
       </p>
       <br />
       <h3 className="comment-green">## Open/Closed Principle</h3>
