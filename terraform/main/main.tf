@@ -114,7 +114,7 @@ module "tf_state_bootstrap" {
   providers = {
     aws.root = aws.root
   }
-  source            = "./modules/tf_state_bootstrap"
+  source            = "../modules/tf_state_bootstrap"
   root_account_id   = var.root_account_id
   root_account_name = var.root_account_name
 }
@@ -128,7 +128,7 @@ module "organization" {
     aws.development    = aws.development
     aws.production     = aws.production
   }
-  source                 = "./modules/organization"
+  source                 = "./organization"
   manifests_dir          = "${path.module}/../../manifests/"
   root_account_id        = var.root_account_id
   development_account_id = var.development_account_id

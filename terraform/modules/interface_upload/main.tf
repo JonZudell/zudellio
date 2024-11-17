@@ -49,7 +49,7 @@ resource "aws_s3_object" "interface_files" {
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
   acl    = "public-read"
   source = "${var.interface_dir}/dist/${each.value}"
-  
+
 }
 
 resource "aws_s3_bucket_website_configuration" "interface_config" {

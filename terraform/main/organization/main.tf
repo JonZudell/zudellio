@@ -51,7 +51,7 @@ module "infrastructure" {
     aws.root   = aws.root
     aws.target = aws.infrastructure
   }
-  source                 = "../infra_account"
+  source                 = "./infra_account"
   account_email          = "jon+infrastructure@zudell.io"
   bucket_infix           = "infrastructure"
   account_name           = "InfrastructureAccount"
@@ -66,7 +66,7 @@ module "monitoring" {
     aws.root   = aws.root
     aws.target = aws.monitoring
   }
-  source          = "../nonroot_account"
+  source          = "./nonroot_account"
   account_email   = "jon+monitoring@zudell.io"
   account_name    = "MonitoringAccount"
   root_account_id = var.root_account_id
@@ -78,7 +78,7 @@ module "security" {
     aws.root   = aws.root
     aws.target = aws.security
   }
-  source          = "../nonroot_account"
+  source          = "./nonroot_account"
   account_email   = "jon+security@zudell.io"
   account_name    = "SecurityAccount"
   root_account_id = var.root_account_id
@@ -89,23 +89,23 @@ module "development" {
     aws.root   = aws.root
     aws.target = aws.development
   }
-  source          = "../stage_account_0"
-  account_email   = "jon+development@zudell.io"
-  bucket_infix    = "development"
-  account_name    = "DevelopmentAccount"
-  environment     = "development"
-  root_account_id = var.root_account_id
+  source                 = "./stage_account_0"
+  account_email          = "jon+development@zudell.io"
+  bucket_infix           = "development"
+  account_name           = "DevelopmentAccount"
+  environment            = "development"
+  root_account_id        = var.root_account_id
   infrastructure_profile = var.infrastructure_profile
-  commit_hash     = var.commit_hash
-  repositories    = module.infrastructure.repositories
-  manifests_dir   = var.manifests_dir
+  commit_hash            = var.commit_hash
+  repositories           = module.infrastructure.repositories
+  manifests_dir          = var.manifests_dir
 }
 module "production" {
   providers = {
     aws.root   = aws.root
     aws.target = aws.production
   }
-  source          = "../stage_account"
+  source          = "./stage_account"
   account_email   = "jon+production@zudell.io"
   bucket_infix    = "production"
   environment     = "production"
