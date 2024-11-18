@@ -125,10 +125,17 @@ module "interface_upload" {
   providers = {
     aws.target = aws.target
   }
-  source      = "../../../modules/interface_upload"
+  source      = "../../modules/interface_upload"
   dist_dir    = var.dist_dir
   bucket      = aws_s3_bucket.static_website
   environment = var.environment
+}
+module "api_gateway" {
+  providers = {
+    aws.target = aws.target
+  }
+  source      = "../../modules/api_gateway"
+  bucket      = aws_s3_bucket.static_website
 }
 resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
   provider      = aws.target
@@ -189,7 +196,7 @@ module "lambda" {
   providers = {
     aws.target = aws.target
   }
-  source                 = "../../../modules/lambda"
+  source                 = "../../modules/lambda"
   for_each               = var.repositories
   repository             = each.value
   lambda_name            = each.key

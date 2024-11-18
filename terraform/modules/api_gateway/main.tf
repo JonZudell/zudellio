@@ -1,25 +1,33 @@
-variable "region" {
-  description = "The AWS region to deploy resources in"
-  type        = string
-  default     = "us-east-1"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+      configuration_aliases = [
+        aws.target,
+      ]
+    }
+  }
 }
-
 variable "bucket" {
   description = "The s3 bucket to serve static files from"
 }
 
 resource "aws_api_gateway_rest_api" "api" {
-  name        = "zudellio-api"
+  provider = aws.target
+  name        = "api"
   description = "API Gateway for static S3 bucket CDN and Lambda functions"
 }
 
 resource "aws_api_gateway_resource" "static" {
+  provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "static_get" {
+  provider = aws.target
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.static.id
   http_method   = "GET"
@@ -27,6 +35,7 @@ resource "aws_api_gateway_method" "static_get" {
 }
 
 resource "aws_iam_role" "api_gateway_role" {
+  provider = aws.target
   name = "api-gateway-role"
 
   assume_role_policy = jsonencode({
@@ -44,6 +53,7 @@ resource "aws_iam_role" "api_gateway_role" {
 }
 
 resource "aws_iam_policy" "api_gateway_policy" {
+  provider = aws.target
   name = "api-gateway-policy"
 
   policy = jsonencode({
@@ -68,6 +78,7 @@ resource "aws_iam_policy" "api_gateway_policy" {
 }
 
 resource "aws_s3_bucket_policy" "interface_bucket_policy" {
+  provider = aws.target
   bucket = var.bucket.id
 
   policy = jsonencode({
@@ -86,23 +97,28 @@ resource "aws_s3_bucket_policy" "interface_bucket_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "api_gateway_attachment" {
+  provider = aws.target
   role       = aws_iam_role.api_gateway_role.name
   policy_arn = aws_iam_policy.api_gateway_policy.arn
 }
 
-resource "aws_api_gateway_integration" "static_s3" {
-  rest_api_id             = aws_api_gateway_rest_api.api.id
-  resource_id             = aws_api_gateway_resource.static.id
-  http_method             = aws_api_gateway_method.static_get.http_method
+resource "aws_api_gateway_integration" "s3_integration" {
+  provider = aws.target
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.static.id
+  http_method = aws_api_gateway_method.static_get.http_method
+  type        = "HTTP_PROXY"
+  uri         = "http://${var.bucket.bucket}.s3-website-us-east-1.amazonaws.com/{proxy}"
+
+  request_parameters = {
+    "integration.request.path.proxy" = "method.request.path.proxy"
+  }
+
   integration_http_method = "GET"
-  type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.bucket.id}/*"
-  credentials             = aws_iam_role.api_gateway_role.arn
-  passthrough_behavior    = "WHEN_NO_MATCH"
-  connection_type         = "INTERNET"
 }
 
 resource "aws_api_gateway_method_response" "static_200" {
+  provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
   resource_id = aws_api_gateway_resource.static.id
   http_method = aws_api_gateway_method.static_get.http_method
@@ -114,6 +130,7 @@ resource "aws_api_gateway_method_response" "static_200" {
 }
 
 resource "aws_api_gateway_deployment" "api" {
+  provider = aws.target
   depends_on = [
     aws_api_gateway_integration.static_s3,
   ]
@@ -129,6 +146,7 @@ resource "aws_api_gateway_deployment" "api" {
 }
 
 resource "aws_api_gateway_stage" "production" {
+  provider = aws.target
   deployment_id = aws_api_gateway_deployment.api.id
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = "production"

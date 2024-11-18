@@ -75,7 +75,7 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
 }
 
 module "ecr" {
-  source = "../../../modules/ecr"
+  source = "../../modules/ecr"
   providers = {
     aws.target = aws.target
   }

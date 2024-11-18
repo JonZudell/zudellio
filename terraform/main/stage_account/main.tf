@@ -102,7 +102,7 @@ module "interface_upload" {
   providers = {
     aws.target = aws.target
   }
-  source      = "../../../modules/interface_upload"
+  source      = "../../modules/interface_upload"
   dist_dir    = var.dist_dir
   bucket      = aws_s3_bucket.static_website
   environment = var.environment
