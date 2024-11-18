@@ -29,6 +29,32 @@ variable "development_account_id" {
   type        = string
 }
 
+resource "aws_iam_policy" "cross_account_ecr_read_policy_all" {
+  provider = aws.target
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "cross_account_ecr_read_policy_attachment_all" {
+  provider = aws.target
+  name = "cross_account_ecr_read_policy_attachment_all"
+  roles     = [aws_iam_role.cross_account_ecr_read_role.name]
+  policy_arn = aws_iam_policy.cross_account_ecr_read_policy_all.arn
+}
 resource "aws_iam_role" "cross_account_ecr_read_role" {
   provider = aws.target
   name = "cross_account_ecr_read_role"
@@ -59,7 +85,14 @@ resource "aws_iam_policy" "cross_account_ecr_read_policy" {
         "ecr:BatchGetImage",
         "ecr:BatchCheckLayerAvailability"
       ],
-      "Resource": "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -101,7 +134,7 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": ["${aws_iam_role.cross_account_ecr_read_role.arn}"]
+        "AWS": ["*"]
       },
       "Action": [
         "ecr:GetDownloadUrlForLayer",
