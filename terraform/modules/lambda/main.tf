@@ -18,6 +18,13 @@ variable "infrastructure_profile" {
   description = "The infrastructure profile (e.g., dev, prod)"
   type        = string
 }
+variable "infrastructure_account_id" {
+
+}
+
+variable "execution_role"{
+
+}
 
 variable "repository" {
 }
@@ -25,10 +32,6 @@ variable "repository" {
 variable "image_tag" {
   description = "The commit hash"
   type        = string
-}
-
-variable "lambda_exec" {
-
 }
 
 variable "manifest_file" {
@@ -47,7 +50,7 @@ locals {
 resource "aws_lambda_function" "lambda" {
   provider      = aws.target
   function_name = var.lambda_name
-  role          = var.lambda_exec.arn
+  role          = var.execution_role.arn
   package_type  = "Image"
   timeout       = 15
 

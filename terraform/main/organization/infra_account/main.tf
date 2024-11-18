@@ -35,6 +35,11 @@ variable "manifest_file" {
   description = "The manifest"
 }
 
+variable "infrastructure_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
 variable "development_account_id" {
   description = "AWS Account Number"
   type        = string
@@ -44,6 +49,7 @@ variable "production_account_id" {
   description = "AWS Account Number"
   type        = string
 }
+
 
 resource "aws_organizations_account" "account" {
   provider = aws.root
@@ -74,9 +80,9 @@ module "ecr" {
     aws.target = aws.target
   }
   manifest_file          = var.manifest_file
-  development_account_id = var.development_account_id
-  production_account_id  = var.production_account_id
   root_account_id        = var.root_account_id
+  infrastructure_account_id = var.infrastructure_account_id
+  development_account_id = var.development_account_id
 }
 
 output "repositories" {

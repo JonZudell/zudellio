@@ -16,17 +16,11 @@ variable "account_name" {
   type        = string
 }
 
-variable "lambda_repo_policy" {
-
-}
 variable "root_account_id" {
   description = "The ID of the root AWS account"
   type        = string
 }
-variable "infrastructure_account_id" {
-  description = "The ID of the infrastructure Account"
-  type        = string
-}
+
 variable "account_email" {
   description = "The email address of the account"
   type        = string
@@ -47,6 +41,9 @@ variable "repositories" {
 }
 
 variable "infrastructure_profile" {
+  type = string
+}
+variable "infrastructure_account_id" {
   type = string
 }
 
@@ -124,59 +121,70 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   restrict_public_buckets = false
 }
 
-resource "aws_iam_role" "repo_read_role" {
-  provider = aws.target
-  name     = "zudellio_repo_read_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-resource "aws_iam_role_policy_attachment" "lambda_exec_policy" {
-  provider   = aws.target
-  role       = aws_iam_role.repo_read_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-resource "aws_iam_role_policy" "ecr_read_policy" {
-  name     = "ecr_read_policy"
-  role     = aws_iam_role.repo_read_role.id
-  provider = aws.target
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
-        ]
-        Resource = "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
-      }
-    ]
-  })
-}
-
 module "interface_upload" {
-  depends_on = [var.lambda_repo_policy]
   providers = {
     aws.target = aws.target
   }
-  source        = "../../../modules/interface_upload"
-  dist_dir      = var.dist_dir
-  bucket        = aws_s3_bucket.static_website
-  environment   = var.environment
+  source      = "../../../modules/interface_upload"
+  dist_dir    = var.dist_dir
+  bucket      = aws_s3_bucket.static_website
+  environment = var.environment
+}
+resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
+  provider      = aws.target
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+resource "aws_iam_role" "lambda_execution_role" {
+  provider      = aws.target
+  name = "lambda_execution_role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      }
+    }
+  ]
+}
+EOF
 }
 
+resource "aws_iam_policy" "lambda_execution_policy" {
+  provider      = aws.target
+  name = "lambda_execution_policy"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sts:AssumeRole",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability"
+      ],
+      "Resource": [
+        "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
+        "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {
+  name = "lambda_execution_policy_attachment"
+  provider      = aws.target
+  roles      = [aws_iam_role.lambda_execution_role.name]
+  policy_arn = aws_iam_policy.lambda_execution_policy.arn
+}
 module "lambda" {
   providers = {
     aws.target = aws.target
@@ -186,11 +194,11 @@ module "lambda" {
   repository             = each.value
   lambda_name            = each.key
   infrastructure_profile = var.infrastructure_profile
-  lambda_exec            = aws_iam_role.repo_read_role
+  infrastructure_account_id = var.infrastructure_account_id
+  execution_role         = aws_iam_role.lambda_execution_role
   manifest_file          = var.manifest_file
   image_tag              = var.image_tag
 }
-
 output "s3_website_url" {
   description = "The URL of the S3 static website"
   value       = module.interface_upload.s3_website_url

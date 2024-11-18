@@ -34,8 +34,8 @@ resource "aws_s3_object" "interface_files" {
   }
   depends_on = [var.bucket]
   for_each   = toset([for file in fileset("${var.dist_dir}", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
-  bucket = var.bucket.id
-  key    = each.value
+  bucket     = var.bucket.id
+  key        = each.value
   content_type = lookup({
     "html" = "text/html",
     "css"  = "text/css",

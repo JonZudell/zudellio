@@ -102,10 +102,10 @@ module "interface_upload" {
   providers = {
     aws.target = aws.target
   }
-  source        = "../../../modules/interface_upload"
-  dist_dir = "${var.dist_dir}"
-  bucket        = aws_s3_bucket.static_website
-  environment   = var.environment
+  source      = "../../../modules/interface_upload"
+  dist_dir    = var.dist_dir
+  bucket      = aws_s3_bucket.static_website
+  environment = var.environment
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"

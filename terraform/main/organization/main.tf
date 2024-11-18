@@ -66,6 +66,7 @@ module "infrastructure" {
   root_account_id        = var.root_account_id
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
+  infrastructure_account_id = var.infrastructure_account_id
   manifest_file          = var.manifest_file
 }
 
@@ -102,10 +103,9 @@ module "development" {
   bucket_infix              = "development"
   account_name              = "DevelopmentAccount"
   environment               = "development"
-  lambda_repo_policy        = module.infrastructure
   root_account_id           = var.root_account_id
-  infrastructure_account_id = var.infrastructure_account_id
   infrastructure_profile    = var.infrastructure_profile
+  infrastructure_account_id = var.infrastructure_account_id
   repositories              = module.infrastructure.repositories
   dist_dir                  = var.dist_dir
   manifest_file             = var.manifest_file

@@ -139,15 +139,15 @@ module "organization" {
     aws.development    = aws.development
     aws.production     = aws.production
   }
-  source                 = "./organization"
-  root_account_id        = var.root_account_id
+  source                    = "./organization"
+  root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
-  development_account_id = var.development_account_id
-  production_account_id  = var.production_account_id
-  infrastructure_profile = "infrastructure${var.profile_suffix}"
-  dist_dir               = var.dist_dir
-  manifest_file          = var.manifest_file
-  image_tag              = var.image_tag
+  development_account_id    = var.development_account_id
+  production_account_id     = var.production_account_id
+  infrastructure_profile    = "infrastructure${var.profile_suffix}"
+  dist_dir                  = var.dist_dir
+  manifest_file             = var.manifest_file
+  image_tag                 = var.image_tag
 }
 
 output "terraform_state_bucket" {
