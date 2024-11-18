@@ -10,8 +10,8 @@ terraform {
   }
 }
 
-variable "manifests_dir" {
-  description = "The directory for manifests"
+variable "manifest_file" {
+  description = "The manifest_file path"
 }
 variable "development_account_id" {
   description = "AWS Account Number"
@@ -51,8 +51,8 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "arn:aws:iam::${var.development_account_id}:role/*",
-            "arn:aws:iam::${var.production_account_id}:role/*"
+            "arn:aws:iam::${var.development_account_id}:root",
+            "arn:aws:iam::${var.production_account_id}:root"
           ]
         }
         Action = [
@@ -89,7 +89,7 @@ resource "aws_ecr_lifecycle_policy" "lambda_repo_lifecycle" {
 resource "aws_ecr_repository" "lambda_repo" {
   provider = aws.target
   for_each = {
-    for key, value in jsondecode(file("${var.manifests_dir}/${[for file in fileset(var.manifests_dir, "*.json") : file if startswith(file, "flattened_manifest")][0]}")) : key => value
+    for key, value in jsondecode(file("${var.manifest_file}")) : key => value
     if value.type == "lambda"
   }
   name = "zudellio_${split(":", each.value.image)[0]}"

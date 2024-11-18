@@ -50,12 +50,16 @@ variable "infrastructure_profile" {
   type = string
 }
 
-variable "commit_hash" {
-  type = string
+variable "dist_dir" {
+  description = "the distribution directory"
+}
+variable "manifest_file" {
+  description = "The directory containing manifests"
 }
 
-variable "manifests_dir" {
-  type = string
+variable "image_tag" {
+  description = "The tag for the docker images"
+  type        = string
 }
 
 resource "aws_organizations_account" "account" {
@@ -168,7 +172,7 @@ module "interface_upload" {
     aws.target = aws.target
   }
   source        = "../../../modules/interface_upload"
-  interface_dir = "${abspath(path.module)}/../../../../interface"
+  dist_dir      = var.dist_dir
   bucket        = aws_s3_bucket.static_website
   environment   = var.environment
 }
@@ -182,9 +186,9 @@ module "lambda" {
   repository             = each.value
   lambda_name            = each.key
   infrastructure_profile = var.infrastructure_profile
-  commit_hash            = var.commit_hash
   lambda_exec            = aws_iam_role.repo_read_role
-  manifests_dir          = var.manifests_dir
+  manifest_file          = var.manifest_file
+  image_tag              = var.image_tag
 }
 
 output "s3_website_url" {

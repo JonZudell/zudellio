@@ -33,16 +33,20 @@ variable "production_account_id" {
   type        = string
 }
 
-variable "manifests_dir" {
-  description = "The directory containing manifests"
-}
 
 variable "infrastructure_profile" {
   type = string
 }
+variable "dist_dir" {
+  description = "The directory containing manifests"
+}
+variable "manifest_file" {
+  description = "The directory containing manifests"
+}
 
-variable "commit_hash" {
-  type = string
+variable "image_tag" {
+  description = "The tag for the docker images"
+  type        = string
 }
 
 resource "aws_organizations_organization" "org" {
@@ -59,10 +63,10 @@ module "infrastructure" {
   account_email          = "jon+infrastructure@zudell.io"
   bucket_infix           = "infrastructure"
   account_name           = "InfrastructureAccount"
-  manifests_dir          = var.manifests_dir
   root_account_id        = var.root_account_id
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
+  manifest_file          = var.manifest_file
 }
 
 module "monitoring" {
@@ -102,9 +106,10 @@ module "development" {
   root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
   infrastructure_profile    = var.infrastructure_profile
-  commit_hash               = var.commit_hash
   repositories              = module.infrastructure.repositories
-  manifests_dir             = var.manifests_dir
+  dist_dir                  = var.dist_dir
+  manifest_file             = var.manifest_file
+  image_tag                 = var.image_tag
 }
 module "production" {
   providers = {
@@ -117,6 +122,7 @@ module "production" {
   environment     = "production"
   account_name    = "ProductionAccount"
   root_account_id = var.root_account_id
+  dist_dir        = var.dist_dir
 }
 
 output "development_s3_website_url" {

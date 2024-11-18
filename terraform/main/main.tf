@@ -106,8 +106,19 @@ variable "profile_suffix" {
   type        = string
 }
 
-data "external" "commit_hash" {
-  program = ["bash", "-c", "echo '{\"commit\": \"'$(git rev-parse --short=8 HEAD)'\"}'"]
+variable "image_tag" {
+  description = "The tag for the docker images"
+  type        = string
+}
+
+variable "manifest_file" {
+  description = "The manifest file"
+  type        = string
+}
+
+variable "dist_dir" {
+  description = "The manifest directory"
+  type        = string
 }
 
 module "tf_state_bootstrap" {
@@ -129,13 +140,14 @@ module "organization" {
     aws.production     = aws.production
   }
   source                 = "./organization"
-  manifests_dir          = "${path.module}/../../manifests/"
   root_account_id        = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
   infrastructure_profile = "infrastructure${var.profile_suffix}"
-  commit_hash            = data.external.commit_hash.result["commit"]
+  dist_dir               = var.dist_dir
+  manifest_file          = var.manifest_file
+  image_tag              = var.image_tag
 }
 
 output "terraform_state_bucket" {
@@ -156,8 +168,4 @@ output "production_s3_website_url" {
 
 output "repositories" {
   value = module.organization.repositories
-}
-
-output "git_commit_hash" {
-  value = data.external.commit_hash
 }

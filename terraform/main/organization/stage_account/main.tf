@@ -34,6 +34,9 @@ variable "environment" {
   description = "The environment to deploy to"
   type        = string
 }
+variable "dist_dir" {
+  description = "The directory containing manifests"
+}
 
 resource "aws_organizations_account" "account" {
   provider = aws.root
@@ -100,7 +103,7 @@ module "interface_upload" {
     aws.target = aws.target
   }
   source        = "../../../modules/interface_upload"
-  interface_dir = "${abspath(path.module)}/../../../../interface"
+  dist_dir = "${var.dist_dir}"
   bucket        = aws_s3_bucket.static_website
   environment   = var.environment
 }

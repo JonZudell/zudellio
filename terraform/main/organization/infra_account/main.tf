@@ -31,9 +31,10 @@ variable "account_email" {
   type        = string
 }
 
-variable "manifests_dir" {
-  description = "The directory containing manifests"
+variable "manifest_file" {
+  description = "The manifest"
 }
+
 variable "development_account_id" {
   description = "AWS Account Number"
   type        = string
@@ -43,6 +44,7 @@ variable "production_account_id" {
   description = "AWS Account Number"
   type        = string
 }
+
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -71,7 +73,7 @@ module "ecr" {
   providers = {
     aws.target = aws.target
   }
-  manifests_dir          = var.manifests_dir
+  manifest_file          = var.manifest_file
   development_account_id = var.development_account_id
   production_account_id  = var.production_account_id
   root_account_id        = var.root_account_id

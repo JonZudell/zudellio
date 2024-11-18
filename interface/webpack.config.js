@@ -2,13 +2,10 @@
 const path = require('path');
 const fs = require('fs');
 const StaticSiteGeneratorPlugin = require('./ssgwp');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const data = require('./src/data');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin'); // Add TerserPlugin
 
 class TemplateWrapperPlugin {
@@ -106,7 +103,7 @@ module.exports = {
     ssg: './src/ssg.tsx',
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     globalObject: 'this',
@@ -157,6 +154,11 @@ module.exports = {
         window: {},
       },
     }),
+    new webpack.ids.HashedModuleIdsPlugin({
+      hashFunction: 'md5',
+      hashDigest: 'hex',
+      hashDigestLength: 8,
+    }),
     new TemplateWrapperPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
@@ -167,18 +169,20 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimize: true, // Disable code minification
+    moduleIds: 'deterministic',
+    chunkIds: 'deterministic',
+    minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: false, // Ensure comments are preserved
+        extractComments: false,
         terserOptions: {
           format: {
-            comments: true, // Preserve comments
+            comments: false,
           },
         },
       }),
     ],
-    sideEffects: true, // Enable tree shaking
-    usedExports: true, // Enable tree shaking
+    sideEffects: true,
+    usedExports: true,
   },
 };

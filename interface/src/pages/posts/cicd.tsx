@@ -1,6 +1,5 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
-import AccessibleLink from '../../components/input/AccessibleLink';
 interface PostProps {
   displaySummary?: boolean;
 }
@@ -48,18 +47,17 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h3 className="comment-green"># CD automated reflexive deployment</h3>
       <p>
-        If you work on software. You know that plans never survive contact with
+        If you work on software you know that plans never survive contact with
         reality. In environments that haven&apos;t embraced CI/CD deployments
         can happen so rarely that the process is not well understood and prone
         to error.{' '}
         <span className="text-color-emphasis">
           Most production grade software undergoes several deployments
         </span>{' '}
-        or builds throughout it&apos;s lifetime. Many times several deployments
-        will be required before developers understand the full impact their
-        changes have. In order to not push broken poorly understood code to
-        production things must be tested. Part of testing is testing the
-        deployment.
+        or builds throughout its lifetime. Many times several deployments will
+        be required before developers understand the full impact their changes
+        have. In order to not push broken poorly understood, code to production
+        things must be tested. Part of testing is testing the deployment.
       </p>
       <br />
       <h3 className="comment-green"># Staged Releases</h3>
@@ -72,17 +70,17 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
         different functions. There may be an arbitrary number of staging
         environments. Most processes will use three environments development,
         staging, and production. Each environment should strive to have parity
-        with eachother.
+        with each other.
       </p>
       <br />
       <h4 className="comment-green">## Development</h4>
       <p>
         The function of development is to function as a{' '}
         <span className="text-color-emphasis">
-          sandbox with all resource dependancies provided
+          sandbox with all resource dependencies provided
         </span>
         , development environments may host many different change sets at once
-        and are very unreliable, they tend to function as the first place code
+        and are hella unreliable; they tend to function as the first place code
         is deployed. Development environments tend to not have perfect parity
         with production. Developer permissions are the most straighforward
         example.
@@ -90,7 +88,7 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h4 className="comment-green">## Staging</h4>
       <p>
-        Where as there tend to be one development or production environments;
+        Whereas there tend to be one development or production environments;
         <span className="text-color-emphasis">
           multiple staging environments
         </span>{' '}
@@ -109,7 +107,7 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h4 className="comment-green">## Production</h4>
       <p>
-        Every bit of work done is all for nought if it doesn&apos;t make it into
+        Every bit of work done is all for naught if it doesn&apos;t make it into
         production. Production should have the most stringent security
         configuration. All other environments should strive to be as close to
         production as possible.

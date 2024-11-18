@@ -29,7 +29,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
           This is nearly self-evident. If you have a side effecting function you
           have few guarantees.{' '}
           <img
-            src="/posts/functional/itsalldata.png"
+            src="/public/posts/functional/itsalldata.png"
             alt="It's all data"
             className="w-full h-auto standard-shadow"
           />
@@ -50,7 +50,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
         nearly self-evident. If you have a side effecting function you have few
         guarantees.{' '}
         <img
-          src="/posts/functional/itsalldata.png"
+          src="/public/posts/functional/itsalldata.png"
           alt="It's all data"
           className="w-full h-auto standard-shadow"
         />
