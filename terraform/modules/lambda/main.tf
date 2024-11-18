@@ -44,12 +44,12 @@ locals {
   trimmed_lambda_name = replace(var.lambda_name, "zudellio_", "")
 }
 
-# resource "aws_lambda_function" "lambda" {
-#   provider      = aws.target
-#   function_name = var.lambda_name
-#   role          = var.lambda_exec.arn
-#   package_type  = "Image"
-#   timeout       = 15
+resource "aws_lambda_function" "lambda" {
+  provider      = aws.target
+  function_name = var.lambda_name
+  role          = var.lambda_exec.arn
+  package_type  = "Image"
+  timeout       = 15
 
-#   image_uri = "${var.repository.repository_url}:${var.image_tag}"
-# }
+  image_uri = "${var.repository.repository_url}:${var.image_tag}"
+}

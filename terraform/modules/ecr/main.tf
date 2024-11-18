@@ -42,9 +42,11 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         Action = [
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:CompleteLayerUpload"
         ]
       },
       {
