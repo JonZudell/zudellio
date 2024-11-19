@@ -11,7 +11,7 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
       author="jon@zudell.io"
       date={new Date('2024-10-30T00:00:00Z')}
       title="init"
-      version="v1.0.0"
+      version="v1.2.10"
       postId="init"
       displaySummary={displaySummary}
       summaryContent={
@@ -25,21 +25,9 @@ const Init: React.FC<PostProps> = ({ displaySummary = false }) => {
         I have a list of platitudes to enhance your smarts:
       </p>
       <ul>
-        <li>
-          <span className="tooltip" title={"Don't Repeat Yourself"}>
-            D.R.Y.
-          </span>
-        </li>
-        <li>
-          <span className="tooltip" title={'Principle of Least Surprise'}>
-            P.O.L.S.
-          </span>
-        </li>
-        <li>
-          <span className="tooltip" title={"You Aren't Going to Need It"}>
-            Y.A.G.N.I.
-          </span>
-        </li>
+        <li>Don&apos;t Repeat Yourself</li>
+        <li>Principle of Least Surprise</li>
+        <li>You Aren&apos;t Going to Need It</li>
       </ul>
       <br />
       <h3 className=" comment-green"># Are they platitudes?</h3>

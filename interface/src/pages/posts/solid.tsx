@@ -29,8 +29,7 @@ const Solid: React.FC<PostProps> = ({ displaySummary = false }) => {
       {' '}
       <p>
         <span className="text-color-emphasis">SOLID</span> principles almost
-        redeem object oriented programming. They were proposed compiled and
-        proposed by{' '}
+        redeem object oriented programming. They were compiled and proposed by{' '}
         <span className="text-color-emphasis">Robert C. Martin</span> in the
         early 2000s. They are good for big thinkin&apos; and can help you write
         better code.
@@ -45,12 +44,15 @@ const Solid: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h3 className="comment-green">## Single Responsibility Principle</h3>
       <p>
-        Classes of objects should do one thing 1/1 assed instead of n things 1/n
-        assed. When objects start to handle address too many concerns it causes
-        an exponential growth in complexity. The point of Object Oriented
-        Programming is to encapsulate data and functionality. When done
-        appropriately this minimizes coupling. When features can not be isolated
-        to specific classes they are described as cross-cutting concerns.
+        Classes of objects should do one thing{' '}
+        <span className="text-color-emphasis">1/1</span> assed instead of{' '}
+        <span className="text-color-emphasis">n</span> things{' '}
+        <span className="text-color-emphasis">1/n</span> assed. When objects
+        start to handle address too many concerns it causes an exponential
+        growth in complexity. The point of Object Oriented Programming is to
+        encapsulate data and functionality. When done appropriately this
+        minimizes coupling. When features can not be isolated to specific
+        classes they are described as cross-cutting concerns.
       </p>
       <br />
       <h3 className="comment-green">## Open/Closed Principle</h3>
@@ -68,7 +70,7 @@ const Solid: React.FC<PostProps> = ({ displaySummary = false }) => {
           code unreadable. It&apos;s like a bad smell that you can&apos;t get
           rid of. It&apos;s like a bad habit that you can&apos;t break.
           It&apos;s like a bad analogy that you can&apos;t stop using.
-        </s>
+        </s>{' '}
         Consider eschewing inheritance in favor of composition. Composition is
         like inheritance but better. Composition is like a good smell that you
         can&apos;t get enough of. Composition is like a good habit that you

@@ -2,7 +2,7 @@
     "contact_post": {
         "type": "lambda",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
-        "image": "contact_post:c441ce2e"
+        "image": "contact_post:9a7510c4"
     },
     "contact_get": {
         "type": "static",
@@ -11,7 +11,15 @@
     "healthcheck_get": {
         "type": "lambda",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
-        "image": "healthcheck_get:c441ce2e"
+        "image": "healthcheck_get:9a7510c4"
+    },
+    "posts_types_get": {
+        "type": "static",
+        "destination": "posts/types/index.html"
+    },
+    "posts_testing_get": {
+        "type": "static",
+        "destination": "posts/testing/index.html"
     },
     "posts_ssg_get": {
         "type": "static",
@@ -20,6 +28,14 @@
     "posts_solid_get": {
         "type": "static",
         "destination": "posts/solid/index.html"
+    },
+    "posts_prototypes_get": {
+        "type": "static",
+        "destination": "posts/prototypes/index.html"
+    },
+    "posts_orchestration_get": {
+        "type": "static",
+        "destination": "posts/orchestration/index.html"
     },
     "posts_oop_get": {
         "type": "static",

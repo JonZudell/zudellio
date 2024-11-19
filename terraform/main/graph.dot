@@ -1,0 +1,166 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  subgraph "cluster_module.development" {
+    label = "module.development"
+    fontname = "sans-serif"
+    "module.development.aws_cloudwatch_log_group.lambda_log_group" [label="aws_cloudwatch_log_group.lambda_log_group"];
+    "module.development.aws_iam_policy.lambda_execution_policy" [label="aws_iam_policy.lambda_execution_policy"];
+    "module.development.aws_iam_policy_attachment.lambda_execution_policy_attachment" [label="aws_iam_policy_attachment.lambda_execution_policy_attachment"];
+    "module.development.aws_iam_role.AdminAccessSSOFromRoot" [label="aws_iam_role.AdminAccessSSOFromRoot"];
+    "module.development.aws_iam_role.lambda_execution_role" [label="aws_iam_role.lambda_execution_role"];
+    "module.development.aws_iam_role_policy_attachment.basic_lambda_execution" [label="aws_iam_role_policy_attachment.basic_lambda_execution"];
+    "module.development.aws_iam_role_policy_attachment.lambda_logging" [label="aws_iam_role_policy_attachment.lambda_logging"];
+    "module.development.aws_organizations_account.account" [label="aws_organizations_account.account"];
+    "module.development.aws_s3_bucket.static_website" [label="aws_s3_bucket.static_website"];
+    "module.development.aws_s3_bucket_acl.static_website_acl" [label="aws_s3_bucket_acl.static_website_acl"];
+    "module.development.aws_s3_bucket_cors_configuration.static_website_cors" [label="aws_s3_bucket_cors_configuration.static_website_cors"];
+    "module.development.aws_s3_bucket_ownership_controls.static_website_ownership_controls" [label="aws_s3_bucket_ownership_controls.static_website_ownership_controls"];
+    "module.development.aws_s3_bucket_policy.static_website_policy" [label="aws_s3_bucket_policy.static_website_policy"];
+    "module.development.aws_s3_bucket_public_access_block.static_website_public_access_block" [label="aws_s3_bucket_public_access_block.static_website_public_access_block"];
+    "module.development.random_id.static_website" [label="random_id.static_website"];
+  }
+  subgraph "cluster_module.development.module.api_gateway" {
+    label = "module.development.module.api_gateway"
+    fontname = "sans-serif"
+    "module.development.module.api_gateway.aws_api_gateway_account.api_account" [label="aws_api_gateway_account.api_account"];
+    "module.development.module.api_gateway.aws_api_gateway_deployment.api" [label="aws_api_gateway_deployment.api"];
+    "module.development.module.api_gateway.aws_api_gateway_integration.s3_integration" [label="aws_api_gateway_integration.s3_integration"];
+    "module.development.module.api_gateway.aws_api_gateway_method.static_get" [label="aws_api_gateway_method.static_get"];
+    "module.development.module.api_gateway.aws_api_gateway_method_response.static_200" [label="aws_api_gateway_method_response.static_200"];
+    "module.development.module.api_gateway.aws_api_gateway_resource.static" [label="aws_api_gateway_resource.static"];
+    "module.development.module.api_gateway.aws_api_gateway_rest_api.api" [label="aws_api_gateway_rest_api.api"];
+    "module.development.module.api_gateway.aws_api_gateway_stage.production" [label="aws_api_gateway_stage.production"];
+    "module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs" [label="aws_cloudwatch_log_group.api_gateway_logs"];
+    "module.development.module.api_gateway.aws_iam_policy.api_gateway_policy" [label="aws_iam_policy.api_gateway_policy"];
+    "module.development.module.api_gateway.aws_iam_role.api_gateway_role" [label="aws_iam_role.api_gateway_role"];
+    "module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy" [label="aws_iam_role_policy.api_gateway_cloudwatch_policy"];
+    "module.development.module.api_gateway.aws_iam_role_policy.api_gateway_s3_read_policy" [label="aws_iam_role_policy.api_gateway_s3_read_policy"];
+    "module.development.module.api_gateway.aws_iam_role_policy_attachment.api_gateway_attachment" [label="aws_iam_role_policy_attachment.api_gateway_attachment"];
+    "module.development.module.api_gateway.aws_s3_bucket_policy.interface_bucket_policy" [label="aws_s3_bucket_policy.interface_bucket_policy"];
+  }
+  subgraph "cluster_module.development.module.interface" {
+    label = "module.development.module.interface"
+    fontname = "sans-serif"
+    "module.development.module.interface.aws_s3_bucket_website_configuration.interface_config" [label="aws_s3_bucket_website_configuration.interface_config"];
+    "module.development.module.interface.aws_s3_object.interface_files" [label="aws_s3_object.interface_files"];
+  }
+  subgraph "cluster_module.development.module.lambda" {
+    label = "module.development.module.lambda"
+    fontname = "sans-serif"
+    "module.development.module.lambda.aws_lambda_function.lambda" [label="aws_lambda_function.lambda"];
+  }
+  subgraph "cluster_module.infrastructure" {
+    label = "module.infrastructure"
+    fontname = "sans-serif"
+    "module.infrastructure.aws_iam_role.AdminAccessSSOFromRoot" [label="aws_iam_role.AdminAccessSSOFromRoot"];
+    "module.infrastructure.aws_organizations_account.account" [label="aws_organizations_account.account"];
+  }
+  subgraph "cluster_module.infrastructure.module.ecr" {
+    label = "module.infrastructure.module.ecr"
+    fontname = "sans-serif"
+    "module.infrastructure.module.ecr.aws_ecr_lifecycle_policy.lambda_repo_lifecycle" [label="aws_ecr_lifecycle_policy.lambda_repo_lifecycle"];
+    "module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo" [label="aws_ecr_repository.lambda_repo"];
+    "module.infrastructure.module.ecr.aws_ecr_repository_policy.lambda_repo_policy" [label="aws_ecr_repository_policy.lambda_repo_policy"];
+    "module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy" [label="aws_iam_policy.cross_account_ecr_read_policy"];
+    "module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all" [label="aws_iam_policy.cross_account_ecr_read_policy_all"];
+    "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment" [label="aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment"];
+    "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all" [label="aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all"];
+    "module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role" [label="aws_iam_role.cross_account_ecr_read_role"];
+  }
+  subgraph "cluster_module.monitoring" {
+    label = "module.monitoring"
+    fontname = "sans-serif"
+    "module.monitoring.aws_iam_role.AdminAccessSSOFromRoot" [label="aws_iam_role.AdminAccessSSOFromRoot"];
+    "module.monitoring.aws_organizations_account.account" [label="aws_organizations_account.account"];
+  }
+  subgraph "cluster_module.organization" {
+    label = "module.organization"
+    fontname = "sans-serif"
+    "module.organization.aws_organizations_organization.org" [label="aws_organizations_organization.org"];
+  }
+  subgraph "cluster_module.production" {
+    label = "module.production"
+    fontname = "sans-serif"
+    "module.production.aws_iam_role.AdminAccessSSOFromRoot" [label="aws_iam_role.AdminAccessSSOFromRoot"];
+    "module.production.aws_organizations_account.account" [label="aws_organizations_account.account"];
+    "module.production.aws_s3_bucket.static_website" [label="aws_s3_bucket.static_website"];
+    "module.production.aws_s3_bucket_acl.static_website_acl" [label="aws_s3_bucket_acl.static_website_acl"];
+    "module.production.aws_s3_bucket_ownership_controls.static_website_ownership_controls" [label="aws_s3_bucket_ownership_controls.static_website_ownership_controls"];
+    "module.production.aws_s3_bucket_public_access_block.static_website_public_access_block" [label="aws_s3_bucket_public_access_block.static_website_public_access_block"];
+    "module.production.random_id.static_website" [label="random_id.static_website"];
+  }
+  subgraph "cluster_module.production.module.interface" {
+    label = "module.production.module.interface"
+    fontname = "sans-serif"
+    "module.production.module.interface.aws_s3_bucket_website_configuration.interface_config" [label="aws_s3_bucket_website_configuration.interface_config"];
+    "module.production.module.interface.aws_s3_object.interface_files" [label="aws_s3_object.interface_files"];
+  }
+  subgraph "cluster_module.security" {
+    label = "module.security"
+    fontname = "sans-serif"
+    "module.security.aws_iam_role.AdminAccessSSOFromRoot" [label="aws_iam_role.AdminAccessSSOFromRoot"];
+    "module.security.aws_organizations_account.account" [label="aws_organizations_account.account"];
+  }
+  subgraph "cluster_module.tf_state_bootstrap" {
+    label = "module.tf_state_bootstrap"
+    fontname = "sans-serif"
+    "module.tf_state_bootstrap.aws_dynamodb_table.terraform_dynamodb_locks" [label="aws_dynamodb_table.terraform_dynamodb_locks"];
+    "module.tf_state_bootstrap.aws_s3_bucket.terraform_state_bucket" [label="aws_s3_bucket.terraform_state_bucket"];
+    "module.tf_state_bootstrap.aws_s3_bucket_acl.terraform_bucket_acl" [label="aws_s3_bucket_acl.terraform_bucket_acl"];
+    "module.tf_state_bootstrap.aws_s3_bucket_ownership_controls.ownership_controls" [label="aws_s3_bucket_ownership_controls.ownership_controls"];
+    "module.tf_state_bootstrap.aws_s3_bucket_policy.terraform_state_policy" [label="aws_s3_bucket_policy.terraform_state_policy"];
+    "module.tf_state_bootstrap.aws_s3_bucket_versioning.versioning" [label="aws_s3_bucket_versioning.versioning"];
+  }
+  "module.development.aws_iam_policy_attachment.lambda_execution_policy_attachment" -> "module.development.aws_iam_policy.lambda_execution_policy";
+  "module.development.aws_iam_policy_attachment.lambda_execution_policy_attachment" -> "module.development.aws_iam_role.lambda_execution_role";
+  "module.development.aws_iam_role_policy_attachment.basic_lambda_execution" -> "module.development.aws_iam_role.lambda_execution_role";
+  "module.development.aws_iam_role_policy_attachment.lambda_logging" -> "module.development.aws_iam_role.lambda_execution_role";
+  "module.development.aws_s3_bucket.static_website" -> "module.development.random_id.static_website";
+  "module.development.aws_s3_bucket_acl.static_website_acl" -> "module.development.aws_s3_bucket_ownership_controls.static_website_ownership_controls";
+  "module.development.aws_s3_bucket_acl.static_website_acl" -> "module.development.aws_s3_bucket_public_access_block.static_website_public_access_block";
+  "module.development.aws_s3_bucket_cors_configuration.static_website_cors" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.aws_s3_bucket_ownership_controls.static_website_ownership_controls" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.aws_s3_bucket_policy.static_website_policy" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.aws_s3_bucket_policy.static_website_policy" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.aws_s3_bucket_public_access_block.static_website_public_access_block" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.api_gateway.aws_api_gateway_account.api_account" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.module.api_gateway.aws_api_gateway_deployment.api" -> "module.development.module.api_gateway.aws_api_gateway_integration.s3_integration";
+  "module.development.module.api_gateway.aws_api_gateway_integration.s3_integration" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.api_gateway.aws_api_gateway_integration.s3_integration" -> "module.development.module.api_gateway.aws_api_gateway_method.static_get";
+  "module.development.module.api_gateway.aws_api_gateway_method.static_get" -> "module.development.module.api_gateway.aws_api_gateway_resource.static";
+  "module.development.module.api_gateway.aws_api_gateway_method_response.static_200" -> "module.development.module.api_gateway.aws_api_gateway_method.static_get";
+  "module.development.module.api_gateway.aws_api_gateway_resource.static" -> "module.development.module.api_gateway.aws_api_gateway_rest_api.api";
+  "module.development.module.api_gateway.aws_api_gateway_stage.production" -> "module.development.module.api_gateway.aws_api_gateway_deployment.api";
+  "module.development.module.api_gateway.aws_api_gateway_stage.production" -> "module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs";
+  "module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs" -> "module.development.module.api_gateway.aws_api_gateway_rest_api.api";
+  "module.development.module.api_gateway.aws_iam_policy.api_gateway_policy" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.module.api_gateway.aws_iam_role_policy.api_gateway_s3_read_policy" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.api_gateway.aws_iam_role_policy.api_gateway_s3_read_policy" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.module.api_gateway.aws_iam_role_policy_attachment.api_gateway_attachment" -> "module.development.module.api_gateway.aws_iam_policy.api_gateway_policy";
+  "module.development.module.api_gateway.aws_iam_role_policy_attachment.api_gateway_attachment" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.module.api_gateway.aws_s3_bucket_policy.interface_bucket_policy" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.api_gateway.aws_s3_bucket_policy.interface_bucket_policy" -> "module.development.module.api_gateway.aws_iam_role.api_gateway_role";
+  "module.development.module.interface.aws_s3_bucket_website_configuration.interface_config" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.interface.aws_s3_object.interface_files" -> "module.development.aws_s3_bucket.static_website";
+  "module.development.module.lambda.aws_lambda_function.lambda" -> "module.development.aws_iam_role.lambda_execution_role";
+  "module.development.module.lambda.aws_lambda_function.lambda" -> "module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo";
+  "module.infrastructure.module.ecr.aws_ecr_lifecycle_policy.lambda_repo_lifecycle" -> "module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo";
+  "module.infrastructure.module.ecr.aws_ecr_repository_policy.lambda_repo_policy" -> "module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo";
+  "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment" -> "module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy";
+  "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment" -> "module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role";
+  "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all" -> "module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all";
+  "module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all" -> "module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role";
+  "module.production.aws_s3_bucket.static_website" -> "module.production.random_id.static_website";
+  "module.production.aws_s3_bucket_acl.static_website_acl" -> "module.production.aws_s3_bucket_ownership_controls.static_website_ownership_controls";
+  "module.production.aws_s3_bucket_acl.static_website_acl" -> "module.production.aws_s3_bucket_public_access_block.static_website_public_access_block";
+  "module.production.aws_s3_bucket_ownership_controls.static_website_ownership_controls" -> "module.production.aws_s3_bucket.static_website";
+  "module.production.aws_s3_bucket_public_access_block.static_website_public_access_block" -> "module.production.aws_s3_bucket.static_website";
+  "module.production.module.interface.aws_s3_bucket_website_configuration.interface_config" -> "module.production.aws_s3_bucket.static_website";
+  "module.production.module.interface.aws_s3_object.interface_files" -> "module.production.aws_s3_bucket.static_website";
+  "module.tf_state_bootstrap.aws_s3_bucket_acl.terraform_bucket_acl" -> "module.tf_state_bootstrap.aws_s3_bucket_ownership_controls.ownership_controls";
+  "module.tf_state_bootstrap.aws_s3_bucket_ownership_controls.ownership_controls" -> "module.tf_state_bootstrap.aws_s3_bucket.terraform_state_bucket";
+  "module.tf_state_bootstrap.aws_s3_bucket_policy.terraform_state_policy" -> "module.tf_state_bootstrap.aws_s3_bucket.terraform_state_bucket";
+  "module.tf_state_bootstrap.aws_s3_bucket_versioning.versioning" -> "module.tf_state_bootstrap.aws_s3_bucket.terraform_state_bucket";
+}

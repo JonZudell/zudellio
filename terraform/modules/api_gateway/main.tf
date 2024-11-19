@@ -40,7 +40,7 @@ resource "aws_api_gateway_method" "static_get" {
 
 resource "aws_iam_role" "api_gateway_role" {
   provider = aws.target
-  name = "api-gateway-role"
+  name = "api-gateway-cloudwatch-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -55,31 +55,7 @@ resource "aws_iam_role" "api_gateway_role" {
     ]
   })
 }
-resource "aws_s3_bucket_policy" "interface_bucket_policy" {
-  provider = aws.target
-  bucket = var.bucket.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = "${aws_iam_role.api_gateway_role.arn}"
-        },
-        Action   = "s3:GetObject"
-        Resource = "${var.bucket.arn}/*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "api_gateway_attachment" {
-  provider = aws.target
-  role       = aws_iam_role.api_gateway_role.name
-  policy_arn = aws_iam_policy.api_gateway_policy.arn
-}
-resource "aws_iam_policy" "api_gateway_policy" {
+resource "aws_iam_policy" "api_gateway_s3_policy" {
   provider = aws.target
   name = "api-gateway-policy"
 
@@ -99,6 +75,67 @@ resource "aws_iam_policy" "api_gateway_policy" {
           "execute-api:Invoke"
         ],
         Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
+  provider = aws.target
+  role = aws_iam_role.api_gateway_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "api_gateway_s3_read_policy" {
+  provider = aws.target
+  role = aws_iam_role.api_gateway_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        Resource = [
+          "${var.bucket.arn}",
+          "${var.bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_s3_bucket_policy" "interface_bucket_policy" {
+  provider = aws.target
+  bucket = var.bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = "${aws_iam_role.api_gateway_role.arn}"
+        },
+        Action   = "s3:GetObject"
+        Resource = "${var.bucket.arn}/*"
       }
     ]
   })
@@ -152,7 +189,48 @@ resource "aws_api_gateway_stage" "production" {
   deployment_id = aws_api_gateway_deployment.api.id
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = "production"
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
+    format = jsonencode({
+      requestId = "$context.requestId",
+      ip = "$context.identity.sourceIp",
+      caller = "$context.identity.caller",
+      user = "$context.identity.user",
+      requestTime = "$context.requestTime",
+      httpMethod = "$context.httpMethod",
+      resourcePath = "$context.resourcePath",
+      status = "$context.status",
+      protocol = "$context.protocol",
+      responseLength = "$context.responseLength"
+    })
+  }
+
 }
+
+resource "aws_api_gateway_method_settings" "production" {
+  provider = aws.target
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  stage_name  = aws_api_gateway_stage.production.stage_name
+  method_path = "/*/*"
+
+  settings {
+    logging_level    = "INFO"
+    data_trace_enabled = true
+  }
+}
+
+resource "aws_cloudwatch_log_group" "api_gateway_logs" {
+  provider = aws.target
+  name = "/aws/api-gateway/${aws_api_gateway_rest_api.api.id}"
+  retention_in_days = 7
+}
+
+resource "aws_api_gateway_account" "api_account" {
+  provider = aws.target
+  cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
+}
+
 output "api_gateway_role" {
   value = aws_iam_role.api_gateway_role
 }

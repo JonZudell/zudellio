@@ -169,7 +169,17 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 EOF
 }
+resource "aws_iam_role_policy_attachment" "lambda_logging" {
+  provider   = aws.target
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
 
+resource "aws_cloudwatch_log_group" "lambda_log_group" {
+  provider   = aws.target
+  name       = "/aws/lambda/${var.account_name}"
+  retention_in_days = 14
+}
 resource "aws_iam_policy" "lambda_execution_policy" {
   provider = aws.target
   name     = "lambda_execution_policy"
@@ -201,11 +211,11 @@ resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {
   roles      = [aws_iam_role.lambda_execution_role.name]
   policy_arn = aws_iam_policy.lambda_execution_policy.arn
 }
-module "interface_upload" {
+module "interface" {
   providers = {
     aws.target = aws.target
   }
-  source      = "../../modules/interface_upload"
+  source      = "../../modules/interface"
   dist_dir    = var.dist_dir
   bucket      = aws_s3_bucket.static_website
   environment = var.environment
@@ -233,7 +243,7 @@ module "lambda" {
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"
-  value       = module.interface_upload.s3_website_url
+  value       = module.interface.s3_website_url
 }
 output "api_url" {
   value = module.api_gateway.api_url

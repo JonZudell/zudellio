@@ -28,9 +28,12 @@ resource "aws_s3_object" "interface_files" {
   etag     = filemd5("${var.dist_dir}/${each.value}")
   lifecycle {
     create_before_destroy = true
-    # ignore_changes = [
-    #   etag,
-    # ]
+    ignore_changes = [
+      etag,
+    ]
+  }
+  tags = {
+    etag = filemd5("${var.dist_dir}/${each.value}")
   }
   depends_on = [var.bucket]
   for_each   = toset([for file in fileset("${var.dist_dir}", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])

@@ -88,13 +88,13 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
       <br />
       <h4 className="comment-green">## Staging</h4>
       <p>
-        Whereas there tend to be one development or production environments;
+        Whereas there tend to be one development or production environments;{' '}
         <span className="text-color-emphasis">
           multiple staging environments
         </span>{' '}
         are more common than multiple development environments. When this
         happens it tends to be because multiple product teams are working to get
-        features released and the change sets are incompatible. This lets Q.A.
+        features released and the change sets are incompatible. This lets Q.A.{' '}
         <span className="text-color-emphasis">
           examine multiple change sets
         </span>{' '}
@@ -116,7 +116,7 @@ const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
       <h3 className="comment-green"># Feature Flags</h3>
       <p>
         Another way to test the functionality of features before activating them
-        is with feature flags.
+        is with feature flags.{' '}
         <span className="text-color-emphasis">
           Feature flags are conditional statements that keep two feature sets as
           part of the same deployment

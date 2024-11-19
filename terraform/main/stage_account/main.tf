@@ -98,16 +98,16 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   restrict_public_buckets = false
 }
 
-module "interface_upload" {
+module "interface" {
   providers = {
     aws.target = aws.target
   }
-  source      = "../../modules/interface_upload"
+  source      = "../../modules/interface"
   dist_dir    = var.dist_dir
   bucket      = aws_s3_bucket.static_website
   environment = var.environment
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"
-  value       = module.interface_upload.s3_website_url
+  value       = module.interface.s3_website_url
 }

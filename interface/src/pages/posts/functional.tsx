@@ -18,7 +18,7 @@ const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
       summaryContent={
         <p>
           <span className="text-color-emphasis">Functional Programming</span> is
-          simple you have functions. Functions take inputs and return outputs.
+          simple you have functions. Functions take inputs and return outputs.{' '}
           <s className="text-gray-500">
             Everything else is a lie. The end. I am a functional programmer. I
             am a functional programmer. I am a functional programmer. I am a
