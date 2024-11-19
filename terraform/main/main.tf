@@ -132,9 +132,9 @@ module "tf_state_bootstrap" {
 
 module "organization" {
   providers = {
-    aws.root           = aws.root
+    aws.root = aws.root
   }
-  source                    = "./organization"
+  source = "./organization"
 }
 
 module "infrastructure" {
@@ -142,15 +142,15 @@ module "infrastructure" {
     aws.root   = aws.root
     aws.target = aws.infrastructure
   }
-  source                 = "./infra_account"
-  account_email          = "jon+infrastructure@zudell.io"
-  bucket_infix           = "infrastructure"
-  account_name           = "InfrastructureAccount"
-  root_account_id        = var.root_account_id
-  development_account_id = var.development_account_id
-  production_account_id  = var.production_account_id
+  source                    = "./infra_account"
+  account_email             = "jon+infrastructure@zudell.io"
+  bucket_infix              = "infrastructure"
+  account_name              = "InfrastructureAccount"
+  root_account_id           = var.root_account_id
+  development_account_id    = var.development_account_id
+  production_account_id     = var.production_account_id
   infrastructure_account_id = var.infrastructure_account_id
-  manifest_file          = var.manifest_file
+  manifest_file             = var.manifest_file
 }
 
 module "monitoring" {
@@ -223,4 +223,7 @@ output "development_s3_website_url" {
 
 output "production_s3_website_url" {
   value = module.production.s3_website_url
+}
+output "development_api_url" {
+  value = module.development.api_url
 }

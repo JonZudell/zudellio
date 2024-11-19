@@ -89,7 +89,23 @@ resource "aws_s3_bucket" "static_website" {
   provider = aws.target
   bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
 }
-
+resource "aws_s3_bucket_policy" "static_website_policy" {
+  provider = aws.target
+  bucket = aws_s3_bucket.static_website.bucket
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          AWS = "${module.api_gateway.api_gateway_role.arn}"
+        }
+        Action = "s3:GetObject"
+        Resource = "${aws_s3_bucket.static_website.arn}/*"
+      }
+    ]
+  })
+}
 resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" {
   provider = aws.target
   bucket   = aws_s3_bucket.static_website.id
@@ -110,7 +126,16 @@ resource "aws_s3_bucket_acl" "static_website_acl" {
   acl    = "public-read"
 
 }
+resource "aws_s3_bucket_cors_configuration" "static_website_cors" {
+  provider = aws.target
+  bucket = aws_s3_bucket.static_website.id
 
+  cors_rule {
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+    allowed_headers = ["*"]
+  }
+}
 resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
   provider = aws.target
   bucket   = aws_s3_bucket.static_website.id
@@ -121,30 +146,14 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   restrict_public_buckets = false
 }
 
-module "interface_upload" {
-  providers = {
-    aws.target = aws.target
-  }
-  source      = "../../modules/interface_upload"
-  dist_dir    = var.dist_dir
-  bucket      = aws_s3_bucket.static_website
-  environment = var.environment
-}
-module "api_gateway" {
-  providers = {
-    aws.target = aws.target
-  }
-  source      = "../../modules/api_gateway"
-  bucket      = aws_s3_bucket.static_website
-}
 resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
-  provider      = aws.target
+  provider   = aws.target
   role       = aws_iam_role.lambda_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 resource "aws_iam_role" "lambda_execution_role" {
-  provider      = aws.target
-  name = "lambda_execution_role"
+  provider           = aws.target
+  name               = "lambda_execution_role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -162,9 +171,9 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_execution_policy" {
-  provider      = aws.target
-  name = "lambda_execution_policy"
-  policy = <<EOF
+  provider = aws.target
+  name     = "lambda_execution_policy"
+  policy   = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -187,26 +196,45 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {
-  name = "lambda_execution_policy_attachment"
-  provider      = aws.target
+  name       = "lambda_execution_policy_attachment"
+  provider   = aws.target
   roles      = [aws_iam_role.lambda_execution_role.name]
   policy_arn = aws_iam_policy.lambda_execution_policy.arn
+}
+module "interface_upload" {
+  providers = {
+    aws.target = aws.target
+  }
+  source      = "../../modules/interface_upload"
+  dist_dir    = var.dist_dir
+  bucket      = aws_s3_bucket.static_website
+  environment = var.environment
+}
+module "api_gateway" {
+  providers = {
+    aws.target = aws.target
+  }
+  source = "../../modules/api_gateway"
+  bucket = aws_s3_bucket.static_website
 }
 module "lambda" {
   providers = {
     aws.target = aws.target
   }
-  source                 = "../../modules/lambda"
-  for_each               = var.repositories
-  repository             = each.value
-  lambda_name            = each.key
-  infrastructure_profile = var.infrastructure_profile
+  source                    = "../../modules/lambda"
+  for_each                  = var.repositories
+  repository                = each.value
+  lambda_name               = each.key
+  infrastructure_profile    = var.infrastructure_profile
   infrastructure_account_id = var.infrastructure_account_id
-  execution_role         = aws_iam_role.lambda_execution_role
-  manifest_file          = var.manifest_file
-  image_tag              = var.image_tag
+  execution_role            = aws_iam_role.lambda_execution_role
+  manifest_file             = var.manifest_file
+  image_tag                 = var.image_tag
 }
 output "s3_website_url" {
   description = "The URL of the S3 static website"
   value       = module.interface_upload.s3_website_url
+}
+output "api_url" {
+  value = module.api_gateway.api_url
 }

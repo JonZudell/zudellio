@@ -79,10 +79,10 @@ module "ecr" {
   providers = {
     aws.target = aws.target
   }
-  manifest_file          = var.manifest_file
-  root_account_id        = var.root_account_id
+  manifest_file             = var.manifest_file
+  root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
-  development_account_id = var.development_account_id
+  development_account_id    = var.development_account_id
 }
 
 output "repositories" {
