@@ -65,7 +65,7 @@ resource "aws_iam_role" "cross_account_ecr_read_role" {
     {
       "Effect": "Allow",
       "Action": "sts:AssumeRole",
-      "Principal": { "AWS" : "arn:aws:iam::${var.development_account_id}:role/lambda_execution_role" }
+      "Principal": { "AWS" : "arn:aws:iam::${var.development_account_id}:root" }
     }
   ]
 }

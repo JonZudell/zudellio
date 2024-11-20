@@ -9,6 +9,7 @@ terraform {
     }
   }
 }
+
 variable "bucket" {
   description = "The s3 bucket to serve static files from"
 }
@@ -19,28 +20,28 @@ resource "aws_api_gateway_rest_api" "api" {
   description = "API Gateway for static S3 bucket CDN and Lambda functions"
 }
 
-resource "aws_api_gateway_resource" "static" {
+resource "aws_api_gateway_resource" "proxy" {
   provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "{proxy+}"
 }
 
-resource "aws_api_gateway_method" "static_get" {
+resource "aws_api_gateway_method" "proxy_method" {
   provider = aws.target
   rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.static.id
+  resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "GET"
   authorization = "NONE"
 
-    request_parameters = {
+  request_parameters = {
     "method.request.path.proxy" = true
   }
 }
 
 resource "aws_iam_role" "api_gateway_role" {
   provider = aws.target
-  name = "api-gateway-cloudwatch-role"
+  name = "api-gateway-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -55,6 +56,11 @@ resource "aws_iam_role" "api_gateway_role" {
     ]
   })
 }
+resource "aws_iam_role_policy_attachment" "api_gateway_role_attachment" {
+  provider = aws.target
+  role       = aws_iam_role.api_gateway_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
 resource "aws_iam_policy" "api_gateway_s3_policy" {
   provider = aws.target
   name = "api-gateway-policy"
@@ -68,13 +74,6 @@ resource "aws_iam_policy" "api_gateway_s3_policy" {
           "s3:GetObject"
         ],
         Resource = "${var.bucket.arn}/*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "execute-api:Invoke"
-        ],
-        Resource = "*"
       }
     ]
   })
@@ -92,7 +91,11 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
         Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+          "logs:GetLogEvents",
+          "logs:FilterLogEvents",
         ],
         Resource = "*"
       }
@@ -132,7 +135,7 @@ resource "aws_s3_bucket_policy" "interface_bucket_policy" {
       {
         Effect = "Allow",
         Principal = {
-          AWS = "${aws_iam_role.api_gateway_role.arn}"
+          Service = "apigateway.amazonaws.com"
         },
         Action   = "s3:GetObject"
         Resource = "${var.bucket.arn}/*"
@@ -141,37 +144,24 @@ resource "aws_s3_bucket_policy" "interface_bucket_policy" {
   })
 }
 
-resource "aws_api_gateway_integration" "s3_integration" {
+resource "aws_api_gateway_integration" "proxy_integration" {
   provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.static.id
-  http_method = aws_api_gateway_method.static_get.http_method
-  type        = "HTTP_PROXY"
-  uri         = "http://${var.bucket.bucket}.s3-website-us-east-1.amazonaws.com/{proxy+}"
-
+  resource_id = aws_api_gateway_resource.proxy.id
+  http_method = aws_api_gateway_method.proxy_method.http_method
+  type        = "AWS"
+  integration_http_method = "GET"
+  uri         = "arn:aws:apigateway:us-east-1:s3:path/${var.bucket.bucket}/{proxy}"
+  credentials = aws_iam_role.api_gateway_role.arn
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"
-  }
-
-  integration_http_method = "GET"
-}
-
-resource "aws_api_gateway_method_response" "static_200" {
-  provider = aws.target
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.static.id
-  http_method = aws_api_gateway_method.static_get.http_method
-  status_code = "200"
-
-  response_parameters = {
-    "method.response.header.Content-Type" = true
   }
 }
 
 resource "aws_api_gateway_deployment" "api" {
   provider = aws.target
   depends_on = [
-    aws_api_gateway_integration.s3_integration,
+    aws_api_gateway_integration.proxy_integration,
   ]
   rest_api_id = aws_api_gateway_rest_api.api.id
 
@@ -212,7 +202,7 @@ resource "aws_api_gateway_method_settings" "production" {
   provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name  = aws_api_gateway_stage.production.stage_name
-  method_path = "/*/*"
+  method_path = "*/*"
 
   settings {
     logging_level    = "INFO"
@@ -236,4 +226,8 @@ output "api_gateway_role" {
 }
 output "api_url" {
   value = aws_api_gateway_deployment.api.invoke_url
+}
+
+output "api_gateway" {
+  value = aws_api_gateway_rest_api.api
 }
