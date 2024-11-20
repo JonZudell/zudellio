@@ -159,7 +159,13 @@ module "interface" {
   api_gateway = module.api_gateway.api_gateway
   api_gateway_role = module.api_gateway.api_gateway_role
 }
-
+module "cloudfront" {
+  providers = {
+    aws.target = aws.target
+  }
+  source       = "../../modules/cloudfront"
+  bucket       = module.interface.s3_bucket
+}
 module "api_gateway" {
   providers = {
     aws.target = aws.target
@@ -188,4 +194,8 @@ output "s3_website_url" {
 }
 output "api_url" {
   value = module.api_gateway.api_url
+}
+output "cloudfront_url" {
+  description = "The URL of the CloudFront distribution"
+  value       = module.cloudfront.cloudfront_url
 }

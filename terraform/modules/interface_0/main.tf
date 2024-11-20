@@ -45,24 +45,16 @@ resource "aws_s3_bucket_policy" "static_website_policy" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "${var.api_gateway_role.arn}"
-        }
-        Action = "s3:GetObject"
-        Resource = "${aws_s3_bucket.static_website.arn}/*"
-      },
-      {
-        Sid: "APIProxyBucketPolicy",
-        Effect: "Allow",
-        Principal = {
           Service = "apigateway.amazonaws.com"
-        },
-        Action = "s3:GetObject",
-        Resource = "${aws_s3_bucket.static_website.arn}/*",
-        Condition = {
-          ArnLike = {
-            "aws:SourceArn": "arn:aws:execute-api:us-east-1::${var.api_gateway.id}/*/GET/"
-          }
         }
+        Action = [
+          "s3:GetObject", 
+          "s3:ListBucket"
+        ]
+        Resource = [
+          "${aws_s3_bucket.static_website.arn}",
+          "${aws_s3_bucket.static_website.arn}/*"
+        ]
       }
     ]
   })
@@ -84,7 +76,7 @@ resource "aws_s3_bucket_acl" "static_website_acl" {
     aws_s3_bucket_public_access_block.static_website_public_access_block
   ]
   bucket = aws_s3_bucket.static_website.id
-  acl    = "public-read"
+  acl    = "private"
 
 }
 resource "aws_s3_bucket_cors_configuration" "static_website_cors" {

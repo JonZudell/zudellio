@@ -20,25 +20,6 @@ resource "aws_api_gateway_rest_api" "api" {
   description = "API Gateway for static S3 bucket CDN and Lambda functions"
 }
 
-resource "aws_api_gateway_resource" "proxy" {
-  provider = aws.target
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
-  path_part   = "{proxy+}"
-}
-
-resource "aws_api_gateway_method" "proxy_method" {
-  provider = aws.target
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.proxy.id
-  http_method   = "GET"
-  authorization = "NONE"
-
-  request_parameters = {
-    "method.request.path.proxy" = true
-  }
-}
-
 resource "aws_iam_role" "api_gateway_role" {
   provider = aws.target
   name = "api-gateway-role"
@@ -56,108 +37,6 @@ resource "aws_iam_role" "api_gateway_role" {
     ]
   })
 }
-resource "aws_iam_role_policy_attachment" "api_gateway_role_attachment" {
-  provider = aws.target
-  role       = aws_iam_role.api_gateway_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-resource "aws_iam_policy" "api_gateway_s3_policy" {
-  provider = aws.target
-  name = "api-gateway-policy"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "s3:GetObject"
-        ],
-        Resource = "${var.bucket.arn}/*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
-  provider = aws.target
-  role = aws_iam_role.api_gateway_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:DescribeLogGroups",
-          "logs:DescribeLogStreams",
-          "logs:PutLogEvents",
-          "logs:GetLogEvents",
-          "logs:FilterLogEvents",
-        ],
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "api_gateway_s3_read_policy" {
-  provider = aws.target
-  role = aws_iam_role.api_gateway_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "s3:GetObject",
-          "s3:ListBucket"
-        ],
-        Resource = [
-          "${var.bucket.arn}",
-          "${var.bucket.arn}/*"
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_s3_bucket_policy" "interface_bucket_policy" {
-  provider = aws.target
-  bucket = var.bucket.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          Service = "apigateway.amazonaws.com"
-        },
-        Action   = "s3:GetObject"
-        Resource = "${var.bucket.arn}/*"
-      }
-    ]
-  })
-}
-
-resource "aws_api_gateway_integration" "proxy_integration" {
-  provider = aws.target
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.proxy.id
-  http_method = aws_api_gateway_method.proxy_method.http_method
-  type        = "AWS"
-  integration_http_method = "GET"
-  uri         = "arn:aws:apigateway:us-east-1:s3:path/${var.bucket.bucket}/{proxy}"
-  credentials = aws_iam_role.api_gateway_role.arn
-  request_parameters = {
-    "integration.request.path.proxy" = "method.request.path.proxy"
-  }
-}
-
 resource "aws_api_gateway_deployment" "api" {
   provider = aws.target
   depends_on = [

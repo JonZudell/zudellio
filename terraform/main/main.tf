@@ -227,3 +227,7 @@ output "production_s3_website_url" {
 output "development_api_url" {
   value = module.development.api_url
 }
+output "development_cloudfront_url" {
+  description = "The URL of the CloudFront distribution"
+  value       = module.development.cloudfront_url
+}
