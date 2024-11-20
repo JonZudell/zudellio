@@ -39,9 +39,6 @@ resource "aws_iam_role" "api_gateway_role" {
 }
 resource "aws_api_gateway_deployment" "api" {
   provider = aws.target
-  depends_on = [
-    aws_api_gateway_integration.proxy_integration,
-  ]
   rest_api_id = aws_api_gateway_rest_api.api.id
 
   triggers = {

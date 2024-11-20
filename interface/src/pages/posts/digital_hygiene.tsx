@@ -42,7 +42,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
       <h3 className="comment-green"># Whomst are they?</h3>
       <p>
         <span className="text-color-emphasis">
-          <i>They</i> are identity thieves, credit card scammers, and hackers
+          They are identity thieves, credit card scammers, and hackers
         </span>{' '}
         And they out to steal yo&apos; identity, yo&apos; credit card, and
         yo&apos; online banking information if you let them. The common factor

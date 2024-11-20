@@ -1,0 +1,84 @@
+{
+    "contact_post": {
+        "type": "lambda",
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
+        "image": "contact_post:fe5b23cf"
+    },
+    "contact_get": {
+        "type": "static",
+        "destination": "contact/index.html"
+    },
+    "healthcheck_get": {
+        "type": "lambda",
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
+        "image": "healthcheck_get:fe5b23cf"
+    },
+    "posts_types_get": {
+        "type": "static",
+        "destination": "posts/types/index.html"
+    },
+    "posts_testing_get": {
+        "type": "static",
+        "destination": "posts/testing/index.html"
+    },
+    "posts_ssg_get": {
+        "type": "static",
+        "destination": "posts/ssg/index.html"
+    },
+    "posts_solid_get": {
+        "type": "static",
+        "destination": "posts/solid/index.html"
+    },
+    "posts_prototypes_get": {
+        "type": "static",
+        "destination": "posts/prototypes/index.html"
+    },
+    "posts_orchestration_get": {
+        "type": "static",
+        "destination": "posts/orchestration/index.html"
+    },
+    "posts_oop_get": {
+        "type": "static",
+        "destination": "posts/oop/index.html"
+    },
+    "posts_on_passwords_get": {
+        "type": "static",
+        "destination": "posts/on_passwords/index.html"
+    },
+    "posts_init_get": {
+        "type": "static",
+        "destination": "posts/init/index.html"
+    },
+    "posts_functional_get": {
+        "type": "static",
+        "destination": "posts/functional/index.html"
+    },
+    "posts_digital_hygiene_get": {
+        "type": "static",
+        "destination": "posts/digital_hygiene/index.html"
+    },
+    "posts_cicd_get": {
+        "type": "static",
+        "destination": "posts/cicd/index.html"
+    },
+    "posts_aws_tf_bootstrap_get": {
+        "type": "static",
+        "destination": "posts/aws_tf_bootstrap/index.html"
+    },
+    "posts_authn_get": {
+        "type": "static",
+        "destination": "posts/authn/index.html"
+    },
+    "posts_a11y_get": {
+        "type": "static",
+        "destination": "posts/a11y/index.html"
+    },
+    "auth_sign_up_get": {
+        "type": "static",
+        "destination": "auth/sign_up/index.html"
+    },
+    "auth_sign_in_get": {
+        "type": "static",
+        "destination": "auth/sign_in/index.html"
+    }
+}

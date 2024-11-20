@@ -14,6 +14,7 @@ variable "bucket" {
   description = "The s3 bucket to serve static files from"
 }
 resource "aws_cloudfront_distribution" "s3_distribution" {
+  provider = aws.target
   origin {
     domain_name = "${var.bucket.bucket}.s3.amazonaws.com"
     origin_id   = "S3-${var.bucket.bucket}"
@@ -58,6 +59,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  provider = aws.target
   comment = "Origin access identity for CloudFront to access S3"
 }
 output "cloudfront_url" {

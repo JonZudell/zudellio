@@ -8,9 +8,9 @@ for key in $(jq -r 'keys[]' "$manifest_file"); do
   if [ "$type" == "lambda" ]; then
     dockerfile=$(jq -r --arg key "$key" '.[$key].Dockerfile' "$manifest_file")
     cd "$(dirname "$dockerfile")" || exit
-    echo "docker build -t 585768141523.dkr.ecr.us-east-1.amazonaws.com/zudellio_$key:$commit_hash -f $dockerfile ."
-    docker build -t "585768141523.dkr.ecr.us-east-1.amazonaws.com/zudellio_$key":"$commit_hash" -f "$dockerfile" .
-    docker push 585768141523.dkr.ecr.us-east-1.amazonaws.com/zudellio_$key":"$commit_hash
+    echo "docker build -t 585768141523.dkr.ecr.us-east-1.amazonaws.com/$key:$commit_hash -f $dockerfile ."
+    docker build -t "585768141523.dkr.ecr.us-east-1.amazonaws.com/$key":"$commit_hash" -f "$dockerfile" .
+    docker push 585768141523.dkr.ecr.us-east-1.amazonaws.com/$key":"$commit_hash
     cd "$start_dir" || exit
   fi
 done

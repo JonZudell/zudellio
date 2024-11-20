@@ -176,7 +176,7 @@ resource "aws_ecr_repository" "lambda_repo" {
     for key, value in jsondecode(file("${var.manifest_file}")) : key => value
     if value.type == "lambda"
   }
-  name = "zudellio_${split(":", each.value.image)[0]}"
+  name = "${split(":", each.value.image)[0]}"
 }
 
 output "repositories" {
