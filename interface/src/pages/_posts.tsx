@@ -30,11 +30,10 @@ export const Posts: {
   a11y: { component: A11y, date: new Date('2024-09-01') },
   functional: { component: Functional, date: new Date('2024-09-20') },
   oop: { component: ObjectOriented, date: new Date('2024-10-10') },
-  aws_tf_bootstrap: { component: AWSTF, date: new Date('2024-10-12') },
-  solid: { component: Solid, date: new Date('2024-10-15') },
+  aws_tf_bootstrap: { component: AWSTF, date: new Date('2024-10-18') },
+  solid: { component: Solid, date: new Date('2024-11-04') },
   cicd: { component: CICD, date: new Date('2024-11-17') },
   digital_hygiene: { component: Hygiene, date: new Date('2024-11-19') },
-  // authn: { component: Authn, date: new Date('2024-09-15') },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),

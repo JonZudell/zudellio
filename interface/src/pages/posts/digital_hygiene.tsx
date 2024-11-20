@@ -16,9 +16,10 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
       summaryContent={
         <p>
           <span className="text-color-emphasis">Digital Hygiene</span> is a
-          euphemism for a persons information security posture. It is the degree
-          of paranoia you have that some one is out to get you. Paranoia is the
-          appropriate response;{' '}
+          euphemism for a persons information security posture. It is{' '}
+          <span className="text-color-emphasis">the degree of paranoia</span>{' '}
+          you have that some one is out to get you. Paranoia is the appropriate
+          response;{' '}
           <span className="text-color-emphasis">
             they <i>are</i> out to get you
           </span>
@@ -28,9 +29,10 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
     >
       <p>
         <span className="text-color-emphasis">Digital Hygiene</span> is a
-        euphemism for a persons information security posture. It is the degree
-        of paranoia you have that some one is out to get you. Paranoia is the
-        appropriate response because{' '}
+        euphemism for a persons information security posture. It is{' '}
+        <span className="text-color-emphasis">the degree of paranoia</span> you
+        have that some one is out to get you. Paranoia is the appropriate
+        response because{' '}
         <span className="text-color-emphasis">
           they <i>are</i> out to get you
         </span>
@@ -40,7 +42,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
       <h3 className="comment-green"># Whomst are they?</h3>
       <p>
         <span className="text-color-emphasis">
-          <i>They</i> are identity thieves, credit card scammers, and fraudsters
+          <i>They</i> are identity thieves, credit card scammers, and hackers
         </span>{' '}
         And they out to steal yo&apos; identity, yo&apos; credit card, and
         yo&apos; online banking information if you let them. The common factor
@@ -68,7 +70,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <span className="text-color-emphasis">
           Office of Personnel Management
         </span>{' '}
-        had with equally clown shoes levels of security. OPM is responsible for
+        has an equally clown shoes levels of security. OPM is responsible for
         managing background investigations on government{' '}
         <span className="text-color-emphasis">
           employees with security clearances
@@ -106,11 +108,11 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <span className="text-color-emphasis">
           disguised physical card reader
         </span>{' '}
-        is slid over a read card reader. You swipe your card; the merchant
+        is slid over a real card reader. You swipe your card; the merchant
         processes your transaction and the bad guys have your credit card info.
       </p>
       <br />
-      <h4 className="comment-green">### Hackers POS</h4>
+      <h3 className="comment-green">## Hackers</h3>
       <svg
         width="25%"
         height="auto"
@@ -327,6 +329,96 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         >
           sell the cards for about $10 a pop
         </a>
+      </p>
+      <br />
+      <h3 className="comment-green"># What you can do about it</h3>
+      <p>
+        Open your wallet and pay for these services; or don&apos;t and use the
+        free plans idc:
+      </p>
+      <ul>
+        <li>
+          <a href="https://privacy.com/" className="href-blue">
+            privacy.com
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://nordpass.com/password-manager/"
+            className="href-blue"
+          >
+            Nord Pass
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://letmegooglethat.com/?q=Google+Authenticator+App"
+            className="href-blue"
+          >
+            Google Authenticator
+          </a>
+        </li>
+      </ul>
+      <br />
+      <h4 className="comment-green">## privacy.com is badass</h4>
+      <p>
+        You can create{' '}
+        <span className="text-color-emphasis">
+          &quot;virtual credit cards&quot;
+        </span>{' '}
+        with spending limits, transactions restricted to one merchant, or limit
+        the number of transactions per month. This will{' '}
+        <span className="text-color-emphasis">
+          insulate you from hackers, carders, and shady online businesses
+        </span>
+        . Your cell phone carrier{' '}
+        <span className="text-color-emphasis">
+          {' '}
+          won&apos;t &quot;accidentally&quot; charge you twice in one month
+        </span>
+        .
+      </p>
+      <br />
+      <h4 className="comment-green">## Nord Pass</h4>
+      <p>
+        Manage login credentials, create strong passwords on the fly, and create
+        email masks so you donn&apos;t have to give out your email! Nord Pass
+        has an{' '}
+        <span className="text-color-emphasis">
+          app for your phone and add ons for your browser
+        </span>
+        ; it will fill in login and passwords almost automatically. Use it, you
+        won&apos;t regret it.{' '}
+        <span className="text-color-emphasis">
+          Unless NordPass gets hacked then god help you
+        </span>
+        . You will need to set up two passwords. An account password and a vault
+        password.
+      </p>
+      <br />
+      <h4 className="comment-green">## Google Authenticator</h4>
+      <p>
+        Passwords are not enough,{' '}
+        <span className="text-color-emphasis">
+          two factor authentication is the bare minimum
+        </span>
+        . You don&apos;t have to use Google Authenticator but you should at
+        least enable another form of auth.{' '}
+        <span className="text-color-emphasis">
+          Don&apos;t store additional auth factors in a password manager
+        </span>
+        .
+      </p>
+      <br />
+      <h3 className="comment-green"># Enjoy</h3>
+      <p>
+        Stress less about hacked accounts, forgotten passwords, email spam,
+        double billing, over spending, and{' '}
+        <span className="text-color-emphasis">those bastards</span> that{' '}
+        <span className="text-color-emphasis">want your credit card</span>.
+        Check{' '}
+        <a href="https://haveibeenpwned.com/">have i been pwned dot com</a> to
+        see if your email has been compromised.
       </p>
     </Post>
   );
