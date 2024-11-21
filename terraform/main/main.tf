@@ -151,6 +151,7 @@ module "infrastructure" {
   production_account_id     = var.production_account_id
   infrastructure_account_id = var.infrastructure_account_id
   manifest_file             = var.manifest_file
+  cloudfront_distribution = module.development.cloudfront_distribution
 }
 
 module "monitoring" {
@@ -230,4 +231,8 @@ output "development_api_url" {
 output "development_cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = module.development.cloudfront_url
+}
+output "infrastructure_name_servers" {
+  description = "The name servers from the infrastructure module"
+  value       = module.infrastructure.name_servers
 }

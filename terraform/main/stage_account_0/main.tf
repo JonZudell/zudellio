@@ -116,6 +116,10 @@ output "s3_website_url" {
 output "api_url" {
   value = module.api_gateway.api_url
 }
+output "cloudfront_distribution" {
+  description = "the cloudfront distribtuion"
+  value       = module.cloudfront.cloudfront_distribution
+}
 output "cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = module.cloudfront.cloudfront_url

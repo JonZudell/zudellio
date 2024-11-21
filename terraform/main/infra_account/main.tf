@@ -16,6 +16,10 @@ variable "bucket_infix" {
   type        = string
 }
 
+variable "cloudfront_distribution" {
+  description = "The cloudfront distribution id"
+}
+
 variable "root_account_id" {
   description = "The AWS account ID of the root account"
   type        = string
@@ -85,10 +89,21 @@ module "ecr" {
   development_account_id    = var.development_account_id
 }
 
+module "dns" {
+  source = "../../modules/dns"
+  providers = {
+    aws.target = aws.target
+  }
+  cloudfront_distribution = var.cloudfront_distribution
+}
+
 output "repositories" {
   value = module.ecr.repositories
 }
 
 output "lambda_repo_policy" {
   value = module.ecr.lambda_repo_policy
+}
+output "name_servers" {
+  value = module.dns.name_servers
 }

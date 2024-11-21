@@ -63,3 +63,5 @@ override.tf.json
 ./**/__pycache__/
 
 build/*
+# macOS system files
+.DS_Store
