@@ -28,6 +28,9 @@ variable "api_gateway" {
 variable "api_gateway_role" {
 
 }
+variable "cloudfront_access_identity_path" {
+
+}
 resource "random_id" "static_website" {
   byte_length = 8
 }
@@ -150,6 +153,22 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
       }
     }
   }
+}
+resource "aws_s3_bucket_policy" "zudellio_bucket_policy" {
+  provider = aws.target
+  bucket = aws_s3_bucket.static_website.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = "*"
+        Action = "s3:GetObject"
+        Resource = "${aws_s3_bucket.static_website.arn}/*"
+      }
+    ]
+  })
 }
 output "s3_bucket" {
   value = aws_s3_bucket.static_website

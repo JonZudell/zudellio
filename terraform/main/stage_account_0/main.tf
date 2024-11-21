@@ -11,6 +11,7 @@ terraform {
   }
 }
 
+
 variable "account_name" {
   description = "The name of the AWS account"
   type        = string
@@ -81,6 +82,7 @@ module "interface" {
   environment  = var.environment
   api_gateway = module.api_gateway.api_gateway
   api_gateway_role = module.api_gateway.api_gateway_role
+  cloudfront_access_identity_path = module.cloudfront.cloudfront_access_identity_path
 }
 
 module "cloudfront" {

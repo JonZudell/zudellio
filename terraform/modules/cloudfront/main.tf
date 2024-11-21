@@ -75,3 +75,7 @@ output "cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = aws_cloudfront_distribution.s3_distribution.domain_name
 }
+output "cloudfront_access_identity_path" {
+  description = "The CloudFront origin access identity"
+  value       = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+}

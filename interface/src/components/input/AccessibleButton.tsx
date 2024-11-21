@@ -45,7 +45,7 @@ const AccessibleButton: React.FC<ButtonProps> = ({
       onClick={onClick && !disabled ? () => onClick() : undefined}
       onKeyDown={handleKeyDown}
       type={type}
-      style={{ padding: '8px' }}
+      style={{ padding: '8px', marginBottom: '2em' }}
     >
       <span className="underline link-accent">{firstLetter}</span>
       <span className="group-hover:button-inner">{restOfText}</span>

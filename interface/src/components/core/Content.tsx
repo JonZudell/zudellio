@@ -5,7 +5,7 @@ interface ContentProps {
 }
 
 const Content: React.FC<ContentProps> = ({ children }) => (
-  <div className="flex content-wrapper w-md md:mx-auto">{children}</div>
+  <div className="flex max-w-screen-md w-md mx-auto">{children}</div>
 );
 
 export default Content;
