@@ -4,7 +4,7 @@ import CodeBlock from '../../components/containers/CodeBlock';
 import AccessibleLink from '../../components/input/AccessibleLink';
 
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const Solid: React.FC<PostProps> = ({ displaySummary = false }) => {

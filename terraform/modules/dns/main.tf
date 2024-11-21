@@ -34,6 +34,18 @@ resource "aws_route53_record" "mx_records" {
   ]
   allow_overwrite = true
 }
+resource "aws_route53_record" "root_alias" {
+  provider = aws.target
+  zone_id = aws_route53_zone.zudellio.zone_id
+  name    = ""
+  type    = "A"
+
+  alias {
+    name                   = var.cloudfront_distribution.domain_name
+    zone_id                = var.cloudfront_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
 
 resource "aws_route53_record" "alias" {
   provider = aws.target

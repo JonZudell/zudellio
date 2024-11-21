@@ -1,7 +1,7 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
@@ -417,8 +417,10 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <span className="text-color-emphasis">those bastards</span> that{' '}
         <span className="text-color-emphasis">want your credit card</span>.
         Check{' '}
-        <a href="https://haveibeenpwned.com/">have i been pwned dot com</a> to
-        see if your email has been compromised.
+        <a href="https://haveibeenpwned.com/" className="href-blue">
+          have i been pwned dot com
+        </a>{' '}
+        to see if your email has been compromised.
       </p>
     </Post>
   );

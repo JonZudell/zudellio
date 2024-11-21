@@ -2,14 +2,14 @@ import React from 'react';
 import Post from '../../components/containers/Post';
 import CodeBlock from '../../components/containers/CodeBlock';
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const AWSTF: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-10-30T00:00:00Z')}
+      date={new Date('2024-10-18T00:00:00Z')}
       title="aws_tf_bootstrap"
       version="v1.0.0"
       postId="aws_tf_bootstrap"

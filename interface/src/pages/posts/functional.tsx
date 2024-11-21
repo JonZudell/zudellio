@@ -3,14 +3,14 @@ import Post from '../../components/containers/Post';
 import AccessibleLink from '../../components/input/AccessibleLink';
 
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const Functional: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-11-01T00:00:00Z')}
+      date={new Date('2024-09-20T00:00:00Z')}
       title="functional"
       version="v0.1.0"
       postId="functional"

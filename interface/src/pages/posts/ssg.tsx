@@ -3,14 +3,14 @@ import Post from '../../components/containers/Post';
 import CodeBlock from '../../components/containers/CodeBlock';
 
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const SSG: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-10-31T00:00:00Z')}
+      date={new Date('2024-08-31T00:00:00Z')}
       title="static_site_generation"
       version="v0.4.2"
       postId="ssg"

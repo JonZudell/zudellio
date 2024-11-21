@@ -36,14 +36,14 @@ const Post: React.FC<PostProps> = ({
     minute: '2-digit',
   });
   return (
-    <div className={`w-full border-2 border-post post ${classNames}`}>
+    <div className={`border-2 border-post post ${classNames}`}>
       <h2>
         <span className="user-purple">{author}</span>
         {' > ' + title + ' ' + version}
       </h2>
       <div className="comment-green">
         # Posted
-        <span className="tooltip ml-0_5em" title={humanReadableDate}>
+        <span className="tooltip ml-1em" title={humanReadableDate}>
           {date.getTime()}
         </span>
       </div>

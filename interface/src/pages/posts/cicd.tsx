@@ -1,14 +1,14 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const CICD: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-10-30T00:00:00Z')}
+      date={new Date('2024-11-17T00:00:00Z')}
       title="cicd"
       version="v1.0.-10"
       postId="cicd"

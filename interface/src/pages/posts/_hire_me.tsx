@@ -2,7 +2,7 @@ import React from 'react';
 import Post from '../../components/containers/Post';
 
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
   summaryOnly?: boolean;
   classNames?: string;
 }

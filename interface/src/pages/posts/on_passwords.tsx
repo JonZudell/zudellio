@@ -2,7 +2,7 @@ import React from 'react';
 import Post from '../../components/containers/Post';
 import AccessibleLink from '../../components/input/AccessibleLink';
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const OnPasswords: React.FC<PostProps> = ({ displaySummary = false }) => {

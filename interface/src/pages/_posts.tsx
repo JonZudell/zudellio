@@ -13,7 +13,7 @@ import Solid from './posts/solid';
 import CICD from './posts/cicd';
 import Hygiene from './posts/digital_hygiene';
 export interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
   classNames?: string;
 }
 

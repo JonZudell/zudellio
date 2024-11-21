@@ -4,14 +4,14 @@ import SignUpForm from '../../components/form/SignUpForm';
 const id = 'a11y';
 
 interface PostProps {
-  displaySummary?: boolean;
+  displaySummary: boolean;
 }
 
 const A11y: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-11-01T00:00:00Z')}
+      date={new Date('2024-09-01T00:00:00Z')}
       title={id}
       version="v0.2.0"
       postId={id}
