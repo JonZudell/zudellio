@@ -7,17 +7,9 @@ cd "$(dirname "$0")" || exit
 cd ../interface || exit
 # Get the latest commit hash
 commit_hash=$(git rev-parse --short=8 HEAD)
-echo "Latest commit hash: $commit_hash"
-# Check if files in interface src have been updated more recently than files in interface dist
-if [ "$(find src -type f -newer dist -print -quit)" ]; then
-  echo "Source files have been updated more recently than dist files. Running npm build."
-  npm run build
-  mkdir -p ../dist/$commit_hash/
-  cp -r  ./dist/ ../dist/$commit_hash/
-
-else
-  echo "No updates in source files. Skipping npm build."
-fi
+npm run build
+mkdir -p ../dist/$commit_hash/
+cp -r  ./dist/ ../dist/$commit_hash/
 
 cd ../ || exit
 
@@ -28,3 +20,4 @@ python ./scripts/merge_manifest_rewrites.py "$commit_hash"
 python ./scripts/flatten_manifest.py "$commit_hash"
 
 ./scripts/build_lambda_images.sh ./manifests/flattened_manifest_"$commit_hash".json "$commit_hash"
+echo "Latest commit hash: $commit_hash"

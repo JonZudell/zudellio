@@ -13,21 +13,23 @@ terraform {
 variable "bucket" {
   description = "The s3 bucket to serve static files from"
 }
+
+#variable "certificate_arn" {
+#  description = "The ARN of the ACM certificate to use for CloudFront"
+#  type        = string
+#}
+
 resource "aws_cloudfront_distribution" "s3_distribution" {
   provider = aws.target
   origin {
-    domain_name = "${var.bucket.bucket}.s3-website-us-east-1.amazonaws.com"
+    domain_name = var.bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.bucket.bucket}"
-
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "http-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_read_timeout      = 30
-      origin_keepalive_timeout = 5
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
     }
   }
+
+  aliases = ["zudell.io", "www.zudell.io"]
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -35,7 +37,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
   default_cache_behavior {
-    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${var.bucket.bucket}"
 
@@ -45,7 +47,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
         forward = "none"
       }
     }
-
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
@@ -59,7 +60,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    #acm_certificate_arn            = var.certificate_arn
+    ssl_support_method             = "sni-only"
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
 }
 
@@ -75,7 +78,7 @@ output "cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = aws_cloudfront_distribution.s3_distribution.domain_name
 }
-output "cloudfront_access_identity_path" {
+output "cloudfront_access_id" {
   description = "The CloudFront origin access identity"
-  value       = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+  value       = aws_cloudfront_origin_access_identity.origin_access_identity.id
 }

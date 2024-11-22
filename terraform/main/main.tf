@@ -194,6 +194,7 @@ module "development" {
   dist_dir                  = var.dist_dir
   manifest_file             = var.manifest_file
   image_tag                 = var.image_tag
+  #certificate_arn            = module.infrastructure.certificate_arn
 }
 
 module "production" {

@@ -28,7 +28,7 @@ variable "api_gateway" {
 variable "api_gateway_role" {
 
 }
-variable "cloudfront_access_identity_path" {
+variable "cloudfront_access_id" {
 
 }
 resource "random_id" "static_website" {
@@ -48,7 +48,7 @@ resource "aws_s3_bucket_policy" "static_website_policy" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "apigateway.amazonaws.com"
+          Service = "cloudfront.amazonaws.com"
         }
         Action = [
           "s3:GetObject", 

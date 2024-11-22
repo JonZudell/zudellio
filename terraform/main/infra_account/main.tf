@@ -107,3 +107,6 @@ output "lambda_repo_policy" {
 output "name_servers" {
   value = module.dns.name_servers
 }
+output "dns_certificate_arn" {
+  value = module.dns.certificate_arn
+}
