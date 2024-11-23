@@ -11,7 +11,7 @@ terraform {
   }
 }
 
-#variable "certificate_arn" {
+#variable "cloudfront_access_id" {
 #
 #}
 variable "account_name" {
@@ -69,32 +69,32 @@ resource "aws_organizations_account" "account" {
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
-  provider   = aws.target
-  name       = "/aws/lambda/${var.account_name}"
+  provider          = aws.target
+  name              = "/aws/lambda/${var.account_name}"
   retention_in_days = 14
 }
 
 module "interface" {
   providers = {
     aws.target = aws.target
-  } 
-  source       = "../../modules/interface_0"
-  dist_dir     = var.dist_dir
-  bucket_infix = var.bucket_infix
-  environment  = var.environment
-  api_gateway = module.api_gateway.api_gateway
+  }
+  source           = "../../modules/interface_0"
+  dist_dir         = var.dist_dir
+  bucket_infix     = var.bucket_infix
+  environment      = var.environment
+  api_gateway      = module.api_gateway.api_gateway
   api_gateway_role = module.api_gateway.api_gateway_role
-  cloudfront_access_id = module.cloudfront.cloudfront_access_id
+  #cloudfront_access_id = var.cloudfront_access_id
 }
 
-module "cloudfront" {
-  providers = {
-    aws.target = aws.target
-  }
-  source       = "../../modules/cloudfront"
-  bucket       = module.interface.s3_bucket
-  #certificate_arn = var.certificate_arn
-}
+#module "cloudfront" {
+#  providers = {
+#    aws.target = aws.target
+#  }
+#  source       = "../../modules/cloudfront"
+#  bucket       = module.interface.s3_bucket
+#  certificate_arn = var.certificate_arn
+#}
 
 module "api_gateway" {
   providers = {
@@ -121,11 +121,7 @@ output "s3_website_url" {
 output "api_url" {
   value = module.api_gateway.api_url
 }
-output "cloudfront_distribution" {
-  description = "the cloudfront distribtuion"
-  value       = module.cloudfront.cloudfront_distribution
-}
-output "cloudfront_url" {
-  description = "The URL of the CloudFront distribution"
-  value       = module.cloudfront.cloudfront_url
+
+output "interface_bucket" {
+  value = module.interface.s3_bucket
 }

@@ -139,19 +139,20 @@ module "organization" {
 
 module "infrastructure" {
   providers = {
-    aws.root   = aws.root
-    aws.target = aws.infrastructure
+    aws.root        = aws.root
+    aws.target      = aws.infrastructure
+    aws.development = aws.development
   }
-  source                    = "./infra_account"
-  account_email             = "jon+infrastructure@zudell.io"
-  bucket_infix              = "infrastructure"
-  account_name              = "InfrastructureAccount"
-  root_account_id           = var.root_account_id
-  development_account_id    = var.development_account_id
-  production_account_id     = var.production_account_id
-  infrastructure_account_id = var.infrastructure_account_id
-  manifest_file             = var.manifest_file
-  cloudfront_distribution = module.development.cloudfront_distribution
+  source                       = "./infra_account"
+  account_email                = "jon+infrastructure@zudell.io"
+  bucket_infix                 = "infrastructure"
+  account_name                 = "InfrastructureAccount"
+  root_account_id              = var.root_account_id
+  development_account_id       = var.development_account_id
+  production_account_id        = var.production_account_id
+  infrastructure_account_id    = var.infrastructure_account_id
+  manifest_file                = var.manifest_file
+  development_interface_bucket = module.development.interface_bucket
 }
 
 module "monitoring" {
@@ -194,7 +195,6 @@ module "development" {
   dist_dir                  = var.dist_dir
   manifest_file             = var.manifest_file
   image_tag                 = var.image_tag
-  #certificate_arn            = module.infrastructure.certificate_arn
 }
 
 module "production" {
@@ -231,7 +231,7 @@ output "development_api_url" {
 }
 output "development_cloudfront_url" {
   description = "The URL of the CloudFront distribution"
-  value       = module.development.cloudfront_url
+  value       = module.infrastructure.development_cloudfront_url
 }
 output "infrastructure_name_servers" {
   description = "The name servers from the infrastructure module"

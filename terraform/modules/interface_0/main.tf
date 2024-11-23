@@ -28,9 +28,9 @@ variable "api_gateway" {
 variable "api_gateway_role" {
 
 }
-variable "cloudfront_access_id" {
-
-}
+#variable "cloudfront_access_id" {
+#
+#}
 resource "random_id" "static_website" {
   byte_length = 8
 }
@@ -174,5 +174,5 @@ output "s3_bucket" {
   value = aws_s3_bucket.static_website
 }
 output "s3_website_url" {
-  value = aws_s3_bucket.static_website.website_endpoint
+  value = aws_s3_bucket.static_website.bucket_regional_domain_name
 }
