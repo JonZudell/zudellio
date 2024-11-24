@@ -2,7 +2,7 @@
     "contact_post": {
         "type": "lambda",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
-        "image": "contact_post:86383178"
+        "image": "contact_post:e63f335f"
     },
     "contact_get": {
         "type": "static",
@@ -11,7 +11,12 @@
     "healthcheck_get": {
         "type": "lambda",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
-        "image": "healthcheck_get:86383178"
+        "image": "healthcheck_get:e63f335f"
+    },
+    "url_rewrite_get": {
+        "type": "lambda",
+        "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/url_rewrite/get/Dockerfile",
+        "image": "url_rewrite_get:e63f335f"
     },
     "posts_types_get": {
         "type": "static",

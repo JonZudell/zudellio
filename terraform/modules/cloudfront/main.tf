@@ -9,14 +9,13 @@ terraform {
     }
   }
 }
-
-variable "bucket" {
-  description = "The s3 bucket to serve static files from"
-}
-
 variable "certificate_arn" {
   description = "The ARN of the ACM certificate to use for CloudFront"
   type        = string
+}
+
+variable "site_bucket" {
+  description = "The s3 bucket to serve static files from"
 }
 
 resource "aws_iam_role" "cloudfront_role" {
@@ -50,7 +49,7 @@ resource "aws_iam_policy" "cloudfront_s3_policy" {
           "s3:GetObject"
         ]
         Resource = [
-          "${var.bucket.arn}/*"
+          "${var.site_bucket.arn}/*"
         ]
       },
       {
@@ -127,14 +126,11 @@ resource "aws_iam_role_policy_attachment" "cloudfront_s3_policy_attachment" {
 resource "aws_cloudfront_distribution" "s3_distribution" {
   provider = aws.target
   origin {
-    domain_name = var.bucket.bucket_regional_domain_name
-    origin_id   = "S3-${var.bucket.bucket}"
-    #s3_origin_config {
-    #  origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-    #}
+    domain_name = var.site_bucket.bucket_regional_domain_name
+    origin_id   = "S3-${var.site_bucket.bucket}"
   }
 
-  aliases = ["zudell.io", "www.zudell.io"]
+  aliases = ["zudell.io", "www.zudell.io", "dev.zudell.io"]
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -144,7 +140,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-${var.bucket.bucket}"
+    target_origin_id = "S3-${var.site_bucket.bucket}"
+
+    #lambda_function_association {
+    #  event_type   = "origin-request"
+    #  lambda_arn   = var.url_rewrite_lambda.arn
+    #  include_body = false
+    #}
 
     forwarded_values {
       query_string = false
@@ -171,10 +173,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 
-#resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-#  provider = aws.target
-#  comment = "Origin access identity for CloudFront to access S3"
-#}
 output "cloudfront_distribution" {
   description = "The CloudFront distribution"
   value       = aws_cloudfront_distribution.s3_distribution
@@ -183,11 +181,3 @@ output "cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = aws_cloudfront_distribution.s3_distribution.domain_name
 }
-#output "cloudfront_access_id" {
-#  description = "The CloudFront origin access identity"
-#  value       = aws_cloudfront_origin_access_identity.origin_access_identity.id
-#}
-
-#output "cloudfront_acm_role" {
-#  value = aws_iam_role.cloudfront_role
-#}

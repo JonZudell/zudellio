@@ -86,6 +86,18 @@ resource "aws_iam_role_policy_attachment" "lambda_logging" {
 }
 
 resource "aws_lambda_function" "lambda" {
+  lifecycle {
+    ignore_changes = [
+      image_uri,
+    ]
+    create_before_destroy = true
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      aws ecr describe-images --repository-name ${each.value.repository_name} --image-ids imageTag=${var.image_tag} || exit 1
+    EOT
+  }
   for_each      = var.repositories
   provider      = aws.target
   function_name = each.key

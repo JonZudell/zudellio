@@ -101,7 +101,7 @@ module "cloudfront" {
     aws.target = aws.target
   }
   source          = "../../modules/cloudfront"
-  bucket          = var.development_interface_bucket
+  site_bucket     = var.development_interface_bucket
   certificate_arn = module.dns.certificate_arn
   #cross_account_acm_role = module.dns.cloudfront_acm_role
 }

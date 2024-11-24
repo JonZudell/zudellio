@@ -66,8 +66,19 @@ provider "aws" {
   region                   = "us-east-1"
   allowed_account_ids      = [var.production_account_id]
 }
-variable "root_account_id" {
+
+variable "development_account_id" {
   description = "AWS Account Number"
+  type        = string
+}
+
+variable "dist_dir" {
+  description = "The manifest directory"
+  type        = string
+}
+
+variable "image_tag" {
+  description = "The tag for the docker images"
   type        = string
 }
 
@@ -76,17 +87,12 @@ variable "infrastructure_account_id" {
   type        = string
 }
 
+variable "manifest_dir" {
+  description = "The manifest file"
+  type        = string
+}
+
 variable "monitoring_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "security_account_id" {
-  description = "AWS Account Number"
-  type        = string
-}
-
-variable "development_account_id" {
   description = "AWS Account Number"
   type        = string
 }
@@ -96,30 +102,26 @@ variable "production_account_id" {
   type        = string
 }
 
-variable "root_account_name" {
-  description = "AWS Account Name"
-  type        = string
-}
-
 variable "profile_suffix" {
   description = "AWS Configuration Profile"
   type        = string
 }
 
-variable "image_tag" {
-  description = "The tag for the docker images"
+variable "root_account_id" {
+  description = "AWS Account Number"
   type        = string
 }
 
-variable "manifest_file" {
-  description = "The manifest file"
+variable "root_account_name" {
+  description = "AWS Account Name"
   type        = string
 }
 
-variable "dist_dir" {
-  description = "The manifest directory"
+variable "security_account_id" {
+  description = "AWS Account Number"
   type        = string
 }
+
 
 module "tf_state_bootstrap" {
   providers = {
@@ -151,7 +153,7 @@ module "infrastructure" {
   development_account_id       = var.development_account_id
   production_account_id        = var.production_account_id
   infrastructure_account_id    = var.infrastructure_account_id
-  manifest_file                = var.manifest_file
+  manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
   development_interface_bucket = module.development.interface_bucket
 }
 
@@ -192,8 +194,8 @@ module "development" {
   infrastructure_profile    = "infrastructure${var.profile_suffix}"
   infrastructure_account_id = var.infrastructure_account_id
   repositories              = module.infrastructure.repositories
-  dist_dir                  = var.dist_dir
-  manifest_file             = var.manifest_file
+  dist_dir                  = "${var.dist_dir}/${var.image_tag}/"
+  manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
   image_tag                 = var.image_tag
 }
 
@@ -208,7 +210,8 @@ module "production" {
   environment     = "production"
   account_name    = "ProductionAccount"
   root_account_id = var.root_account_id
-  dist_dir        = var.dist_dir
+  dist_dir        = "${var.dist_dir}/${var.image_tag}/"
+  #manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
 }
 
 output "terraform_state_bucket" {

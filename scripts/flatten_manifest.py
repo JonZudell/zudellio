@@ -47,7 +47,7 @@ def post_process(flattened_data, commit_hash):
 
 def main(commit_hash):
     input_file = f"{MANIFESTS_DIR}/merged_manifest_{commit_hash}.json"
-    output_file = f"{MANIFESTS_DIR}/flattened_manifest_{commit_hash}.json"
+    output_file = f"{MANIFESTS_DIR}/{commit_hash}.json"
     
     with open(input_file, "r") as f:
         data = json.load(f)

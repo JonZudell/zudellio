@@ -10,5 +10,11 @@
       "type": "lambda",
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
     }
+  },
+  "url_rewrite": {
+    "get": {
+      "type": "lambda",
+      "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/url_rewrite/get/Dockerfile"
+    }
   }
 }
