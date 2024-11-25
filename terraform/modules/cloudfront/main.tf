@@ -18,8 +18,25 @@ variable "site_bucket" {
   description = "The s3 bucket to serve static files from"
 }
 
+<<<<<<< HEAD
 variable "url_rewrite_lambda" {
 
+=======
+variable "logging_bucket"{
+  description = "The s3 bucket to store CloudFront logs"
+}
+
+variable "url_rewrite_lambda" {
+  description = "The Lambda function to rewrite URLs"
+}
+
+variable "web_acl_id" {
+  description = "The WAF Web ACL ID to associate with the CloudFront distribution"
+}
+
+variable "kms_key" {
+  description = "The KMS key to use for CloudFront log encryption"
+>>>>>>> 6049b7d (local)
 }
 
 resource "aws_iam_role" "cloudfront_role" {
@@ -132,6 +149,29 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = var.site_bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.site_bucket.bucket}"
+    origin_path = "/content"
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_read_timeout      = 30
+      origin_keepalive_timeout = 5
+    }
+  }
+
+  origin {
+    domain_name = var.site_bucket_failover.bucket_regional_domain_name
+    origin_id   = "S3-${var.site_bucket_failover.bucket}"
+    origin_path = "/content"
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_read_timeout      = 30
+      origin_keepalive_timeout = 5
+    }
   }
 
   aliases = ["zudell.io", "www.zudell.io"]
@@ -146,28 +186,45 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${var.site_bucket.bucket}"
 
+<<<<<<< HEAD
     lambda_function_association {
       event_type   = "origin-request"
       lambda_arn   = var.url_rewrite_lambda.arn
       include_body = false
     }
 
+=======
+>>>>>>> 6049b7d (local)
     forwarded_values {
       query_string = false
       cookies {
         forward = "none"
       }
     }
+
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = var.url_rewrite_lambda.arn
+      include_body = false
+    }
   }
 
   restrictions {
     geo_restriction {
-      restriction_type = "none"
+      restriction_type = "whitelist"
+      locations        = ["US", "CA", "GB", "DE"]
     }
+  }
+
+  logging_config {
+    include_cookies = false
+    bucket          = "mylogs.s3.amazonaws.com"
+    prefix          = "myprefix"
   }
 
   viewer_certificate {
@@ -175,13 +232,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
   }
+
+  web_acl_id = var.web_acl_id
 }
 
 output "cloudfront_distribution" {
   description = "The CloudFront distribution"
   value       = aws_cloudfront_distribution.s3_distribution
-}
-output "cloudfront_url" {
-  description = "The URL of the CloudFront distribution"
-  value       = aws_cloudfront_distribution.s3_distribution.domain_name
 }

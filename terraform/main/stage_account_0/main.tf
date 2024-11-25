@@ -11,9 +11,6 @@ terraform {
   }
 }
 
-#variable "cloudfront_access_id" {
-#
-#}
 variable "account_name" {
   description = "The name of the AWS account"
   type        = string
@@ -84,24 +81,13 @@ module "interface" {
   environment      = var.environment
   api_gateway      = module.api_gateway.api_gateway
   api_gateway_role = module.api_gateway.api_gateway_role
-  #cloudfront_access_id = var.cloudfront_access_id
 }
-
-#module "cloudfront" {
-#  providers = {
-#    aws.target = aws.target
-#  }
-#  source       = "../../modules/cloudfront"
-#  bucket       = module.interface.s3_bucket
-#  certificate_arn = var.certificate_arn
-#}
 
 module "api_gateway" {
   providers = {
     aws.target = aws.target
   }
   source = "../../modules/api_gateway"
-  bucket = module.interface.s3_bucket
 }
 
 module "lambdas" {
@@ -113,16 +99,10 @@ module "lambdas" {
   image_tag                 = var.image_tag
   infrastructure_account_id = var.infrastructure_account_id
 }
-
-output "s3_website_url" {
-  description = "The URL of the S3 static website"
-  value       = module.interface.s3_website_url
-}
 output "api_url" {
   value = module.api_gateway.api_url
 }
-
-output "interface_bucket" {
+output "static_website_bucket" {
   value = module.interface.s3_bucket
 }
 

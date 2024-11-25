@@ -31,45 +31,41 @@ resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
 resource "aws_iam_role" "lambda_execution_role" {
   provider           = aws.target
   name               = "lambda_execution_role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
       }
-    }
-  ]
-}
-EOF
+    ]
+  })
 }
 
 resource "aws_iam_policy" "lambda_execution_policy" {
   provider = aws.target
   name     = "lambda_execution_policy"
-  policy   = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "sts:AssumeRole",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-        "ecr:BatchCheckLayerAvailability"
-      ],
-      "Resource": [
-        "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
-        "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
-      ]
-    }
-  ]
-}
-EOF
+  policy   = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "sts:AssumeRole",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+        Resource = [
+          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
+          "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
+        ]
+      }
+    ]
+  })
 }
 
 resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {

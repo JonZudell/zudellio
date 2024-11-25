@@ -170,9 +170,6 @@ resource "aws_s3_bucket_policy" "zudellio_bucket_policy" {
     ]
   })
 }
-output "s3_bucket" {
+output "static_website_bucket" {
   value = aws_s3_bucket.static_website
-}
-output "s3_website_url" {
-  value = aws_s3_bucket.static_website.bucket_regional_domain_name
 }

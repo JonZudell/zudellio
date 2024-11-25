@@ -2,19 +2,31 @@
   "contact": {
     "post": {
       "type": "lambda",
+<<<<<<< HEAD
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile"
+=======
+      "Dockerfile": "/workspaces/zudellio/scripts/../lambdas/contact/post/Dockerfile"
+>>>>>>> 6049b7d (local)
     }
   },
   "healthcheck": {
     "get": {
       "type": "lambda",
+<<<<<<< HEAD
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
+=======
+      "Dockerfile": "/workspaces/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
+>>>>>>> 6049b7d (local)
     }
   },
   "url_rewrite": {
     "get": {
       "type": "lambda",
+<<<<<<< HEAD
       "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/url_rewrite/get/Dockerfile"
+=======
+      "Dockerfile": "/workspaces/zudellio/scripts/../lambdas/url_rewrite/get/Dockerfile"
+>>>>>>> 6049b7d (local)
     }
   }
 }

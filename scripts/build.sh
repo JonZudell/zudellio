@@ -24,19 +24,27 @@ if ! docker info > /dev/null 2>&1; then
   exit 1
 fi
 
+# Check if python is available, otherwise use python3
+if command -v python &>/dev/null; then
+  PYTHON_CMD=python
+elif command -v python3 &>/dev/null; then
+  PYTHON_CMD=python3
+else
+  echo "Python is not installed. Please install Python and try again."
+  exit 1
+fi
+
 # Get the latest commit hash
 commit_hash=$(git rev-parse --short=8 HEAD)
 npm run build
-mkdir -p ../dist/$commit_hash/
-cp -r  ./dist/ ../dist/$commit_hash/
+mkdir -p ../dist/"$commit_hash"/
+cp -r  ./dist/* ../dist/"$commit_hash"/
 
 cd ../ || exit
 
-
-
-python ./scripts/generate_lambda_manifest.py "$commit_hash"
-python ./scripts/merge_manifest_rewrites.py "$commit_hash"
-python ./scripts/flatten_manifest.py "$commit_hash"
+$PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash"
+$PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash"
+$PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash"
 
 ./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash"
 echo "Latest commit hash: $commit_hash"

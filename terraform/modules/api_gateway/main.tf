@@ -10,14 +10,14 @@ terraform {
   }
 }
 
-variable "bucket" {
-  description = "The s3 bucket to serve static files from"
-}
-
 resource "aws_api_gateway_rest_api" "api" {
   provider = aws.target
   name        = "api"
   description = "API Gateway for static S3 bucket CDN and Lambda functions"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role" "api_gateway_role" {
@@ -82,14 +82,15 @@ resource "aws_api_gateway_method_settings" "production" {
 
   settings {
     logging_level    = "INFO"
-    data_trace_enabled = true
+    data_trace_enabled = false
+    caching_enabled = true
   }
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   provider = aws.target
   name = "/aws/api-gateway/${aws_api_gateway_rest_api.api.id}"
-  retention_in_days = 7
+  retention_in_days = 365
 }
 
 resource "aws_api_gateway_account" "api_account" {
@@ -100,10 +101,9 @@ resource "aws_api_gateway_account" "api_account" {
 output "api_gateway_role" {
   value = aws_iam_role.api_gateway_role
 }
-output "api_url" {
-  value = aws_api_gateway_deployment.api.invoke_url
+output "api_gateway_deployment" {
+  value = aws_api_gateway_deployment
 }
-
 output "api_gateway" {
   value = aws_api_gateway_rest_api.api
 }

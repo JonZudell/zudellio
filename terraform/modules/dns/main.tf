@@ -12,9 +12,14 @@ terraform {
 
 variable "cloudfront_distribution" {
   description = "The CloudFront distribution ID to route to"
+  type        = object({
+    domain_name    = string
+    hosted_zone_id = string
+  })
 }
 variable "development_account_id" {
-
+  description = "AWS Account ID of the target account"
+  type        = string
 }
 
 resource "aws_route53_zone" "zone" {
@@ -126,11 +131,11 @@ resource "aws_acm_certificate_validation" "zone_cert_validation" {
   certificate_arn         = aws_acm_certificate.zone_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.zone_cert_validation : record.fqdn]
 }
+output "acm_certificate" {
+  description = "The ARN of the ACM certificate"
+  value       = aws_acm_certificate.zone_cert
+}
 output "name_servers" {
   description = "The list of name servers for the Route 53 hosted zone"
   value       = aws_route53_zone.zone.name_servers
-}
-output "certificate_arn" {
-  description = "The ARN of the ACM certificate"
-  value       = aws_acm_certificate.zone_cert.arn
 }
