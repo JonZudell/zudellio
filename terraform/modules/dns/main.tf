@@ -131,7 +131,7 @@ resource "aws_acm_certificate_validation" "zone_cert_validation" {
   certificate_arn         = aws_acm_certificate.zone_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.zone_cert_validation : record.fqdn]
 }
-output "acm_certificate" {
+output "cloudfront_distribution_certificate" {
   description = "The ARN of the ACM certificate"
   value       = aws_acm_certificate.zone_cert
 }

@@ -154,7 +154,7 @@ module "infrastructure" {
   production_account_id        = var.production_account_id
   infrastructure_account_id    = var.infrastructure_account_id
   manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
-  development_interface_bucket = module.development.interface_bucket
+  development_interface_bucket = module.development.static_website_bucket
   url_rewrite_lambda           = module.development.url_rewrite_lambda
 }
 
@@ -198,6 +198,7 @@ module "development" {
   dist_dir                  = "${var.dist_dir}/${var.image_tag}/"
   manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
   image_tag                 = var.image_tag
+  log_key                   = module.infrastructure.log_key
 }
 
 module "production" {
@@ -224,7 +225,7 @@ output "terraform_locks_table" {
 }
 
 output "development_s3_website_url" {
-  value = module.development.s3_website_url
+  value = module.development.static_website_bucket.s3_website_url
 }
 
 output "production_s3_website_url" {

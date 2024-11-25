@@ -13,15 +13,11 @@ variable "certificate_arn" {
   description = "The ARN of the ACM certificate to use for CloudFront"
   type        = string
 }
-
+variable "cloudfront_log_key" {}
 variable "site_bucket" {
   description = "The s3 bucket to serve static files from"
 }
 
-<<<<<<< HEAD
-variable "url_rewrite_lambda" {
-
-=======
 variable "logging_bucket"{
   description = "The s3 bucket to store CloudFront logs"
 }
@@ -30,14 +26,9 @@ variable "url_rewrite_lambda" {
   description = "The Lambda function to rewrite URLs"
 }
 
-variable "web_acl_id" {
-  description = "The WAF Web ACL ID to associate with the CloudFront distribution"
-}
-
-variable "kms_key" {
-  description = "The KMS key to use for CloudFront log encryption"
->>>>>>> 6049b7d (local)
-}
+#variable "web_acl_id" {
+#  description = "The WAF Web ACL ID to associate with the CloudFront distribution"
+#}
 
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
@@ -57,7 +48,7 @@ resource "aws_iam_role" "cloudfront_role" {
   })
 }
 
-resource "aws_iam_policy" "cloudfront_s3_policy" {
+resource "aws_iam_policy" "cloudfront_policy" {
   provider = aws.target
   name        = "cloudfront-role-policy"
   description = "Policy for CloudFront to access S3 bucket"
@@ -85,63 +76,63 @@ resource "aws_iam_policy" "cloudfront_s3_policy" {
     ]
   })
 }
-resource "aws_iam_policy" "cloudfront_full_policy" {
-  provider = aws.target
-  name        = "cloudfront-full-policy"
-  description = "Full policy for CloudFront"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:GetBucketLocation",
-          "s3:ListBucketVersions",
-          "s3:GetBucketPolicy",
-          "s3:GetBucketAcl",
-          "s3:GetBucketCORS",
-          "s3:GetBucketLogging",
-          "s3:GetBucketNotification",
-          "s3:GetBucketRequestPayment",
-          "s3:GetBucketTagging",
-          "s3:GetBucketVersioning",
-          "s3:GetBucketWebsite",
-          "s3:GetLifecycleConfiguration",
-          "s3:GetReplicationConfiguration",
-          "s3:GetObjectAcl",
-          "s3:GetObjectTagging",
-          "acm:ListCertificates",
-          "acm:GetCertificate",
-          "s3:GetObjectTorrent",
-          "s3:GetObjectVersion",
-          "s3:GetObjectVersionAcl",
-          "s3:GetObjectVersionTagging",
-          "s3:GetObjectVersionTorrent",
-          "acm:DescribeCertificate",
-          "cloudfront:GetDistribution",
-          "cloudfront:GetDistributionConfig",
-          "cloudfront:ListDistributions",
-          "cloudfront:ListTagsForResource"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
+#resource "aws_iam_policy" "cloudfront_full_policy" {
+#  provider = aws.target
+#  name        = "cloudfront-full-policy"
+#  description = "Full policy for CloudFront"
+#  policy = jsonencode({
+#    Version = "2012-10-17"
+#    Statement = [
+#      {
+# #        Effect = "Allow"
+#         Action = [
+#           "s3:GetObject",
+#           "s3:ListBucket",
+#           "s3:ListBucketMultipartUploads",
+#           "s3:GetBucketLocation",
+#           "s3:ListBucketVersions",
+#           "s3:GetBucketPolicy",
+#           "s3:GetBucketAcl",
+#           "s3:GetBucketCORS",
+#           "s3:GetBucketLogging",
+#           "s3:GetBucketNotification",
+#           "s3:GetBucketRequestPayment",
+#           "s3:GetBucketTagging",
+#           "s3:GetBucketVersioning",
+#           "s3:GetBucketWebsite",
+#           "s3:GetLifecycleConfiguration",
+#           "s3:GetReplicationConfiguration",
+#           "s3:GetObjectAcl",
+#           "s3:GetObjectTagging",
+#           "acm:ListCertificates",
+#           "acm:GetCertificate",
+#           "s3:GetObjectTorrent",
+#           "s3:GetObjectVersion",
+#           "s3:GetObjectVersionAcl",
+#           "s3:GetObjectVersionTagging",
+#           "s3:GetObjectVersionTorrent",
+#           "acm:DescribeCertificate",
+#           "cloudfront:GetDistribution",
+#           "cloudfront:GetDistributionConfig",
+#           "cloudfront:ListDistributions",
+#           "cloudfront:ListTagsForResource"
+#         ]
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
 
-resource "aws_iam_role_policy_attachment" "cloudfront_full_policy_attachment" {
+# resource "aws_iam_role_policy_attachment" "cloudfront_full_policy_attachment" {
+#   provider = aws.target
+#   role       = aws_iam_role.cloudfront_role.name
+#   policy_arn = aws_iam_policy.cloudfront_full_policy.arn
+# }
+
+resource "aws_iam_role_policy_attachment" "cloudfront_policy_attachment" {
   provider = aws.target
   role       = aws_iam_role.cloudfront_role.name
-  policy_arn = aws_iam_policy.cloudfront_full_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "cloudfront_s3_policy_attachment" {
-  provider = aws.target
-  role       = aws_iam_role.cloudfront_role.name
-  policy_arn = aws_iam_policy.cloudfront_s3_policy.arn
+  policy_arn = aws_iam_policy.cloudfront_policy.arn
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
@@ -149,21 +140,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = var.site_bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.site_bucket.bucket}"
-    origin_path = "/content"
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_read_timeout      = 30
-      origin_keepalive_timeout = 5
-    }
-  }
-
-  origin {
-    domain_name = var.site_bucket_failover.bucket_regional_domain_name
-    origin_id   = "S3-${var.site_bucket_failover.bucket}"
-    origin_path = "/content"
+    origin_path = "/"
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -186,15 +163,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${var.site_bucket.bucket}"
 
-<<<<<<< HEAD
     lambda_function_association {
       event_type   = "origin-request"
       lambda_arn   = var.url_rewrite_lambda.arn
       include_body = false
     }
 
-=======
->>>>>>> 6049b7d (local)
     forwarded_values {
       query_string = false
       cookies {
@@ -233,7 +207,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     minimum_protocol_version       = "TLSv1.2_2021"
   }
 
-  web_acl_id = var.web_acl_id
+  #web_acl_id = var.web_acl_id
 }
 
 output "cloudfront_distribution" {

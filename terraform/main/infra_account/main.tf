@@ -11,19 +11,9 @@ terraform {
     }
   }
 }
-variable "development_interface_bucket" {
 
-}
-variable "url_rewrite_lambda" {
-
-}
-
-variable "bucket_infix" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
-variable "root_account_id" {
-  description = "The AWS account ID of the root account"
+variable "account_email" {
+  description = "The email address of the account"
   type        = string
 }
 
@@ -32,17 +22,8 @@ variable "account_name" {
   type        = string
 }
 
-variable "account_email" {
-  description = "The email address of the account"
-  type        = string
-}
-
-variable "manifest_file" {
-  description = "The manifest"
-}
-
-variable "infrastructure_account_id" {
-  description = "AWS Account Number"
+variable "bucket_infix" {
+  description = "The name of the S3 bucket"
   type        = string
 }
 
@@ -51,10 +32,33 @@ variable "development_account_id" {
   type        = string
 }
 
+variable "development_interface_bucket" {
+  description = "The S3 bucket for the development interface"
+}
+
+variable "infrastructure_account_id" {
+  description = "AWS Account Number"
+  type        = string
+}
+
+variable "manifest_file" {
+  description = "The manifest"
+}
+
 variable "production_account_id" {
   description = "AWS Account Number"
   type        = string
 }
+
+variable "root_account_id" {
+  description = "The AWS account ID of the root account"
+  type        = string
+}
+
+variable "url_rewrite_lambda" {
+  description = "The Lambda function for URL rewriting"
+}
+
 
 resource "aws_organizations_account" "account" {
   provider = aws.root
@@ -79,6 +83,14 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
   })
 }
 
+module "log_bucket" {
+  providers = {
+    aws.target = aws.target
+  }
+  source = "../../modules/log_bucket"
+  log_key = module.kms.log_key
+}
+
 module "ecr" {
   source = "../../modules/ecr"
   providers = {
@@ -88,6 +100,7 @@ module "ecr" {
   root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id    = var.development_account_id
+  ecr_key                   = module.kms.ecr_key
 }
 
 module "dns" {
@@ -105,9 +118,17 @@ module "cloudfront" {
   }
   source             = "../../modules/cloudfront"
   site_bucket        = var.development_interface_bucket
-  certificate_arn    = module.dns.certificate_arn
+  certificate_arn    = module.dns.cloudfront_distribution_certificate
   url_rewrite_lambda = var.url_rewrite_lambda
-  #cross_account_acm_role = module.dns.cloudfront_acm_role
+  cloudfront_log_key = module.kms.log_key
+  logging_bucket     = module.log_bucket.log_bucket
+}
+
+module "kms" {
+  providers = {
+    aws.target = aws.target
+  }
+  source             = "../../modules/kms"
 }
 
 output "repositories" {
@@ -120,9 +141,9 @@ output "lambda_repo_policy" {
 output "name_servers" {
   value = module.dns.name_servers
 }
-output "certificate_arn" {
-  value = module.dns.certificate_arn
-}
 output "development_cloudfront_url" {
-  value = module.cloudfront.cloudfront_url
+  value = module.cloudfront.cloudfront_distribution.domain_name
+}
+output "log_key" {
+  value = module.kms.log_key
 }

@@ -68,12 +68,21 @@ resource "aws_s3_bucket" "static_website" {
   bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
 }
 
+resource "aws_s3_bucket_versioning" "static_website_versioning" {
+  provider = aws.target
+  bucket   = aws_s3_bucket.static_website.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" {
   provider = aws.target
   bucket   = aws_s3_bucket.static_website.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 

@@ -36,6 +36,10 @@ variable "environment" {
   type        = string
 }
 
+variable "log_key" {
+  description = "The key to encrypt the logs"
+}
+
 variable "repositories" {
   description = "List of repositories the be deployed to lambdas"
 }
@@ -88,7 +92,9 @@ module "api_gateway" {
     aws.target = aws.target
   }
   source = "../../modules/api_gateway"
+  log_key = var.log_key
 }
+
 
 module "lambdas" {
   providers = {
@@ -98,12 +104,13 @@ module "lambdas" {
   repositories              = var.repositories
   image_tag                 = var.image_tag
   infrastructure_account_id = var.infrastructure_account_id
+  lambda_log_key            = var.log_key
 }
 output "api_url" {
-  value = module.api_gateway.api_url
+  value = module.api_gateway.api_gateway.api_url
 }
 output "static_website_bucket" {
-  value = module.interface.s3_bucket
+  value = module.interface.static_website_bucket
 }
 
 output "url_rewrite_lambda" {

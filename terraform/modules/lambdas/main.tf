@@ -10,6 +10,10 @@ terraform {
   }
 }
 
+variable "lambda_log_key" {
+
+}
+
 variable "repositories" {
 }
 
@@ -54,14 +58,21 @@ resource "aws_iam_policy" "lambda_execution_policy" {
       {
         Effect = "Allow"
         Action = [
-          "sts:AssumeRole",
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
           "ecr:BatchCheckLayerAvailability"
         ]
         Resource = [
-          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
           "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "sts:AssumeRole",
+        ]
+        Resource = [
+          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
         ]
       }
     ]

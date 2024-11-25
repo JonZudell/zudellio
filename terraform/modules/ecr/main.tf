@@ -10,6 +10,9 @@ terraform {
   }
 }
 
+variable "ecr_key" {
+}
+
 variable "development_account_id" {
   description = "AWS Account ID of the target account"
   type        = string
@@ -39,9 +42,10 @@ resource "aws_iam_policy" "cross_account_ecr_read_policy_all" {
         "Action" = [
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetAuthorizationToken"
         ],
-        "Resource" = "*"
+        "Resource" = "arn:aws:ecr:us-east-1${var.development_account_id}:repository/*"
       }
     ]
   })
@@ -63,32 +67,10 @@ resource "aws_iam_role" "cross_account_ecr_read_role" {
       {
         "Effect" = "Allow",
         "Action" = "sts:AssumeRole",
-        "Principal" = { "AWS" : "arn:aws:iam::${var.development_account_id}:root" }
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "cross_account_ecr_read_policy" {
-  provider = aws.target
-  policy = jsonencode({
-    "Version" = "2012-10-17",
-    "Statement" = [
-      {
-        "Effect" = "Allow",
-        "Action" = [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
-        ],
-        "Resource" = "*"
-      },
-      {
-        "Effect" = "Allow",
-        "Action" = [
-          "ecr:GetAuthorizationToken"
-        ],
-        "Resource" = "*"
+        "Principal" = {
+          "AWS" : "arn:aws:iam::${var.development_account_id}:root",
+          "Service" : "lambda.amazonaws.com"
+        }
       }
     ]
   })
@@ -98,7 +80,7 @@ resource "aws_iam_policy_attachment" "cross_account_ecr_read_policy_attachment" 
   provider = aws.target
   name = "cross_account_ecr_read_policy_attachment"
   roles     = [aws_iam_role.cross_account_ecr_read_role.name]
-  policy_arn = aws_iam_policy.cross_account_ecr_read_policy.arn
+  policy_arn = aws_iam_policy.cross_account_ecr_read_policy_all.arn
 }
 
 resource "aws_ecr_repository_policy" "lambda_repo_policy" {
@@ -158,7 +140,15 @@ resource "aws_ecr_repository" "lambda_repo" {
     for key, value in jsondecode(file("${var.manifest_file}")) : key => value
     if value.type == "lambda"
   }
-  name = "${split(":", each.value.image)[0]}"
+  name                 = "${split(":", each.value.image)[0]}"
+  image_tag_mutability = "IMMUTABLE"
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+  encryption_configuration {
+    encryption_type = "KMS"
+    kms_key         = var.ecr_key
+  }
 }
 
 output "repositories" {
