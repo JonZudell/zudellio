@@ -93,11 +93,6 @@ resource "aws_lambda_function" "lambda" {
     create_before_destroy = true
   }
 
-  provisioner "local-exec" {
-    command = <<EOT
-      aws ecr describe-images --repository-name ${each.value.repository_name} --image-ids imageTag=${var.image_tag} || exit 1
-    EOT
-  }
   for_each      = var.repositories
   provider      = aws.target
   function_name = each.key
@@ -106,4 +101,7 @@ resource "aws_lambda_function" "lambda" {
   timeout       = 15
 
   image_uri = "${each.value.repository_url}:${var.image_tag}"
+}
+output "url_rewrite_lambda" {
+  value = aws_lambda_function.lambda["url_rewrite_get"]
 }

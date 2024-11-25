@@ -125,3 +125,7 @@ output "api_url" {
 output "interface_bucket" {
   value = module.interface.s3_bucket
 }
+
+output "url_rewrite_lambda" {
+  value = module.lambdas.url_rewrite_lambda
+}

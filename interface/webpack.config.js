@@ -185,4 +185,10 @@ module.exports = {
     sideEffects: true,
     usedExports: true,
   },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
 };

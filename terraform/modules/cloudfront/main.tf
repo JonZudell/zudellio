@@ -18,6 +18,10 @@ variable "site_bucket" {
   description = "The s3 bucket to serve static files from"
 }
 
+variable "url_rewrite_lambda" {
+
+}
+
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
   name = "cloudfront-role"
@@ -130,7 +134,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id   = "S3-${var.site_bucket.bucket}"
   }
 
-  aliases = ["zudell.io", "www.zudell.io", "dev.zudell.io"]
+  aliases = ["zudell.io", "www.zudell.io"]
 
   enabled             = true
   is_ipv6_enabled     = true
@@ -142,11 +146,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${var.site_bucket.bucket}"
 
-    #lambda_function_association {
-    #  event_type   = "origin-request"
-    #  lambda_arn   = var.url_rewrite_lambda.arn
-    #  include_body = false
-    #}
+    lambda_function_association {
+      event_type   = "origin-request"
+      lambda_arn   = var.url_rewrite_lambda.arn
+      include_body = false
+    }
 
     forwarded_values {
       query_string = false

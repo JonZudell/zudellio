@@ -155,6 +155,7 @@ module "infrastructure" {
   infrastructure_account_id    = var.infrastructure_account_id
   manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
   development_interface_bucket = module.development.interface_bucket
+  url_rewrite_lambda           = module.development.url_rewrite_lambda
 }
 
 module "monitoring" {

@@ -6,8 +6,6 @@ WORKDIR /var/task
 
 # Copy the rest of the application code
 COPY . .
-ARG COMMIT_HASH
-COPY ../../../dist/${COMMIT_HASH}/rewrites.json /var/task/rewrites.json
 
 RUN pip install -r ./requirements.txt
 

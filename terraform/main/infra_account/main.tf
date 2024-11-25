@@ -14,6 +14,9 @@ terraform {
 variable "development_interface_bucket" {
 
 }
+variable "url_rewrite_lambda" {
+
+}
 
 variable "bucket_infix" {
   description = "The name of the S3 bucket"
@@ -100,9 +103,10 @@ module "cloudfront" {
   providers = {
     aws.target = aws.target
   }
-  source          = "../../modules/cloudfront"
-  site_bucket     = var.development_interface_bucket
-  certificate_arn = module.dns.certificate_arn
+  source             = "../../modules/cloudfront"
+  site_bucket        = var.development_interface_bucket
+  certificate_arn    = module.dns.certificate_arn
+  url_rewrite_lambda = var.url_rewrite_lambda
   #cross_account_acm_role = module.dns.cloudfront_acm_role
 }
 
