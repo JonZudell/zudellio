@@ -91,8 +91,9 @@ module "api_gateway" {
   providers = {
     aws.target = aws.target
   }
-  source = "../../modules/api_gateway"
-  log_key = var.log_key
+  source                    = "../../modules/api_gateway"
+  log_key                   = var.log_key
+  infrastructure_account_id = var.infrastructure_account_id
 }
 
 
@@ -107,7 +108,7 @@ module "lambdas" {
   lambda_log_key            = var.log_key
 }
 output "api_url" {
-  value = module.api_gateway.api_gateway.api_url
+  value = module.api_gateway.api_gateway_deployment.invoke_url
 }
 output "static_website_bucket" {
   value = module.interface.static_website_bucket

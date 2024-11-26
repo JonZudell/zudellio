@@ -156,6 +156,7 @@ module "infrastructure" {
   manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
   development_interface_bucket = module.development.static_website_bucket
   url_rewrite_lambda           = module.development.url_rewrite_lambda
+  image_tag                    = var.image_tag
 }
 
 module "monitoring" {
@@ -225,7 +226,7 @@ output "terraform_locks_table" {
 }
 
 output "development_s3_website_url" {
-  value = module.development.static_website_bucket.s3_website_url
+  value = module.development.static_website_bucket.website_endpoint
 }
 
 output "production_s3_website_url" {

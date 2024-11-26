@@ -9,14 +9,20 @@ terraform {
     }
   }
 }
+locals {
+  bucket_suffix = substr(md5(timestamp()), 0, 6)
+}
 
+variable "bucket_prefix" {
+  description = "The prefix for the S3 bucket name"
+  type = string
+}
 variable "log_key" {
   description = "The KMS key ID to use for the S3 bucket encryption"
 }
-
 resource "aws_s3_bucket" "log_bucket" {
   provider = aws.target
-  bucket = "log-bucket"
+  bucket = "${var.bucket_prefix}-log-bucket-${local.bucket_suffix}"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -37,7 +43,9 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
         Action = "s3:PutObject"
         Resource = "arn:aws:s3:::${aws_s3_bucket.log_bucket.bucket}/*"
         Principal = {
-          AWS = "cloudfront.aws.com"
+            Service = "cloudfront.amazonaws.com",
+            Service = "apigateway.amazonaws.com"
+            Service = "lambda.amazonaws.com"
         }
       }
     ]

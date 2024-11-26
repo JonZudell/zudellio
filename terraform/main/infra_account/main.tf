@@ -32,6 +32,7 @@ variable "development_account_id" {
   type        = string
 }
 
+variable "image_tag" {}
 variable "development_interface_bucket" {
   description = "The S3 bucket for the development interface"
 }
@@ -87,8 +88,9 @@ module "log_bucket" {
   providers = {
     aws.target = aws.target
   }
-  source = "../../modules/log_bucket"
-  log_key = module.kms.log_key
+  source        = "../../modules/log_bucket"
+  bucket_prefix = "infrastructure"
+  log_key       = module.kms.log_key
 }
 
 module "ecr" {
@@ -116,19 +118,22 @@ module "cloudfront" {
   providers = {
     aws.target = aws.target
   }
-  source             = "../../modules/cloudfront"
-  site_bucket        = var.development_interface_bucket
-  certificate_arn    = module.dns.cloudfront_distribution_certificate
-  url_rewrite_lambda = var.url_rewrite_lambda
-  cloudfront_log_key = module.kms.log_key
-  logging_bucket     = module.log_bucket.log_bucket
+  source                    = "../../modules/cloudfront"
+  site_bucket               = var.development_interface_bucket
+  certificate_arn           = module.dns.cloudfront_distribution_certificate.arn
+  infrastructure_account_id = var.infrastructure_account_id
+  logging_bucket            = module.log_bucket.log_bucket
+  url_rewrite_get_ecr       = module.ecr.repositories["url_rewrite_get"]
+  image_tag                 = var.image_tag
 }
 
 module "kms" {
   providers = {
     aws.target = aws.target
   }
-  source             = "../../modules/kms"
+  source                    = "../../modules/kms"
+  infrastructure_account_id = var.infrastructure_account_id
+  development_account_id    = var.development_account_id
 }
 
 output "repositories" {

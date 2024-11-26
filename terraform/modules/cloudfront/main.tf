@@ -13,7 +13,6 @@ variable "certificate_arn" {
   description = "The ARN of the ACM certificate to use for CloudFront"
   type        = string
 }
-variable "cloudfront_log_key" {}
 variable "site_bucket" {
   description = "The s3 bucket to serve static files from"
 }
@@ -22,14 +21,87 @@ variable "logging_bucket"{
   description = "The s3 bucket to store CloudFront logs"
 }
 
-variable "url_rewrite_lambda" {
-  description = "The Lambda function to rewrite URLs"
+variable "infrastructure_account_id" {}
+variable "image_tag" {}
+
+variable "url_rewrite_get_ecr" {
 }
 
-#variable "web_acl_id" {
-#  description = "The WAF Web ACL ID to associate with the CloudFront distribution"
-#}
+resource "aws_lambda_function" "lambda" {
+  lifecycle {
+    ignore_changes = [
+      image_uri,
+    ]
+    create_before_destroy = true
+  }
 
+  provider      = aws.target
+  function_name = "url_rewrite_lambda"
+  role          = aws_iam_role.lambda_execution_role.arn
+  package_type  = "Image"
+  timeout       = 15
+
+  image_uri = "${var.url_rewrite_get_ecr.repository_url}:${var.image_tag}"
+}
+resource "aws_iam_role" "lambda_execution_role" {
+  provider           = aws.target
+  name               = "lambda_execution_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "sts:AssumeRole"
+        Principal = {
+          Service = "lambda.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "lambda_execution_policy" {
+  provider = aws.target
+  name     = "lambda_execution_policy"
+  policy   = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+        Resource = [
+          "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "sts:AssumeRole",
+        ]
+        Resource = [
+          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {
+  name       = "lambda_execution_policy_attachment"
+  provider   = aws.target
+  roles      = [aws_iam_role.lambda_execution_role.name]
+  policy_arn = aws_iam_policy.lambda_execution_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logging" {
+  provider   = aws.target
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
   name = "cloudfront-role"
@@ -76,58 +148,6 @@ resource "aws_iam_policy" "cloudfront_policy" {
     ]
   })
 }
-#resource "aws_iam_policy" "cloudfront_full_policy" {
-#  provider = aws.target
-#  name        = "cloudfront-full-policy"
-#  description = "Full policy for CloudFront"
-#  policy = jsonencode({
-#    Version = "2012-10-17"
-#    Statement = [
-#      {
-# #        Effect = "Allow"
-#         Action = [
-#           "s3:GetObject",
-#           "s3:ListBucket",
-#           "s3:ListBucketMultipartUploads",
-#           "s3:GetBucketLocation",
-#           "s3:ListBucketVersions",
-#           "s3:GetBucketPolicy",
-#           "s3:GetBucketAcl",
-#           "s3:GetBucketCORS",
-#           "s3:GetBucketLogging",
-#           "s3:GetBucketNotification",
-#           "s3:GetBucketRequestPayment",
-#           "s3:GetBucketTagging",
-#           "s3:GetBucketVersioning",
-#           "s3:GetBucketWebsite",
-#           "s3:GetLifecycleConfiguration",
-#           "s3:GetReplicationConfiguration",
-#           "s3:GetObjectAcl",
-#           "s3:GetObjectTagging",
-#           "acm:ListCertificates",
-#           "acm:GetCertificate",
-#           "s3:GetObjectTorrent",
-#           "s3:GetObjectVersion",
-#           "s3:GetObjectVersionAcl",
-#           "s3:GetObjectVersionTagging",
-#           "s3:GetObjectVersionTorrent",
-#           "acm:DescribeCertificate",
-#           "cloudfront:GetDistribution",
-#           "cloudfront:GetDistributionConfig",
-#           "cloudfront:ListDistributions",
-#           "cloudfront:ListTagsForResource"
-#         ]
-#         Resource = "*"
-#       }
-#     ]
-#   })
-# }
-
-# resource "aws_iam_role_policy_attachment" "cloudfront_full_policy_attachment" {
-#   provider = aws.target
-#   role       = aws_iam_role.cloudfront_role.name
-#   policy_arn = aws_iam_policy.cloudfront_full_policy.arn
-# }
 
 resource "aws_iam_role_policy_attachment" "cloudfront_policy_attachment" {
   provider = aws.target
@@ -140,7 +160,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = var.site_bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.site_bucket.bucket}"
-    origin_path = "/"
+    origin_path = ""
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -165,7 +185,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
     lambda_function_association {
       event_type   = "origin-request"
-      lambda_arn   = var.url_rewrite_lambda.arn
+      lambda_arn   = aws_lambda_function.lambda.arn
       include_body = false
     }
 
@@ -183,7 +203,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
     lambda_function_association {
       event_type   = "origin-request"
-      lambda_arn   = var.url_rewrite_lambda.arn
+      lambda_arn   = aws_lambda_function.lambda.arn
       include_body = false
     }
   }
@@ -195,11 +215,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  logging_config {
-    include_cookies = false
-    bucket          = "mylogs.s3.amazonaws.com"
-    prefix          = "myprefix"
-  }
+  #logging_config {
+  #  include_cookies = false
+  #  bucket          = var.logging_bucket.id
+  #}
 
   viewer_certificate {
     acm_certificate_arn            = var.certificate_arn

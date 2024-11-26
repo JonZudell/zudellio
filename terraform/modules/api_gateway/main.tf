@@ -10,6 +10,10 @@ terraform {
   }
 }
 
+variable "infrastructure_account_id" {
+
+}
+
 variable "log_key" {
 
 }
@@ -96,7 +100,7 @@ resource "aws_api_gateway_method_settings" "production" {
 
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   provider = aws.target
-  kms_key_id = var.log_key.arn
+  #kms_key_id = var.log_key.arn
   name = "/aws/api-gateway/${aws_api_gateway_rest_api.api.id}"
   retention_in_days = 365
 }
@@ -118,20 +122,28 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
-      #{
-      #  Effect = "Allow",
-      #  Action = [
-      #    "logs:CreateLogGroup",
-      #    "logs:CreateLogStream",
-      #    "logs:DescribeLogGroups",
-      #    "logs:DescribeLogStreams"
-      #  ],
-      #  Resource = "*"
-      #},
+      {
+        Effect = "Allow",
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams"
+        ],
+        Resource = "*"
+      },
       {
         Effect = "Allow",
         Action = "logs:PutLogEvents",
         Resource = "arn:aws:logs:*:*:log-group:/aws/api-gateway/*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Encrypt",
+          "kms:GenerateDataKey"
+        ],
+        Resource = "arn:aws:kms:us-east-1:${var.infrastructure_account_id}:key/${var.log_key.key_id}"
       }
     ]
   })

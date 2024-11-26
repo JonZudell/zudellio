@@ -45,7 +45,7 @@ resource "aws_iam_policy" "cross_account_ecr_read_policy_all" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetAuthorizationToken"
         ],
-        "Resource" = "arn:aws:ecr:us-east-1${var.development_account_id}:repository/*"
+        "Resource" = "arn:aws:ecr:us-east-1:${var.development_account_id}:repository/*"
       }
     ]
   })
@@ -147,7 +147,7 @@ resource "aws_ecr_repository" "lambda_repo" {
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key         = var.ecr_key
+    kms_key         = var.ecr_key.arn
   }
 }
 

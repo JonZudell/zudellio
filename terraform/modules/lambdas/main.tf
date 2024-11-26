@@ -25,7 +25,38 @@ variable "image_tag" {
   description = "The commit hash"
   type        = string
 }
+resource "aws_iam_role" "cloudfront_lambda_role" {
+  provider = aws.target
+  name     = "cloudfront_lambda_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
 
+resource "aws_iam_role_policy" "cloudfront_lambda_policy" {
+  provider = aws.target
+  name     = "cloudfront_lambda_policy"
+  role     = aws_iam_role.cloudfront_lambda_role.id
+  policy   = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = "lambda:InvokeFunction"
+        Resource = "*"
+      }
+    ]
+  })
+}
 resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
   provider   = aws.target
   role       = aws_iam_role.lambda_execution_role.name

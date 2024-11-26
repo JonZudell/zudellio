@@ -12,13 +12,18 @@ Run pip3 install -U checkov to update
 
 terraform scan results:
 
-Passed checks: 93, Failed checks: 29, Skipped checks: 0, Parsing errors: 1
+Passed checks: 123, Failed checks: 21, Skipped checks: 0
 
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.infrastructure.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/infra_account/main.tf:69-84
 	Calling File: /terraform/main/main.tf:142-159
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: module.infrastructure.aws_iam_role.AdminAccessSSOFromRoot
+	File: /terraform/main/infra_account/main.tf:69-84
+	Calling File: /terraform/main/main.tf:142-159
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
 	PASSED for resource: module.infrastructure.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/infra_account/main.tf:69-84
@@ -83,201 +88,335 @@ Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals 
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.production.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/stage_account/main.tf:47-62
-	Calling File: /terraform/main/main.tf:203-216
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
 	PASSED for resource: module.production.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/stage_account/main.tf:47-62
-	Calling File: /terraform/main/main.tf:203-216
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
 Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)"
 	PASSED for resource: module.production.aws_s3_bucket.static_website
-	File: /terraform/main/stage_account/main.tf:66-73
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:66-69
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24
 Check: CKV_AWS_375: "Ensure AWS S3 bucket does not have global view ACL permissions enabled"
 	PASSED for resource: module.production.aws_s3_bucket_acl.static_website_acl
-	File: /terraform/main/stage_account/main.tf:84-94
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:89-99
+	Calling File: /terraform/main/main.tf:204-217
 Check: CKV_AWS_379: "Ensure AWS S3 bucket is configured with secure data transport policy"
 	PASSED for resource: module.production.aws_s3_bucket_acl.static_website_acl
-	File: /terraform/main/stage_account/main.tf:84-94
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:89-99
+	Calling File: /terraform/main/main.tf:204-217
 Check: CKV_AWS_66: "Ensure that CloudWatch Log Group specifies retention days"
 	PASSED for resource: module.development.aws_cloudwatch_log_group.lambda_log_group
 	File: /terraform/main/stage_account_0/main.tf:72-76
-	Calling File: /terraform/main/main.tf:184-201
+	Calling File: /terraform/main/main.tf:184-202
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13
 Check: CKV_AWS_237: "Ensure Create before destroy for API Gateway"
 	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_rest_api.api
 	File: /terraform/modules/api_gateway/main.tf:17-25
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-api-gateway-enables-create-before-destroy
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role.api_gateway_role
 	File: /terraform/modules/api_gateway/main.tf:27-43
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role.api_gateway_role
 	File: /terraform/modules/api_gateway/main.tf:27-43
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role.api_gateway_role
 	File: /terraform/modules/api_gateway/main.tf:27-43
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
 Check: CKV_AWS_217: "Ensure Create before destroy for API deployments"
 	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_deployment.api
 	File: /terraform/modules/api_gateway/main.tf:44-55
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-api-deployments-enable-create-before-destroy
+Check: CKV_AWS_120: "Ensure API Gateway caching is enabled"
+	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_stage.production
+	File: /terraform/modules/api_gateway/main.tf:57-81
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-api-gateway-caching-is-enabled
+Check: CKV_AWS_73: "Ensure API Gateway has X-Ray Tracing enabled"
+	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_stage.production
+	File: /terraform/modules/api_gateway/main.tf:57-81
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-15
 Check: CKV_AWS_76: "Ensure API Gateway has Access Logging enabled"
 	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_stage.production
-	File: /terraform/modules/api_gateway/main.tf:57-78
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:57-81
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-17
 Check: CKV_AWS_276: "Ensure Data Trace is not enabled in API Gateway Method Settings"
 	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_method_settings.production
-	File: /terraform/modules/api_gateway/main.tf:80-91
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:83-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-276
 Check: CKV_AWS_225: "Ensure API Gateway method setting caching is enabled"
 	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_method_settings.production
-	File: /terraform/modules/api_gateway/main.tf:80-91
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:83-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-api-gateway-method-settings-enable-caching
+Check: CKV_AWS_308: "Ensure API Gateway method setting caching is set to encrypted"
+	PASSED for resource: module.development.module.api_gateway.aws_api_gateway_method_settings.production
+	File: /terraform/modules/api_gateway/main.tf:83-95
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-308
 Check: CKV_AWS_66: "Ensure that CloudWatch Log Group specifies retention days"
 	PASSED for resource: module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs
-	File: /terraform/modules/api_gateway/main.tf:93-98
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:97-102
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13
 Check: CKV_AWS_338: "Ensure CloudWatch log groups retains logs for at least 1 year"
 	PASSED for resource: module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs
-	File: /terraform/modules/api_gateway/main.tf:93-98
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:97-102
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338
 Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
 	PASSED for resource: module.development.module.api_gateway.aws_cloudwatch_log_group.api_gateway_logs
-	File: /terraform/modules/api_gateway/main.tf:93-98
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:97-102
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms
 Check: CKV_AWS_288: "Ensure IAM policies does not allow data exfiltration"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288
+Check: CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
+	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290
 Check: CKV_AWS_287: "Ensure IAM policies does not allow credentials exposure"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287
 Check: CKV_AWS_63: "Ensure no IAM policies documents allow "*" as a statement's actions"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48
 Check: CKV_AWS_289: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289
 Check: CKV_AWS_62: "Ensure IAM policies that allow full "*-*" administrative privileges are not created"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
+	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355
 Check: CKV_AWS_286: "Ensure IAM policies does not allow privilege escalation"
 	PASSED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
+	File: /terraform/modules/api_gateway/main.tf:113-138
+	Calling File: /terraform/main/stage_account_0/main.tf:90-96
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_role.cloudfront_role
+	File: /terraform/modules/cloudfront/main.tf:33-49
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_role.cloudfront_role
+	File: /terraform/modules/cloudfront/main.tf:33-49
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_role.cloudfront_role
+	File: /terraform/modules/cloudfront/main.tf:33-49
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
+Check: CKV_AWS_288: "Ensure IAM policies does not allow data exfiltration"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288
+Check: CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290
+Check: CKV_AWS_287: "Ensure IAM policies does not allow credentials exposure"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287
+Check: CKV_AWS_63: "Ensure no IAM policies documents allow "*" as a statement's actions"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48
+Check: CKV_AWS_289: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289
+Check: CKV_AWS_62: "Ensure IAM policies that allow full "*-*" administrative privileges are not created"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355
+Check: CKV_AWS_286: "Ensure IAM policies does not allow privilege escalation"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_policy.cloudfront_policy
+	File: /terraform/modules/cloudfront/main.tf:51-78
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_iam_role_policy_attachment.cloudfront_policy_attachment
+	File: /terraform/modules/cloudfront/main.tf:132-136
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_216: "Ensure CloudFront distribution is enabled"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-cloudfront-distribution-is-enabled
+Check: CKV_AWS_34: "Ensure CloudFront distribution ViewerProtocolPolicy is set to HTTPS"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-32
+Check: CKV_AWS_86: "Ensure CloudFront distribution has Access Logging enabled"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-20
+Check: CKV_AWS_174: "Verify CloudFront Distribution Viewer Certificate is using TLS v1.2"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-networking-63
+Check: CKV_AWS_305: "Ensure CloudFront distribution has a default root object configured"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-305
+Check: CKV_AWS_374: "Ensure AWS CloudFront web distribution has geo restriction enabled"
+	PASSED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
 Check: CKV_AWS_234: "Verify logging preference for ACM certificates"
 	PASSED for resource: module.infrastructure.module.dns.aws_acm_certificate.zone_cert
 	File: /terraform/modules/dns/main.tf:99-111
-	Calling File: /terraform/main/infra_account/main.tf:97-104
+	Calling File: /terraform/main/infra_account/main.tf:106-113
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-acm-certificates-has-logging-preference
 Check: CKV_AWS_233: "Ensure Create before destroy for ACM certificates"
 	PASSED for resource: module.infrastructure.module.dns.aws_acm_certificate.zone_cert
 	File: /terraform/modules/dns/main.tf:99-111
-	Calling File: /terraform/main/infra_account/main.tf:97-104
+	Calling File: /terraform/main/infra_account/main.tf:106-113
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-acm-certificate-enables-create-before-destroy
 Check: CKV_AWS_288: "Ensure IAM policies does not allow data exfiltration"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288
 Check: CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290
 Check: CKV_AWS_287: "Ensure IAM policies does not allow credentials exposure"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287
 Check: CKV_AWS_63: "Ensure no IAM policies documents allow "*" as a statement's actions"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48
 Check: CKV_AWS_289: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289
 Check: CKV_AWS_62: "Ensure IAM policies that allow full "*-*" administrative privileges are not created"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355
 Check: CKV_AWS_286: "Ensure IAM policies does not allow privilege escalation"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy.cross_account_ecr_read_policy_all
-	File: /terraform/modules/ecr/main.tf:32-49
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:35-52
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all
-	File: /terraform/modules/ecr/main.tf:51-56
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:54-59
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_40: "Ensure IAM policies are attached only to groups or roles (Reducing access management complexity may in-turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.)"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment_all
-	File: /terraform/modules/ecr/main.tf:51-56
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:54-59
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-16-iam-policy-privileges-1
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role
-	File: /terraform/modules/ecr/main.tf:58-74
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:61-77
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role
+	File: /terraform/modules/ecr/main.tf:61-77
+	Calling File: /terraform/main/infra_account/main.tf:94-104
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role
-	File: /terraform/modules/ecr/main.tf:58-74
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:61-77
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment
-	File: /terraform/modules/ecr/main.tf:76-81
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:79-84
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_40: "Ensure IAM policies are attached only to groups or roles (Reducing access management complexity may in-turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.)"
 	PASSED for resource: module.infrastructure.module.ecr.aws_iam_policy_attachment.cross_account_ecr_read_policy_attachment
-	File: /terraform/modules/ecr/main.tf:76-81
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:79-84
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-16-iam-policy-privileges-1
 Check: CKV_AWS_32: "Ensure ECR policy is not set to public"
 	PASSED for resource: module.infrastructure.module.ecr.aws_ecr_repository_policy.lambda_repo_policy
-	File: /terraform/modules/ecr/main.tf:83-109
-	Calling File: /terraform/main/infra_account/main.tf:86-95
+	File: /terraform/modules/ecr/main.tf:86-112
+	Calling File: /terraform/main/infra_account/main.tf:94-104
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-1-ecr-repositories-not-public
+Check: CKV_AWS_163: "Ensure ECR image scanning on push is enabled"
+	PASSED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
+	File: /terraform/modules/ecr/main.tf:137-152
+	Calling File: /terraform/main/infra_account/main.tf:94-104
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-8
+Check: CKV_AWS_136: "Ensure that ECR repositories are encrypted using KMS"
+	PASSED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
+	File: /terraform/modules/ecr/main.tf:137-152
+	Calling File: /terraform/main/infra_account/main.tf:94-104
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ecr-repositories-are-encrypted
+Check: CKV_AWS_51: "Ensure ECR Image Tags are immutable"
+	PASSED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
+	File: /terraform/modules/ecr/main.tf:137-152
+	Calling File: /terraform/main/infra_account/main.tf:94-104
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-24
 Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)"
 	PASSED for resource: module.development.module.interface.aws_s3_bucket.static_website
 	File: /terraform/modules/interface_0/main.tf:35-41
@@ -322,123 +461,134 @@ Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. 
 	Calling File: /terraform/main/stage_account_0/main.tf:78-88
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24
 Check: CKV_AWS_227: "Ensure KMS key is enabled"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.cloudfront_log_encryption_key
-	File: /terraform/modules/kms/main.tf:1-4
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.log_encryption_key
+	File: /terraform/modules/kms/main.tf:12-16
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-key-management-service-kms-key-is-enabled
 Check: CKV_AWS_33: "Ensure KMS key policy does not contain wildcard (*) principal"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.cloudfront_log_encryption_key
-	File: /terraform/modules/kms/main.tf:1-4
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.log_encryption_key
+	File: /terraform/modules/kms/main.tf:12-16
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-kms-key-policy-does-not-contain-wildcard-principal
 Check: CKV_AWS_7: "Ensure rotation for customer created CMKs is enabled"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.cloudfront_log_encryption_key
-	File: /terraform/modules/kms/main.tf:1-4
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.log_encryption_key
+	File: /terraform/modules/kms/main.tf:12-16
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-8
 Check: CKV_AWS_227: "Ensure KMS key is enabled"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.dynamodb_encryption_key
-	File: /terraform/modules/kms/main.tf:10-13
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.ecr_encryption_key
+	File: /terraform/modules/kms/main.tf:23-27
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-key-management-service-kms-key-is-enabled
 Check: CKV_AWS_33: "Ensure KMS key policy does not contain wildcard (*) principal"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.dynamodb_encryption_key
-	File: /terraform/modules/kms/main.tf:10-13
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.ecr_encryption_key
+	File: /terraform/modules/kms/main.tf:23-27
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-kms-key-policy-does-not-contain-wildcard-principal
 Check: CKV_AWS_7: "Ensure rotation for customer created CMKs is enabled"
-	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.dynamodb_encryption_key
-	File: /terraform/modules/kms/main.tf:10-13
-	Calling File: /terraform/main/infra_account/main.tf:115-120
+	PASSED for resource: module.infrastructure.module.kms.aws_kms_key.ecr_encryption_key
+	File: /terraform/modules/kms/main.tf:23-27
+	Calling File: /terraform/main/infra_account/main.tf:127-132
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-8
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.development.module.lambdas.aws_iam_role_policy_attachment.basic_lambda_execution
-	File: /terraform/modules/lambdas/main.tf:25-29
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:29-33
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.development.module.lambdas.aws_iam_role.lambda_execution_role
-	File: /terraform/modules/lambdas/main.tf:31-46
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:35-50
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
 	PASSED for resource: module.development.module.lambdas.aws_iam_role.lambda_execution_role
-	File: /terraform/modules/lambdas/main.tf:31-46
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:35-50
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
 	PASSED for resource: module.development.module.lambdas.aws_iam_role.lambda_execution_role
-	File: /terraform/modules/lambdas/main.tf:31-46
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:35-50
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
 Check: CKV_AWS_288: "Ensure IAM policies does not allow data exfiltration"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288
 Check: CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290
 Check: CKV_AWS_287: "Ensure IAM policies does not allow credentials exposure"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287
 Check: CKV_AWS_63: "Ensure no IAM policies documents allow "*" as a statement's actions"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48
 Check: CKV_AWS_289: "Ensure IAM policies does not allow permissions management / resource exposure without constraints"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289
 Check: CKV_AWS_62: "Ensure IAM policies that allow full "*-*" administrative privileges are not created"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 Check: CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355
 Check: CKV_AWS_286: "Ensure IAM policies does not allow privilege escalation"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy.lambda_execution_policy
-	File: /terraform/modules/lambdas/main.tf:48-76
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:52-80
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy_attachment.lambda_execution_policy_attachment
-	File: /terraform/modules/lambdas/main.tf:78-83
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:82-87
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_40: "Ensure IAM policies are attached only to groups or roles (Reducing access management complexity may in-turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.)"
 	PASSED for resource: module.development.module.lambdas.aws_iam_policy_attachment.lambda_execution_policy_attachment
-	File: /terraform/modules/lambdas/main.tf:78-83
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:82-87
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-16-iam-policy-privileges-1
 Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
 	PASSED for resource: module.development.module.lambdas.aws_iam_role_policy_attachment.lambda_logging
-	File: /terraform/modules/lambdas/main.tf:85-89
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:89-93
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
 Check: CKV_AWS_363: "Ensure Lambda Runtime is not deprecated"
 	PASSED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-363
 Check: CKV_AWS_45: "Ensure no hard-coded secrets exist in lambda environment"
 	PASSED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-3
 Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)"
-	PASSED for resource: aws_s3_bucket.log_bucket
-	File: /terraform/modules/log_bucket/main.tf:6-18
+	PASSED for resource: module.infrastructure.module.log_bucket.aws_s3_bucket.log_bucket
+	File: /terraform/modules/log_bucket/main.tf:17-28
+	Calling File: /terraform/main/infra_account/main.tf:86-92
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24
+Check: CKV_AWS_70: "Ensure S3 bucket does not allow an action with any Principal"
+	PASSED for resource: module.infrastructure.module.log_bucket.aws_s3_bucket_policy.log_bucket_policy
+	File: /terraform/modules/log_bucket/main.tf:29-45
+	Calling File: /terraform/main/infra_account/main.tf:86-92
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-23
+Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)"
+	PASSED for resource: module.infrastructure.module.log_bucket.aws_s3_bucket_policy.log_bucket_policy
+	File: /terraform/modules/log_bucket/main.tf:29-45
+	Calling File: /terraform/main/infra_account/main.tf:86-92
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24
 Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)"
 	PASSED for resource: module.tf_state_bootstrap.aws_s3_bucket.terraform_state_bucket
@@ -463,29 +613,6 @@ Check: CKV_AWS_93: "Ensure S3 bucket policy does not lockout all but root user. 
 	File: /terraform/modules/tf_state_bootstrap/main.tf:59-91
 	Calling File: /terraform/main/main.tf:126-133
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24
-Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
-	FAILED for resource: module.infrastructure.aws_iam_role.AdminAccessSSOFromRoot
-	File: /terraform/main/infra_account/main.tf:69-84
-	Calling File: /terraform/main/main.tf:142-159
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
-
-		69 | resource "aws_iam_role" "AdminAccessSSOFromRoot" {
-		70 |   provider = aws.target
-		71 |   name     = "AdminAccessSSOFromRoot"
-		72 |   assume_role_policy = jsonencode({
-		73 |     Version = "2012-10-17",
-		74 |     Statement = [
-		75 |       {
-		76 |         Effect = "Allow",
-		77 |         Principal = {
-		78 |           AWS = "arn:aws:iam::${var.root_account_id}:root"
-		79 |         },
-		80 |         Action = "sts:AssumeRole"
-		81 |       }
-		82 |     ]
-		83 |   })
-		84 | }
-
 Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
 	FAILED for resource: module.monitoring.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/nonroot_account/main.tf:34-49
@@ -535,7 +662,7 @@ Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission 
 Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
 	FAILED for resource: module.production.aws_iam_role.AdminAccessSSOFromRoot
 	File: /terraform/main/stage_account/main.tf:47-62
-	Calling File: /terraform/main/main.tf:203-216
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
 
 		47 | resource "aws_iam_role" "AdminAccessSSOFromRoot" {
@@ -557,72 +684,72 @@ Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission 
 
 Check: CKV_AWS_53: "Ensure S3 bucket has block public ACLS enabled"
 	FAILED for resource: module.production.aws_s3_bucket_public_access_block.static_website_public_access_block
-	File: /terraform/main/stage_account/main.tf:95-103
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:100-108
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-19
 
-		95  | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
-		96  |   provider = aws.target
-		97  |   bucket   = aws_s3_bucket.static_website.id
-		98  | 
-		99  |   block_public_acls       = false
-		100 |   block_public_policy     = false
-		101 |   ignore_public_acls      = false
-		102 |   restrict_public_buckets = false
-		103 | }
+		100 | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
+		101 |   provider = aws.target
+		102 |   bucket   = aws_s3_bucket.static_website.id
+		103 | 
+		104 |   block_public_acls       = false
+		105 |   block_public_policy     = false
+		106 |   ignore_public_acls      = false
+		107 |   restrict_public_buckets = false
+		108 | }
 
 Check: CKV_AWS_54: "Ensure S3 bucket has block public policy enabled"
 	FAILED for resource: module.production.aws_s3_bucket_public_access_block.static_website_public_access_block
-	File: /terraform/main/stage_account/main.tf:95-103
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:100-108
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-20
 
-		95  | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
-		96  |   provider = aws.target
-		97  |   bucket   = aws_s3_bucket.static_website.id
-		98  | 
-		99  |   block_public_acls       = false
-		100 |   block_public_policy     = false
-		101 |   ignore_public_acls      = false
-		102 |   restrict_public_buckets = false
-		103 | }
+		100 | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
+		101 |   provider = aws.target
+		102 |   bucket   = aws_s3_bucket.static_website.id
+		103 | 
+		104 |   block_public_acls       = false
+		105 |   block_public_policy     = false
+		106 |   ignore_public_acls      = false
+		107 |   restrict_public_buckets = false
+		108 | }
 
 Check: CKV_AWS_55: "Ensure S3 bucket has ignore public ACLs enabled"
 	FAILED for resource: module.production.aws_s3_bucket_public_access_block.static_website_public_access_block
-	File: /terraform/main/stage_account/main.tf:95-103
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:100-108
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-21
 
-		95  | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
-		96  |   provider = aws.target
-		97  |   bucket   = aws_s3_bucket.static_website.id
-		98  | 
-		99  |   block_public_acls       = false
-		100 |   block_public_policy     = false
-		101 |   ignore_public_acls      = false
-		102 |   restrict_public_buckets = false
-		103 | }
+		100 | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
+		101 |   provider = aws.target
+		102 |   bucket   = aws_s3_bucket.static_website.id
+		103 | 
+		104 |   block_public_acls       = false
+		105 |   block_public_policy     = false
+		106 |   ignore_public_acls      = false
+		107 |   restrict_public_buckets = false
+		108 | }
 
 Check: CKV_AWS_56: "Ensure S3 bucket has 'restrict_public_buckets' enabled"
 	FAILED for resource: module.production.aws_s3_bucket_public_access_block.static_website_public_access_block
-	File: /terraform/main/stage_account/main.tf:95-103
-	Calling File: /terraform/main/main.tf:203-216
+	File: /terraform/main/stage_account/main.tf:100-108
+	Calling File: /terraform/main/main.tf:204-217
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-22
 
-		95  | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
-		96  |   provider = aws.target
-		97  |   bucket   = aws_s3_bucket.static_website.id
-		98  | 
-		99  |   block_public_acls       = false
-		100 |   block_public_policy     = false
-		101 |   ignore_public_acls      = false
-		102 |   restrict_public_buckets = false
-		103 | }
+		100 | resource "aws_s3_bucket_public_access_block" "static_website_public_access_block" {
+		101 |   provider = aws.target
+		102 |   bucket   = aws_s3_bucket.static_website.id
+		103 | 
+		104 |   block_public_acls       = false
+		105 |   block_public_policy     = false
+		106 |   ignore_public_acls      = false
+		107 |   restrict_public_buckets = false
+		108 | }
 
 Check: CKV_AWS_338: "Ensure CloudWatch log groups retains logs for at least 1 year"
 	FAILED for resource: module.development.aws_cloudwatch_log_group.lambda_log_group
 	File: /terraform/main/stage_account_0/main.tf:72-76
-	Calling File: /terraform/main/main.tf:184-201
+	Calling File: /terraform/main/main.tf:184-202
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338
 
 		72 | resource "aws_cloudwatch_log_group" "lambda_log_group" {
@@ -634,7 +761,7 @@ Check: CKV_AWS_338: "Ensure CloudWatch log groups retains logs for at least 1 ye
 Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
 	FAILED for resource: module.development.aws_cloudwatch_log_group.lambda_log_group
 	File: /terraform/main/stage_account_0/main.tf:72-76
-	Calling File: /terraform/main/main.tf:184-201
+	Calling File: /terraform/main/main.tf:184-202
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms
 
 		72 | resource "aws_cloudwatch_log_group" "lambda_log_group" {
@@ -643,210 +770,20 @@ Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
 		75 |   retention_in_days = 14
 		76 | }
 
-Check: CKV_AWS_120: "Ensure API Gateway caching is enabled"
-	FAILED for resource: module.development.module.api_gateway.aws_api_gateway_stage.production
-	File: /terraform/modules/api_gateway/main.tf:57-78
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-api-gateway-caching-is-enabled
+Check: CKV_AWS_68: "CloudFront Distribution should have WAF enabled"
+	FAILED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-27
 
-		57 | resource "aws_api_gateway_stage" "production" {
-		58 |   provider = aws.target
-		59 |   deployment_id = aws_api_gateway_deployment.api.id
-		60 |   rest_api_id   = aws_api_gateway_rest_api.api.id
-		61 |   stage_name    = "production"
-		62 | 
-		63 |   access_log_settings {
-		64 |     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
-		65 |     format = jsonencode({
-		66 |       requestId = "$context.requestId",
-		67 |       ip = "$context.identity.sourceIp",
-		68 |       caller = "$context.identity.caller",
-		69 |       user = "$context.identity.user",
-		70 |       requestTime = "$context.requestTime",
-		71 |       httpMethod = "$context.httpMethod",
-		72 |       resourcePath = "$context.resourcePath",
-		73 |       status = "$context.status",
-		74 |       protocol = "$context.protocol",
-		75 |       responseLength = "$context.responseLength"
-		76 |     })
-		77 |   }
-		78 | }
+		Code lines for this resource are too many. Please use IDE of your choice to review the file.
+Check: CKV_AWS_310: "Ensure CloudFront distributions should have origin failover configured"
+	FAILED for resource: module.infrastructure.module.cloudfront.aws_cloudfront_distribution.s3_distribution
+	File: /terraform/modules/cloudfront/main.tf:138-211
+	Calling File: /terraform/main/infra_account/main.tf:115-125
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-310
 
-Check: CKV_AWS_73: "Ensure API Gateway has X-Ray Tracing enabled"
-	FAILED for resource: module.development.module.api_gateway.aws_api_gateway_stage.production
-	File: /terraform/modules/api_gateway/main.tf:57-78
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-15
-
-		57 | resource "aws_api_gateway_stage" "production" {
-		58 |   provider = aws.target
-		59 |   deployment_id = aws_api_gateway_deployment.api.id
-		60 |   rest_api_id   = aws_api_gateway_rest_api.api.id
-		61 |   stage_name    = "production"
-		62 | 
-		63 |   access_log_settings {
-		64 |     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
-		65 |     format = jsonencode({
-		66 |       requestId = "$context.requestId",
-		67 |       ip = "$context.identity.sourceIp",
-		68 |       caller = "$context.identity.caller",
-		69 |       user = "$context.identity.user",
-		70 |       requestTime = "$context.requestTime",
-		71 |       httpMethod = "$context.httpMethod",
-		72 |       resourcePath = "$context.resourcePath",
-		73 |       status = "$context.status",
-		74 |       protocol = "$context.protocol",
-		75 |       responseLength = "$context.responseLength"
-		76 |     })
-		77 |   }
-		78 | }
-
-Check: CKV_AWS_308: "Ensure API Gateway method setting caching is set to encrypted"
-	FAILED for resource: module.development.module.api_gateway.aws_api_gateway_method_settings.production
-	File: /terraform/modules/api_gateway/main.tf:80-91
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-308
-
-		80 | resource "aws_api_gateway_method_settings" "production" {
-		81 |   provider = aws.target
-		82 |   rest_api_id = aws_api_gateway_rest_api.api.id
-		83 |   stage_name  = aws_api_gateway_stage.production.stage_name
-		84 |   method_path = "*/*"
-		85 | 
-		86 |   settings {
-		87 |     logging_level    = "INFO"
-		88 |     data_trace_enabled = false
-		89 |     caching_enabled = true
-		90 |   }
-		91 | }
-
-Check: CKV_AWS_290: "Ensure IAM policies does not allow write access without constraints"
-	FAILED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290
-
-		109 | resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
-		110 |   provider = aws.target
-		111 |   name = "api-gateway-cloudwatch-policy"
-		112 |   role = aws_iam_role.api_gateway_role.id
-		113 | 
-		114 |   policy = jsonencode({
-		115 |     Version = "2012-10-17",
-		116 |     Statement = [
-		117 |       {
-		118 |         Effect = "Allow",
-		119 |         Action = [
-		120 |           "logs:CreateLogGroup",
-		121 |           "logs:CreateLogStream",
-		122 |           "logs:PutLogEvents",
-		123 |           "logs:DescribeLogGroups",
-		124 |           "logs:DescribeLogStreams"
-		125 |         ],
-		126 |         Resource = "*"
-		127 |       }
-		128 |     ]
-		129 |   })
-		130 | }
-
-Check: CKV_AWS_355: "Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions"
-	FAILED for resource: module.development.module.api_gateway.aws_iam_role_policy.api_gateway_cloudwatch_policy
-	File: /terraform/modules/api_gateway/main.tf:109-130
-	Calling File: /terraform/main/stage_account_0/main.tf:90-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355
-
-		109 | resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
-		110 |   provider = aws.target
-		111 |   name = "api-gateway-cloudwatch-policy"
-		112 |   role = aws_iam_role.api_gateway_role.id
-		113 | 
-		114 |   policy = jsonencode({
-		115 |     Version = "2012-10-17",
-		116 |     Statement = [
-		117 |       {
-		118 |         Effect = "Allow",
-		119 |         Action = [
-		120 |           "logs:CreateLogGroup",
-		121 |           "logs:CreateLogStream",
-		122 |           "logs:PutLogEvents",
-		123 |           "logs:DescribeLogGroups",
-		124 |           "logs:DescribeLogStreams"
-		125 |         ],
-		126 |         Resource = "*"
-		127 |       }
-		128 |     ]
-		129 |   })
-		130 | }
-
-Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
-	FAILED for resource: module.infrastructure.module.ecr.aws_iam_role.cross_account_ecr_read_role
-	File: /terraform/modules/ecr/main.tf:58-74
-	Calling File: /terraform/main/infra_account/main.tf:86-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
-
-		58 | resource "aws_iam_role" "cross_account_ecr_read_role" {
-		59 |   provider = aws.target
-		60 |   name = "cross_account_ecr_read_role"
-		61 |   assume_role_policy = jsonencode({
-		62 |     "Version" = "2012-10-17",
-		63 |     "Statement" = [
-		64 |       {
-		65 |         "Effect" = "Allow",
-		66 |         "Action" = "sts:AssumeRole",
-		67 |         "Principal" = {
-		68 |           "AWS" : "arn:aws:iam::${var.development_account_id}:root",
-		69 |           "Service" : "lambda.amazonaws.com"
-		70 |         }
-		71 |       }
-		72 |     ]
-		73 |   })
-		74 | }
-
-Check: CKV_AWS_163: "Ensure ECR image scanning on push is enabled"
-	FAILED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
-	File: /terraform/modules/ecr/main.tf:134-141
-	Calling File: /terraform/main/infra_account/main.tf:86-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-8
-
-		134 | resource "aws_ecr_repository" "lambda_repo" {
-		135 |   provider = aws.target
-		136 |   for_each = {
-		137 |     for key, value in jsondecode(file("${var.manifest_file}")) : key => value
-		138 |     if value.type == "lambda"
-		139 |   }
-		140 |   name = "${split(":", each.value.image)[0]}"
-		141 | }
-
-Check: CKV_AWS_136: "Ensure that ECR repositories are encrypted using KMS"
-	FAILED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
-	File: /terraform/modules/ecr/main.tf:134-141
-	Calling File: /terraform/main/infra_account/main.tf:86-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ecr-repositories-are-encrypted
-
-		134 | resource "aws_ecr_repository" "lambda_repo" {
-		135 |   provider = aws.target
-		136 |   for_each = {
-		137 |     for key, value in jsondecode(file("${var.manifest_file}")) : key => value
-		138 |     if value.type == "lambda"
-		139 |   }
-		140 |   name = "${split(":", each.value.image)[0]}"
-		141 | }
-
-Check: CKV_AWS_51: "Ensure ECR Image Tags are immutable"
-	FAILED for resource: module.infrastructure.module.ecr.aws_ecr_repository.lambda_repo
-	File: /terraform/modules/ecr/main.tf:134-141
-	Calling File: /terraform/main/infra_account/main.tf:86-95
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-24
-
-		134 | resource "aws_ecr_repository" "lambda_repo" {
-		135 |   provider = aws.target
-		136 |   for_each = {
-		137 |     for key, value in jsondecode(file("${var.manifest_file}")) : key => value
-		138 |     if value.type == "lambda"
-		139 |   }
-		140 |   name = "${split(":", each.value.image)[0]}"
-		141 | }
-
+		Code lines for this resource are too many. Please use IDE of your choice to review the file.
 Check: CKV_AWS_70: "Ensure S3 bucket does not allow an action with any Principal"
 	FAILED for resource: module.development.module.interface.aws_s3_bucket_policy.zudellio_bucket_policy
 	File: /terraform/modules/interface_0/main.tf:157-172
@@ -872,123 +809,123 @@ Check: CKV_AWS_70: "Ensure S3 bucket does not allow an action with any Principal
 
 Check: CKV_AWS_50: "X-Ray tracing is enabled for Lambda"
 	FAILED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-serverless-policies/bc-aws-serverless-4
 
-		91  | resource "aws_lambda_function" "lambda" {
-		92  |   lifecycle {
-		93  |     ignore_changes = [
-		94  |       image_uri,
-		95  |     ]
-		96  |     create_before_destroy = true
-		97  |   }
-		98  | 
-		99  |   for_each      = var.repositories
-		100 |   provider      = aws.target
-		101 |   function_name = each.key
-		102 |   role          = aws_iam_role.lambda_execution_role.arn
-		103 |   package_type  = "Image"
-		104 |   timeout       = 15
-		105 | 
-		106 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
-		107 | }
+		95  | resource "aws_lambda_function" "lambda" {
+		96  |   lifecycle {
+		97  |     ignore_changes = [
+		98  |       image_uri,
+		99  |     ]
+		100 |     create_before_destroy = true
+		101 |   }
+		102 | 
+		103 |   for_each      = var.repositories
+		104 |   provider      = aws.target
+		105 |   function_name = each.key
+		106 |   role          = aws_iam_role.lambda_execution_role.arn
+		107 |   package_type  = "Image"
+		108 |   timeout       = 15
+		109 | 
+		110 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
+		111 | }
 
 Check: CKV_AWS_117: "Ensure that AWS Lambda function is configured inside a VPC"
 	FAILED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-aws-lambda-function-is-configured-inside-a-vpc-1
 
-		91  | resource "aws_lambda_function" "lambda" {
-		92  |   lifecycle {
-		93  |     ignore_changes = [
-		94  |       image_uri,
-		95  |     ]
-		96  |     create_before_destroy = true
-		97  |   }
-		98  | 
-		99  |   for_each      = var.repositories
-		100 |   provider      = aws.target
-		101 |   function_name = each.key
-		102 |   role          = aws_iam_role.lambda_execution_role.arn
-		103 |   package_type  = "Image"
-		104 |   timeout       = 15
-		105 | 
-		106 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
-		107 | }
+		95  | resource "aws_lambda_function" "lambda" {
+		96  |   lifecycle {
+		97  |     ignore_changes = [
+		98  |       image_uri,
+		99  |     ]
+		100 |     create_before_destroy = true
+		101 |   }
+		102 | 
+		103 |   for_each      = var.repositories
+		104 |   provider      = aws.target
+		105 |   function_name = each.key
+		106 |   role          = aws_iam_role.lambda_execution_role.arn
+		107 |   package_type  = "Image"
+		108 |   timeout       = 15
+		109 | 
+		110 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
+		111 | }
 
 Check: CKV_AWS_116: "Ensure that AWS Lambda function is configured for a Dead Letter Queue(DLQ)"
 	FAILED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-aws-lambda-function-is-configured-for-a-dead-letter-queue-dlq
 
-		91  | resource "aws_lambda_function" "lambda" {
-		92  |   lifecycle {
-		93  |     ignore_changes = [
-		94  |       image_uri,
-		95  |     ]
-		96  |     create_before_destroy = true
-		97  |   }
-		98  | 
-		99  |   for_each      = var.repositories
-		100 |   provider      = aws.target
-		101 |   function_name = each.key
-		102 |   role          = aws_iam_role.lambda_execution_role.arn
-		103 |   package_type  = "Image"
-		104 |   timeout       = 15
-		105 | 
-		106 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
-		107 | }
+		95  | resource "aws_lambda_function" "lambda" {
+		96  |   lifecycle {
+		97  |     ignore_changes = [
+		98  |       image_uri,
+		99  |     ]
+		100 |     create_before_destroy = true
+		101 |   }
+		102 | 
+		103 |   for_each      = var.repositories
+		104 |   provider      = aws.target
+		105 |   function_name = each.key
+		106 |   role          = aws_iam_role.lambda_execution_role.arn
+		107 |   package_type  = "Image"
+		108 |   timeout       = 15
+		109 | 
+		110 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
+		111 | }
 
 Check: CKV_AWS_272: "Ensure AWS Lambda function is configured to validate code-signing"
 	FAILED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-272
 
-		91  | resource "aws_lambda_function" "lambda" {
-		92  |   lifecycle {
-		93  |     ignore_changes = [
-		94  |       image_uri,
-		95  |     ]
-		96  |     create_before_destroy = true
-		97  |   }
-		98  | 
-		99  |   for_each      = var.repositories
-		100 |   provider      = aws.target
-		101 |   function_name = each.key
-		102 |   role          = aws_iam_role.lambda_execution_role.arn
-		103 |   package_type  = "Image"
-		104 |   timeout       = 15
-		105 | 
-		106 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
-		107 | }
+		95  | resource "aws_lambda_function" "lambda" {
+		96  |   lifecycle {
+		97  |     ignore_changes = [
+		98  |       image_uri,
+		99  |     ]
+		100 |     create_before_destroy = true
+		101 |   }
+		102 | 
+		103 |   for_each      = var.repositories
+		104 |   provider      = aws.target
+		105 |   function_name = each.key
+		106 |   role          = aws_iam_role.lambda_execution_role.arn
+		107 |   package_type  = "Image"
+		108 |   timeout       = 15
+		109 | 
+		110 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
+		111 | }
 
 Check: CKV_AWS_115: "Ensure that AWS Lambda function is configured for function-level concurrent execution limit"
 	FAILED for resource: module.development.module.lambdas.aws_lambda_function.lambda
-	File: /terraform/modules/lambdas/main.tf:91-107
-	Calling File: /terraform/main/stage_account_0/main.tf:98-106
+	File: /terraform/modules/lambdas/main.tf:95-111
+	Calling File: /terraform/main/stage_account_0/main.tf:99-108
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-aws-lambda-function-is-configured-for-function-level-concurrent-execution-limit
 
-		91  | resource "aws_lambda_function" "lambda" {
-		92  |   lifecycle {
-		93  |     ignore_changes = [
-		94  |       image_uri,
-		95  |     ]
-		96  |     create_before_destroy = true
-		97  |   }
-		98  | 
-		99  |   for_each      = var.repositories
-		100 |   provider      = aws.target
-		101 |   function_name = each.key
-		102 |   role          = aws_iam_role.lambda_execution_role.arn
-		103 |   package_type  = "Image"
-		104 |   timeout       = 15
-		105 | 
-		106 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
-		107 | }
+		95  | resource "aws_lambda_function" "lambda" {
+		96  |   lifecycle {
+		97  |     ignore_changes = [
+		98  |       image_uri,
+		99  |     ]
+		100 |     create_before_destroy = true
+		101 |   }
+		102 | 
+		103 |   for_each      = var.repositories
+		104 |   provider      = aws.target
+		105 |   function_name = each.key
+		106 |   role          = aws_iam_role.lambda_execution_role.arn
+		107 |   package_type  = "Image"
+		108 |   timeout       = 15
+		109 | 
+		110 |   image_uri = "${each.value.repository_url}:${var.image_tag}"
+		111 | }
 
 Check: CKV_AWS_28: "Ensure DynamoDB point in time recovery (backup) is enabled"
 	FAILED for resource: aws_dynamodb_table.zudellio_contact
@@ -1054,32 +991,11 @@ Check: CKV_AWS_119: "Ensure DynamoDB Tables are encrypted using a KMS Customer M
 		56 |   }
 		57 | }
 
-Error parsing file /Users/jonathonzudell/Workspace/zudellio/terraform/modules/cloudfront/main.tfֿ
 
 dockerfile scan results:
 
 Passed checks: 15, Failed checks: 6, Skipped checks: 0
 
-Check: CKV_DOCKER_11: "Ensure From Alias are unique for multistage builds."
-	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-from-alias-is-unique-for-multistage-builds
-Check: CKV_DOCKER_7: "Ensure the base image uses a non latest version tag"
-	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.FROM
-	File: /lambdas/healthcheck/get/Dockerfile:2-2
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-the-base-image-uses-a-non-latest-version-tag
-Check: CKV_DOCKER_5: "Ensure update instructions are not use alone in the Dockerfile"
-	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-update-instructions-are-not-used-alone-in-the-dockerfile
-Check: CKV_DOCKER_9: "Ensure that APT isn't used"
-	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-apt-is-not-used
-Check: CKV_DOCKER_10: "Ensure that WORKDIR values are absolute paths"
-	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
-	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-workdir-values-are-absolute-paths
 Check: CKV_DOCKER_11: "Ensure From Alias are unique for multistage builds."
 	PASSED for resource: /lambdas/contact/post/Dockerfile.
 	File: /lambdas/contact/post/Dockerfile:1-13
@@ -1099,6 +1015,26 @@ Check: CKV_DOCKER_9: "Ensure that APT isn't used"
 Check: CKV_DOCKER_10: "Ensure that WORKDIR values are absolute paths"
 	PASSED for resource: /lambdas/contact/post/Dockerfile.
 	File: /lambdas/contact/post/Dockerfile:1-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-workdir-values-are-absolute-paths
+Check: CKV_DOCKER_11: "Ensure From Alias are unique for multistage builds."
+	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-from-alias-is-unique-for-multistage-builds
+Check: CKV_DOCKER_7: "Ensure the base image uses a non latest version tag"
+	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.FROM
+	File: /lambdas/healthcheck/get/Dockerfile:2-2
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-the-base-image-uses-a-non-latest-version-tag
+Check: CKV_DOCKER_5: "Ensure update instructions are not use alone in the Dockerfile"
+	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-update-instructions-are-not-used-alone-in-the-dockerfile
+Check: CKV_DOCKER_9: "Ensure that APT isn't used"
+	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-apt-is-not-used
+Check: CKV_DOCKER_10: "Ensure that WORKDIR values are absolute paths"
+	PASSED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-workdir-values-are-absolute-paths
 Check: CKV_DOCKER_11: "Ensure From Alias are unique for multistage builds."
 	PASSED for resource: /lambdas/url_rewrite/get/Dockerfile.
@@ -1121,8 +1057,8 @@ Check: CKV_DOCKER_10: "Ensure that WORKDIR values are absolute paths"
 	File: /lambdas/url_rewrite/get/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-docker-workdir-values-are-absolute-paths
 Check: CKV_DOCKER_2: "Ensure that HEALTHCHECK instructions have been added to container images"
-	FAILED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
+	FAILED for resource: /lambdas/contact/post/Dockerfile.
+	File: /lambdas/contact/post/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-healthcheck-instructions-have-been-added-to-container-images
 
 		1  | # Use the official AWS Lambda Python 3.10 base image
@@ -1134,13 +1070,13 @@ Check: CKV_DOCKER_2: "Ensure that HEALTHCHECK instructions have been added to co
 		7  | # Copy the rest of the application code
 		8  | COPY . .
 		9  | 
-		10 | RUN pip install -r ./requirements.txt
+		10 | RUN pip install -r requirements.txt
 		11 | 
 		12 | # Set the CMD to your handler (could be app.lambda_handler or similar)
 		13 | CMD ["handler.lambda_handler"]
 Check: CKV_DOCKER_3: "Ensure that a user for the container has been created"
-	FAILED for resource: /lambdas/healthcheck/get/Dockerfile.
-	File: /lambdas/healthcheck/get/Dockerfile:1-13
+	FAILED for resource: /lambdas/contact/post/Dockerfile.
+	File: /lambdas/contact/post/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-a-user-for-the-container-has-been-created
 
 		1  | # Use the official AWS Lambda Python 3.10 base image
@@ -1152,13 +1088,13 @@ Check: CKV_DOCKER_3: "Ensure that a user for the container has been created"
 		7  | # Copy the rest of the application code
 		8  | COPY . .
 		9  | 
-		10 | RUN pip install -r ./requirements.txt
+		10 | RUN pip install -r requirements.txt
 		11 | 
 		12 | # Set the CMD to your handler (could be app.lambda_handler or similar)
 		13 | CMD ["handler.lambda_handler"]
 Check: CKV_DOCKER_2: "Ensure that HEALTHCHECK instructions have been added to container images"
-	FAILED for resource: /lambdas/contact/post/Dockerfile.
-	File: /lambdas/contact/post/Dockerfile:1-13
+	FAILED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-healthcheck-instructions-have-been-added-to-container-images
 
 		1  | # Use the official AWS Lambda Python 3.10 base image
@@ -1170,13 +1106,13 @@ Check: CKV_DOCKER_2: "Ensure that HEALTHCHECK instructions have been added to co
 		7  | # Copy the rest of the application code
 		8  | COPY . .
 		9  | 
-		10 | RUN pip install -r requirements.txt
+		10 | RUN pip install -r ./requirements.txt
 		11 | 
 		12 | # Set the CMD to your handler (could be app.lambda_handler or similar)
 		13 | CMD ["handler.lambda_handler"]
 Check: CKV_DOCKER_3: "Ensure that a user for the container has been created"
-	FAILED for resource: /lambdas/contact/post/Dockerfile.
-	File: /lambdas/contact/post/Dockerfile:1-13
+	FAILED for resource: /lambdas/healthcheck/get/Dockerfile.
+	File: /lambdas/healthcheck/get/Dockerfile:1-13
 	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/docker-policies/docker-policy-index/ensure-that-a-user-for-the-container-has-been-created
 
 		1  | # Use the official AWS Lambda Python 3.10 base image
@@ -1188,7 +1124,7 @@ Check: CKV_DOCKER_3: "Ensure that a user for the container has been created"
 		7  | # Copy the rest of the application code
 		8  | COPY . .
 		9  | 
-		10 | RUN pip install -r requirements.txt
+		10 | RUN pip install -r ./requirements.txt
 		11 | 
 		12 | # Set the CMD to your handler (could be app.lambda_handler or similar)
 		13 | CMD ["handler.lambda_handler"]

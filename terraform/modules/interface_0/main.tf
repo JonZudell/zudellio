@@ -28,6 +28,9 @@ variable "api_gateway" {
 variable "api_gateway_role" {
 
 }
+#variable "cloudfront_access_id" {
+#
+#}
 resource "random_id" "static_website" {
   byte_length = 8
 }
@@ -35,9 +38,6 @@ resource "random_id" "static_website" {
 resource "aws_s3_bucket" "static_website" {
   provider = aws.target
   bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
-  versioning {
-    enabled = true
-  }
 }
 resource "aws_s3_bucket_policy" "static_website_policy" {
   provider = aws.target
@@ -67,7 +67,7 @@ resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" 
   bucket   = aws_s3_bucket.static_website.id
 
   rule {
-    object_ownership = "BucketOwnerEnforced"
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
@@ -96,10 +96,10 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
   provider = aws.target
   bucket   = aws_s3_bucket.static_website.id
 
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
 }
 
 resource "aws_s3_object" "interface_files" {
@@ -129,6 +129,7 @@ resource "aws_s3_object" "interface_files" {
     "svg"  = "image/svg+xml"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
   source = "${var.dist_dir}/${each.value}"
+  acl = "public-read"
 
 }
 
