@@ -185,7 +185,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
     lambda_function_association {
       event_type   = "origin-request"
-      lambda_arn   = aws_lambda_function.lambda.arn
+      lambda_arn   = "${aws_lambda_function.lambda.arn}:1" // Specify the version number
       include_body = false
     }
 

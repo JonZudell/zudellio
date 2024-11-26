@@ -228,10 +228,6 @@ output "terraform_locks_table" {
 output "development_s3_website_url" {
   value = module.development.static_website_bucket.website_endpoint
 }
-
-output "production_s3_website_url" {
-  value = module.production.s3_website_url
-}
 output "development_api_url" {
   value = module.development.api_url
 }

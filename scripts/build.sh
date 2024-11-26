@@ -37,14 +37,13 @@ fi
 # Get the latest commit hash
 commit_hash=$(git rev-parse --short=8 HEAD)
 npm run build
-mkdir -p ../dist/"$commit_hash"/
-cp -r  ./dist/* ../dist/"$commit_hash"/
+./scripts/process_dist.sh "$commit_hash"
 
-cd ../ || exit
+# cd ../ || exit
 
-$PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash"
-$PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash"
-$PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash"
+# $PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash"
+# $PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash"
+# $PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash"
 
-./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash"
+# ./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash"
 echo "Latest commit hash: $commit_hash"
