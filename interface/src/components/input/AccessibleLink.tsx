@@ -5,6 +5,7 @@ import './AccessibleLink.css';
 interface ButtonProps {
   text: string;
   decorationLeft?: string;
+  decorationLeftClassname?: string;
   decorationRight?: string;
   className?: string;
   href: string;
@@ -17,6 +18,7 @@ interface ButtonProps {
 const AccessibleLink: React.FC<ButtonProps> = ({
   text,
   decorationLeft,
+  decorationLeftClassname,
   decorationRight,
   className,
   href,
@@ -85,7 +87,9 @@ const AccessibleLink: React.FC<ButtonProps> = ({
       aria-label={ariaLabel}
     >
       {decorationLeft && (
-        <span className="text-center border-none cursor-pointer group-hover:text-blue-400 group-focus:text-blue-400">
+        <span
+          className={`text-center border-none cursor-pointer group-hover:text-blue-400 group-focus:text-blue-400 ${decorationLeftClassname}`}
+        >
           {decorationLeft}
         </span>
       )}

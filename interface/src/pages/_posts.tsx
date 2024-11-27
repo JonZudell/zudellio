@@ -51,6 +51,7 @@ const _Post: React.FC = () => {
           text={'Back'}
           href={'/'}
           decorationLeft="< "
+          decorationLeftClassname="ml-1em"
           ariaLabel={'Go to Home Page'}
         />
         {postId &&
@@ -62,6 +63,7 @@ const _Post: React.FC = () => {
           text={'Back'}
           href={'/'}
           decorationLeft="< "
+          decorationLeftClassname="ml-1em"
           ariaLabel={'Go to Home Page'}
         />
       </div>

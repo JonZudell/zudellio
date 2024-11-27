@@ -127,7 +127,7 @@ resource "aws_s3_object" "interface_files" {
     "jpeg" = "image/jpeg",
     "gif"  = "image/gif",
     "svg"  = "image/svg+xml"
-  }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
+  }, split(".", each.value)[length(split(".", each.value)) - 1], "text/html")
   source = "${var.dist_dir}/${each.value}"
   acl = "public-read"
 

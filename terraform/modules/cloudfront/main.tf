@@ -22,86 +22,7 @@ variable "logging_bucket"{
 }
 
 variable "infrastructure_account_id" {}
-variable "image_tag" {}
 
-variable "url_rewrite_get_ecr" {
-}
-
-resource "aws_lambda_function" "lambda" {
-  lifecycle {
-    ignore_changes = [
-      image_uri,
-    ]
-    create_before_destroy = true
-  }
-
-  provider      = aws.target
-  function_name = "url_rewrite_lambda"
-  role          = aws_iam_role.lambda_execution_role.arn
-  package_type  = "Image"
-  timeout       = 15
-
-  image_uri = "${var.url_rewrite_get_ecr.repository_url}:${var.image_tag}"
-}
-resource "aws_iam_role" "lambda_execution_role" {
-  provider           = aws.target
-  name               = "lambda_execution_role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = "sts:AssumeRole"
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "lambda_execution_policy" {
-  provider = aws.target
-  name     = "lambda_execution_policy"
-  policy   = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
-        ]
-        Resource = [
-          "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
-        ]
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "sts:AssumeRole",
-        ]
-        Resource = [
-          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
-        ]
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy_attachment" "lambda_execution_policy_attachment" {
-  name       = "lambda_execution_policy_attachment"
-  provider   = aws.target
-  roles      = [aws_iam_role.lambda_execution_role.name]
-  policy_arn = aws_iam_policy.lambda_execution_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_logging" {
-  provider   = aws.target
-  role       = aws_iam_role.lambda_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
   name = "cloudfront-role"
@@ -183,12 +104,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${var.site_bucket.bucket}"
 
-    lambda_function_association {
-      event_type   = "origin-request"
-      lambda_arn   = "${aws_lambda_function.lambda.arn}:1" // Specify the version number
-      include_body = false
-    }
-
     forwarded_values {
       query_string = false
       cookies {
@@ -215,18 +130,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  #logging_config {
-  #  include_cookies = false
-  #  bucket          = var.logging_bucket.id
-  #}
-
   viewer_certificate {
     acm_certificate_arn            = var.certificate_arn
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
   }
 
-  #web_acl_id = var.web_acl_id
 }
 
 output "cloudfront_distribution" {

@@ -29,9 +29,9 @@ def run_automaton_on_torus(rule, rows):
     field = generate_field(rows, columns)
     for i in range(1,rows):
         for x in range(columns):
-            left_predecessor = field[i - 1][x - 1]
+            left_predecessor = field[i - 1][x + 1]
             center_predecessor = field[i - 1][x]
-            right_predecessor = field[i -1][(x + 1) % (columns - 1)]
+            right_predecessor = field[i -1][(x - 1) % (columns - 1)]
             computation = str(left_predecessor) + str(center_predecessor) + str(right_predecessor)
             field[i][x] = rule[computation]
     return field
