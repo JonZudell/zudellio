@@ -21,7 +21,25 @@ function rule30(): { [key: string]: boolean } {
   };
   return rule;
 }
+function conwaysRule(cell: boolean, neighbors: boolean[]): boolean {
+  const liveNeighbors = neighbors.filter((n) => n).length;
 
+  if (cell) {
+    // Rule 1 underpopulation any live cell with fewer than two neighbors dies
+    // Rule 3 overpopulation any live cell with more than three neighbors dies
+    if (liveNeighbors < 2 || liveNeighbors > 3) {
+      return false;
+    }
+    // Rule 2 cell lives
+    return true;
+  } else {
+    // Rule 4 dead cell becomes alive
+    if (liveNeighbors === 3) {
+      return true;
+    }
+    return false;
+  }
+}
 const Rule30Conway: React.FC<Rule30ConwayProps> = ({
   className,
   cellSize,
@@ -63,12 +81,13 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
         }
         // Add your canvas drawing logic here
       }
-      // Iterate
-      for (let i = height - 1; i > 0; i--) {
+      // Shift rule 30 grid downwards
+      for (let i = Math.floor(height / 2 - 1); i > 0; i--) {
         for (let j = 0; j < width; j++) {
           grid.current[j][i] = grid.current[j][i - 1];
         }
       }
+      // Iterate 1d cellular automata
       for (let j = 0; j < width; j++) {
         const center = grid.current[j][1] ? 1 : 0;
         const left = grid.current[(j - 1 + width) % width][1] ? 1 : 0;
@@ -76,21 +95,73 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
         const pattern = (left << 2) | (center << 1) | right;
         grid.current[j][0] = rule.current[toBinaryString(pattern)];
       }
-      //for (let i = 1; i < 50; i++) {
-      //  grid.current[i] = grid.current[i - 1];
-      //}
+      const newGrid = grid.current.map((row) => [...row]);
+      for (let j = 0; j < width; j++) {
+        for (let i = Math.floor(height / 2); i < height; i++) {
+          const topLeft =
+            grid.current[(j - 1 + width) % width][(i - 1 + height) % height];
+          const top =
+            i > 0 ? grid.current[j][(i - 1 + height) % height] : false;
+          const topRight =
+            grid.current[(j + 1) % width][(i - 1 + height) % height];
+          const left = grid.current[(j - 1 + width) % width][i];
+          const cell = grid.current[j][i];
+          const right = grid.current[(j + 1) % width][i];
+          let bottomLeft = false;
+          let bottom = false;
+          let bottomRight = false;
+          if (i < height) {
+            bottomLeft =
+              grid.current[(j - 1 + width) % width][(i + 1) % height];
+            bottom = grid.current[j][(i + 1) % height];
+            bottomRight = grid.current[(j + 1) % width][(i + 1) % height];
+          }
+          newGrid[j][i] = conwaysRule(cell, [
+            topLeft,
+            top,
+            topRight,
+            left,
+            right,
+            bottomLeft,
+            bottom,
+            bottomRight,
+          ]);
+        }
+      }
+      grid.current = newGrid;
+      // for (let j = 0; j < width; j++) {
+      //   for (let i = Math.floor(height); i > Math.floor(height / 2); i--) {
+      //     const topLeft =
+      //       grid.current[(j - 1 + width) % width][(i - 1 + height) % height];
+      //     const top = grid.current[j][(i - 1 + height) % height];
+      //     const topRight = grid.current[(j + 1) % width][(i - 1) % height];
+      //     const left = grid.current[(j - 1 + width) % width][i];
+      //     const cell = grid.current[j][i];
+      //     const right = grid.current[j + 1][i];
+      //     let bottomLeft = false;
+      //     let bottom = false;
+      //     let bottomRight = false;
+      //     if (i + 1 > height) {
+      //       bottomLeft = grid.current[(j - 1 + width) % width][i + 1];
+      //       bottom = grid.current[j][i + 1];
+      //       bottomRight = grid.current[j + 1][i + 1];
+      //     }
+      //     newGrid[j][i] = conwaysRule(cell, [
+      //       topLeft,
+      //       top,
+      //       topRight,
+      //       left,
+      //       right,
+      //       bottomLeft,
+      //       bottom,
+      //       bottomRight,
+      //     ]);
+      //   }
+      // }
     }
+
     setAnimationFrameId(requestAnimationFrame(iterate));
   };
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const context = canvas.getContext('2d');
-      if (context) {
-        //context.translate((width * cellSize) / 2, 0);
-      }
-    }
-  }, [width, cellSize]);
   useEffect(() => {
     grid.current[Math.floor(width / 2)][0] = true;
     setAnimationFrameId(requestAnimationFrame(iterate));
