@@ -110,7 +110,7 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
           let bottomLeft = false;
           let bottom = false;
           let bottomRight = false;
-          if (i < height) {
+          if (i < height - 1) {
             bottomLeft =
               grid.current[(j - 1 + width) % width][(i + 1) % height];
             bottom = grid.current[j][(i + 1) % height];
