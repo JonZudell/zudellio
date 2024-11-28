@@ -1508,6 +1508,12 @@ code {
 .text-color-emphasis {
   color: var(--inline-code-color);
 }
+.text-color-emphasis-2 {
+  color: var(--tw-ring-color);
+}
+.text-color-emphasis-3 {
+  color: var(--href-color);
+}
 
 .sticked-post {
   border: 2px solid var(--emphasis-color);
@@ -1611,6 +1617,10 @@ code {
   padding-bottom: 2em;
 }
 
+.bg-standard-background {
+  background-color: var(--background-color);
+}
+
 /* Disable focus rings on span */
 span:focus {
   outline: none;
@@ -1636,7 +1646,8 @@ button:hover {
 ul li {
   list-style-type: none;
   position: relative;
-  padding-left: 1em;
+  padding-left: 1.25em;
+  margin-left: 0;
 }
 
 ul li::before {

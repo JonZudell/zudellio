@@ -3,6 +3,7 @@ interface Rule30ConwayProps {
   className?: string;
   cellSize: number;
   width: number;
+  style?: React.CSSProperties;
   height: number;
 }
 function toBinaryString(num: number): string {
@@ -45,6 +46,7 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
   cellSize,
   height,
   width,
+  style,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [animationFrameId, setAnimationFrameId] = useState<number>(0);
@@ -56,7 +58,7 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
   const rule = useRef(rule30());
   const iterate = (time: number) => {
     const deltaTime = (time - lastTimeRef.current) / 1000;
-    if (deltaTime > 0.01) {
+    if (deltaTime > 0.1) {
       // Draw
       lastTimeRef.current = time;
       iterationRef.current += 1;
@@ -70,7 +72,7 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
               if (grid.current[i][j]) {
                 context.fillStyle = '#db2777';
               } else {
-                context.fillStyle = 'black';
+                context.fillStyle = '#1a1a1a';
               }
               context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
@@ -129,35 +131,6 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
         }
       }
       grid.current = newGrid;
-      // for (let j = 0; j < width; j++) {
-      //   for (let i = Math.floor(height); i > Math.floor(height / 2); i--) {
-      //     const topLeft =
-      //       grid.current[(j - 1 + width) % width][(i - 1 + height) % height];
-      //     const top = grid.current[j][(i - 1 + height) % height];
-      //     const topRight = grid.current[(j + 1) % width][(i - 1) % height];
-      //     const left = grid.current[(j - 1 + width) % width][i];
-      //     const cell = grid.current[j][i];
-      //     const right = grid.current[j + 1][i];
-      //     let bottomLeft = false;
-      //     let bottom = false;
-      //     let bottomRight = false;
-      //     if (i + 1 > height) {
-      //       bottomLeft = grid.current[(j - 1 + width) % width][i + 1];
-      //       bottom = grid.current[j][i + 1];
-      //       bottomRight = grid.current[j + 1][i + 1];
-      //     }
-      //     newGrid[j][i] = conwaysRule(cell, [
-      //       topLeft,
-      //       top,
-      //       topRight,
-      //       left,
-      //       right,
-      //       bottomLeft,
-      //       bottom,
-      //       bottomRight,
-      //     ]);
-      //   }
-      // }
     }
 
     setAnimationFrameId(requestAnimationFrame(iterate));
@@ -201,7 +174,8 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
         width={width * cellSize}
         height={height * cellSize}
         style={{
-          minHeight: '100%',
+          ...style,
+          minHeight: '200%',
         }}
       />
     </div>

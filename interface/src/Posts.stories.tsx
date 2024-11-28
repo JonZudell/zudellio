@@ -4,7 +4,7 @@ import { hydrateApp } from './csr'; // Adjust the import path as necessary
 import Root from './components/core/Root';
 import A11y from './pages/posts/a11y';
 import Authn from './pages/posts/authn';
-import HireMe from './pages/posts/_hire_me';
+import HireMe from './pages/posts/hire_me';
 import Init from './pages/posts/init';
 import StaticSiteGeneration from './pages/posts/ssg';
 import Functional from './pages/posts/functional';
@@ -16,14 +16,16 @@ import Hygiene from './pages/posts/digital_hygiene';
 import { StaticRouter } from 'react-router-dom/server';
 import Content from './components/core/Content';
 import { ThemeProvider } from './contexts/ThemeProvider';
+import ConwayRule30 from './pages/posts/conway_rule_30'; // Add this import
 const meta = {
   title: 'Hydration',
   component: Root,
 } satisfies Meta<typeof Root>;
 
 export default meta;
-
-const posts: { [key: string]: React.FC<{ displaySummary: boolean }> } = {
+const posts: {
+  [key: string]: React.FC<{ displaySummary: boolean }> | undefined;
+} = {
   a11y: A11y,
   authn: Authn,
   hire_me: HireMe,
@@ -35,6 +37,7 @@ const posts: { [key: string]: React.FC<{ displaySummary: boolean }> } = {
   solid: Solid,
   cicd: CICD,
   digital_hygiene: Hygiene,
+  conway_rule_30: ConwayRule30,
 };
 
 const stories: { [key: string]: StoryObj } = {};
@@ -45,7 +48,8 @@ Object.keys(posts).forEach((key) => {
       <StaticRouter location={''}>
         <ThemeProvider>
           <Content>
-            {React.createElement(posts[key], { displaySummary: false })}
+            {posts[key] &&
+              React.createElement(posts[key], { displaySummary: false })}
           </Content>
         </ThemeProvider>
       </StaticRouter>
@@ -62,4 +66,4 @@ export const OopStory = stories.oop;
 export const AwsTfBootstrapStory = stories.aws_tf_bootstrap;
 export const SolidStory = stories.solid;
 export const CicdStory = stories.cicd;
-export const DigitalHygieneStory = stories.digital_hygiene;
+export const ConwayRule30Story = stories.conway_rule_30;

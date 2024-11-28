@@ -8,7 +8,11 @@ interface PostProps {
 
 const Wrapper: React.FC<PostProps> = ({ classNames, children }) => {
   return (
-    <div className={`border-wrapper wrapper ${classNames}`}>{children}</div>
+    <div
+      className={`border-wrapper wrapper bg-standard-background ${classNames}`}
+    >
+      {children}
+    </div>
   );
 };
 

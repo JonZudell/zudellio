@@ -13,6 +13,7 @@ interface PostProps {
   summaryContent?: React.ReactNode;
   children?: React.ReactNode;
   classNames?: string;
+  style?: React.CSSProperties;
 }
 
 const Post: React.FC<PostProps> = ({
@@ -26,6 +27,7 @@ const Post: React.FC<PostProps> = ({
   summaryOnly = false,
   children,
   classNames,
+  style,
 }) => {
   const humanReadableDate = date.toLocaleString('en-US', {
     weekday: 'long',
@@ -36,7 +38,10 @@ const Post: React.FC<PostProps> = ({
     minute: '2-digit',
   });
   return (
-    <div className={`border-2 border-post post ${classNames}`}>
+    <div
+      className={`border-2 border-post post bg-standard-background ${classNames}`}
+      style={style}
+    >
       <h2>
         <span className="user-purple">{author}</span>
         {' > ' + title + ' ' + version}

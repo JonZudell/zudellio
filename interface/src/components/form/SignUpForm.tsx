@@ -4,8 +4,10 @@ import TextInput from '../input/TextInput';
 import AccessibleLink from '../input/AccessibleLink'; // Import AccessibleLink component
 import AccessibleCheckbox from '../input/AccessibleCheckbox'; // Import AccessibleCheckbox component
 import AccessibleButton from '../input/AccessibleButton';
-
-const SignUpForm: React.FC = () => {
+interface SignUpFormProps {
+  style?: React.CSSProperties;
+}
+const SignUpForm: React.FC<SignUpFormProps> = ({ style }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -46,7 +48,8 @@ const SignUpForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto border standard-shadow "
+      className="max-w-md mx-auto border standard-shadow bg-standard-background"
+      style={style}
     >
       <div className="m-1_5em">
         <h2 className="text-3xl font-extrabold mb-1em text-center">Sign Up</h2>
@@ -127,7 +130,7 @@ const SignUpForm: React.FC = () => {
               <AccessibleLink
                 href="/auth/sign_in"
                 text="sign_in"
-                ariaLabel='Sign In'
+                ariaLabel="Sign In"
                 decorationLeft="["
                 decorationRight="]"
               />
