@@ -301,6 +301,7 @@ module.exports = {
 
 10 directories, 17 files`}
       />
+      <br />
       <h3 className="comment-green"># Client Side Hydration</h3>
       <p>
         The static site generator uses the entry point ssg.tsx to generate the

@@ -1508,6 +1508,15 @@ code {
 .text-color-emphasis {
   color: var(--inline-code-color);
 }
+.bg-color-emphasis {
+  background-color: var(--inline-code-color);
+}
+.bg-color {
+  background-color: var(--background-color);
+}
+.border-color {
+  border: 2px solid var(--background-color);
+}
 .text-color-emphasis-2 {
   color: var(--tw-ring-color);
 }
@@ -1569,7 +1578,9 @@ code {
 .m-1_5em {
   margin: 1.5em;
 }
-
+.my-1_5em {
+  margin-top: 1.5em;
+}
 .m-2em {
   margin: 2em;
 }

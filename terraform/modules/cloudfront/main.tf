@@ -116,11 +116,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
 
-    lambda_function_association {
-      event_type   = "origin-request"
-      lambda_arn   = aws_lambda_function.lambda.arn
-      include_body = false
-    }
+    # lambda_function_association {
+    #   event_type   = "origin-request"
+    #   lambda_arn   = aws_lambda_function.lambda.arn
+    #   include_body = false
+    # }
   }
 
   restrictions {

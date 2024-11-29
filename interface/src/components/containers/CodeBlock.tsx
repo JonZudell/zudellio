@@ -22,7 +22,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   language = 'javascript',
   showLineNumbers = true,
 }) => {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [syntaxTheme, setSyntaxTheme] = useState(a11yDark);
   const [containerWidth, setContainerWidth] = useState(window.innerWidth);
 

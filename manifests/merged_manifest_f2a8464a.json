@@ -1,0 +1,136 @@
+{
+    "contact": {
+        "post": {
+            "type": "lambda",
+            "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile"
+        },
+        "get": {
+            "type": "static",
+            "destination": "contact/index.html"
+        }
+    },
+    "healthcheck": {
+        "get": {
+            "type": "lambda",
+            "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile"
+        }
+    },
+    "url_rewrite": {
+        "get": {
+            "type": "lambda",
+            "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/url_rewrite/get/Dockerfile"
+        }
+    },
+    "posts": {
+        "testing": {
+            "get": {
+                "type": "static",
+                "destination": "posts/testing/index.html"
+            }
+        },
+        "ssg": {
+            "get": {
+                "type": "static",
+                "destination": "posts/ssg/index.html"
+            }
+        },
+        "solid": {
+            "get": {
+                "type": "static",
+                "destination": "posts/solid/index.html"
+            }
+        },
+        "prototypes": {
+            "get": {
+                "type": "static",
+                "destination": "posts/prototypes/index.html"
+            }
+        },
+        "orchestration": {
+            "get": {
+                "type": "static",
+                "destination": "posts/orchestration/index.html"
+            }
+        },
+        "oop": {
+            "get": {
+                "type": "static",
+                "destination": "posts/oop/index.html"
+            }
+        },
+        "on_passwords": {
+            "get": {
+                "type": "static",
+                "destination": "posts/on_passwords/index.html"
+            }
+        },
+        "init": {
+            "get": {
+                "type": "static",
+                "destination": "posts/init/index.html"
+            }
+        },
+        "hire_me": {
+            "get": {
+                "type": "static",
+                "destination": "posts/hire_me/index.html"
+            }
+        },
+        "functional": {
+            "get": {
+                "type": "static",
+                "destination": "posts/functional/index.html"
+            }
+        },
+        "digital_hygiene": {
+            "get": {
+                "type": "static",
+                "destination": "posts/digital_hygiene/index.html"
+            }
+        },
+        "conway_rule_30": {
+            "get": {
+                "type": "static",
+                "destination": "posts/conway_rule_30/index.html"
+            }
+        },
+        "cicd": {
+            "get": {
+                "type": "static",
+                "destination": "posts/cicd/index.html"
+            }
+        },
+        "aws_tf_bootstrap": {
+            "get": {
+                "type": "static",
+                "destination": "posts/aws_tf_bootstrap/index.html"
+            }
+        },
+        "authn": {
+            "get": {
+                "type": "static",
+                "destination": "posts/authn/index.html"
+            }
+        },
+        "a11y": {
+            "get": {
+                "type": "static",
+                "destination": "posts/a11y/index.html"
+            }
+        }
+    },
+    "auth": {
+        "sign_up": {
+            "get": {
+                "type": "static",
+                "destination": "auth/sign_up/index.html"
+            }
+        },
+        "sign_in": {
+            "get": {
+                "type": "static",
+                "destination": "auth/sign_in/index.html"
+            }
+        }
+    }
+}

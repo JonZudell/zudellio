@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useTheme } from '../../contexts/ThemeProvider';
 interface Rule30ConwayProps {
   className?: string;
   cellSize: number;
@@ -6,6 +7,7 @@ interface Rule30ConwayProps {
   style?: React.CSSProperties;
   height: number;
 }
+
 function toBinaryString(num: number): string {
   return num.toString(2).padStart(3, '0');
 }
@@ -48,6 +50,7 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
   width,
   style,
 }) => {
+  const { theme, setTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [animationFrameId, setAnimationFrameId] = useState<number>(0);
   const grid = useRef<boolean[][]>(
@@ -72,14 +75,19 @@ const Rule30Conway: React.FC<Rule30ConwayProps> = ({
               if (grid.current[i][j]) {
                 context.fillStyle = '#db2777';
               } else {
-                context.fillStyle = '#1a1a1a';
+                context.fillStyle = theme === 'dark' ? '#1a1a1a' : '#d3d3d3';
               }
+              context.strokeStyle = theme === 'dark' ? '#1a1a1a' : '#d3d3d3';
+              context.lineWidth = 4;
+              context.strokeRect(
+                i * cellSize,
+                j * cellSize,
+                cellSize,
+                cellSize,
+              );
               context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
           }
-          context.font = '32px Consolas';
-          context.fillStyle = 'green';
-          context.fillText(`Iteration: ${iterationRef.current}`, 16, 32);
         }
         // Add your canvas drawing logic here
       }
