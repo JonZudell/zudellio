@@ -101,9 +101,11 @@ const ConwayRule30: React.FC<PostProps> = ({ displaySummary = false }) => {
         <p>
           Mathematician and all around genius{' '}
           <span className="text-color-emphasis">John Conway</span> devised a
-          cellular automata he named the game of life. The game of life is a two
-          dimensional cellular automata that has very simple rules but produces
-          enough emergent complexity to support structures that can run a
+          cellular automata he named the
+          <span className="text-color-emphasis">game of life</span> . The game
+          of life is a two dimensional cellular automata that has very simple
+          rules but produces enough emergent complexity to support structures
+          that can run a{' '}
           <a
             href="https://conwaylife.com/wiki/Universal_Turing_machine"
             className="href-blue underline"
@@ -125,9 +127,29 @@ const ConwayRule30: React.FC<PostProps> = ({ displaySummary = false }) => {
             self replicate
           </a>
           <br />
+          <br />
           <p>
             Surprisingly the game of life is easier to understand than the
-            &quot;simple&quot; 1-D CAs
+            &quot;simple&quot; 1-D CAs. There is an infinite cartesian grid of
+            cells either alive or dead. Each cell has eight neighbors. The game
+            of life has three rules.
+            <ul>
+              <li>
+                Live cells with{' '}
+                <span className="text-color-emphasis">2 or 3</span> live
+                neighbors <span className="text-color-emphasis">survive</span>
+              </li>
+              <li>
+                Live cells with with{' '}
+                <span className="text-color-emphasis">&lt; 2 or &gt; 3</span>{' '}
+                neighbors will <span className="text-color-emphasis">die</span>
+              </li>
+              <li>
+                Dead cells with exactly{' '}
+                <span className="text-color-emphasis">3</span> neighbors come to{' '}
+                <span className="text-color-emphasis">life</span>
+              </li>
+            </ul>
           </p>
         </p>
       </Post>

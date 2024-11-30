@@ -24,16 +24,21 @@ const HireMe: React.FC<PostProps> = ({
       summaryContent={
         <>
           <p>
-            I am available for hire. Full Stack Developer, DevOps Engineer, and
-            Cloud Infrastructure Expert
+            <span className="text-color-emphasis">I am available for hire</span>
+            . DevOps and Full Stack Engineer with 13 years of experience leading
+            cloud infrastructure optimization and secure CI/CD pipeline
+            development. Proven record of reducing deployment errors by 50% and
+            mentoring teams to deliver scalable, efficient solutions.
           </p>
         </>
       }
       classNames={classNames}
     >
       <p>
-        I am available for hire. Full Stack Developer, DevOps Engineer, and
-        Cloud Infrastructure Expert
+        DevOps and Full Stack Engineer with 13 years of experience leading cloud
+        infrastructure optimization and secure CI/CD pipeline development.
+        Proven record of reducing deployment errors by 50% and mentoring teams
+        to deliver scalable, efficient solutions.
       </p>
       <br />
       <h3 className="comment-green"># Skills</h3>
@@ -45,7 +50,7 @@ const HireMe: React.FC<PostProps> = ({
       <h3 className="comment-green"># Languages</h3>
       <p>Python, TypeScript, JavaScript, Terraform, Java, Bash, sql</p>
       <br />
-      <h3 className="comment-green"># Tooling</h3>
+      <h3 className="comment-green"># Technologies</h3>
       <p>
         Flask, React, Docker, Amazon Web Services, Kubernetes, ArgoCD,
         PostgreSQL, DynamoDB, Lambdas, API Gateway
@@ -53,87 +58,73 @@ const HireMe: React.FC<PostProps> = ({
       <br />
       <h3 className="comment-green"># Specializations</h3>
       <p>
-        Authentication, Accessibility, Security, Identity Providers, Public Key
-        Infrastructure
+        Full Stack Development, Continuous Integration/Continuous Deployment,
+        Public Key Infrastructure, Authentication
       </p>
       <br />
       <h3 className="comment-green"># Work Experience</h3>
-      <p>
-        Thirteen years of experience. Works across the stack. Delivers high
-        quality code.
-      </p>
       <br />
       <h4 className="comment-green">
-        ## Release Engineer - Lark Technologies - 2021-2024
+        ## Platform Engineer - Lark Technologies - 2021-12 – 2024-03
       </h4>
       <ul>
         <li>
-          Served as the primary security contact for the Platform Engineering
-          team, addressing information security issues and ensuring compliance.
+          Migrated CI/CD process from GitHub Actions to ArgoCD/Argo Workflows
+          for improved efficiency for 30 scalable microservices
         </li>
         <li>
-          Ensured platform was both stable and reliable with usage by over 50
-          engineers
+          Enhanced pipeline security by implementing Static Code Analysis,
+          resolving build vulnerabilities, while ensuring pipeline availability
         </li>
         <li>
-          Created CI/CD pipelines for Apache Airflow DAGs and Lambdas supporting
-          Data Engineering and Full Stack Development
+          Automated Scanning and remediation critical resources using AWS Config
+          Rules; remediated hundreds of resources on noncompliance
         </li>
         <li>
-          Kept AWS resources properly configured with audit log by developing
-          AWS config rules and automatic remediations
+          Optimized JWT token management, deployment errors reduced by 50% and
+          uninterrupted development operations ensured
         </li>
         <li>
-          Patched gaps within JWT rotation system fully automating the process
-          resolving largest source of misconfiguration and downtime
-        </li>
-      </ul>{' '}
-      <br />
-      <h4 className="comment-green">## DevOps Engineer - Leidos - 2018-2020</h4>
-      <ul>
-        <li>
-          Automated Linux machine provisioning in AWS by writing Chef scripts
-          managing 200 servers in 3 separate enclaves
-        </li>
-        <li>
-          Met specifications provided by United States Airforce and Defense
-          Information systems Agency by automating configuration
-        </li>
-        <li>
-          Organized user testing to demonstrate functionality and evaluated
-          Oracle IDAM as proposed Identity Provider
+          Mentored junior engineers on CI pipelines, fostering a culture of
+          knowledge sharing and enabling scalable cloud automation via GitOps
         </li>
       </ul>{' '}
       <br />
       <h4 className="comment-green">
-        ## Software Engineer - Lockheed Martin - 2017-2018
+        ## DevOps Engineer - Leidos - 2018-06 – 2020-03
       </h4>
       <ul>
         <li>
-          Developed workstation command and control system for a significant Air
-          Space Defense System with associated training plan
+          Automated AWS provisioning for 200 servers, improving orchestration
+          efficiency using Chef scripts across 10 accounts
         </li>
         <li>
-          Implemented client server communication architecture on socket-level
-          in Python and Java/Spring
+          Remediated 244 OS Hardening line items for RHEL7 across hundreds of
+          servers; leveraged InSpec and oscap; configured observability
+        </li>
+      </ul>{' '}
+      <br />
+      <h4 className="comment-green">
+        ## Software Engineer - Lockheed Martin - 2017-03 – 2018-03
+      </h4>
+      <ul>
+        <li>
+          Replaced a 10,000 line Java program with 250 lines of python by
+          leveraging native Linux libraries enabling user session management
+        </li>
+        <li>
+          Architected client server communication process for Air Space Defense
+          System for the largest ever RHEL7 deployment for the U.A.E.
         </li>
       </ul>
       <br />
       <h4 className="comment-green">
-        ## Software Engineer - United States Air Force - 2011-2017
+        ## Software Engineer - United States Air Force - 2011-01 – 2017-01
       </h4>
       <ul>
         <li>
-          Developed data ingestion software, quality control algorithms, and web
-          applications to accomplish a variety of tasks
-        </li>
-        <li>
-          Successfully designed database schemas, tables, partitions, and PL/SQL
-          procedures as needed per requirements
-        </li>
-        <li>
           Wrote procedures to ingest/quality check about 4 million lightning
-          strike and weather observations per day
+          strike and weather observations per day in Java and Python
         </li>
         <li>
           Implemented software processes saving 2,479 man-hours per year through
@@ -143,8 +134,7 @@ const HireMe: React.FC<PostProps> = ({
       <br />
       <h3 className="comment-green"># Education</h3>
       <ul>
-        <li>BS Computer Science - UWF - Starting in March 2025</li>
-        <li>AA General Studies - NWFSC - Awarded in March 2025</li>
+        <li>AA General Studies - NWFSC - Expected in March 2025</li>
       </ul>
       <br />
       <h3 className="comment-green"># Contact Info</h3>
