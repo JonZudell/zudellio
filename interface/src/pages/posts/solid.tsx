@@ -1,6 +1,5 @@
 import React from 'react';
 import Post from '../../components/containers/Post';
-import CodeBlock from '../../components/containers/CodeBlock';
 import AccessibleLink from '../../components/input/AccessibleLink';
 
 interface PostProps {

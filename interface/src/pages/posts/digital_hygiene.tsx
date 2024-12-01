@@ -55,7 +55,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         releases. You have had your personal information leaked by companies or
         surreptitiously exfiltrated by hackers. Take the{' '}
         <a
-          className="href-blue"
+          className="href-blue underline"
           href="https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement"
         >
           equifax security breach
@@ -316,7 +316,10 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
       <p>
         Point of Sale systems can be e-commerce stores or merchants with card
         readers. There are rules and{' '}
-        <a href="https://www.pcisecuritystandards.org/" className="href-blue">
+        <a
+          href="https://www.pcisecuritystandards.org/"
+          className="href-blue underline"
+        >
           regulations surrounding how to process payment card information
         </a>
         . You can reasonably expect businesses to care about this about as much
@@ -324,7 +327,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <sup>in some cases™</sup>. When these systems are hacked tens of
         thousands of cards can be compromised. They{' '}
         <a
-          className="href-blue"
+          className="href-blue underline"
           href="https://abcnews.go.com/Technology/carders-sites-peek-world-credit-card-theft/story?id=24076802"
         >
           sell the cards for about $10 a pop
@@ -338,14 +341,14 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
       </p>
       <ul>
         <li>
-          <a href="https://privacy.com/" className="href-blue">
+          <a href="https://privacy.com/" className="href-blue underline">
             privacy.com
           </a>
         </li>
         <li>
           <a
             href="https://nordpass.com/password-manager/"
-            className="href-blue"
+            className="href-blue underline"
           >
             Nord Pass
           </a>
@@ -353,7 +356,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <li>
           <a
             href="https://letmegooglethat.com/?q=Google+Authenticator+App"
-            className="href-blue"
+            className="href-blue underline"
           >
             Google Authenticator
           </a>
@@ -417,7 +420,7 @@ const Hygiene: React.FC<PostProps> = ({ displaySummary = false }) => {
         <span className="text-color-emphasis">those bastards</span> that{' '}
         <span className="text-color-emphasis">want your credit card</span>.
         Check{' '}
-        <a href="https://haveibeenpwned.com/" className="href-blue">
+        <a href="https://haveibeenpwned.com/" className="href-blue underline">
           have i been pwned dot com
         </a>{' '}
         to see if your email has been compromised.

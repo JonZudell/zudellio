@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <AccessibleLink
           text="software"
           href="/"
-          ariaLabel='Software'
+          ariaLabel="Software"
           decorationLeft="["
           decorationRight="]"
           className={
@@ -29,12 +29,12 @@ const Header: React.FC = () => {
         <AccessibleLink
           text="contact"
           href="/contact"
-          ariaLabel='Contact'
+          ariaLabel="Contact"
           decorationLeft="["
           decorationRight="]"
           className={
             location.pathname === '/contact' ||
-            location.pathname === '/contact/'||
+            location.pathname === '/contact/' ||
             location.pathname === '/contact/index.html'
               ? 'text-pink-300 underline'
               : 'hover:underline'

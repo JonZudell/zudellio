@@ -102,10 +102,10 @@ const ConwayRule30: React.FC<PostProps> = ({ displaySummary = false }) => {
           Mathematician and all around genius{' '}
           <span className="text-color-emphasis">John Conway</span> devised a
           cellular automata he named the{' '}
-          <span className="text-color-emphasis">game of life</span> . The game
-          of life is a two dimensional cellular automata that has very simple
-          rules but produces enough emergent complexity to support structures
-          that can run a{' '}
+          <span className="text-color-emphasis">game of life</span>. The game of
+          life is a two dimensional cellular automata that has very simple rules
+          but produces enough emergent complexity to support structures that can
+          run a{' '}
           <a
             href="https://conwaylife.com/wiki/Universal_Turing_machine"
             className="href-blue underline"
