@@ -13,6 +13,10 @@ terraform {
 variable "ecr_key" {
 }
 
+variable "production_account_id" {
+  description = "AWS Account ID of the target account"
+  type        = string
+}
 variable "development_account_id" {
   description = "AWS Account ID of the target account"
   type        = string
@@ -45,7 +49,10 @@ resource "aws_iam_policy" "cross_account_ecr_read_policy_all" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetAuthorizationToken"
         ],
-        "Resource" = "arn:aws:ecr:us-east-1:${var.development_account_id}:repository/*"
+        "Resource" = [
+          "arn:aws:ecr:us-east-1:${var.development_account_id}:repository/*",
+          "arn:aws:ecr:us-east-1:${var.production_account_id}:repository/*"
+        ]
       }
     ]
   })
@@ -68,7 +75,10 @@ resource "aws_iam_role" "cross_account_ecr_read_role" {
         "Effect" = "Allow",
         "Action" = "sts:AssumeRole",
         "Principal" = {
-          "AWS" : "arn:aws:iam::${var.development_account_id}:root",
+          "AWS" : [
+            "arn:aws:iam::${var.development_account_id}:root",
+            "arn:aws:iam::${var.production_account_id}:root"
+          ],
           "Service" : "lambda.amazonaws.com"
         }
       }
@@ -94,7 +104,8 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         "Effect" = "Allow",
         "Principal" = {
           "AWS" = [
-            "arn:aws:iam::${var.infrastructure_account_id}:root"
+            "arn:aws:iam::${var.infrastructure_account_id}:root",
+            "arn:aws:iam::${var.root_account_id}:root"
           ]
         },
         "Action" = [

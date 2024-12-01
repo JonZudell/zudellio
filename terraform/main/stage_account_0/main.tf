@@ -79,41 +79,35 @@ module "interface" {
   providers = {
     aws.target = aws.target
   }
-  source           = "../../modules/interface_0"
-  dist_dir         = var.dist_dir
-  bucket_infix     = var.bucket_infix
-  environment      = var.environment
-  api_gateway      = module.api_gateway.api_gateway
-  api_gateway_role = module.api_gateway.api_gateway_role
+  source       = "../../modules/interface_0"
+  dist_dir     = var.dist_dir
+  bucket_infix = var.bucket_infix
+  environment  = var.environment
 }
 
-module "api_gateway" {
-  providers = {
-    aws.target = aws.target
-  }
-  source                    = "../../modules/api_gateway"
-  log_key                   = var.log_key
-  infrastructure_account_id = var.infrastructure_account_id
-}
+# module "api_gateway" {
+#   providers = {
+#     aws.target = aws.target
+#   }
+#   source                    = "../../modules/api_gateway"
+#   log_key                   = var.log_key
+#   infrastructure_account_id = var.infrastructure_account_id
+# }
 
 
-module "lambdas" {
-  providers = {
-    aws.target = aws.target
-  }
-  source                    = "../../modules/lambdas"
-  repositories              = var.repositories
-  image_tag                 = var.image_tag
-  infrastructure_account_id = var.infrastructure_account_id
-  lambda_log_key            = var.log_key
-}
-output "api_url" {
-  value = module.api_gateway.api_gateway_deployment.invoke_url
-}
+# module "lambdas" {
+#   providers = {
+#     aws.target = aws.target
+#   }
+#   source                    = "../../modules/lambdas"
+#   repositories              = var.repositories
+#   image_tag                 = var.image_tag
+#   infrastructure_account_id = var.infrastructure_account_id
+#   lambda_log_key            = var.log_key
+# }
+# output "api_url" {
+#   value = module.api_gateway.api_gateway_deployment.invoke_url
+# }
 output "static_website_bucket" {
   value = module.interface.static_website_bucket
-}
-
-output "url_rewrite_lambda" {
-  value = module.lambdas.url_rewrite_lambda
 }

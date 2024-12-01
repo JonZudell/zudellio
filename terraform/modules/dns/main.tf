@@ -10,7 +10,15 @@ terraform {
   }
 }
 
-variable "cloudfront_distribution" {
+variable "development_cloudfront_distribution" {
+  description = "The CloudFront distribution ID to route to"
+  type        = object({
+    domain_name    = string
+    hosted_zone_id = string
+  })
+}
+
+variable "production_cloudfront_distribution" {
   description = "The CloudFront distribution ID to route to"
   type        = object({
     domain_name    = string
@@ -50,8 +58,8 @@ resource "aws_route53_record" "root_alias" {
   type    = "A"
 
   alias {
-    name                   = var.cloudfront_distribution.domain_name
-    zone_id                = var.cloudfront_distribution.hosted_zone_id
+    name                   = var.production_cloudfront_distribution.domain_name
+    zone_id                = var.production_cloudfront_distribution.hosted_zone_id
     evaluate_target_health = false
   }
   allow_overwrite = true
@@ -78,8 +86,8 @@ resource "aws_route53_record" "dev_alias" {
   type    = "A"
 
   alias {
-    name                   = var.cloudfront_distribution.domain_name
-    zone_id                = var.cloudfront_distribution.hosted_zone_id
+    name                   = var.development_cloudfront_distribution.domain_name
+    zone_id                = var.development_cloudfront_distribution.hosted_zone_id
     evaluate_target_health = false
   }
   allow_overwrite = true
@@ -87,14 +95,15 @@ resource "aws_route53_record" "dev_alias" {
 resource "aws_route53_record" "alias" {
   provider = aws.target
   zone_id = aws_route53_zone.zone.zone_id
-  name    = "www"
+  name    = "zudell.io"
   type    = "A"
 
   alias {
-    name                   = var.cloudfront_distribution.domain_name
-    zone_id                = var.cloudfront_distribution.hosted_zone_id
+    name                   = var.production_cloudfront_distribution.domain_name
+    zone_id                = var.production_cloudfront_distribution.hosted_zone_id
     evaluate_target_health = false
   }
+  allow_overwrite = true
 }
 resource "aws_acm_certificate" "zone_cert" {
   provider = aws.target
@@ -103,6 +112,7 @@ resource "aws_acm_certificate" "zone_cert" {
 
   subject_alternative_names = [
     "www.zudell.io",
+    "dev.zudell.io",
   ]
 
   lifecycle {

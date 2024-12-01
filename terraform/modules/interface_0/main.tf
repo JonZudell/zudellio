@@ -22,12 +22,6 @@ variable "bucket_infix" {
   description = "The name of the S3 bucket"
   type        = string
 }
-variable "api_gateway" {
-
-}
-variable "api_gateway_role" {
-
-}
 #variable "cloudfront_access_id" {
 #
 #}

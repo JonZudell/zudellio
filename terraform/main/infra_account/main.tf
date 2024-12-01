@@ -32,8 +32,10 @@ variable "development_account_id" {
   type        = string
 }
 
-variable "image_tag" {}
 variable "development_interface_bucket" {
+  description = "The S3 bucket for the development interface"
+}
+variable "production_interface_bucket" {
   description = "The S3 bucket for the development interface"
 }
 
@@ -55,11 +57,6 @@ variable "root_account_id" {
   description = "The AWS account ID of the root account"
   type        = string
 }
-
-variable "url_rewrite_lambda" {
-  description = "The Lambda function for URL rewriting"
-}
-
 
 resource "aws_organizations_account" "account" {
   provider = aws.root
@@ -102,6 +99,7 @@ module "ecr" {
   root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id    = var.development_account_id
+  production_account_id     = var.production_account_id
   ecr_key                   = module.kms.ecr_key
 }
 
@@ -110,8 +108,9 @@ module "dns" {
   providers = {
     aws.target = aws.target
   }
-  cloudfront_distribution = module.cloudfront.cloudfront_distribution
-  development_account_id  = var.development_account_id
+  development_cloudfront_distribution = module.cloudfront.development_cloudfront_distribution
+  production_cloudfront_distribution  = module.cloudfront.production_cloudfront_distribution
+  development_account_id              = var.development_account_id
 }
 
 module "cloudfront" {
@@ -119,7 +118,8 @@ module "cloudfront" {
     aws.target = aws.target
   }
   source                    = "../../modules/cloudfront"
-  site_bucket               = var.development_interface_bucket
+  development_site_bucket   = var.development_interface_bucket
+  production_site_bucket    = var.production_interface_bucket
   certificate_arn           = module.dns.cloudfront_distribution_certificate.arn
   infrastructure_account_id = var.infrastructure_account_id
   logging_bucket            = module.log_bucket.log_bucket
@@ -145,7 +145,10 @@ output "name_servers" {
   value = module.dns.name_servers
 }
 output "development_cloudfront_url" {
-  value = module.cloudfront.cloudfront_distribution.domain_name
+  value = module.cloudfront.development_cloudfront_distribution.domain_name
+}
+output "production_cloudfront_url" {
+  value = module.cloudfront.production_cloudfront_distribution.domain_name
 }
 output "log_key" {
   value = module.kms.log_key
