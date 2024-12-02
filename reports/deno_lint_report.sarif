@@ -59,14 +59,32 @@
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/containers/CodeBlock.tsx",
       "range": {
         "start": {
+          "line": 25,
+          "col": 17,
+          "bytePos": 574
+        },
+        "end": {
+          "line": 25,
+          "col": 25,
+          "bytePos": 582
+        }
+      },
+      "message": "`setTheme` is never used",
+      "code": "no-unused-vars",
+      "hint": "If this is intentional, prefix it with an underscore like `_setTheme`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/containers/CodeBlock.tsx",
+      "range": {
+        "start": {
           "line": 27,
           "col": 55,
-          "bytePos": 704
+          "bytePos": 714
         },
         "end": {
           "line": 27,
           "col": 61,
-          "bytePos": 710
+          "bytePos": 720
         }
       },
       "message": "Window is no longer available in Deno",
@@ -79,12 +97,12 @@
         "start": {
           "line": 31,
           "col": 24,
-          "bytePos": 802
+          "bytePos": 812
         },
         "end": {
           "line": 31,
           "col": 30,
-          "bytePos": 808
+          "bytePos": 818
         }
       },
       "message": "Window is no longer available in Deno",
@@ -97,12 +115,12 @@
         "start": {
           "line": 34,
           "col": 4,
-          "bytePos": 834
+          "bytePos": 844
         },
         "end": {
           "line": 34,
           "col": 10,
-          "bytePos": 840
+          "bytePos": 850
         }
       },
       "message": "Window is no longer available in Deno",
@@ -115,12 +133,12 @@
         "start": {
           "line": 34,
           "col": 4,
-          "bytePos": 834
+          "bytePos": 844
         },
         "end": {
           "line": 34,
           "col": 27,
-          "bytePos": 857
+          "bytePos": 867
         }
       },
       "message": "For compatibility between the Window context and the Web Workers, calling Web APIs via `window` is disallowed",
@@ -133,12 +151,12 @@
         "start": {
           "line": 36,
           "col": 6,
-          "bytePos": 908
+          "bytePos": 918
         },
         "end": {
           "line": 36,
           "col": 12,
-          "bytePos": 914
+          "bytePos": 924
         }
       },
       "message": "Window is no longer available in Deno",
@@ -151,12 +169,12 @@
         "start": {
           "line": 36,
           "col": 6,
-          "bytePos": 908
+          "bytePos": 918
         },
         "end": {
           "line": 36,
           "col": 32,
-          "bytePos": 934
+          "bytePos": 944
         }
       },
       "message": "For compatibility between the Window context and the Web Workers, calling Web APIs via `window` is disallowed",
@@ -329,14 +347,14 @@
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/form/SignUpForm.tsx",
       "range": {
         "start": {
-          "line": 41,
+          "line": 43,
           "col": 13,
-          "bytePos": 1474
+          "bytePos": 1560
         },
         "end": {
-          "line": 41,
+          "line": 43,
           "col": 18,
-          "bytePos": 1479
+          "bytePos": 1565
         }
       },
       "message": "`error` is never used",
@@ -365,14 +383,14 @@
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/input/AccessibleLink.tsx",
       "range": {
         "start": {
-          "line": 12,
+          "line": 13,
           "col": 12,
-          "bytePos": 388
+          "bytePos": 424
         },
         "end": {
-          "line": 12,
+          "line": 13,
           "col": 20,
-          "bytePos": 396
+          "bytePos": 432
         }
       },
       "message": "This provides no type safety because it represents all functions and classes",
@@ -383,14 +401,14 @@
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/input/AccessibleLink.tsx",
       "range": {
         "start": {
-          "line": 34,
+          "line": 36,
           "col": 4,
-          "bytePos": 820
+          "bytePos": 883
         },
         "end": {
-          "line": 34,
+          "line": 36,
           "col": 10,
-          "bytePos": 826
+          "bytePos": 889
         }
       },
       "message": "Window is no longer available in Deno",
@@ -416,17 +434,179 @@
       "hint": "Define the function shape explicitly"
     },
     {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 53,
+          "col": 17,
+          "bytePos": 1256
+        },
+        "end": {
+          "line": 53,
+          "col": 25,
+          "bytePos": 1264
+        }
+      },
+      "message": "`setTheme` is never used",
+      "code": "no-unused-vars",
+      "hint": "If this is intentional, prefix it with an underscore like `_setTheme`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 157,
+          "col": 34,
+          "bytePos": 5120
+        },
+        "end": {
+          "line": 157,
+          "col": 40,
+          "bytePos": 5126
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 157,
+          "col": 54,
+          "bytePos": 5140
+        },
+        "end": {
+          "line": 157,
+          "col": 60,
+          "bytePos": 5146
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 159,
+          "col": 35,
+          "bytePos": 5242
+        },
+        "end": {
+          "line": 159,
+          "col": 41,
+          "bytePos": 5248
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 161,
+          "col": 35,
+          "bytePos": 5318
+        },
+        "end": {
+          "line": 161,
+          "col": 41,
+          "bytePos": 5324
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 166,
+          "col": 4,
+          "bytePos": 5385
+        },
+        "end": {
+          "line": 166,
+          "col": 10,
+          "bytePos": 5391
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 166,
+          "col": 4,
+          "bytePos": 5385
+        },
+        "end": {
+          "line": 166,
+          "col": 27,
+          "bytePos": 5408
+        }
+      },
+      "message": "For compatibility between the Window context and the Web Workers, calling Web APIs via `window` is disallowed",
+      "code": "no-window-prefix",
+      "hint": "Instead, call this API via `self`, `globalThis`, or no extra prefix"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 169,
+          "col": 17,
+          "bytePos": 5472
+        },
+        "end": {
+          "line": 169,
+          "col": 23,
+          "bytePos": 5478
+        }
+      },
+      "message": "Window is no longer available in Deno",
+      "code": "no-window",
+      "hint": "Instead, use `globalThis`"
+    },
+    {
+      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
+      "range": {
+        "start": {
+          "line": 169,
+          "col": 17,
+          "bytePos": 5472
+        },
+        "end": {
+          "line": 169,
+          "col": 43,
+          "bytePos": 5498
+        }
+      },
+      "message": "For compatibility between the Window context and the Web Workers, calling Web APIs via `window` is disallowed",
+      "code": "no-window-prefix",
+      "hint": "Instead, call this API via `self`, `globalThis`, or no extra prefix"
+    },
+    {
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/contexts/ThemeProvider.tsx",
       "range": {
         "start": {
           "line": 26,
           "col": 15,
-          "bytePos": 801
+          "bytePos": 802
         },
         "end": {
           "line": 26,
           "col": 21,
-          "bytePos": 807
+          "bytePos": 808
         }
       },
       "message": "Window is no longer available in Deno",
@@ -439,12 +619,12 @@
         "start": {
           "line": 27,
           "col": 13,
-          "bytePos": 851
+          "bytePos": 852
         },
         "end": {
           "line": 27,
           "col": 19,
-          "bytePos": 857
+          "bytePos": 858
         }
       },
       "message": "Window is no longer available in Deno",
@@ -522,24 +702,6 @@
       "message": "`AccessibleLink` is never used",
       "code": "no-unused-vars",
       "hint": "If this is intentional, prefix it with an underscore like `_AccessibleLink`"
-    },
-    {
-      "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/pages/posts/solid.tsx",
-      "range": {
-        "start": {
-          "line": 3,
-          "col": 7,
-          "bytePos": 87
-        },
-        "end": {
-          "line": 3,
-          "col": 16,
-          "bytePos": 96
-        }
-      },
-      "message": "`CodeBlock` is never used",
-      "code": "no-unused-vars",
-      "hint": "If this is intentional, prefix it with an underscore like `_CodeBlock`"
     },
     {
       "filename": "file:///Users/jonathonzudell/Workspace/zudellio/interface/src/ssg.tsx",
@@ -1526,11 +1688,11 @@
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/components/input/AccessibleButton.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/components/input/AccessibleLink.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/components/input/PasswordInput.tsx",
+    "/Users/jonathonzudell/Workspace/zudellio/interface/src/components/widget/Rule30Conway.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/contexts/ThemeProvider.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/jest.setup.js",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/pages/_posts.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/pages/posts/on_passwords.tsx",
-    "/Users/jonathonzudell/Workspace/zudellio/interface/src/pages/posts/solid.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/src/ssg.tsx",
     "/Users/jonathonzudell/Workspace/zudellio/interface/ssgwp.js"
   ]

@@ -123,7 +123,15 @@ module "cloudfront" {
   certificate_arn           = module.dns.cloudfront_distribution_certificate.arn
   infrastructure_account_id = var.infrastructure_account_id
   logging_bucket            = module.log_bucket.log_bucket
+  //waf_acl                   = module.waf.waf_acl
 }
+
+# module "waf" {
+#   providers = {
+#     aws.target = aws.target
+#   }
+#   source = "../../modules/waf"
+# }
 
 module "kms" {
   providers = {

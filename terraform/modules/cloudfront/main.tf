@@ -25,6 +25,8 @@ variable "logging_bucket"{
 
 variable "infrastructure_account_id" {}
 
+//variable "waf_acl" {}
+
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
   name = "cloudfront-role"
@@ -112,18 +114,13 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
       cookies {
         forward = "none"
       }
+      headers = ["*"]
     }
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-
-    # lambda_function_association {
-    #   event_type   = "origin-request"
-    #   lambda_arn   = aws_lambda_function.lambda.arn
-    #   include_body = false
-    # }
+    default_ttl            = 0
+    max_ttl                = 0
   }
 
   restrictions {
@@ -139,7 +136,16 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
     minimum_protocol_version       = "TLSv1.2_2021"
   }
 
+  # logging_config {
+  #   bucket = var.logging_bucket.bucket
+  #   include_cookies = false
+  #   prefix = "cloudfront-development-logs/"
+  # }
+
+  //web_acl_id = var.waf_acl.arn
 }
+
+
 resource "aws_cloudfront_distribution" "production_s3_distribution" {
   provider = aws.target
   origin {
