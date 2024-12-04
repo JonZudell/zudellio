@@ -5,6 +5,7 @@ terraform {
       version = "~> 5.0"
       configuration_aliases = [
         aws.target,
+        aws.development,
       ]
     }
   }
@@ -83,17 +84,13 @@ resource "aws_iam_role_policy_attachment" "cloudfront_policy_attachment" {
 
 resource "aws_cloudfront_distribution" "development_s3_distribution" {
   provider = aws.target
+  #staging = true
   origin {
     domain_name = var.development_site_bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.development_site_bucket.bucket}"
     origin_path = ""
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_read_timeout      = 30
-      origin_keepalive_timeout = 5
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
     }
   }
 
@@ -107,7 +104,7 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-${var.production_site_bucket.bucket}"
+    target_origin_id = "S3-${var.development_site_bucket.bucket}"
 
     forwarded_values {
       query_string = false
@@ -140,16 +137,31 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
   }
-
-  # logging_config {
-  #   bucket = var.logging_bucket.bucket
-  #   include_cookies = false
-  #   prefix = "cloudfront-development-logs/"
-  # }
-
-  //web_acl_id = var.waf_acl.arn
 }
 
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  provider = aws.target
+  comment = "Origin Access Identity for CloudFront to access S3 bucket"
+}
+
+resource "aws_s3_bucket_policy" "development_site_bucket_policy" {
+  provider = aws.development
+  bucket = var.development_site_bucket.bucket
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn
+        },
+        Action = "s3:GetObject",
+        Resource = "${var.development_site_bucket.arn}/*"
+      }
+    ]
+  })
+}
 
 resource "aws_cloudfront_distribution" "production_s3_distribution" {
   provider = aws.target

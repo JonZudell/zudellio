@@ -9,8 +9,8 @@ terraform {
     }
   }
 }
-locals {
-  bucket_suffix = substr(md5(timestamp()), 0, 6)
+resource "random_id" "bucket_suffix" {
+  byte_length = 8
 }
 
 variable "bucket_prefix" {
@@ -22,7 +22,7 @@ variable "log_key" {
 }
 resource "aws_s3_bucket" "log_bucket" {
   provider = aws.target
-  bucket = "${var.bucket_prefix}-log-bucket-${local.bucket_suffix}"
+  bucket = "${var.bucket_prefix}-log-bucket-${random_id.bucket_suffix.hex}"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {

@@ -115,7 +115,8 @@ module "dns" {
 
 module "cloudfront" {
   providers = {
-    aws.target = aws.target
+    aws.target      = aws.target
+    aws.development = aws.development
   }
   source                    = "../../modules/cloudfront"
   development_site_bucket   = var.development_interface_bucket

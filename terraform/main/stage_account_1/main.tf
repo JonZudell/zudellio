@@ -79,20 +79,19 @@ module "interface" {
   providers = {
     aws.target = aws.target
   }
-  source       = "../../modules/interface_0"
+  source       = "../../modules/interface_1"
   dist_dir     = var.dist_dir
   bucket_infix = var.bucket_infix
-  environment  = var.environment
 }
 
-module "api_gateway" {
-  providers = {
-    aws.target = aws.target
-  }
-  source                    = "../../modules/api_gateway"
-  log_key                   = var.log_key
-  infrastructure_account_id = var.infrastructure_account_id
-}
+# module "api_gateway" {
+#   providers = {
+#     aws.target = aws.target
+#   }
+#   source                    = "../../modules/api_gateway"
+#   log_key                   = var.log_key
+#   infrastructure_account_id = var.infrastructure_account_id
+# }
 
 
 # module "lambdas" {
@@ -105,9 +104,6 @@ module "api_gateway" {
 #   infrastructure_account_id = var.infrastructure_account_id
 #   lambda_log_key            = var.log_key
 # }
-output "api_url" {
-  value = module.api_gateway.api_gateway_deployment.invoke_url
-}
-output "static_website_bucket" {
-  value = module.interface.static_website_bucket
-}
+# output "api_url" {
+#   value = module.api_gateway.api_gateway_deployment.invoke_url
+# }
