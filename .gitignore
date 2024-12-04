@@ -66,3 +66,12 @@ build/*
 # macOS system files
 .DS_Store
 rewrites.json
+reports
+reports/
+reports/*
+.sensitive
+.sensitive/
+.sensitive/*
+background_process_output
+background_process_output/
+background_process_output/*

@@ -17,6 +17,7 @@ import { StaticRouter } from 'react-router-dom/server';
 import Content from './components/core/Content';
 import { ThemeProvider } from './contexts/ThemeProvider';
 import ConwayRule30 from './pages/posts/conway_rule_30'; // Add this import
+import OnPasswords from './pages/posts/on_passwords';
 const meta = {
   title: 'Hydration',
   component: Root,
@@ -38,6 +39,7 @@ const posts: {
   cicd: CICD,
   digital_hygiene: Hygiene,
   conway_rule_30: ConwayRule30,
+  on_passwords: OnPasswords,
 };
 
 const stories: { [key: string]: StoryObj } = {};
@@ -67,3 +69,5 @@ export const AwsTfBootstrapStory = stories.aws_tf_bootstrap;
 export const SolidStory = stories.solid;
 export const CicdStory = stories.cicd;
 export const ConwayRule30Story = stories.conway_rule_30;
+
+export const OnPasswordsStory = stories.on_passwords;

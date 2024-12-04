@@ -13,6 +13,7 @@ import Solid from './posts/solid';
 import CICD from './posts/cicd';
 import Hygiene from './posts/digital_hygiene';
 import ConwayRule30 from './posts/conway_rule_30';
+import OnPasswords from './posts/on_passwords';
 export interface PostProps {
   displaySummary: boolean;
   classNames?: string;
@@ -36,6 +37,7 @@ export const Posts: {
   cicd: { component: CICD, date: new Date('2024-11-17') },
   digital_hygiene: { component: Hygiene, date: new Date('2024-11-19') },
   conway_rule_30: { component: ConwayRule30, date: new Date('2024-11-27') },
+  on_passwords: { component: OnPasswords, date: new Date('2024-12-04') },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),

@@ -95,16 +95,16 @@ module "api_gateway" {
 }
 
 
-module "lambdas" {
-  providers = {
-    aws.target = aws.target
-  }
-  source                    = "../../modules/lambdas"
-  repositories              = var.repositories
-  image_tag                 = var.image_tag
-  infrastructure_account_id = var.infrastructure_account_id
-  lambda_log_key            = var.log_key
-}
+# module "lambdas" {
+#   providers = {
+#     aws.target = aws.target
+#   }
+#   source                    = "../../modules/lambdas"
+#   repositories              = var.repositories
+#   image_tag                 = var.image_tag
+#   infrastructure_account_id = var.infrastructure_account_id
+#   lambda_log_key            = var.log_key
+# }
 output "api_url" {
   value = module.api_gateway.api_gateway_deployment.invoke_url
 }
