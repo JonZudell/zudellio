@@ -6,6 +6,7 @@ terraform {
       configuration_aliases = [
         aws.target,
         aws.development,
+        aws.production
       ]
     }
   }
@@ -162,6 +163,29 @@ resource "aws_s3_bucket_policy" "development_site_bucket_policy" {
     ]
   })
 }
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity_prod" {
+  provider = aws.target
+  comment = "Origin Access Identity for CloudFront to access S3 bucket"
+}
+
+resource "aws_s3_bucket_policy" "production_site_bucket_policy" {
+  provider = aws.production
+  bucket = var.production_site_bucket.bucket
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = aws_cloudfront_origin_access_identity.origin_access_identity_prod.iam_arn
+        },
+        Action = "s3:GetObject",
+        Resource = "${var.production_site_bucket.arn}/*"
+      }
+    ]
+  })
+}
 
 resource "aws_cloudfront_distribution" "production_s3_distribution" {
   provider = aws.target
@@ -169,13 +193,8 @@ resource "aws_cloudfront_distribution" "production_s3_distribution" {
     domain_name = var.production_site_bucket.bucket_regional_domain_name
     origin_id   = "S3-${var.production_site_bucket.bucket}"
     origin_path = ""
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_read_timeout      = 30
-      origin_keepalive_timeout = 5
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity_prod.cloudfront_access_identity_path
     }
   }
 

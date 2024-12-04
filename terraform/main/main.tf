@@ -147,6 +147,7 @@ module "infrastructure" {
     aws.root        = aws.root
     aws.target      = aws.infrastructure
     aws.development = aws.development
+    aws.production  = aws.production
   }
   source                       = "./infra_account"
   account_email                = "jon+infrastructure@zudell.io"
@@ -232,9 +233,9 @@ output "terraform_locks_table" {
   value = module.tf_state_bootstrap.terraform_dynamodb_locks
 }
 
-output "development_s3_website_url" {
-  value = module.development.static_website_bucket.website_endpoint
-}
+# output "development_s3_website_url" {
+#   value = module.development.static_website_bucket.website_endpoint
+# }
 # output "development_api_url" {
 #   value = module.development.api_url
 # }
@@ -242,9 +243,9 @@ output "development_cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = module.infrastructure.development_cloudfront_url
 }
-output "production_s3_website_url" {
-  value = module.production.static_website_bucket.website_endpoint
-}
+# output "production_s3_website_url" {
+#   value = module.production.static_website_bucket.website_endpoint
+# }
 # output "production_api_url" {
 #   value = module.production.api_url
 # }

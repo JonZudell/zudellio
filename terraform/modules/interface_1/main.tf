@@ -18,6 +18,7 @@ variable "bucket_infix" {
   type        = string
 }
 
+
 resource "random_id" "static_website" {
   byte_length = 8
 }
@@ -110,4 +111,8 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
       }
     }
   }
+}
+
+output "static_website_bucket" {
+  value = aws_s3_bucket.static_website
 }

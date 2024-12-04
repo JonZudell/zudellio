@@ -6,6 +6,7 @@ terraform {
       configuration_aliases = [
         aws.root,
         aws.development,
+        aws.production,
         aws.target,
       ]
     }
@@ -117,6 +118,7 @@ module "cloudfront" {
   providers = {
     aws.target      = aws.target
     aws.development = aws.development
+    aws.production  = aws.production
   }
   source                    = "../../modules/cloudfront"
   development_site_bucket   = var.development_interface_bucket
