@@ -96,14 +96,14 @@ module "interface" {
   bucket_infix = var.bucket_infix
 }
 
-# module "api_gateway" {
-#   providers = {
-#     aws.target = aws.target
-#   }
-#   source                    = "../../modules/api_gateway"
-#   log_key                   = var.log_key
-#   infrastructure_account_id = var.infrastructure_account_id
-# }
+module "api_gateway" {
+  providers = {
+    aws.target = aws.target
+  }
+  source                    = "../../modules/api_gateway"
+  log_key                   = var.log_key
+  infrastructure_account_id = var.infrastructure_account_id
+}
 
 module "vpc" {
   providers = {
