@@ -86,7 +86,7 @@ resource "aws_s3_object" "interface_files" {
     "svg"  = "image/svg+xml"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "text/html")
   source = "${var.dist_dir}/${each.value}"
-  acl = "public-read"
+  acl = "private"
 
 }
 

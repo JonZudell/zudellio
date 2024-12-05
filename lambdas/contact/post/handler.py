@@ -18,3 +18,6 @@ async def lambda_handler(
     return JSONResponse(content={"status": "healthy"}, status_code=200)
 
 mangum_app = Mangum(app)
+
+def lambda_handler(event, context):
+    return mangum_app(event, context)
