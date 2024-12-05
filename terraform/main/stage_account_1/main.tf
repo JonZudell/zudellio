@@ -20,6 +20,10 @@ variable "root_account_id" {
   description = "The ID of the root AWS account"
   type        = string
 }
+variable "development_account_id" {
+  description = "The ID of the root AWS account"
+  type        = string
+}
 
 variable "account_email" {
   description = "The email address of the account"
@@ -62,7 +66,15 @@ variable "image_tag" {
   description = "The tag for the docker images"
   type        = string
 }
+variable "vpc_cidr_block" {
+  description = "The CIDR block for the VPC"
+  type        = string
+}
 
+variable "subnet_cidr_block" {
+  description = "The CIDR block for the subnet"
+  type        = string
+}
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -72,7 +84,7 @@ resource "aws_organizations_account" "account" {
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
   provider          = aws.target
   name              = "/aws/lambda/${var.account_name}"
-  retention_in_days = 14
+  retention_in_days = 365
 }
 
 module "interface" {
@@ -84,29 +96,38 @@ module "interface" {
   bucket_infix = var.bucket_infix
 }
 
-module "api_gateway" {
-  providers = {
-    aws.target = aws.target
-  }
-  source                    = "../../modules/api_gateway"
-  log_key                   = var.log_key
-  infrastructure_account_id = var.infrastructure_account_id
-}
-
-
-# module "lambdas" {
+# module "api_gateway" {
 #   providers = {
 #     aws.target = aws.target
 #   }
-#   source                    = "../../modules/lambdas"
-#   repositories              = var.repositories
-#   image_tag                 = var.image_tag
+#   source                    = "../../modules/api_gateway"
+#   log_key                   = var.log_key
 #   infrastructure_account_id = var.infrastructure_account_id
-#   lambda_log_key            = var.log_key
 # }
-output "api_url" {
-  value = module.api_gateway.api_gateway_deployment.invoke_url
+
+module "vpc" {
+  providers = {
+    aws.target = aws.target
+  }
+  source            = "../../modules/vpc"
+  vpc_cidr_block    = var.vpc_cidr_block
+  subnet_cidr_block = var.subnet_cidr_block
 }
+
+module "lambdas" {
+  providers = {
+    aws.target = aws.target
+  }
+  source                    = "../../modules/lambdas"
+  repositories              = var.repositories
+  image_tag                 = var.image_tag
+  infrastructure_account_id = var.infrastructure_account_id
+  lambda_log_key            = var.log_key
+  subnet_ids                = [module.vpc.subnet.id]
+  security_group_ids        = [module.vpc.security_group.id]
+  target_account_id         = var.development_account_id
+}
+
 output "static_website_bucket" {
   value = module.interface.static_website_bucket
 }

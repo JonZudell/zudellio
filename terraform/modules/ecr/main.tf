@@ -13,6 +13,10 @@ terraform {
 variable "ecr_key" {
 }
 
+variable "org_id" {
+
+}
+
 variable "production_account_id" {
   description = "AWS Account ID of the target account"
   type        = string
@@ -50,8 +54,7 @@ resource "aws_iam_policy" "cross_account_ecr_read_policy_all" {
           "ecr:GetAuthorizationToken"
         ],
         "Resource" = [
-          "arn:aws:ecr:us-east-1:${var.development_account_id}:repository/*",
-          "arn:aws:ecr:us-east-1:${var.production_account_id}:repository/*"
+          "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*",
         ]
       }
     ]
@@ -117,7 +120,52 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:CompleteLayerUpload"
         ]
+      },
+      {
+        "Sid": "LambdaECRImageCrossOrgRetrievalPolicy",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "lambda.amazonaws.com"
+        },
+        "Action": [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetAuthorizationToken"
+        ],
+        "Condition": {
+          "StringEquals": {
+            "aws:SourceOrgID": var.org_id
+          }
+        }
+      },
+      {
+      "Sid": "CrossAccountPermission",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+      ],
+      "Principal": {
+        "AWS": "arn:aws:iam::${var.development_account_id}:root"
       }
+    },
+      {
+      "Sid": "LambdaECRImageCrossAccountRetrievalPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+      ],
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Condition": {
+        "StringLike": {
+          "aws:sourceARN": "arn:aws:lambda:us-east-1:${var.development_account_id}:function:*"
+        }
+      }
+    }
     ]
   })
 }

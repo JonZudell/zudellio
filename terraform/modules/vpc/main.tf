@@ -13,13 +13,11 @@ terraform {
 variable "vpc_cidr_block" {
   description = "The CIDR block for the VPC"
   type        = string
-  default     = "10.0.0.0/16"
 }
 
 variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet"
   type        = string
-  default     = "10.0.1.0/24"
 }
 
 variable "availability_zone" {
@@ -43,30 +41,71 @@ resource "aws_subnet" "main" {
   vpc_id = aws_vpc.main.id
   cidr_block = var.subnet_cidr_block
   availability_zone = var.availability_zone
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   tags = {
-    Name = "subnet"
+    Name = "lambda-subnet"
   }
 }
 
 resource "aws_security_group" "main" {
   provider = aws.target
   vpc_id = aws_vpc.main.id
-  name = "sg"
-  description = "Main security group"
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  name = "lambda-sg"
+  description = "Security group for Lambda functions"
   tags = {
-    Name = "sg"
+    Name = "lambda-sg"
   }
+}
+
+resource "aws_security_group_rule" "no_ingress_80" {
+  provider = aws.target
+  type = "ingress"
+  from_port = 80
+  to_port = 80
+  protocol = "tcp"
+  cidr_blocks = [var.subnet_cidr_block]
+  security_group_id = aws_security_group.main.id
+  description = "Disallow ingress from subnet CIDR block to port 80"
+}
+
+resource "aws_security_group_rule" "no_ingress_22" {
+  provider = aws.target
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  cidr_blocks = [var.subnet_cidr_block]
+  security_group_id = aws_security_group.main.id
+  description = "Disallow ingress from subnet CIDR block to port 22"
+}
+
+resource "aws_security_group_rule" "no_ingress_-1" {
+  provider = aws.target
+  type = "ingress"
+  from_port = -1
+  to_port = -1
+  protocol = "-1"
+  cidr_blocks = [var.subnet_cidr_block]
+  security_group_id = aws_security_group.main.id
+  description = "Disallow ingress from subnet CIDR block to port -1"
+}
+
+resource "aws_security_group_rule" "no_ingress_3389" {
+  provider = aws.target
+  type = "ingress"
+  from_port = 3389
+  to_port = 3389
+  protocol = "tcp"
+  cidr_blocks = [var.subnet_cidr_block]
+  security_group_id = aws_security_group.main.id
+  description = "Disallow ingress from subnet CIDR block to port 3389"
+}
+
+output "subnet" {
+  description = "The ID of the subnet"
+  value       = aws_subnet.main
+}
+
+output "security_group" {
+  value = aws_security_group.main
 }

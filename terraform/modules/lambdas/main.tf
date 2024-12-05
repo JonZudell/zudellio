@@ -30,43 +30,15 @@ variable "security_group_ids" {
 variable "infrastructure_account_id" {
   type = string
 }
+variable "target_account_id" {
+  type = string
+}
 
 variable "image_tag" {
   description = "The commit hash"
   type        = string
 }
-resource "aws_iam_role" "cloudfront_lambda_role" {
-  provider = aws.target
-  name     = "cloudfront_lambda_role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "cloudfront.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
-}
 
-resource "aws_iam_role_policy" "cloudfront_lambda_policy" {
-  provider = aws.target
-  name     = "cloudfront_lambda_policy"
-  role     = aws_iam_role.cloudfront_lambda_role.id
-  policy   = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = "lambda:InvokeFunction"
-        Resource = "arn:aws:lambda:${var.infrastructure_account_id}:function:*"
-      }
-    ]
-  })
-}
 resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
   provider   = aws.target
   role       = aws_iam_role.lambda_execution_role.name
@@ -99,9 +71,11 @@ resource "aws_iam_policy" "lambda_execution_policy" {
       {
         Effect = "Allow"
         Action = [
+
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetAuthorizationToken"
         ]
         Resource = [
           "arn:aws:ecr:us-east-1:${var.infrastructure_account_id}:repository/*"
@@ -110,10 +84,10 @@ resource "aws_iam_policy" "lambda_execution_policy" {
       {
         Effect = "Allow"
         Action = [
-          "sts:AssumeRole",
+          "sqs:SendMessage"
         ]
         Resource = [
-          "arn:aws:iam::${var.infrastructure_account_id}:role/cross_account_ecr_read_role",
+          aws_sqs_queue.lambda_dlq.arn
         ]
       }
     ]
@@ -132,9 +106,18 @@ resource "aws_iam_role_policy_attachment" "lambda_logging" {
   role       = aws_iam_role.lambda_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+resource "aws_iam_role_policy_attachment" "vpc_access_policy" {
+  provider   = aws.target
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
 resource "aws_sqs_queue" "lambda_dlq" {
+  provider   = aws.target
   name = "lambda_dlq"
 }
+
 resource "aws_lambda_function" "lambda" {
   lifecycle {
     create_before_destroy = true
@@ -154,10 +137,8 @@ resource "aws_lambda_function" "lambda" {
     security_group_ids = var.security_group_ids
   }
   dead_letter_config {
-    target_arn = aws_sqs_queue.lambda_dlq
+    target_arn = aws_sqs_queue.lambda_dlq.arn
   }
   //code_signing_config_arn = var.code_signing_config_arn
-  reserved_concurrent_executions = 2
-
   image_uri = "${each.value.repository_url}:${var.image_tag}"
 }

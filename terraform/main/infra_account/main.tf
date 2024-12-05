@@ -49,6 +49,8 @@ variable "manifest_file" {
   description = "The manifest"
 }
 
+variable "org_id" {}
+
 variable "production_account_id" {
   description = "AWS Account Number"
   type        = string
@@ -102,6 +104,7 @@ module "ecr" {
   development_account_id    = var.development_account_id
   production_account_id     = var.production_account_id
   ecr_key                   = module.kms.ecr_key
+  org_id                    = var.org_id
 }
 
 module "dns" {

@@ -160,6 +160,7 @@ module "infrastructure" {
   manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
   development_interface_bucket = module.development.static_website_bucket
   production_interface_bucket  = module.production.static_website_bucket
+  org_id                       = module.organization.org_id
 }
 
 module "monitoring" {
@@ -198,11 +199,14 @@ module "development" {
   root_account_id           = var.root_account_id
   infrastructure_profile    = "infrastructure${var.profile_suffix}"
   infrastructure_account_id = var.infrastructure_account_id
+  development_account_id    = var.development_account_id
   repositories              = module.infrastructure.repositories
   dist_dir                  = "${var.dist_dir}/${var.image_tag}/"
   manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
   image_tag                 = var.image_tag
   log_key                   = module.infrastructure.log_key
+  subnet_cidr_block         = "10.0.1.0/24"
+  vpc_cidr_block            = "10.0.0.0/16"
 }
 
 module "production" {
@@ -223,6 +227,8 @@ module "production" {
   image_tag                 = var.production_image_tag
   log_key                   = module.infrastructure.log_key
   root_account_id           = var.root_account_id
+  # subnet_cidr_block         = "10.0.2.0/24"
+  # vpc_cidr_block            = "10.0.0.0/16"
 }
 
 output "terraform_state_bucket" {
@@ -233,22 +239,11 @@ output "terraform_locks_table" {
   value = module.tf_state_bootstrap.terraform_dynamodb_locks
 }
 
-# output "development_s3_website_url" {
-#   value = module.development.static_website_bucket.website_endpoint
-# }
-# output "development_api_url" {
-#   value = module.development.api_url
-# }
 output "development_cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = module.infrastructure.development_cloudfront_url
 }
-# output "production_s3_website_url" {
-#   value = module.production.static_website_bucket.website_endpoint
-# }
-# output "production_api_url" {
-#   value = module.production.api_url
-# }
+
 output "production_cloudfront_url" {
   description = "The URL of the CloudFront distribution"
   value       = module.infrastructure.production_cloudfront_url
