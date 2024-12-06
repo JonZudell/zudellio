@@ -1,0 +1,18 @@
+{
+  "contact": {
+    "post": {
+      "type": "lambda",
+      "method": "post",
+      "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
+      "path": "contact"
+    }
+  },
+  "healthcheck": {
+    "get": {
+      "type": "lambda",
+      "method": "get",
+      "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
+      "path": "healthcheck"
+    }
+  }
+}
