@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from mangum import Mangum
-from utilities.logging_config import get_logger_adapter
+from .utilities.logging_config import get_logger_adapter
 
 app = FastAPI()
 
