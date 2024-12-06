@@ -96,7 +96,7 @@ resource "aws_api_gateway_integration" "lambda_integrations" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.lambda_resources[each.key].id
   http_method             = aws_api_gateway_method.lambda_methods[each.key].http_method
-  integration_http_method = upper(local.manifest[each.key].method)
+  integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = each.value.invoke_arn
 
