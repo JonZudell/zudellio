@@ -10,7 +10,7 @@ COPY ./handler.py ./Dockerfile
 COPY ./requirements.txt ./requirements.txt
 RUN mkdir ./utilities
 # Use ADD to copy the contents of the symlinked directory
-ADD ./utilities/ ./utilities/
+ADD ./utilities/* ./utilities/
 RUN pip install -r ./requirements.txt
 
 # Set the CMD to your handler (could be app.lambda_handler or similar)
