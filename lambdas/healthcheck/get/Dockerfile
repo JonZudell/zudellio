@@ -5,8 +5,11 @@ FROM public.ecr.aws/lambda/python:3.10
 WORKDIR /var/task
 
 # Copy the rest of the application code
-COPY . .
-
+COPY ./Dockerfile ./Dockerfile
+COPY ./handler.py ./Dockerfile
+COPY ./requirements.txt ./requirements.txt
+RUN mkdir ./utilities
+COPY ./utilities/* ./utilities/
 RUN pip install -r ./requirements.txt
 
 # Set the CMD to your handler (could be app.lambda_handler or similar)
