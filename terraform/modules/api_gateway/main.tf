@@ -196,6 +196,15 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
         ],
         Resource = "arn:aws:kms:us-east-1:${var.infrastructure_account_id}:key/${var.log_key.key_id}"
       },
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:InvokeFunction"
+        ]
+        Resource = [
+          for lambda in var.lambdas : lambda.arn
+        ]
+      }
     ]
   })
 }
