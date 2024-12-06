@@ -17,12 +17,19 @@ variable "infrastructure_account_id" {
 variable "log_key" {
 
 }
+variable "manifest_file" {
+  description = "The manifest file containing all framework resources"
+}
+
+variable "lambdas" {}
 
 resource "aws_api_gateway_rest_api" "api" {
   provider = aws.target
   name        = "api"
   description = "API Gateway for static S3 bucket CDN and Lambda functions"
-
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
   lifecycle {
     create_before_destroy = true
   }
@@ -45,6 +52,7 @@ resource "aws_iam_role" "api_gateway_role" {
     ]
   })
 }
+
 resource "aws_api_gateway_deployment" "api" {
   provider = aws.target
   rest_api_id = aws_api_gateway_rest_api.api.id
@@ -56,6 +64,43 @@ resource "aws_api_gateway_deployment" "api" {
   lifecycle {
     create_before_destroy = true
   }
+}
+locals {
+  manifest = jsondecode(file(var.manifest_file))
+}
+resource "aws_api_gateway_resource" "lambda_resources" {
+  provider = aws.target
+  for_each = {
+    for key, value in jsondecode(file("${var.manifest_file}")) : key => value
+    if value.type == "lambda"
+  }
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
+  path_part   = each.value.path
+}
+
+resource "aws_api_gateway_method" "lambda_methods" {
+  provider = aws.target
+  for_each = aws_api_gateway_resource.lambda_resources
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = each.value.id
+  http_method   = upper(local.manifest[each.key].method)
+  authorization = "NONE"
+
+  depends_on = [aws_api_gateway_resource.lambda_resources]
+}
+
+resource "aws_api_gateway_integration" "lambda_integrations" {
+  provider = aws.target
+  for_each = var.lambdas
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.lambda_resources[each.key].id
+  http_method             = aws_api_gateway_method.lambda_methods[each.key].http_method
+  integration_http_method = upper(local.manifest[each.key].method)
+  type                    = "AWS_PROXY"
+  uri                     = each.value.invoke_arn
+
+  depends_on = [aws_api_gateway_method.lambda_methods]
 }
 
 resource "aws_api_gateway_stage" "production" {
@@ -105,14 +150,24 @@ resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   retention_in_days = 365
 }
 
-resource "aws_api_gateway_account" "api_account" {
+resource "aws_lambda_permission" "api_gateway_permission" {
   provider = aws.target
-  cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
-
-  depends_on = [
-    aws_iam_role_policy.api_gateway_cloudwatch_policy
-  ]
+  for_each = var.lambdas
+  statement_id  = "AllowAPIGatewayInvoke-${each.key}"
+  action        = "lambda:InvokeFunction"
+  function_name = each.value.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
+
+# resource "aws_api_gateway_account" "api_account" {
+#   provider = aws.target
+#   cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
+
+#   depends_on = [
+#     aws_iam_role_policy.api_gateway_cloudwatch_policy
+#   ]
+# }
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
   provider = aws.target
@@ -128,13 +183,9 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:DescribeLogGroups",
-          "logs:DescribeLogStreams"
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents"
         ],
-        Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = "logs:PutLogEvents",
         Resource = "arn:aws:logs:*:*:log-group:/aws/api-gateway/*"
       },
       {
@@ -144,7 +195,7 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
           "kms:GenerateDataKey"
         ],
         Resource = "arn:aws:kms:us-east-1:${var.infrastructure_account_id}:key/${var.log_key.key_id}"
-      }
+      },
     ]
   })
 }

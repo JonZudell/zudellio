@@ -142,3 +142,12 @@ resource "aws_lambda_function" "lambda" {
   //code_signing_config_arn = var.code_signing_config_arn
   image_uri = "${each.value.repository_url}:${var.image_tag}"
 }
+# output "lambda_image_uri_map" {
+#   description = "Map of Lambda function names to their image URIs"
+#   value = {
+#     for name, repo in var.repositories : repo.repository_url => aws_lambda_function.lambda[name].image_uri
+#   }
+# }
+output "lambdas" {
+  value = aws_lambda_function.lambda
+}

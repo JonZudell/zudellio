@@ -24,9 +24,15 @@ def generate_json(dir_path, commit_hash, indent=2):
                 any(child.endswith("handler.py") for child in children)
                 and "Dockerfile" in children
             ):
+                full_path = os.path.relpath(item_path, start=LAMBDAS_DIR)
+                method = full_path.split("/")[1]
+                path = "/".join(full_path.split("/")[:-1])
                 result[item] = {
                     "type": "lambda",
+                    "method" : method,
                     "Dockerfile": os.path.join(item_path, "Dockerfile"),
+                    "path": path,
+
                 }
             else:
                 result[item] = generate_json(item_path, indent + 2)

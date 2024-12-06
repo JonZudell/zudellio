@@ -59,7 +59,7 @@ variable "dist_dir" {
   description = "the distribution directory"
 }
 variable "manifest_file" {
-  description = "The directory containing manifests"
+  description = "The manifest file containing all framework resources"
 }
 
 variable "image_tag" {
@@ -103,6 +103,8 @@ module "api_gateway" {
   source                    = "../../modules/api_gateway"
   log_key                   = var.log_key
   infrastructure_account_id = var.infrastructure_account_id
+  manifest_file             = var.manifest_file
+  lambdas                   = module.lambdas.lambdas
 }
 
 module "vpc" {
