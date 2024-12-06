@@ -5,7 +5,7 @@ FROM public.ecr.aws/lambda/python:3.10
 WORKDIR /var/task
 
 # Copy the rest of the application code
-ADD . .
+COPY . .
 
 RUN pip install -r ./requirements.txt
 
