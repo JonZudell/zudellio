@@ -6,6 +6,7 @@ WORKDIR /var/task
 
 # Copy the rest of the application code
 COPY ./Dockerfile ./Dockerfile
+COPY ./__init__.py ./__init__.py
 COPY ./handler.py ./Dockerfile
 COPY ./requirements.txt ./requirements.txt
 RUN mkdir ./utilities
