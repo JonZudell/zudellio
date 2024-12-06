@@ -85,7 +85,7 @@ resource "aws_api_gateway_method" "lambda_methods" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = each.value.id
   http_method   = upper(local.manifest[each.key].method)
-  authorization = "NONE"
+  authorization = "AWS_IAM"
 
   depends_on = [aws_api_gateway_resource.lambda_resources]
 }

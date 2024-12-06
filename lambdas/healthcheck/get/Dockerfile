@@ -6,6 +6,7 @@ WORKDIR /var/task
 
 # Copy the rest of the application code
 COPY . .
+COPY ../../../utilitites/* ./utilitites/
 
 RUN pip install -r ./requirements.txt
 
