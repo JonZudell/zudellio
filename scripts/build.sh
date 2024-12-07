@@ -42,6 +42,6 @@ $PYTHON_CMD ./scripts/process_dist.py "$commit_hash"
 $PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash"
 $PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash"
 $PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash"
-
+$PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$commit_hash"
 ./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash"
 echo "Latest commit hash: $commit_hash"
