@@ -18,7 +18,7 @@ import Content from './components/core/Content';
 import { ThemeProvider } from './contexts/ThemeProvider';
 import ConwayRule30 from './pages/posts/conway_rule_30'; // Add this import
 import OnPasswords from './pages/posts/on_passwords';
-import MultiArmedBandit from './pages/posts/mullti_armed_bandit';
+import MultiArmedBandit from './pages/posts/multi_armed_bandit';
 const meta = {
   title: 'Hydration',
   component: Root,

@@ -128,8 +128,8 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE"]
+      restriction_type = "blacklist"
+      locations        = ["KP"]
     }
   }
 
@@ -231,8 +231,8 @@ resource "aws_cloudfront_distribution" "production_s3_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE"]
+      restriction_type = "blacklist"
+      locations        = ["KP"]
     }
   }
 

@@ -14,7 +14,7 @@ import CICD from './posts/cicd';
 import Hygiene from './posts/digital_hygiene';
 import ConwayRule30 from './posts/conway_rule_30';
 import OnPasswords from './posts/on_passwords';
-import MultiArmedBandit from './posts/mullti_armed_bandit';
+import MultiArmedBandit from './posts/multi_armed_bandit';
 export interface PostProps {
   displaySummary: boolean;
   classNames?: string;
