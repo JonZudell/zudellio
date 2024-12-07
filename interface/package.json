@@ -5,6 +5,7 @@
   "main": "index.js",
   "sideEffects": false,
   "dependencies": {
+    "@flyover/box2d": "^1.0.1",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",

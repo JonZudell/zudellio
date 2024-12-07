@@ -10,6 +10,7 @@ COPY ./__init__.py ./__init__.py
 COPY ./handler.py ./handler.py
 COPY ./requirements.txt ./requirements.txt
 COPY ./utilities ./utilities
+COPY ./persistence ./persistence
 # Use ADD to copy the contents of the symlinked directory
 RUN pip install -r ./requirements.txt
 
