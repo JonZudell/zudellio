@@ -25,12 +25,12 @@ class JSONFormatter(logging.Formatter):
 
 def setup_logging(name: str) -> logging.Logger:
     logging.basicConfig(
-        level=log_levels[os.environ.get("LOG_LEVEL", "ERROR").lower()],
+        level=log_levels[os.environ.get("LOG_LEVEL", "INFO").lower()],
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     logger = logging.getLogger(name)
-    logger.setLevel(log_levels[os.environ.get("LOG_LEVEL", "ERROR").lower()])
+    logger.setLevel(log_levels[os.environ.get("LOG_LEVEL", "INFO").lower()])
     # Avoid adding multiple handlers
     if not logger.hasHandlers():
         handler = logging.StreamHandler()

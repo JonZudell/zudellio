@@ -14,6 +14,7 @@ import CICD from './posts/cicd';
 import Hygiene from './posts/digital_hygiene';
 import ConwayRule30 from './posts/conway_rule_30';
 import OnPasswords from './posts/on_passwords';
+import MultiArmedBandit from './posts/mullti_armed_bandit';
 export interface PostProps {
   displaySummary: boolean;
   classNames?: string;
@@ -38,6 +39,10 @@ export const Posts: {
   digital_hygiene: { component: Hygiene, date: new Date('2024-11-19') },
   conway_rule_30: { component: ConwayRule30, date: new Date('2024-11-27') },
   on_passwords: { component: OnPasswords, date: new Date('2024-12-04') },
+  multi_armed_bandit: {
+    component: MultiArmedBandit,
+    date: new Date('2024-12-07'),
+  },
 };
 export const sortedPosts = Object.values(Posts).sort(
   (a, b) => b.date.getTime() - a.date.getTime(),

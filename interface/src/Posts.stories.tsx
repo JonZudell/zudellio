@@ -18,6 +18,7 @@ import Content from './components/core/Content';
 import { ThemeProvider } from './contexts/ThemeProvider';
 import ConwayRule30 from './pages/posts/conway_rule_30'; // Add this import
 import OnPasswords from './pages/posts/on_passwords';
+import MultiArmedBandit from './pages/posts/mullti_armed_bandit';
 const meta = {
   title: 'Hydration',
   component: Root,
@@ -40,6 +41,7 @@ const posts: {
   digital_hygiene: Hygiene,
   conway_rule_30: ConwayRule30,
   on_passwords: OnPasswords,
+  multi_armed_bandit: MultiArmedBandit,
 };
 
 const stories: { [key: string]: StoryObj } = {};
@@ -69,5 +71,5 @@ export const AwsTfBootstrapStory = stories.aws_tf_bootstrap;
 export const SolidStory = stories.solid;
 export const CicdStory = stories.cicd;
 export const ConwayRule30Story = stories.conway_rule_30;
-
 export const OnPasswordsStory = stories.on_passwords;
+export const MultiArmedBanditStory = stories.multi_armed_bandit;

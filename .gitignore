@@ -75,3 +75,6 @@ reports/*
 background_process_output
 background_process_output/
 background_process_output/*
+# Ignore utilities except at root
+**/utilities/
+!utilities/

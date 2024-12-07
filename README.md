@@ -1,43 +1,37 @@
-# Zudellio Project
+# zudell.io. Project
 
 This project consists of a React-based static site generator and Terraform configurations for managing infrastructure.
 
-## Features
+## Build Static Site
+Run `./scripts/build.sh`. This will build the static site, generate a manifest, build docker images, and push docker images.
 
-### Interface
-- **Static Site Generation**: Pre-renders pages to static HTML.
-- **Client-Side Hydration**: Hydrates the static HTML with React on the client-side.
-- **Dynamic Routing**: Routes are dynamically generated based on the files in the `pages` directory.
-- **TailwindCSS**: Utilizes TailwindCSS for styling.
-- **React Router**: Manages client-side routing.
-
-### Terraform
-Use always set provider for resources, usually target, sometimes development, or production. 
-High coupling between between modules. Pass the entire resource instead of an ARN or Name.
-Sort variables alphabetically, add descriptions.
-Sort outputs alphabetically. Start files with requires stanza.
+## Release Process
+This `terraform.tfvars` needs populated with data. 
 ```
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-      configuration_aliases = [
-        aws.target,
-      ]
-    }
-  }
-}
+root_account_id           = ""
+infrastructure_account_id = ""
+monitoring_account_id     = ""
+security_account_id       = ""
+development_account_id    = ""
+production_account_id     = ""
+root_account_name         = ""
+profile_suffix            = ""
+dist_dir                  = ""
+manifest_dir              = ""
+image_tag                 = ""
+production_image_tag      = ""
 ```
+A manifest for both releases as well as a matching dist directory must be present.
+Run `./scripts/idempotent_terraform.sh`. This will init and apply terraform which will have the following effects. Terraform will read the manifest and dist directories. Terraform will update the static site with the contents of dist. Terraform will update lambdas to match the latest image hash. All will be right with the world. 
 
-- **Infrastructure as Code**: Manages AWS resources using Terraform.
-- **Modular Configuration**: Uses modules to organize and reuse configurations.
-- **Environment Management**: Supports multiple environments (e.g., dev, prod) with separate configurations.
+## Interface
+Uses a custom static site generation framework.
+Hosted on static s3 behind cloudfront.
 
-## Getting Started
+## Terraform
+Executed as user with SSO admin permission. Some bootstrapping of the environment must take place.
 
-### Prerequisites
-- Node.js (v14 or later)
-- npm (v6 or later)
-- Terraform (v1.0 or later)
+## Testing
+Pytest from root to test lambdas.
 
+Use Storybook for interface tests.
