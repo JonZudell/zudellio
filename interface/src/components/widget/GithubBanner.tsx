@@ -10,11 +10,14 @@ const GitHubBanner: React.FC<GitHubBannerProps> = ({ link }) => {
       style={{
         width: '20em',
         backgroundColor: 'black',
-        position: 'relative',
-        transform: 'translate(-35%, 115%) rotate(-45deg)',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        transform: 'translate(35%, 115%) rotate(45deg)',
         transformOrigin: 'center center',
         margin: '-2em 0 0 0',
         border: '8px solid black',
+        float: 'right',
       }}
     >
       <div
