@@ -5,7 +5,7 @@ from utilities.logging_config import get_logger_adapter
 
 app = FastAPI()
 
-@app.post("/healthcheck")
+@app.get("/healthcheck")
 async def healthcheck():
     app.state.logger_adapter.info("healthcheck posted to")
     return JSONResponse(content={"status": "healthy"}, status_code=200)
