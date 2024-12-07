@@ -7,9 +7,10 @@ app = FastAPI()
 
 @app.post("/healthcheck")
 async def healthcheck():
+    app.state.logger_adapter.info("healthcheck posted to")
     return JSONResponse(content={"status": "healthy"}, status_code=200)
 
-mangum_app = Mangum(app, api_gateway_base_path="/healthcheck")
+mangum_app = Mangum(app, api_gateway_base_path="/")
 
 def lambda_handler(event, context):
     extra = {
@@ -20,4 +21,6 @@ def lambda_handler(event, context):
     }
     app.state.logger_adapter = get_logger_adapter(extra=extra)
     app.state.logger_adapter.info("Lambda function invoked")
+    app.state.logger_adapter.info(event)
+    app.state.logger_adapter.info(context)
     return mangum_app(event, context)
