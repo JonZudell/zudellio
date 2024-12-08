@@ -4,7 +4,7 @@
         "method": "post",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
         "path": "contact",
-        "image": "contact_post:69ac1758"
+        "image": "contact_post:2815e78f"
     },
     "contact_get": {
         "type": "static",
@@ -15,7 +15,7 @@
         "method": "get",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
         "path": "healthcheck",
-        "image": "healthcheck_get:69ac1758"
+        "image": "healthcheck_get:2815e78f"
     },
     "posts_ssg_get": {
         "type": "static",
@@ -32,6 +32,10 @@
     "posts_on_passwords_get": {
         "type": "static",
         "destination": "posts/on_passwords/index.html"
+    },
+    "posts_multi_armed_bandit_get": {
+        "type": "static",
+        "destination": "posts/multi_armed_bandit/index.html"
     },
     "posts_init_get": {
         "type": "static",

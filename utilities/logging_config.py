@@ -10,6 +10,7 @@ log_levels = {
     "critical": logging.CRITICAL,
 }
 
+
 class JSONFormatter(logging.Formatter):
     def format(self, record):
         log_record = {
@@ -22,6 +23,7 @@ class JSONFormatter(logging.Formatter):
             "funcName": record.funcName,
         }
         return json.dumps(log_record)
+
 
 def setup_logging(name: str) -> logging.Logger:
     logging.basicConfig(
@@ -38,6 +40,7 @@ def setup_logging(name: str) -> logging.Logger:
         logger.addHandler(handler)
     return logger
 
+
 class SingletonLogger:
     _instance = None
 
@@ -47,6 +50,14 @@ class SingletonLogger:
             cls._instance.logger = setup_logging("singleton_logger")
         return cls._instance
 
-def get_logger_adapter(extra: dict) -> logging.LoggerAdapter:
+
+def get_logger_adapter(
+    extra: dict = {
+        "aws_request_id": "test",
+        "function_name": "testing",
+        "function_version": "0",
+        "aws_region": "us-east-1",
+    }
+) -> logging.LoggerAdapter:
     singleton_logger = SingletonLogger().logger
     return logging.LoggerAdapter(singleton_logger, extra)

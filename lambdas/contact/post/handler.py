@@ -1,22 +1,20 @@
-from typing import Optional
-from fastapi import Depends, FastAPI, Request
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from mangum import Mangum
 from pydantic import BaseModel, EmailStr
 from utilities.logging_config import get_logger_adapter
-from persistence.contact import ContactFormModel
-import json
+
 app = FastAPI()
+app.state.logger_adapter = get_logger_adapter(extra={})
 
 class ContactRequest(BaseModel):
-    name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    name: str
+    email: EmailStr
     message: str
 
 @app.post("/contact")
 async def healthcheck(
-    _: Request,
-    contact_request: ContactRequest = Depends(ContactRequest),
+    contact_request: ContactRequest,
 ):
     app.state.logger_adapter.info("contact posted to")
     contact = contact_request.model_dump()

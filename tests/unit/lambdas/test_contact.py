@@ -19,11 +19,13 @@ class TestContactHandler:
         response = self.client.post(
             "/contact",
             json={
-                "name": "John Doe",
-                "email": "john.doe@gmail.com",
-                "message": "Hello, World!"
+            "name": "John Doe",
+            "email": "john.doe@gmail.com",
+            "message": "Hello, World!"
             })
-        assert response.status_code == 200  # Valid input should return 200
+        if response.status_code != 200:
+            print(response.json())
+            assert False
 
     async def test_missing_name(
             self
