@@ -4,6 +4,7 @@ from mangum import Mangum
 from utilities.logging_config import get_logger_adapter
 
 app = FastAPI()
+app.state.logger_adapter = get_logger_adapter(extra={})
 
 @app.get("/healthcheck")
 async def healthcheck():

@@ -116,8 +116,8 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = 0
+    max_ttl                = 0
 
     # lambda_function_association {
     #   event_type   = "origin-request"
@@ -219,8 +219,8 @@ resource "aws_cloudfront_distribution" "production_s3_distribution" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = 900
+    max_ttl                = 3600
 
     # lambda_function_association {
     #   event_type   = "origin-request"
@@ -243,6 +243,7 @@ resource "aws_cloudfront_distribution" "production_s3_distribution" {
   }
 
 }
+
 output "development_cloudfront_distribution" {
   description = "The CloudFront distribution"
   value       = aws_cloudfront_distribution.development_s3_distribution

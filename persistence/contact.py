@@ -14,9 +14,9 @@ class ContactFormModel(Model):
 
 class ContactFormSchema(BaseModel):
     _model = ContactFormModel
-    uuid = UUID
-    created_at = datetime 
-    email = EmailStr()
-    name = str
-    message = str
+    uuid: str
+    created_at: datetime 
+    email: EmailStr
+    name: str
+    message: str
     model_config = ConfigDict(from_attributes=True)
