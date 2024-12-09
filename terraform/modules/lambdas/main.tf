@@ -122,7 +122,7 @@ resource "aws_lambda_function" "lambda" {
   lifecycle {
     create_before_destroy = true
   }
-
+  
   for_each      = var.repositories
   provider      = aws.target
   function_name = each.key

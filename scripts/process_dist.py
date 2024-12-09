@@ -38,7 +38,6 @@ def process_dist(commit_hash):
         #print(source_path, target_path)
         if target_file_path.endswith("index.html") and target_path != "index.html":
             target_file_path = os.path.dirname(target_file_path)
-        print(source_path, target_file_path)
 
         os.makedirs(os.path.dirname(target_file_path), exist_ok=True)
         with open(source_path, 'rb') as src_file:
@@ -47,8 +46,6 @@ def process_dist(commit_hash):
 
 
 if __name__ == "__main__":
-    print(f"INTERFACE_DIST_DIR: {INTERFACE_DIST_DIR}")
-    print(f"DIST_DIR: {DIST_DIR}")
     if len(sys.argv) < 2:
         print("Usage: process_dist.py <commit_hash>")
         sys.exit(1)

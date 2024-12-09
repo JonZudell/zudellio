@@ -36,6 +36,7 @@ variable "development_account_id" {
 variable "development_interface_bucket" {
   description = "The S3 bucket for the development interface"
 }
+
 variable "production_interface_bucket" {
   description = "The S3 bucket for the development interface"
 }
@@ -83,16 +84,6 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
     ]
   })
 }
-
-module "log_bucket" {
-  providers = {
-    aws.target = aws.target
-  }
-  source        = "../../modules/log_bucket"
-  bucket_prefix = "infrastructure"
-  log_key       = module.kms.log_key
-}
-
 module "ecr" {
   source = "../../modules/ecr"
   providers = {
@@ -128,16 +119,7 @@ module "cloudfront" {
   production_site_bucket    = var.production_interface_bucket
   certificate_arn           = module.dns.cloudfront_distribution_certificate.arn
   infrastructure_account_id = var.infrastructure_account_id
-  logging_bucket            = module.log_bucket.log_bucket
-  //waf_acl                   = module.waf.waf_acl
 }
-
-# module "waf" {
-#   providers = {
-#     aws.target = aws.target
-#   }
-#   source = "../../modules/waf"
-# }
 
 module "kms" {
   providers = {
@@ -155,15 +137,19 @@ output "repositories" {
 output "lambda_repo_policy" {
   value = module.ecr.lambda_repo_policy
 }
+
 output "name_servers" {
   value = module.dns.name_servers
 }
+
 output "development_cloudfront_url" {
   value = module.cloudfront.development_cloudfront_distribution.domain_name
 }
+
 output "production_cloudfront_url" {
   value = module.cloudfront.production_cloudfront_distribution.domain_name
 }
+
 output "log_key" {
   value = module.kms.log_key
 }

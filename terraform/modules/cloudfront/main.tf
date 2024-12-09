@@ -21,11 +21,13 @@ variable "development_site_bucket" {
 variable "production_site_bucket" {
   description = "The s3 bucket to serve static files from"
 }
-variable "logging_bucket"{
-  description = "The s3 bucket to store CloudFront logs"
-}
 
 variable "infrastructure_account_id" {}
+
+//variable "logging_bucket" {
+//  description = "The S3 bucket for CloudFront access logs"
+//  type        = string
+//}
 
 //variable "waf_acl" {}
 
@@ -72,6 +74,23 @@ resource "aws_iam_policy" "cloudfront_policy" {
         Resource = [
           "${var.certificate_arn}"
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject"
+        ]
+        Resource = [
+          "${aws_s3_bucket.cloudfront_logging_bucket.arn}/*"
+        ],
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = [
+              aws_cloudfront_distribution.development_s3_distribution.arn,
+              aws_cloudfront_distribution.production_s3_distribution.arn
+            ]
+          }
+        }
       }
     ]
   })
@@ -81,6 +100,51 @@ resource "aws_iam_role_policy_attachment" "cloudfront_policy_attachment" {
   provider = aws.target
   role       = aws_iam_role.cloudfront_role.name
   policy_arn = aws_iam_policy.cloudfront_policy.arn
+}
+
+
+resource "aws_s3_bucket_acl" "cloudfront_logging_bucket_acl" {
+  provider = aws.target
+  bucket = aws_s3_bucket.cloudfront_logging_bucket.bucket
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket" "cloudfront_logging_bucket" {
+  provider = aws.target
+  bucket = "zudellio-cloudfront-logs"
+}
+resource "aws_s3_bucket_ownership_controls" "cloudfront_logging_bucket" {
+  provider = aws.target
+  bucket = aws_s3_bucket.cloudfront_logging_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+resource "aws_s3_bucket_policy" "cloudfront_logging_bucket_policy" {
+  provider = aws.target
+  bucket = aws_s3_bucket.cloudfront_logging_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        },
+        Action = "s3:PutObject",
+        Resource = "${aws_s3_bucket.cloudfront_logging_bucket.arn}/*",
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = [
+              aws_cloudfront_distribution.development_s3_distribution.arn,
+              aws_cloudfront_distribution.production_s3_distribution.arn
+            ]
+          }
+        }
+      }
+    ]
+  })
 }
 
 resource "aws_cloudfront_distribution" "development_s3_distribution" {
@@ -119,13 +183,7 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
     default_ttl            = 0
     max_ttl                = 0
 
-    # lambda_function_association {
-    #   event_type   = "origin-request"
-    #   lambda_arn   = aws_lambda_function.lambda.arn
-    #   include_body = false
-    # }
   }
-
   restrictions {
     geo_restriction {
       restriction_type = "blacklist"
@@ -138,6 +196,7 @@ resource "aws_cloudfront_distribution" "development_s3_distribution" {
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
   }
+
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -221,12 +280,6 @@ resource "aws_cloudfront_distribution" "production_s3_distribution" {
     min_ttl                = 0
     default_ttl            = 900
     max_ttl                = 3600
-
-    # lambda_function_association {
-    #   event_type   = "origin-request"
-    #   lambda_arn   = aws_lambda_function.lambda.arn
-    #   include_body = false
-    # }
   }
 
   restrictions {

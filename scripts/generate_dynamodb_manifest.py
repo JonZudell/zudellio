@@ -95,7 +95,7 @@ def write_class_attributes_to_manifest(class_attributes, manifest_dir, image_tag
     Returns:
         None
     """
-    manifest_path = os.path.join(manifest_dir, f"{image_tag}_manifest.json")
+    manifest_path = os.path.join(manifest_dir, f"{image_tag}_dynamodb.json")
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(class_attributes, f, indent=4)
 

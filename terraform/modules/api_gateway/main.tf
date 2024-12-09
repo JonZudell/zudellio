@@ -65,9 +65,12 @@ resource "aws_api_gateway_deployment" "api" {
     create_before_destroy = true
   }
 }
+
+
 locals {
   manifest = jsondecode(file(var.manifest_file))
 }
+
 resource "aws_api_gateway_resource" "lambda_resources" {
   provider = aws.target
   for_each = {
@@ -212,9 +215,11 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
 output "api_gateway_role" {
   value = aws_iam_role.api_gateway_role
 }
+
 output "api_gateway_deployment" {
   value = aws_api_gateway_deployment.api
 }
+
 output "api_gateway" {
   value = aws_api_gateway_rest_api.api
 }

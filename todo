@@ -1,5 +1,8 @@
 Blog
-- dynamodb
 - eye of chaos
-English
-- project 4
+- contact form
+- 404
+
+Build
+- dynamodb
+- copy lambda deps into lambda dirs before build

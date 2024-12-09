@@ -58,7 +58,12 @@ variable "infrastructure_account_id" {
 variable "dist_dir" {
   description = "the distribution directory"
 }
+
 variable "manifest_file" {
+  description = "The manifest file containing all framework resources"
+}
+
+variable "dynamodb_manifest_file" {
   description = "The manifest file containing all framework resources"
 }
 
@@ -128,6 +133,14 @@ module "lambdas" {
   subnet_ids                = [module.vpc.subnet.id]
   security_group_ids        = [module.vpc.security_group.id]
   target_account_id         = var.development_account_id
+}
+
+module "persistence" {
+  providers = {
+    aws.target = aws.target
+  }
+  source                    = "../../modules/persistence"
+  persistence_manifest_file = var.dynamodb_manifest_file
 }
 
 output "static_website_bucket" {

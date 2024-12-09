@@ -12,7 +12,7 @@ terraform validate || exit 1
 echo "Formatting Terraform configuration..."
 terraform fmt -recursive
 commit_hash=$(git rev-parse --short=8 HEAD)
-export TF_VAR_image_tag="$commit_hash"
+export TF_VAR_image_tag="$1"
 # Apply Terraform configuration
 echo "Applying Terraform configuration..."
 terraform apply

@@ -125,7 +125,6 @@ variable "security_account_id" {
   type        = string
 }
 
-
 module "tf_state_bootstrap" {
   providers = {
     aws.root = aws.root
@@ -203,6 +202,7 @@ module "development" {
   repositories              = module.infrastructure.repositories
   dist_dir                  = "${var.dist_dir}/${var.image_tag}/"
   manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
+  dynamodb_manifest_file    = "${var.manifest_dir}/${var.image_tag}_dynamodb.json"
   image_tag                 = var.image_tag
   log_key                   = module.infrastructure.log_key
   subnet_cidr_block         = "10.0.1.0/24"

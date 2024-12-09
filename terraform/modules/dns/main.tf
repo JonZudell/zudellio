@@ -92,6 +92,7 @@ resource "aws_route53_record" "dev_alias" {
   }
   allow_overwrite = true
 }
+
 resource "aws_route53_record" "alias" {
   provider = aws.target
   zone_id = aws_route53_zone.zone.zone_id
@@ -136,15 +137,18 @@ resource "aws_route53_record" "zone_cert_validation" {
   records = [each.value.record]
   ttl     = 60
 }
+
 resource "aws_acm_certificate_validation" "zone_cert_validation" {
   provider = aws.target
   certificate_arn         = aws_acm_certificate.zone_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.zone_cert_validation : record.fqdn]
 }
+
 output "cloudfront_distribution_certificate" {
   description = "The ARN of the ACM certificate"
   value       = aws_acm_certificate.zone_cert
 }
+
 output "name_servers" {
   description = "The list of name servers for the Route 53 hosted zone"
   value       = aws_route53_zone.zone.name_servers

@@ -1,5 +1,6 @@
 fastapi==0.112.2
 mangum==0.17.0
 pynamodb==6.0.1
-pydantic==2.8.2
-pydantic_core==2.20.1
+pydantic==2.10.3
+pydantic_core==2.27.1
+pydantic[email]==2.10.3

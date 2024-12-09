@@ -13,11 +13,11 @@ terraform {
 variable "dist_dir" {
   type = string
 }
+
 variable "bucket_infix" {
   description = "The name of the S3 bucket"
   type        = string
 }
-
 
 resource "random_id" "static_website" {
   byte_length = 8

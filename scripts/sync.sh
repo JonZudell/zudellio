@@ -35,13 +35,14 @@ else
 fi
 
 # Get the latest commit hash
-commit_hash=$(git rev-parse --short=8 HEAD)
-npm run build
+commit_hash=$(git rev-parse --short=8 HEAD)-$(date +%Y%m%d%H%M%S)
+npm run build || exit
 cd ../ || exit
-$PYTHON_CMD ./scripts/process_dist.py "$commit_hash"
-$PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash"
-$PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash"
-$PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash"
-$PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$commit_hash"
-./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash"
+$PYTHON_CMD ./scripts/process_dist.py "$commit_hash" || exit
+$PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash" || exit
+$PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash" || exit
+$PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash" || exit
+$PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$commit_hash" || exit
+./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash" || exit
 echo "Latest commit hash: $commit_hash"
+./scripts/idempotent_terraform.sh "$commit_hash"

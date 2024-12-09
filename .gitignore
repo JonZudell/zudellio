@@ -59,6 +59,7 @@ override.tf.json
 .terraformrc.json
 *.tfvars
 *.tfvars.json
+*.tfvars.*
 
 ./**/__pycache__/
 

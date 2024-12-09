@@ -21,6 +21,7 @@ variable "production_account_id" {
   description = "AWS Account ID of the target account"
   type        = string
 }
+
 variable "development_account_id" {
   description = "AWS Account ID of the target account"
   type        = string
