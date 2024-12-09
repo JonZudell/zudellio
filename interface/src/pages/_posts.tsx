@@ -15,6 +15,7 @@ import Hygiene from './posts/digital_hygiene';
 import ConwayRule30 from './posts/conway_rule_30';
 import OnPasswords from './posts/on_passwords';
 import MultiArmedBandit from './posts/multi_armed_bandit';
+import EyeOfChaos from './posts/eye_of_chaos';
 export interface PostProps {
   displaySummary: boolean;
   classNames?: string;
@@ -42,6 +43,10 @@ export const Posts: {
   multi_armed_bandit: {
     component: MultiArmedBandit,
     date: new Date('2024-12-07'),
+  },
+  eye_of_chaos: {
+    component: EyeOfChaos,
+    date: new Date('2024-12-09'),
   },
 };
 export const sortedPosts = Object.values(Posts).sort(

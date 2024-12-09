@@ -8,8 +8,18 @@ import {
   b2RevoluteJointDef,
   b2Body,
 } from '@flyover/box2d';
-
-const Stimmy: React.FC = () => {
+interface StimmyProps {
+  width?: number;
+  height?: number;
+  style?: React.CSSProperties;
+  degreesOfFreedom?: number;
+}
+const Stimmy: React.FC<StimmyProps> = ({
+  width,
+  height,
+  style,
+  degreesOfFreedom = 3,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const createBody = (
@@ -49,52 +59,59 @@ const Stimmy: React.FC = () => {
         groundShape,
         1,
       );
+      const bobs: b2Body[] = [];
+      const joints: b2RevoluteJointDef[] = [];
 
-      // Create first pendulum bob
-      const bobShape1 = new b2PolygonShape();
-      bobShape1.SetAsBox(0.25, 0.25);
-      const bobBody1 = createBody(
-        world,
-        b2BodyType.b2_dynamicBody,
-        new b2Vec2(centerX / 30, (topY + 100) / 30),
-        bobShape1,
-        1,
-      );
+      for (let i = 0; i < (degreesOfFreedom || 2); i++) {
+        const bobShape = new b2PolygonShape();
+        bobShape.SetAsBox(0.25, 0.25);
+        const bobBody = createBody(
+          world,
+          b2BodyType.b2_dynamicBody,
+          new b2Vec2(centerX / 30, (topY + (i + 1) * 100) / 30),
+          bobShape,
+          1,
+        );
+        bobs.push(bobBody);
 
-      // Create second pendulum bob
-      const bobShape2 = new b2PolygonShape();
-      bobShape2.SetAsBox(0.25, 0.25);
-      const bobBody2 = createBody(
-        world,
-        b2BodyType.b2_dynamicBody,
-        new b2Vec2(centerX / 30, (topY + 200) / 30),
-        bobShape2,
-        2,
-      );
-
-      // Create revolute joint between ground and first bob
-      const jointDef1 = new b2RevoluteJointDef();
-      jointDef1.Initialize(
-        groundBody,
-        bobBody1,
-        new b2Vec2(centerX / 30, topY / 30),
-      );
-      world.CreateJoint(jointDef1);
-
-      // Create revolute joint between first bob and second bob
-      const jointDef2 = new b2RevoluteJointDef();
-      jointDef2.Initialize(
-        bobBody1,
-        bobBody2,
-        new b2Vec2(centerX / 30, (topY + 100) / 30),
-      );
-      world.CreateJoint(jointDef2);
+        const jointDef = new b2RevoluteJointDef();
+        if (i === 0) {
+          jointDef.Initialize(
+            groundBody,
+            bobBody,
+            new b2Vec2(centerX / 30, topY / 30),
+          );
+        } else {
+          jointDef.Initialize(
+            bobs[i - 1],
+            bobBody,
+            new b2Vec2(centerX / 30, (topY + i * 100) / 30),
+          );
+        }
+        joints.push(jointDef);
+        world.CreateJoint(jointDef);
+      }
 
       // Apply random torque to all bobs
-      const randomTorque1 = (Math.random() - 0.5) * 20;
-      bobBody1.ApplyTorque(randomTorque1, true);
-      const randomTorque2 = (Math.random() - 0.5) * 20;
-      bobBody2.ApplyTorque(randomTorque2, true);
+      bobs.forEach((bobBody) => {
+        const randomTorque = (Math.random() - 0.5) * 20;
+        bobBody.ApplyTorque(randomTorque, true);
+      });
+
+      // Apply random torque to all bobs
+      bobs.forEach((bobBody) => {
+        const randomTorque = (Math.random() - 0.5) * 20;
+        bobBody.ApplyTorque(randomTorque, true);
+        const randomImpulse = new b2Vec2(
+          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 10,
+        );
+        bobBody.ApplyLinearImpulse(
+          randomImpulse,
+          bobBody.GetWorldCenter(),
+          true,
+        );
+      });
 
       let lastTime = 0;
 
@@ -105,88 +122,111 @@ const Stimmy: React.FC = () => {
 
           world.Step(deltaTime, 6, 2);
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-          // Draw line connecting ground and first bob
-          const bobPos1 = bobBody1.GetPosition();
-          ctx.beginPath();
-          ctx.moveTo(Math.floor(centerX), Math.floor(topY));
-          ctx.lineTo(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30));
-          ctx.strokeStyle = '#000';
-          ctx.lineWidth = 3;
-          ctx.stroke();
-          // Draw line connecting first bob and second bob
-          const bobPos2 = bobBody2.GetPosition();
-          ctx.beginPath();
-          ctx.moveTo(Math.floor(bobPos1.x * 30), Math.floor(bobPos1.y * 30));
-          ctx.lineTo(Math.floor(bobPos2.x * 30), Math.floor(bobPos2.y * 30));
-          ctx.strokeStyle = '#000';
-          ctx.lineWidth = 3;
-          ctx.stroke();
-
           // Draw ground object as a green circle
+          const groundPos = groundBody.GetPosition();
           ctx.beginPath();
-          ctx.arc(Math.floor(centerX), Math.floor(topY), 10, 0, 2 * Math.PI);
+          ctx.arc(
+            Math.floor(groundPos.x * 30),
+            Math.floor(groundPos.y * 30),
+            10,
+            0,
+            2 * Math.PI,
+          );
           ctx.fillStyle = 'green';
           ctx.fill();
           ctx.strokeStyle = 'green';
           ctx.stroke();
 
-          // Draw first bob as a red circle
-          ctx.beginPath();
-          ctx.arc(
-            Math.floor(bobPos1.x * 30),
-            Math.floor(bobPos1.y * 30),
-            10,
-            0,
-            2 * Math.PI,
-          );
-          ctx.fillStyle = 'red';
-          ctx.fill();
-          ctx.strokeStyle = 'red';
-          ctx.stroke();
+          // Draw lines connecting each bob
+          for (let i = 0; i < bobs.length; i++) {
+            const bobPos = bobs[i].GetPosition();
+            if (i === 0) {
+              ctx.beginPath();
+              ctx.moveTo(
+                Math.floor(groundPos.x * 30),
+                Math.floor(groundPos.y * 30),
+              );
+              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
+              ctx.strokeStyle = '#000';
+              ctx.lineWidth = 3;
+              ctx.stroke();
+            } else {
+              const prevBobPos = bobs[i - 1].GetPosition();
+              ctx.beginPath();
+              ctx.moveTo(
+                Math.floor(prevBobPos.x * 30),
+                Math.floor(prevBobPos.y * 30),
+              );
+              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
+              ctx.strokeStyle = '#000';
+              ctx.lineWidth = 3;
+              ctx.stroke();
+            }
+          }
 
-          // Draw second bob as a blue circle
-          ctx.beginPath();
-          ctx.arc(
-            Math.floor(bobPos2.x * 30),
-            Math.floor(bobPos2.y * 30),
-            10,
-            0,
-            2 * Math.PI,
-          );
-          ctx.fillStyle = 'blue';
-          ctx.fill();
-          ctx.strokeStyle = 'blue';
-          ctx.stroke();
-
-          // Draw arc from the pendulum arm between ground object and first bob to the pendulum arm between first bob and second bob
-          const startAngle =
-            Math.atan2(bobPos1.y - topY / 30, bobPos1.x - centerX / 30) +
-            Math.PI;
-          const endAngle =
-            Math.atan2(bobPos2.y - bobPos1.y, bobPos2.x - bobPos1.x) +
-            Math.PI * 2;
-          ctx.beginPath();
-          ctx.arc(
-            Math.floor(bobPos1.x * 30),
-            Math.floor(bobPos1.y * 30),
-            20,
-            startAngle,
-            endAngle,
-            false,
-          );
-          ctx.strokeStyle = '#000';
-          ctx.lineWidth = 2;
-          ctx.stroke();
-
-          // Draw scan lines
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-          ctx.lineWidth = 0.5;
-          for (let y = 0; y < canvas.height; y += 4) {
+          // Draw all bobs on top of lines
+          bobs.forEach((bobBody, index) => {
+            const bobPos = bobBody.GetPosition();
             ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
+            ctx.arc(
+              Math.floor(bobPos.x * 30),
+              Math.floor(bobPos.y * 30),
+              10,
+              0,
+              2 * Math.PI,
+            );
+            ctx.fillStyle = index % 2 === 0 ? 'red' : 'blue';
+            ctx.fill();
+            ctx.strokeStyle = index % 2 === 0 ? 'red' : 'blue';
             ctx.stroke();
+          });
+          for (let i = 0; i < bobs.length; i++) {
+            const bobPos = bobs[i].GetPosition();
+            if (i === 0) {
+              ctx.beginPath();
+              ctx.moveTo(
+                Math.floor(groundPos.x * 30),
+                Math.floor(groundPos.y * 30),
+              );
+              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
+              ctx.strokeStyle = '#000';
+              ctx.lineWidth = 3;
+              ctx.stroke();
+            } else {
+              const prevBobPos = bobs[i - 1].GetPosition();
+              ctx.beginPath();
+              ctx.moveTo(
+                Math.floor(prevBobPos.x * 30),
+                Math.floor(prevBobPos.y * 30),
+              );
+              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
+              ctx.strokeStyle = '#000';
+              ctx.lineWidth = 3;
+              ctx.stroke();
+            }
+          }
+
+          // Draw slopes for bobs in the middle
+          for (let i = 0; i < bobs.length - 1; i++) {
+            const prevBobPos =
+              i === 0 ? groundBody.GetPosition() : bobs[i - 1].GetPosition();
+            const bobPos = bobs[i].GetPosition();
+            const nextBobPos = bobs[i + 1].GetPosition();
+            const slopePrev =
+              (prevBobPos.y - bobPos.y) / (prevBobPos.x - bobPos.x);
+            const slopeNext =
+              (bobPos.y - nextBobPos.y) / (bobPos.x - nextBobPos.x);
+            ctx.fillStyle = 'black';
+            ctx.fillText(
+              `SlopePrev: ${slopePrev.toFixed(2)}`,
+              bobPos.x * 30,
+              bobPos.y * 30 - 30,
+            );
+            ctx.fillText(
+              `SlopeNext: ${slopeNext.toFixed(2)}`,
+              bobPos.x * 30,
+              bobPos.y * 30 - 15,
+            );
           }
         }
         requestAnimationFrame(draw);

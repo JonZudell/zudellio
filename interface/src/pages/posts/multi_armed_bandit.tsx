@@ -49,13 +49,13 @@ const MultiArmedBandit: React.FC<PostProps> = ({ displaySummary = false }) => {
           exploration and exploitation. The formula for UCB is:
         </p>
         <pre>
-          <code>UCB = x̄ + sqrt((2 * ln(n)) / ni)</code>
+          <code>UCB = x + sqrt((2 * ln(n)) / ni)</code>
         </pre>
         <p>
           Where:
           <ul>
             <li>
-              <code>x̄</code> is the average reward of the option
+              <code>x</code> is the average reward of the option
             </li>
             <li>
               <code>n</code> is the total number of trials
@@ -68,25 +68,6 @@ const MultiArmedBandit: React.FC<PostProps> = ({ displaySummary = false }) => {
         </p>
       </p>
       <br />
-      <h3 className="comment-green"># AWS Implementation</h3>
-      <p>
-        AWS Cloudfront in conjuction with a Lambda@Edge function can A/B test or
-        M.A.B. test quite easily.
-      </p>
-      <br />
-      <h3 className="comment-green">## Terraform Infrastructure as Code</h3>
-      <p>
-        Terraform can be used to create a cloudfront distribution with multiple
-        backends and link to the Lambda@Edge function to assign user
-        experiences.
-      </p>
-      <br />
-      <h3 className="comment-green">## Lambda </h3>
-      <p>
-        Terraform can be used to create a cloudfront distribution with multiple
-        backends and link to the Lambda@Edge function to assign user
-        experiences.
-      </p>
     </Post>
   );
 };

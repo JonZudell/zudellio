@@ -9,7 +9,7 @@ const OnPasswords: React.FC<PostProps> = ({ displaySummary = false }) => {
   return (
     <Post
       author="jon@zudell.io"
-      date={new Date('2024-11-30T00:00:00Z')}
+      date={new Date('2024-12-04T00:00:00Z')}
       title="on_passwords"
       version="v1.33.7"
       postId="on_passwords"
