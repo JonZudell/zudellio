@@ -13,6 +13,8 @@ rm -rf $LOGS_DIR/*
 aws s3 sync s3://$BUCKET_NAME $LOGS_DIR
 
 # Uncompress all .gz files
-gunzip $LOGS_DIR/production/*.gz
+gunzip $LOGS_DIR/production/*
 
-cat /tmp/logs/production/* | goaccess --log-format=CLOUDFRONT
+cat /tmp/logs/production/* | goaccess --log-format=CLOUDFRONT --ignore-crawlers -o ./reports/goaccess.html
+
+open ./reports/goaccess.html
