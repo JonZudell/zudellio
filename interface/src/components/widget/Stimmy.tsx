@@ -96,17 +96,11 @@ const Stimmy: React.FC<StimmyProps> = ({
 
       // Apply random torque to all bobs
       bobs.forEach((bobBody) => {
-        const randomTorque = (Math.random() - 0.5) * 20;
-        bobBody.ApplyTorque(randomTorque, true);
-      });
-
-      // Apply random torque to all bobs
-      bobs.forEach((bobBody) => {
-        const randomTorque = (Math.random() - 0.5) * 20;
+        const randomTorque = (Math.random() - 0.5) * 200;
         bobBody.ApplyTorque(randomTorque, true);
         const randomImpulse = new b2Vec2(
-          (Math.random() - 0.5) * 10,
-          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 100,
+          (Math.random() - 0.5) * 100,
         );
         bobBody.ApplyLinearImpulse(
           randomImpulse,
@@ -169,7 +163,7 @@ const Stimmy: React.FC<StimmyProps> = ({
             const angleDifference = ((endAngle - startAngle) * 180) / Math.PI;
             ctx.fillStyle = theme === 'dark' ? '#d3d3d3' : '#1a1a1a';
             ctx.fillText(
-              `θ: ${angleDifference.toFixed(2)}`,
+              `theta: ${angleDifference.toFixed(2)}`,
               Math.floor(bobPos1.x * 30) + 25,
               Math.floor(bobPos1.y * 30),
             );
