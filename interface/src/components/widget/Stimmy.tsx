@@ -8,6 +8,7 @@ import {
   b2RevoluteJointDef,
   b2Body,
 } from '@flyover/box2d';
+import { useTheme } from '../../contexts/ThemeProvider';
 interface StimmyProps {
   width?: number;
   height?: number;
@@ -15,13 +16,14 @@ interface StimmyProps {
   degreesOfFreedom?: number;
 }
 const Stimmy: React.FC<StimmyProps> = ({
-  width,
-  height,
+  width = 640,
+  height = 480,
   style,
-  degreesOfFreedom = 3,
+  degreesOfFreedom = 4,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const { theme, setTheme } = useTheme();
   const createBody = (
     world: b2World,
     type: b2BodyType,
@@ -124,18 +126,6 @@ const Stimmy: React.FC<StimmyProps> = ({
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           // Draw ground object as a green circle
           const groundPos = groundBody.GetPosition();
-          ctx.beginPath();
-          ctx.arc(
-            Math.floor(groundPos.x * 30),
-            Math.floor(groundPos.y * 30),
-            10,
-            0,
-            2 * Math.PI,
-          );
-          ctx.fillStyle = 'green';
-          ctx.fill();
-          ctx.strokeStyle = 'green';
-          ctx.stroke();
 
           // Draw lines connecting each bob
           for (let i = 0; i < bobs.length; i++) {
@@ -147,8 +137,8 @@ const Stimmy: React.FC<StimmyProps> = ({
                 Math.floor(groundPos.y * 30),
               );
               ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
-              ctx.strokeStyle = '#000';
-              ctx.lineWidth = 3;
+              ctx.strokeStyle = theme === 'dark' ? '#d3d3d3' : '#1a1a1a';
+              ctx.lineWidth = 2;
               ctx.stroke();
             } else {
               const prevBobPos = bobs[i - 1].GetPosition();
@@ -158,75 +148,63 @@ const Stimmy: React.FC<StimmyProps> = ({
                 Math.floor(prevBobPos.y * 30),
               );
               ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
-              ctx.strokeStyle = '#000';
-              ctx.lineWidth = 3;
+              ctx.strokeStyle = theme === 'dark' ? '#d3d3d3' : '#1a1a1a';
+              ctx.lineWidth = 2;
               ctx.stroke();
             }
           }
 
-          // Draw all bobs on top of lines
-          bobs.forEach((bobBody, index) => {
-            const bobPos = bobBody.GetPosition();
-            ctx.beginPath();
-            ctx.arc(
-              Math.floor(bobPos.x * 30),
-              Math.floor(bobPos.y * 30),
-              10,
-              0,
-              2 * Math.PI,
-            );
-            ctx.fillStyle = index % 2 === 0 ? 'red' : 'blue';
-            ctx.fill();
-            ctx.strokeStyle = index % 2 === 0 ? 'red' : 'blue';
-            ctx.stroke();
-          });
-          for (let i = 0; i < bobs.length; i++) {
-            const bobPos = bobs[i].GetPosition();
-            if (i === 0) {
-              ctx.beginPath();
-              ctx.moveTo(
-                Math.floor(groundPos.x * 30),
-                Math.floor(groundPos.y * 30),
-              );
-              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
-              ctx.strokeStyle = '#000';
-              ctx.lineWidth = 3;
-              ctx.stroke();
-            } else {
-              const prevBobPos = bobs[i - 1].GetPosition();
-              ctx.beginPath();
-              ctx.moveTo(
-                Math.floor(prevBobPos.x * 30),
-                Math.floor(prevBobPos.y * 30),
-              );
-              ctx.lineTo(Math.floor(bobPos.x * 30), Math.floor(bobPos.y * 30));
-              ctx.strokeStyle = '#000';
-              ctx.lineWidth = 3;
-              ctx.stroke();
-            }
-          }
-
-          // Draw slopes for bobs in the middle
           for (let i = 0; i < bobs.length - 1; i++) {
-            const prevBobPos =
+            const bobPos0 =
               i === 0 ? groundBody.GetPosition() : bobs[i - 1].GetPosition();
-            const bobPos = bobs[i].GetPosition();
-            const nextBobPos = bobs[i + 1].GetPosition();
-            const slopePrev =
-              (prevBobPos.y - bobPos.y) / (prevBobPos.x - bobPos.x);
-            const slopeNext =
-              (bobPos.y - nextBobPos.y) / (bobPos.x - nextBobPos.x);
-            ctx.fillStyle = 'black';
+            const bobPos1 = bobs[i].GetPosition();
+            const bobPos2 = bobs[i + 1].GetPosition();
+            const startAngle =
+              Math.atan2(bobPos1.y - bobPos0.y, bobPos1.x - bobPos0.x) +
+              Math.PI;
+            const endAngle =
+              Math.atan2(bobPos2.y - bobPos1.y, bobPos2.x - bobPos1.x) +
+              Math.PI * 2;
+            ctx.beginPath();
+            const angleDifference = ((endAngle - startAngle) * 180) / Math.PI;
+            ctx.fillStyle = theme === 'dark' ? '#d3d3d3' : '#1a1a1a';
             ctx.fillText(
-              `SlopePrev: ${slopePrev.toFixed(2)}`,
-              bobPos.x * 30,
-              bobPos.y * 30 - 30,
+              `θ: ${angleDifference.toFixed(2)}`,
+              Math.floor(bobPos1.x * 30) + 25,
+              Math.floor(bobPos1.y * 30),
             );
-            ctx.fillText(
-              `SlopeNext: ${slopeNext.toFixed(2)}`,
-              bobPos.x * 30,
-              bobPos.y * 30 - 15,
-            );
+            if (i % 2 == 0) {
+              ctx.arc(
+                Math.floor(bobPos1.x * 30),
+                Math.floor(bobPos1.y * 30),
+                20,
+                startAngle,
+                endAngle,
+                false,
+              );
+            } else {
+              ctx.arc(
+                Math.floor(bobPos1.x * 30),
+                Math.floor(bobPos1.y * 30),
+                20,
+                endAngle,
+                startAngle,
+                false,
+              );
+            }
+
+            ctx.strokeStyle = theme === 'dark' ? '#d3d3d3' : '#1a1a1a';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+          ctx.strokeStyle =
+            theme === 'dark' ? 'rgba(0,0,0 0.1)' : 'rgba(255,255,255 0.1)';
+          ctx.lineWidth = 0.5;
+          for (let y = 0; y < canvas.height; y += 4) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
           }
         }
         requestAnimationFrame(draw);
@@ -254,9 +232,9 @@ const Stimmy: React.FC<StimmyProps> = ({
       onClick={handleClick}
       onMouseUp={handleMouseUp}
       onBlur={handleBlur}
-      width={640}
-      height={480}
-      style={{ width: '100%', height: '480px' }}
+      width={width}
+      height={height}
+      style={{ width: '100%', height: `${height}px` }}
     ></canvas>
   );
 };

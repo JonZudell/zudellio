@@ -17,14 +17,17 @@ const EyeOfChaos: React.FC<PostProps> = ({ displaySummary = false }) => {
       displaySummary={displaySummary}
       summaryContent={
         <>
-          <p>Gaze into the eye of chaos and tremble</p>
+          <p>Gaze into the eye of chaos; tremble and despair.</p>
           <Stimmy></Stimmy>
         </>
       }
     >
       <>
-        <p>Gaze into the eye of chaos and tremble</p>
+        <p>Gaze into the eye of chaos; tremble and despair.</p>
         <Stimmy></Stimmy>
+        <br />
+        <p>Conversely check out this harmonic oscilator. Very Predictable</p>
+        <Stimmy degreesOfFreedom={1} height={200}></Stimmy>
       </>
     </Post>
   );
