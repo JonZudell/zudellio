@@ -141,6 +141,14 @@ module.exports = {
           fullySpecified: false,
         },
       },
+      {
+        test: /b2ParticleGroup\.ts$/, // Adjust the pattern to match the files you want to ignore
+        use: 'ignore-loader',
+      },
+      {
+        test: /b2ParticleSystem\.ts$/, // Adjust the pattern to match the files you want to ignore
+        use: 'ignore-loader',
+      },
     ],
   },
   plugins: [

@@ -96,11 +96,11 @@ const Stimmy: React.FC<StimmyProps> = ({
 
       // Apply random torque to all bobs
       bobs.forEach((bobBody) => {
-        const randomTorque = (Math.random() - 0.5) * 200;
+        const randomTorque = (Math.random() - 0.5) * 800;
         bobBody.ApplyTorque(randomTorque, true);
         const randomImpulse = new b2Vec2(
-          (Math.random() - 0.5) * 100,
-          (Math.random() - 0.5) * 100,
+          (Math.random() - 0.5) * 400,
+          (Math.random() - 0.5) * 400,
         );
         bobBody.ApplyLinearImpulse(
           randomImpulse,
