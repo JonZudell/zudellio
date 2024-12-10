@@ -200,9 +200,8 @@ module "development" {
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id    = var.development_account_id
   repositories              = module.infrastructure.repositories
-  dist_dir                  = "${var.dist_dir}/${var.image_tag}/"
-  manifest_file             = "${var.manifest_dir}/${var.image_tag}.json"
-  dynamodb_manifest_file    = "${var.manifest_dir}/${var.image_tag}_dynamodb.json"
+  dist_dir                  = var.dist_dir
+  manifest_dir              = var.manifest_dir
   image_tag                 = var.image_tag
   log_key                   = module.infrastructure.log_key
   subnet_cidr_block         = "10.0.1.0/24"
@@ -223,7 +222,7 @@ module "production" {
   infrastructure_account_id = var.infrastructure_account_id
   repositories              = module.infrastructure.repositories
   dist_dir                  = "${var.dist_dir}/${var.production_image_tag}/"
-  manifest_file             = "${var.manifest_dir}/${var.production_image_tag}.json"
+  manifest_file             = "${var.manifest_dir}/${var.production_image_tag}_lambdas.json"
   image_tag                 = var.production_image_tag
   log_key                   = module.infrastructure.log_key
   root_account_id           = var.root_account_id

@@ -35,14 +35,16 @@ else
 fi
 
 # Get the latest commit hash
-commit_hash=$(git rev-parse --short=8 HEAD)-$(date +%Y%m%d%H%M%S)
+tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
 npm run build || exit
 cd ../ || exit
-$PYTHON_CMD ./scripts/process_dist.py "$commit_hash" || exit
-$PYTHON_CMD ./scripts/generate_lambda_manifest.py "$commit_hash" || exit
-$PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$commit_hash" || exit
-$PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash" || exit
-$PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$commit_hash" || exit
-./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash" || exit
-echo "Latest commit hash: $commit_hash"
+$PYTHON_CMD ./scripts/process_dist.py "$tag" || exit
+# $PYTHON_CMD ./scripts/generate_lambda_manifest.py "$tag" || exit
+# $PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$tag" || exit
+# $PYTHON_CMD ./scripts/flatten_manifest.py "$tag" || exit
+# $PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$tag" || exit
+$PYTHON_CMD ./scripts/generate_manifest.py "$tag" || exit
+./scripts/build_container_images.sh ./manifests/"$tag"_containers.json "$tag" || exit
+./scripts/build_lambda_images.sh ./manifests/"$tag"_lambdas.json "$tag" || exit
+echo "Latest tag: $tag"
 #./scripts/idempotent_terraform.sh "$commit_hash"

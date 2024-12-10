@@ -59,11 +59,7 @@ variable "dist_dir" {
   description = "the distribution directory"
 }
 
-variable "manifest_file" {
-  description = "The manifest file containing all framework resources"
-}
-
-variable "dynamodb_manifest_file" {
+variable "manifest_dir" {
   description = "The manifest file containing all framework resources"
 }
 
@@ -108,7 +104,7 @@ module "api_gateway" {
   source                    = "../../modules/api_gateway"
   log_key                   = var.log_key
   infrastructure_account_id = var.infrastructure_account_id
-  manifest_file             = var.manifest_file
+  manifest_file             = "${var.manifest_dir}/${var.image_tag}_lambdas.json"
   lambdas                   = module.lambdas.lambdas
 }
 
@@ -140,7 +136,7 @@ module "persistence" {
     aws.target = aws.target
   }
   source                    = "../../modules/persistence"
-  persistence_manifest_file = var.dynamodb_manifest_file
+  persistence_manifest_file = "${var.manifest_dir}/${var.image_tag}_dynamodb.json"
 }
 
 output "static_website_bucket" {
