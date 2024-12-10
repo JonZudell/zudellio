@@ -14,6 +14,8 @@ variable "dist_dir" {
   type = string
 }
 
+variable "tag" {}
+
 variable "bucket_infix" {
   description = "The name of the S3 bucket"
   type        = string
@@ -99,7 +101,7 @@ resource "aws_s3_bucket_website_configuration" "interface_config" {
   }
 
   dynamic "routing_rule" {
-    for_each = jsondecode(file("${var.dist_dir}/rewrites.json")).rewrites
+    for_each = jsondecode(file("${var.dist_dir}/${var.tag}/rewrites.json")).rewrites
 
     content {
       condition {

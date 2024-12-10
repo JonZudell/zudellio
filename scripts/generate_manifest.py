@@ -102,12 +102,14 @@ def get_lambdas(lambdas_dir):
                 full_path = os.path.relpath(item_path, start=LAMBDAS_DIR)
                 method = full_path.split("/")[1]
                 path = "/".join(full_path.split("/")[:-1])
+                image = "_".join(full_path.split("/")[:-1]) + f"_{method}"
                 result[item] = {
                     "type": "lambda",
                     "method": method,
                     "tag": tag,
                     "Dockerfile": os.path.join(item_path, "Dockerfile"),
                     "path": path,
+                    "image": f"{image}:{tag}"
                 }
             else:
                 result[item] = get_lambdas(item_path)

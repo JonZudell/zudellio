@@ -20,10 +20,6 @@ variable "root_account_id" {
   description = "The ID of the root AWS account"
   type        = string
 }
-variable "development_account_id" {
-  description = "The ID of the root AWS account"
-  type        = string
-}
 
 variable "account_email" {
   description = "The email address of the account"
@@ -95,6 +91,7 @@ module "interface" {
   source       = "../../modules/interface_1"
   dist_dir     = var.dist_dir
   bucket_infix = var.bucket_infix
+  tag          = var.image_tag
 }
 
 module "api_gateway" {
@@ -128,7 +125,6 @@ module "lambdas" {
   lambda_log_key            = var.log_key
   subnet_ids                = [module.vpc.subnet.id]
   security_group_ids        = [module.vpc.security_group.id]
-  target_account_id         = var.development_account_id
 }
 
 module "persistence" {

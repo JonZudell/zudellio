@@ -30,9 +30,6 @@ variable "security_group_ids" {
 variable "infrastructure_account_id" {
   type = string
 }
-variable "target_account_id" {
-  type = string
-}
 
 variable "image_tag" {
   description = "The commit hash"

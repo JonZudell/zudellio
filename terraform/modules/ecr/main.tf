@@ -32,10 +32,9 @@ variable "infrastructure_account_id" {
   type        = string
 }
 
-variable "manifest_file" {
+variable "manifest_prefix" {
   description = "The manifest_file path"
 }
-
 variable "root_account_id" {
   description = "AWS Account Number"
   type        = string
@@ -197,7 +196,7 @@ resource "aws_ecr_lifecycle_policy" "lambda_repo_lifecycle" {
 resource "aws_ecr_repository" "lambda_repo" {
   provider = aws.target
   for_each = {
-    for key, value in jsondecode(file("${var.manifest_file}")) : key => value
+    for key, value in jsondecode(file("${var.manifest_prefix}_lambdas.json")) : key => value
     if value.type == "lambda"
   }
   name                 = "${split(":", each.value.image)[0]}"

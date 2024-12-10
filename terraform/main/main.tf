@@ -156,7 +156,8 @@ module "infrastructure" {
   development_account_id       = var.development_account_id
   production_account_id        = var.production_account_id
   infrastructure_account_id    = var.infrastructure_account_id
-  manifest_file                = "${var.manifest_dir}/${var.image_tag}.json"
+  manifest_dir                 = var.manifest_dir
+  tag                          = var.image_tag
   development_interface_bucket = module.development.static_website_bucket
   production_interface_bucket  = module.production.static_website_bucket
   org_id                       = module.organization.org_id
@@ -198,7 +199,6 @@ module "development" {
   root_account_id           = var.root_account_id
   infrastructure_profile    = "infrastructure${var.profile_suffix}"
   infrastructure_account_id = var.infrastructure_account_id
-  development_account_id    = var.development_account_id
   repositories              = module.infrastructure.repositories
   dist_dir                  = var.dist_dir
   manifest_dir              = var.manifest_dir
@@ -213,7 +213,7 @@ module "production" {
     aws.root   = aws.root
     aws.target = aws.production
   }
-  source                    = "./stage_account_0"
+  source                    = "./stage_account_1"
   account_email             = "jon+production@zudell.io"
   bucket_infix              = "production"
   environment               = "production"
@@ -221,13 +221,13 @@ module "production" {
   infrastructure_profile    = "infrastructure${var.profile_suffix}"
   infrastructure_account_id = var.infrastructure_account_id
   repositories              = module.infrastructure.repositories
-  dist_dir                  = "${var.dist_dir}/${var.production_image_tag}/"
-  manifest_file             = "${var.manifest_dir}/${var.production_image_tag}_lambdas.json"
+  dist_dir                  = var.dist_dir
+  manifest_dir              = var.manifest_dir
   image_tag                 = var.production_image_tag
   log_key                   = module.infrastructure.log_key
   root_account_id           = var.root_account_id
-  # subnet_cidr_block         = "10.0.2.0/24"
-  # vpc_cidr_block            = "10.0.0.0/16"
+  subnet_cidr_block         = "10.0.2.0/24"
+  vpc_cidr_block            = "10.0.0.0/16"
 }
 
 output "terraform_state_bucket" {

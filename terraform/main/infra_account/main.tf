@@ -46,8 +46,11 @@ variable "infrastructure_account_id" {
   type        = string
 }
 
-variable "manifest_file" {
+variable "manifest_dir" {
   description = "The manifest"
+}
+variable "tag" {
+
 }
 
 variable "org_id" {}
@@ -89,7 +92,7 @@ module "ecr" {
   providers = {
     aws.target = aws.target
   }
-  manifest_file             = var.manifest_file
+  manifest_prefix           = "${var.manifest_dir}/${var.tag}"
   root_account_id           = var.root_account_id
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id    = var.development_account_id
