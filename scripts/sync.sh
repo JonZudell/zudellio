@@ -45,4 +45,4 @@ $PYTHON_CMD ./scripts/flatten_manifest.py "$commit_hash" || exit
 $PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$commit_hash" || exit
 ./scripts/build_lambda_images.sh ./manifests/"$commit_hash".json "$commit_hash" || exit
 echo "Latest commit hash: $commit_hash"
-./scripts/idempotent_terraform.sh "$commit_hash"
+#./scripts/idempotent_terraform.sh "$commit_hash"

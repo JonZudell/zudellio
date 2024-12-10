@@ -4,7 +4,7 @@
         "method": "post",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
         "path": "contact",
-        "image": "contact_post:2815e78f"
+        "image": "contact_post:1b2ac8d9-20241209214733"
     },
     "contact_get": {
         "type": "static",
@@ -15,7 +15,7 @@
         "method": "get",
         "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
         "path": "healthcheck",
-        "image": "healthcheck_get:2815e78f"
+        "image": "healthcheck_get:1b2ac8d9-20241209214733"
     },
     "posts_ssg_get": {
         "type": "static",
@@ -48,6 +48,10 @@
     "posts_functional_get": {
         "type": "static",
         "destination": "posts/functional/index.html"
+    },
+    "posts_eye_of_chaos_get": {
+        "type": "static",
+        "destination": "posts/eye_of_chaos/index.html"
     },
     "posts_digital_hygiene_get": {
         "type": "static",

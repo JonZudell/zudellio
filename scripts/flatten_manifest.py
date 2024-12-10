@@ -42,7 +42,7 @@ def split_and_group_json(data):
 def post_process(flattened_data, commit_hash):
     for key in flattened_data.keys():
         item = flattened_data[key]
-        if item['type'] == "lambda":
+        if item.get('type') == "lambda":
             item['image'] = f"{key}:{commit_hash}" 
 
 def main(commit_hash):
