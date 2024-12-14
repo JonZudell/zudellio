@@ -125,6 +125,16 @@ variable "security_account_id" {
   type        = string
 }
 
+variable "c2_username" {
+  description = "C2 Username"
+  type        = string
+}
+
+variable "c2_password" {
+}
+
+variable "c2_license" {}
+
 module "tf_state_bootstrap" {
   providers = {
     aws.root = aws.root
@@ -191,7 +201,7 @@ module "development" {
     aws.root   = aws.root
     aws.target = aws.development
   }
-  source                    = "./stage_account_1"
+  source                    = "./stage_account_2"
   account_email             = "jon+development@zudell.io"
   bucket_infix              = "development"
   account_name              = "DevelopmentAccount"
@@ -206,6 +216,9 @@ module "development" {
   log_key                   = module.infrastructure.log_key
   subnet_cidr_block         = "10.0.1.0/24"
   vpc_cidr_block            = "10.0.0.0/16"
+  c2_username = var.c2_username
+  c2_password = var.c2_password
+  c2_license = var.c2_license
 }
 
 module "production" {

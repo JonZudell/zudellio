@@ -7,6 +7,7 @@ Build
 - copy lambda deps into lambda dirs before build
 
 c2
-- deploy at c2
+- deploy at c2.zudell.io
 
 fugue-state-io
+- drop load
