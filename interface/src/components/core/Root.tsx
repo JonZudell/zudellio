@@ -8,7 +8,6 @@ import GitHubBanner from '../widget/GithubBanner';
 
 const Root: React.FC = () => (
   <ThemeProvider>
-    <GitHubBanner />
     <Header />
     <Content>
       <Paths />

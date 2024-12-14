@@ -63,7 +63,7 @@ resource "aws_s3_bucket_public_access_block" "static_website_public_access_block
 
 resource "aws_s3_object" "interface_files" {
   provider = aws.target
-  etag     = filemd5("${var.dist_dir}/${each.value}")
+  etag     = filemd5("${var.dist_dir}/${var.tag}/${each.value}")
   lifecycle {
     create_before_destroy = true
     ignore_changes = [
@@ -71,10 +71,10 @@ resource "aws_s3_object" "interface_files" {
     ]
   }
   tags = {
-    etag = filemd5("${var.dist_dir}/${each.value}")
+    etag = filemd5("${var.dist_dir}/${var.tag}/${each.value}")
   }
   depends_on = [aws_s3_bucket.static_website]
-  for_each   = toset([for file in fileset("${var.dist_dir}", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
+  for_each   = toset([for file in fileset("${var.dist_dir}/${var.tag}/", "**/*") : file if !(startswith(file, "ssg") || file == "rewrites.json")])
   bucket     = aws_s3_bucket.static_website.id
   key        = each.value
   content_type = lookup({
@@ -87,7 +87,7 @@ resource "aws_s3_object" "interface_files" {
     "gif"  = "image/gif",
     "svg"  = "image/svg+xml"
   }, split(".", each.value)[length(split(".", each.value)) - 1], "text/html")
-  source = "${var.dist_dir}/${each.value}"
+  source = "${var.dist_dir}/${var.tag}/${each.value}"
   acl = "private"
 
 }

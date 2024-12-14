@@ -44,7 +44,8 @@ const Post: React.FC<PostProps> = ({
     >
       <h2>
         <span className="user-purple">{author}</span>
-        {' > ' + title + ' ' + version}
+        {' > '}
+        <a href={`/posts/${postId}`}>{title}</a> {version}
       </h2>
       <div className="comment-green">
         # Posted

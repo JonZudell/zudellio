@@ -18,6 +18,7 @@ const GitHubBanner: React.FC<GitHubBannerProps> = ({ link }) => {
         margin: '-2em 0 0 0',
         border: '8px solid black',
         float: 'right',
+        overflow: 'hidden',
       }}
     >
       <div
@@ -29,6 +30,7 @@ const GitHubBanner: React.FC<GitHubBannerProps> = ({ link }) => {
           color: 'white',
           fontSize: '1em',
           height: '2em',
+          overflow: 'hidden',
         }}
       >
         <a href="https://www.github.com/JonZudell/zudellio">GitHub!</a>

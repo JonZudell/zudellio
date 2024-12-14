@@ -163,14 +163,15 @@ resource "aws_lambda_permission" "api_gateway_permission" {
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
 
-# resource "aws_api_gateway_account" "api_account" {
-#   provider = aws.target
-#   cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
+resource "aws_api_gateway_account" "api_account" {
+  provider = aws.target
+  cloudwatch_role_arn = aws_iam_role.api_gateway_role.arn
 
-#   depends_on = [
-#     aws_iam_role_policy.api_gateway_cloudwatch_policy
-#   ]
-# }
+  depends_on = [
+    aws_iam_role_policy.api_gateway_cloudwatch_policy,
+    aws_iam_role_policy_attachment.api_gateway_policy_attachment
+  ]
+}
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
   provider = aws.target
@@ -210,6 +211,12 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "api_gateway_policy_attachment" {
+  provider = aws.target
+  role       = aws_iam_role.api_gateway_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 }
 
 output "api_gateway_role" {

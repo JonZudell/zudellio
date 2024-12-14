@@ -147,7 +147,10 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         "ecr:GetDownloadUrlForLayer"
       ],
       "Principal": {
-        "AWS": "arn:aws:iam::${var.development_account_id}:root"
+        "AWS": [
+          "arn:aws:iam::${var.development_account_id}:root",
+          "arn:aws:iam::${var.production_account_id}:root"
+        ]
       }
     },
       {
@@ -162,7 +165,10 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
       },
       "Condition": {
         "StringLike": {
-          "aws:sourceARN": "arn:aws:lambda:us-east-1:${var.development_account_id}:function:*"
+          "aws:sourceARN": [
+            "arn:aws:lambda:us-east-1:${var.development_account_id}:function:*",
+            "arn:aws:lambda:us-east-1:${var.production_account_id}:function:*"
+          ]
         }
       }
     }

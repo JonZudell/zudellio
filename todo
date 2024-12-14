@@ -1,8 +1,12 @@
 Blog
-- eye of chaos
 - contact form
 - 404
 
 Build
 - dynamodb
 - copy lambda deps into lambda dirs before build
+
+c2
+- deploy at c2
+
+fugue-state-io

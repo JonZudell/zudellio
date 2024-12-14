@@ -48,4 +48,4 @@ $PYTHON_CMD ./scripts/generate_manifest.py "$tag" || exit
 ./scripts/build_container_images.sh ./manifests/"$tag"_containers.json "$tag" || exit
 ./scripts/build_lambda_images.sh ./manifests/"$tag"_lambdas.json "$tag" || exit
 echo "Latest tag: $tag"
-./scripts/idempotent_terraform.sh "$tag"
+#./scripts/idempotent_terraform.sh "$tag"
