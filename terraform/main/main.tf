@@ -216,9 +216,9 @@ module "development" {
   log_key                   = module.infrastructure.log_key
   subnet_cidr_block         = "10.0.1.0/24"
   vpc_cidr_block            = "10.0.0.0/16"
-  c2_username = var.c2_username
-  c2_password = var.c2_password
-  c2_license = var.c2_license
+  c2_username               = var.c2_username
+  c2_password               = var.c2_password
+  c2_license                = var.c2_license
 }
 
 module "production" {

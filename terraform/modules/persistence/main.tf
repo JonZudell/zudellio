@@ -19,14 +19,24 @@ locals {
 }
 
 resource "aws_dynamodb_table" "dynamodb_tables" {
+  provider = aws.target
   for_each = local.persistence_manifest
 
   name           = each.key
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "uuid"
 
+  dynamic "global_secondary_index" {
+    for_each = each.value
+    content {
+      name            = "${global_secondary_index.key}-index"
+      hash_key        = global_secondary_index.key
+      projection_type = "ALL"
+    }
+  }
+
   dynamic "attribute" {
-    for_each = each.value.attributes
+    for_each = each.value
     content {
       name = attribute.key
       type = "S"

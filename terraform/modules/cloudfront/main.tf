@@ -24,13 +24,6 @@ variable "production_site_bucket" {
 
 variable "infrastructure_account_id" {}
 
-//variable "logging_bucket" {
-//  description = "The S3 bucket for CloudFront access logs"
-//  type        = string
-//}
-
-//variable "waf_acl" {}
-
 resource "aws_iam_role" "cloudfront_role" {
   provider = aws.target
   name = "cloudfront-role"
@@ -84,11 +77,8 @@ resource "aws_iam_policy" "cloudfront_policy" {
           "${aws_s3_bucket.cloudfront_logging_bucket.arn}/*"
         ],
         Condition = {
-          StringEquals = {
-            "AWS:SourceArn" = [
-              aws_cloudfront_distribution.development_s3_distribution.arn,
-              aws_cloudfront_distribution.production_s3_distribution.arn
-            ]
+          ArnLike = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.production_s3_distribution.arn
           }
         }
       }
@@ -135,11 +125,8 @@ resource "aws_s3_bucket_policy" "cloudfront_logging_bucket_policy" {
         Action = "s3:PutObject",
         Resource = "${aws_s3_bucket.cloudfront_logging_bucket.arn}/*",
         Condition = {
-          StringEquals = {
-            "AWS:SourceArn" = [
-              aws_cloudfront_distribution.development_s3_distribution.arn,
-              aws_cloudfront_distribution.production_s3_distribution.arn
-            ]
+          ArnLike = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.production_s3_distribution.arn
           }
         }
       }
