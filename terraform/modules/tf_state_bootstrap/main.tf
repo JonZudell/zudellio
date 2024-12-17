@@ -22,6 +22,10 @@ variable "root_account_name" {
 
 resource "aws_s3_bucket" "terraform_state_bucket" {
   bucket = "${var.root_account_name}-state-infrastructure"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
@@ -57,6 +61,10 @@ resource "aws_dynamodb_table" "terraform_dynamodb_locks" {
 
   point_in_time_recovery {
     enabled = true
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 
   # server_side_encryption {

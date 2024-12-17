@@ -44,13 +44,12 @@ variable "repositories" {
   description = "List of repositories the be deployed to lambdas"
 }
 
-variable "c2_username" {}
-variable "c2_password" {}
-variable "c2_license" {}
+
 
 variable "infrastructure_profile" {
   type = string
 }
+
 variable "infrastructure_account_id" {
   type = string
 }
@@ -67,6 +66,7 @@ variable "image_tag" {
   description = "The tag for the docker images"
   type        = string
 }
+
 variable "vpc_cidr_block" {
   description = "The CIDR block for the VPC"
   type        = string
@@ -76,6 +76,7 @@ variable "subnet_cidr_block" {
   description = "The CIDR block for the subnet"
   type        = string
 }
+
 resource "aws_organizations_account" "account" {
   provider = aws.root
   name     = var.account_name
@@ -129,15 +130,6 @@ module "lambdas" {
   lambda_log_key            = var.log_key
   subnet_ids                = [module.vpc.subnet.id]
   security_group_ids        = [module.vpc.security_group.id]
-}
-module "c2" {
-  providers = {
-    aws.target = aws.target
-  }
-  source      = "../../modules/c2"
-  c2_username = var.c2_username
-  c2_password = var.c2_password
-  c2_license  = var.c2_license
 }
 module "persistence" {
   providers = {

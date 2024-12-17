@@ -30,6 +30,8 @@ variable "development_account_id" {
   type        = string
 }
 
+variable "c2_instance_public_ip" {}
+
 resource "aws_route53_zone" "zone" {
   provider = aws.target
   name = "zudell.io"
@@ -76,6 +78,16 @@ resource "aws_route53_record" "www_alias" {
     zone_id                = aws_route53_zone.zone.zone_id
     evaluate_target_health = false
   }
+  allow_overwrite = true
+}
+
+resource "aws_route53_record" "c2_alias" {
+  provider = aws.target
+  zone_id = aws_route53_zone.zone.zone_id
+  name    = "c2"
+  type    = "A"
+  ttl     = 300
+  records = [var.c2_instance_public_ip]
   allow_overwrite = true
 }
 

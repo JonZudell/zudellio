@@ -13,6 +13,11 @@ terraform {
   }
 }
 
+variable "c2_username" {}
+variable "c2_password" {}
+variable "c2_license" {}
+variable "c2_image" {}
+
 variable "account_email" {
   description = "The email address of the account"
   type        = string
@@ -70,7 +75,34 @@ resource "aws_organizations_account" "account" {
   name     = var.account_name
   email    = var.account_email
 }
+resource "aws_iam_policy" "ecr_policy" {
+  provider = aws.target
+  name     = "ECRPolicy"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
 
+resource "aws_iam_role_policy_attachment" "ecr_policy_attachment" {
+  provider   = aws.target
+  role       = aws_iam_role.AdminAccessSSOFromRoot.name
+  policy_arn = aws_iam_policy.ecr_policy.arn
+}
 resource "aws_iam_role" "AdminAccessSSOFromRoot" {
   provider = aws.target
   name     = "AdminAccessSSOFromRoot"
@@ -87,6 +119,33 @@ resource "aws_iam_role" "AdminAccessSSOFromRoot" {
     ]
   })
 }
+
+resource "aws_iam_policy" "admin_policy" {
+  provider = aws.target
+  name     = "AdminPolicy"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "secretsmanager:*",
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow",
+        Action   = "iam:*",
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "admin_policy_attachment" {
+  provider   = aws.target
+  role       = aws_iam_role.AdminAccessSSOFromRoot.name
+  policy_arn = aws_iam_policy.admin_policy.arn
+}
+
 module "ecr" {
   source = "../../modules/ecr"
   providers = {
@@ -109,6 +168,7 @@ module "dns" {
   development_cloudfront_distribution = module.cloudfront.development_cloudfront_distribution
   production_cloudfront_distribution  = module.cloudfront.production_cloudfront_distribution
   development_account_id              = var.development_account_id
+  c2_instance_public_ip               = module.c2.c2_instance_public_ip
 }
 
 module "cloudfront" {
@@ -131,6 +191,17 @@ module "kms" {
   source                    = "../../modules/kms"
   infrastructure_account_id = var.infrastructure_account_id
   development_account_id    = var.development_account_id
+}
+
+module "c2" {
+  providers = {
+    aws.target = aws.target
+  }
+  c2_image    = var.c2_image
+  c2_license  = var.c2_license
+  c2_password = var.c2_password
+  c2_username = var.c2_username
+  source      = "../../modules/c2"
 }
 
 output "repositories" {

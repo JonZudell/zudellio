@@ -35,7 +35,11 @@ else
 fi
 
 # Get the latest commit hash
-tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
+if [ -n "$1" ]; then
+  tag="$1"
+else
+  tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
+fi
 npm run build || exit
 cd ../ || exit
 $PYTHON_CMD ./scripts/process_dist.py "$tag" || exit

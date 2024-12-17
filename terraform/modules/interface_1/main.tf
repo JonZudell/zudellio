@@ -28,6 +28,14 @@ resource "random_id" "static_website" {
 resource "aws_s3_bucket" "static_website" {
   provider = aws.target
   bucket   = "zudellio-${var.bucket_infix}-static-website-${random_id.static_website.hex}"
+
+  versioning {
+    enabled = true
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "static_website_ownership_controls" {

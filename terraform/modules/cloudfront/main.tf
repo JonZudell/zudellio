@@ -75,12 +75,7 @@ resource "aws_iam_policy" "cloudfront_policy" {
         ]
         Resource = [
           "${aws_s3_bucket.cloudfront_logging_bucket.arn}/*"
-        ],
-        Condition = {
-          ArnLike = {
-            "AWS:SourceArn" = aws_cloudfront_distribution.production_s3_distribution.arn
-          }
-        }
+        ]
       }
     ]
   })

@@ -134,7 +134,7 @@ variable "c2_password" {
 }
 
 variable "c2_license" {}
-
+variable "c2_image" {}
 module "tf_state_bootstrap" {
   providers = {
     aws.root = aws.root
@@ -171,6 +171,10 @@ module "infrastructure" {
   development_interface_bucket = module.development.static_website_bucket
   production_interface_bucket  = module.production.static_website_bucket
   org_id                       = module.organization.org_id
+  c2_username                  = var.c2_username
+  c2_password                  = var.c2_password
+  c2_license                   = var.c2_license
+  c2_image                     = var.c2_image
 }
 
 module "monitoring" {
@@ -216,9 +220,6 @@ module "development" {
   log_key                   = module.infrastructure.log_key
   subnet_cidr_block         = "10.0.1.0/24"
   vpc_cidr_block            = "10.0.0.0/16"
-  c2_username               = var.c2_username
-  c2_password               = var.c2_password
-  c2_license                = var.c2_license
 }
 
 module "production" {

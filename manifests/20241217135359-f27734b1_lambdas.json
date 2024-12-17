@@ -2,17 +2,17 @@
   "contact_post": {
     "type": "lambda",
     "method": "post",
-    "tag": "20241214080321-9f22b6cb",
+    "tag": "20241217135359-f27734b1",
     "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/contact/post/Dockerfile",
     "path": "contact",
-    "image": "contact_post:20241214080321-9f22b6cb"
+    "image": "contact_post:20241217135359-f27734b1"
   },
   "healthcheck_get": {
     "type": "lambda",
     "method": "get",
-    "tag": "20241214080321-9f22b6cb",
+    "tag": "20241217135359-f27734b1",
     "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../lambdas/healthcheck/get/Dockerfile",
     "path": "healthcheck",
-    "image": "healthcheck_get:20241214080321-9f22b6cb"
+    "image": "healthcheck_get:20241217135359-f27734b1"
   }
 }

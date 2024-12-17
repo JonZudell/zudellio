@@ -1,9 +1,0 @@
-{
-  "c2": {
-    "type": "container",
-    "name": "c2",
-    "tag": "20241214173938-6bdf2f35",
-    "Dockerfile": "/Users/jonathonzudell/Workspace/zudellio/scripts/../containers/c2/Dockerfile",
-    "path": "../containers/c2"
-  }
-}

@@ -2,9 +2,17 @@
 # Navigate to the scripts directory
 cd "$(dirname "$0")" || exit
 # This script runs the npm build command in the interface directory
+# Check for --no-build flag
+NO_BUILD=false
+for arg in "$@"; do
+  if [ "$arg" == "--no-build" ]; then
+    NO_BUILD=true
+    break
+  fi
+done
 
 # Navigate to the interface directory
-cd ../interface || exit
+cd ../ || exit
 # Check if SSO credentials are up to date
 if ! aws sts get-caller-identity > /dev/null 2>&1; then
   echo "AWS SSO credentials are not up to date. Please refresh your SSO session and try again."
@@ -34,18 +42,23 @@ else
   exit 1
 fi
 
-# Get the latest commit hash
-tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
-npm run build || exit
-cd ../ || exit
-$PYTHON_CMD ./scripts/process_dist.py "$tag" || exit
-# $PYTHON_CMD ./scripts/generate_lambda_manifest.py "$tag" || exit
-# $PYTHON_CMD ./scripts/merge_manifest_rewrites.py "$tag" || exit
-# $PYTHON_CMD ./scripts/flatten_manifest.py "$tag" || exit
-# $PYTHON_CMD ./scripts/generate_dynamodb_manifest.py "$tag" || exit
-$PYTHON_CMD ./scripts/generate_manifest.py "$tag" || exit
-./scripts/pregen_ecr.sh "$tag"
-./scripts/build_container_images.sh ./manifests/"$tag"_containers.json "$tag" || exit
-./scripts/build_lambda_images.sh ./manifests/"$tag"_lambdas.json "$tag" || exit
-echo "Latest tag: $tag"
-./scripts/idempotent_terraform.sh "$tag"
+# Check if a tag is provided
+
+
+if [ "$NO_BUILD" = false ] && [ -z "$1" ]; then
+  tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
+  ./scripts/build.sh "$tag"
+  ./scripts/idempotent_terraform.sh "$tag"
+  ./scripts/clean_manifests.sh "$tag"
+elif [ -n "$1" ]; then
+  tag="$1"
+  echo "Tag provided: $tag. Skipping build."
+  ./scripts/idempotent_terraform.sh "$tag"
+  ./scripts/clean_manifests.sh "$tag"
+else
+  echo "Skipping build as per --no-build flag"
+  latest_manifest=$(ls -t ./manifests | head -n 1)
+  tag=$(echo "$latest_manifest" | cut -d'_' -f1)
+  ./scripts/idempotent_terraform.sh "$tag"
+  ./scripts/clean_manifests.sh "$tag"
+fi

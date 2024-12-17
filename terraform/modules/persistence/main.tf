@@ -26,6 +26,10 @@ resource "aws_dynamodb_table" "dynamodb_tables" {
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "uuid"
 
+  lifecycle {
+    prevent_destroy = true
+  }
+
   dynamic "global_secondary_index" {
     for_each = each.value
     content {

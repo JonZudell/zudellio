@@ -80,9 +80,10 @@ resource "aws_iam_role" "cross_account_ecr_read_role" {
         "Principal" = {
           "AWS" : [
             "arn:aws:iam::${var.development_account_id}:root",
-            "arn:aws:iam::${var.production_account_id}:root"
+            "arn:aws:iam::${var.production_account_id}:root",
+            "arn:aws:iam::${var.infrastructure_account_id}:root"
           ],
-          "Service" : "lambda.amazonaws.com"
+          "Service" : ["lambda.amazonaws.com", "ec2.amazonaws.com"]
         }
       }
     ]
@@ -108,7 +109,7 @@ resource "aws_ecr_repository_policy" "lambda_repo_policy" {
         "Principal" = {
           "AWS" = [
             "arn:aws:iam::${var.infrastructure_account_id}:root",
-            "arn:aws:iam::${var.root_account_id}:root"
+            "arn:aws:iam::${var.root_account_id}:root",
           ]
         },
         "Action" = [
@@ -207,6 +208,9 @@ resource "aws_ecr_repository" "lambda_repo" {
   }
   name                 = "${split(":", each.value.image)[0]}"
   image_tag_mutability = "IMMUTABLE"
+  lifecycle {
+    prevent_destroy = true
+  }
   image_scanning_configuration {
     scan_on_push = true
   }
