@@ -13,6 +13,7 @@ variable "c2_username" {}
 variable "c2_password" {}
 variable "c2_license" {}
 variable "c2_image" {}
+variable "c2_hostname" {}
 variable "c2_secrets" {
   default = "c2_secrets"
 }
@@ -25,9 +26,10 @@ resource "aws_secretsmanager_secret_version" "c2_secrets_version" {
   provider = aws.target
   secret_id     = aws_secretsmanager_secret.c2_secrets.id
   secret_string = jsonencode({
-    username = var.c2_username
-    password = var.c2_password
-    license  = var.c2_license
+    C2_USERNAME = var.c2_username
+    C2_PASSWORD = var.c2_password
+    C2_LICENSE  = var.c2_license
+    C2_HOSTNAME = var.c2_hostname
   })
 }
 resource "aws_eip" "c2_eip" {
@@ -186,34 +188,50 @@ resource "aws_instance" "c2_instance" {
   provider = aws.target
   depends_on = [aws_key_pair.c2_key_pair, aws_secretsmanager_secret_version.c2_secrets_version]
   disable_api_termination = false
-  ami           = "ami-0bf0565838358789b"
+  ami           = "ami-0f6634f1b2312d1b3"
   iam_instance_profile = aws_iam_instance_profile.c2_instance_profile.name
-  instance_type = "t4g.micro"
+  instance_type = "t3.small"
   key_name      = "c2-key-pair"
   subnet_id     = aws_subnet.c2_subnet.id
   user_data = <<-EOF
-              yum install -y polkit jq
-              yum update -y
-              amazon-linux-extras install docker -y
-              systemctl enable docker
-              systemctl start docker
-              usermod -a -G docker ec2-user
+#!/bin/bash
 
-              AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
-              aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 585768141523.dkr.ecr.us-east-1.amazonaws.com
-              aws secretsmanager get-secret-value --secret-id ${var.c2_secrets} --query 'SecretString' --output text --region $AWS_DEFAULT_REGION | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > /tmp/c2_secrets.env
-              # Allow Docker container to access instance metadata
-              iptables -t nat -A OUTPUT -d 169.254.169.254 -j DNAT --to-destination 169.254.169.254
-              # Run your Docker container
-              docker run --env-file /tmp/c2_secrets.env -d -p 8080:8080 ${var.c2_image}
+echo "Starting user data script..." > /var/log/user-data.log
+yum install -y polkit jq
+echo "Installed polkit and jq." >> /var/log/user-data.log
+yum update -y
+echo "Installing cli v2"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+echo "System updated." >> /var/log/user-data.log
+amazon-linux-extras install docker -y
+echo "Docker installed." >> /var/log/user-data.log
+systemctl enable docker
+systemctl start docker
+echo "Docker started." >> /var/log/user-data.log
+usermod -a -G docker ec2-user
+echo "Added ec2-user to docker group." >> /var/log/user-data.log
 
-              # Set up port forwarding
-              iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-              iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8080
+AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+echo "Retrieved AWS region: $AWS_DEFAULT_REGION." >> /var/log/user-data.log
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 585768141523.dkr.ecr.us-east-1.amazonaws.com
+echo "Logged into ECR." >> /var/log/user-data.log
+aws secretsmanager get-secret-value --secret-id ${var.c2_secrets} --query 'SecretString' --output text --region $AWS_DEFAULT_REGION | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > /tmp/c2_secrets.env
+echo "Retrieved secrets and saved to /tmp/c2_secrets.env." >> /var/log/user-data.log
+# Run your Docker container
+docker run -d --env-file /tmp/c2_secrets.env -p 80:80 -p 443:443 ${var.c2_image}
+echo "Docker container started." >> /var/log/user-data.log
 
-              # Save iptables rules
-              service iptables save
-              EOF
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 8080
+echo "Configured iptables for HTTP and HTTPS redirection." >> /var/log/user-data.log
+
+service iptables save
+echo "Saved iptables configuration." >> /var/log/user-data.log
+touch /var/log/user-data-finished
+echo "User data script completed." >> /var/log/user-data.log
+EOF
 
   tags = {
     Name = "c2-instance"

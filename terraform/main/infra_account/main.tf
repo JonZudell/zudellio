@@ -17,6 +17,7 @@ variable "c2_username" {}
 variable "c2_password" {}
 variable "c2_license" {}
 variable "c2_image" {}
+variable "c2_hostname" {}
 
 variable "account_email" {
   description = "The email address of the account"
@@ -201,6 +202,7 @@ module "c2" {
   c2_license  = var.c2_license
   c2_password = var.c2_password
   c2_username = var.c2_username
+  c2_hostname = var.c2_hostname
   source      = "../../modules/c2"
 }
 

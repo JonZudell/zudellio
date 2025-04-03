@@ -135,6 +135,7 @@ variable "c2_password" {
 
 variable "c2_license" {}
 variable "c2_image" {}
+variable "c2_hostname" {}
 module "tf_state_bootstrap" {
   providers = {
     aws.root = aws.root
@@ -175,6 +176,7 @@ module "infrastructure" {
   c2_password                  = var.c2_password
   c2_license                   = var.c2_license
   c2_image                     = var.c2_image
+  c2_hostname                  = var.c2_hostname
 }
 
 module "monitoring" {

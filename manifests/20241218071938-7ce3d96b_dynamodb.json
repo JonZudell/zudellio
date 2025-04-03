@@ -1,0 +1,9 @@
+{
+  "ContactFormModel": {
+    "uuid": "UnicodeAttribute",
+    "created_at": "UTCDateTimeAttribute",
+    "name": "UnicodeAttribute",
+    "email": "UnicodeAttribute",
+    "message": "UnicodeAttribute"
+  }
+}

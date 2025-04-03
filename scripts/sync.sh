@@ -4,10 +4,13 @@ cd "$(dirname "$0")" || exit
 # This script runs the npm build command in the interface directory
 # Check for --no-build flag
 NO_BUILD=false
+TAG_PROVIDED=false
 for arg in "$@"; do
   if [ "$arg" == "--no-build" ]; then
     NO_BUILD=true
-    break
+  else
+    TAG_PROVIDED=true
+    TAG_ARG="$arg"
   fi
 done
 
@@ -44,21 +47,22 @@ fi
 
 # Check if a tag is provided
 
-
-if [ "$NO_BUILD" = false ] && [ -z "$1" ]; then
-  tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
-  ./scripts/build.sh "$tag"
-  ./scripts/idempotent_terraform.sh "$tag"
-  ./scripts/clean_manifests.sh "$tag"
-elif [ -n "$1" ]; then
-  tag="$1"
-  echo "Tag provided: $tag. Skipping build."
-  ./scripts/idempotent_terraform.sh "$tag"
-  ./scripts/clean_manifests.sh "$tag"
-else
-  echo "Skipping build as per --no-build flag"
+if [ "$TAG_PROVIDED" = true ]; then
+  echo "$TAG_ARG provided"
+  tag="$TAG_ARG"
+elif [ "$NO_BUILD" = true ]; then
+  echo "NO_BUILD and NO_TAG Latest manifest used"
   latest_manifest=$(ls -t ./manifests | head -n 1)
   tag=$(echo "$latest_manifest" | cut -d'_' -f1)
-  ./scripts/idempotent_terraform.sh "$tag"
-  ./scripts/clean_manifests.sh "$tag"
+else
+  echo "No tag provided in build mode, generating new tag"
+  tag=$(date +%Y%m%d%H%M%S)-$(git rev-parse --short=8 HEAD)
 fi
+
+if [ "$NO_BUILD" = false ]; then
+  echo "Building..."
+  ./scripts/build.sh "$tag"
+fi
+
+./scripts/idempotent_terraform.sh "$tag"
+./scripts/clean_manifests.sh "$tag"
