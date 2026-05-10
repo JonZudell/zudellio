@@ -54,51 +54,62 @@ jobs:
             exit 1
           fi
 
-      - name: Create Spaces bucket via API
-        id: bucket_create
+      - name: Create Spaces credentials for bucket bootstrap
+        id: bootstrap_spaces_key
         run: |
-          # Try to create the bucket - will fail if already exists, which is fine
+          key_name="${TF_VAR_spaces_key_name}-bootstrap-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          payload=$(cat <<EOF
+          {
+            "name": "${key_name}"
+          }
+          EOF
+          )
+
           response=$(curl -sS -X POST \
             -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
             -H "Content-Type: application/json" \
-            -d "{\"name\":\"${TF_VAR_bucket_name}\",\"region\":\"${TF_VAR_spaces_region}\"}" \
-            "https://api.digitalocean.com/v2/spaces" 2>&1 || echo '{}')
+            -d "${payload}" \
+            "https://api.digitalocean.com/v2/spaces/keys")
 
-          # If bucket was created successfully, extract details from response
-          if echo "${response}" | jq -e '.space' > /dev/null 2>&1; then
-            endpoint=$(echo "${response}" | jq -r '.space.endpoint // empty')
-            domain_name=$(echo "${response}" | jq -r '.space.bucket_domain_name // empty')
+          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
+          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
+
+          if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
+            echo "Failed to create bootstrap Spaces credentials. API response:"
+            echo "${response}"
+            exit 1
+          fi
+
+          echo "::add-mask::${access_key}"
+          echo "::add-mask::${secret_key}"
+          echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
+          echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure Spaces bucket exists
+        env:
+          AWS_ACCESS_KEY_ID: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
+          AWS_EC2_METADATA_DISABLED: true
+        run: |
+          endpoint="https://${TF_VAR_spaces_region}.digitaloceanspaces.com"
+          if aws s3api head-bucket --bucket "${TF_VAR_bucket_name}" --endpoint-url "${endpoint}" >/dev/null 2>&1; then
+            echo "Bucket ${TF_VAR_bucket_name} already exists"
           else
-            # Bucket already exists - get details via DigitalOcean API list endpoint
-            response=$(curl -sS -X GET \
-              -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
-              "https://api.digitalocean.com/v2/spaces?region=${TF_VAR_spaces_region}")
-            bucket_data=$(echo "${response}" | jq ".spaces[] | select(.name==\"${TF_VAR_bucket_name}\")" || echo '{}')
-            endpoint=$(echo "${bucket_data}" | jq -r '.endpoint // empty')
-            domain_name=$(echo "${bucket_data}" | jq -r '.bucket_domain_name // empty')
+            echo "Creating bucket ${TF_VAR_bucket_name} in ${TF_VAR_spaces_region}"
+            aws s3api create-bucket \
+              --bucket "${TF_VAR_bucket_name}" \
+              --endpoint-url "${endpoint}" \
+              --create-bucket-configuration "LocationConstraint=${TF_VAR_spaces_region}"
           fi
-
-          # Default endpoint format if not found
-          if [ -z "${endpoint}" ]; then
-            endpoint="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.digitaloceanspaces.com"
-          fi
-          if [ -z "${domain_name}" ]; then
-            domain_name="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.cdn.digitaloceanspaces.com"
-          fi
-
-          echo "bucket_endpoint=${endpoint}" >> "$GITHUB_OUTPUT"
-          echo "bucket_domain_name=${domain_name}" >> "$GITHUB_OUTPUT"
-          echo "Bucket endpoint: ${endpoint}"
-          echo "Bucket domain name: ${domain_name}"
 
       - name: Terraform init (bootstrap)
         run: terraform init
 
       - name: Terraform apply (bootstrap)
-        env:
-          TF_VAR_bucket_endpoint: ${{ steps.bucket_create.outputs.bucket_endpoint }}
-          TF_VAR_bucket_domain_name: ${{ steps.bucket_create.outputs.bucket_domain_name }}
-        run: terraform apply -auto-approve
+        run: |
+          export TF_VAR_bucket_endpoint="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.digitaloceanspaces.com"
+          export TF_VAR_bucket_domain_name="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.cdn.digitaloceanspaces.com"
+          terraform apply -auto-approve
 
       - name: Capture backend outputs
         id: capture
