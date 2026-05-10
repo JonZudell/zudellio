@@ -38,3 +38,22 @@ Run `./scripts/idempotent_terraform.sh`. This will init and apply terraform whic
 Pytest from root to test lambdas.
 
 Use Storybook for interface tests.
+
+## DigitalOcean Migration
+
+Runbook: [docs/digitalocean-migration-runbook.md](docs/digitalocean-migration-runbook.md)
+
+DigitalOcean deployment pipeline: [.github/workflows/deploy-digitalocean.yml](.github/workflows/deploy-digitalocean.yml)
+
+Terraform root for DigitalOcean App Platform: [terraform/digitalocean/main.tf](terraform/digitalocean/main.tf)
+
+The GitHub Actions workflow expects these secrets:
+
+- `DIGITALOCEAN_TOKEN`
+- `DO_STATE_BUCKET`
+- `DO_STATE_REGION`
+- `DO_STATE_ENDPOINT`
+- `DO_SPACES_ACCESS_KEY_ID`
+- `DO_SPACES_SECRET_ACCESS_KEY`
+
+The state bucket must already exist in DigitalOcean Spaces before the first run.

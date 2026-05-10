@@ -1,0 +1,73 @@
+name: Deploy to DigitalOcean
+
+on:
+  pull_request:
+    paths:
+      - 'interface/**'
+      - 'terraform/digitalocean/**'
+      - '.github/workflows/deploy-digitalocean.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'interface/**'
+      - 'terraform/digitalocean/**'
+      - '.github/workflows/deploy-digitalocean.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: digitalocean-terraform
+  cancel-in-progress: false
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: digitalocean-production
+    defaults:
+      run:
+        working-directory: terraform/digitalocean
+    env:
+      TF_IN_AUTOMATION: true
+      TF_INPUT: false
+      TF_VAR_github_repo: ${{ github.repository }}
+      TF_VAR_github_branch: main
+      TF_VAR_source_dir: interface
+      TF_VAR_build_command: npm ci && npm run build
+      DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Write backend configuration
+        run: |
+          cat > backend.hcl <<EOF
+          bucket     = "${{ secrets.DO_STATE_BUCKET }}"
+          key        = "terraform/digitalocean/website.tfstate"
+          region     = "${{ secrets.DO_STATE_REGION }}"
+          endpoint   = "${{ secrets.DO_STATE_ENDPOINT }}"
+          access_key = "${{ secrets.DO_SPACES_ACCESS_KEY_ID }}"
+          secret_key = "${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}"
+          skip_credentials_validation = true
+          skip_metadata_api_check     = true
+          skip_region_validation      = true
+          force_path_style            = true
+          EOF
+
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform apply
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: terraform apply -auto-approve tfplan
