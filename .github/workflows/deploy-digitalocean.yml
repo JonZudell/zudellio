@@ -41,13 +41,42 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Validate backend secrets
+        run: |
+          if [ -z "${{ secrets.DO_STATE_BUCKET }}" ]; then
+            echo "Missing required secret: DO_STATE_BUCKET"
+            exit 1
+          fi
+          if [ -z "${{ secrets.DO_STATE_REGION }}" ]; then
+            echo "Missing required secret: DO_STATE_REGION"
+            exit 1
+          fi
+          if [ -z "${{ secrets.DO_STATE_ENDPOINT }}" ]; then
+            echo "Missing required secret: DO_STATE_ENDPOINT"
+            exit 1
+          fi
+          if [ -z "${{ secrets.DO_SPACES_ACCESS_KEY_ID }}" ]; then
+            echo "Missing required secret: DO_SPACES_ACCESS_KEY_ID"
+            exit 1
+          fi
+          if [ -z "${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}" ]; then
+            echo "Missing required secret: DO_SPACES_SECRET_ACCESS_KEY"
+            exit 1
+          fi
+          if [[ "${{ secrets.DO_STATE_ENDPOINT }}" != http*://* ]]; then
+            echo "DO_STATE_ENDPOINT must be a full URL, e.g. https://nyc3.digitaloceanspaces.com"
+            exit 1
+          fi
+
       - name: Write backend configuration
         run: |
           cat > backend.hcl <<EOF
           bucket     = "${{ secrets.DO_STATE_BUCKET }}"
           key        = "terraform/digitalocean/website.tfstate"
           region     = "${{ secrets.DO_STATE_REGION }}"
-          endpoint   = "${{ secrets.DO_STATE_ENDPOINT }}"
+          endpoints = {
+            s3 = "${{ secrets.DO_STATE_ENDPOINT }}"
+          }
           access_key = "${{ secrets.DO_SPACES_ACCESS_KEY_ID }}"
           secret_key = "${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}"
           skip_credentials_validation = true

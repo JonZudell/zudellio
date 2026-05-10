@@ -43,6 +43,10 @@ Use Storybook for interface tests.
 
 Runbook: [docs/digitalocean-migration-runbook.md](docs/digitalocean-migration-runbook.md)
 
+Backend bootstrap guide: [docs/digitalocean-backend-bootstrap.md](docs/digitalocean-backend-bootstrap.md)
+
+Backend bootstrap helper script: [scripts/bootstrap_do_backend.sh](scripts/bootstrap_do_backend.sh)
+
 DigitalOcean deployment pipeline: [.github/workflows/deploy-digitalocean.yml](.github/workflows/deploy-digitalocean.yml)
 
 Terraform root for DigitalOcean App Platform: [terraform/digitalocean/main.tf](terraform/digitalocean/main.tf)
@@ -55,5 +59,10 @@ The GitHub Actions workflow expects these secrets:
 - `DO_STATE_ENDPOINT`
 - `DO_SPACES_ACCESS_KEY_ID`
 - `DO_SPACES_SECRET_ACCESS_KEY`
+
+Notes:
+
+- `DO_STATE_ENDPOINT` must be a full URL, for example `https://nyc3.digitaloceanspaces.com`.
+- `DO_STATE_REGION` cannot be empty (for example `us-east-1` for Spaces backend compatibility).
 
 The state bucket must already exist in DigitalOcean Spaces before the first run.
