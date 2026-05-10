@@ -51,18 +51,14 @@ DigitalOcean deployment pipeline: [.github/workflows/deploy-digitalocean.yml](.g
 
 Terraform root for DigitalOcean App Platform: [terraform/digitalocean/main.tf](terraform/digitalocean/main.tf)
 
-The GitHub Actions workflow expects these secrets:
+The GitHub Actions workflow requires this secret:
 
 - `DIGITALOCEAN_TOKEN`
-- `DO_STATE_BUCKET`
-- `DO_STATE_REGION`
-- `DO_STATE_ENDPOINT`
-- `DO_SPACES_ACCESS_KEY_ID`
-- `DO_SPACES_SECRET_ACCESS_KEY`
 
-Notes:
+The workflow now bootstraps backend state automatically (bucket + Spaces key) using Terraform in `terraform/digitalocean-bootstrap`.
 
-- `DO_STATE_ENDPOINT` must be a full URL, for example `https://nyc3.digitaloceanspaces.com`.
-- `DO_STATE_REGION` cannot be empty (for example `us-east-1` for Spaces backend compatibility).
+Optional environment variables in GitHub Environment `digitalocean-production`:
 
-The state bucket must already exist in DigitalOcean Spaces before the first run.
+- `DO_STATE_BUCKET_NAME` (default: `zudellio-tf-state`)
+- `DO_SPACES_REGION` (default: `nyc3`)
+- `DO_SPACES_KEY_NAME` (default: `terraform-backend-key`)

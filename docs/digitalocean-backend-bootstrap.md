@@ -14,6 +14,20 @@ export DIGITALOCEAN_TOKEN="..."
 
 Note: Depending on your local provider auth configuration, DigitalOcean may also require Spaces API credentials to create bucket resources. If prompted, set `SPACES_ACCESS_KEY_ID` and `SPACES_SECRET_ACCESS_KEY` and rerun.
 
+## GitHub Actions behavior
+
+The deployment workflow now bootstraps backend state automatically before running the main stack.
+
+Required GitHub Environment secret:
+
+- `DIGITALOCEAN_TOKEN`
+
+Optional GitHub Environment variables:
+
+- `DO_STATE_BUCKET_NAME` (default: `zudellio-tf-state`)
+- `DO_SPACES_REGION` (default: `nyc3`)
+- `DO_SPACES_KEY_NAME` (default: `terraform-backend-key`)
+
 ## 1) Bootstrap the state bucket and Spaces key (local state)
 
 Use the helper script. It is idempotent for the bucket (imports if it already exists), then applies Terraform:
