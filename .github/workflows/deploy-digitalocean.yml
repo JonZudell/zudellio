@@ -181,6 +181,16 @@ jobs:
           skip_region_validation      = true
           use_path_style              = true
           EOF
+          echo "Backend config created"
+          cat backend.hcl
+
+      - name: Debug outputs
+        run: |
+          echo "State bucket: ${{ needs.bootstrap-backend.outputs.state_bucket }}"
+          echo "State region: ${{ needs.bootstrap-backend.outputs.state_region }}"
+          echo "State endpoint: ${{ needs.bootstrap-backend.outputs.state_endpoint }}"
+          echo "Access key exists: $([ -z '${{ needs.bootstrap-backend.outputs.spaces_access_key }}' ] && echo 'NO' || echo 'YES')"
+          echo "Secret key exists: $([ -z '${{ needs.bootstrap-backend.outputs.spaces_secret_key }}' ] && echo 'NO' || echo 'YES')"
 
       - name: Terraform fmt
         run: terraform fmt -check -recursive
@@ -189,21 +199,27 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
+          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
         run: terraform init -backend-config=backend.hcl
 
       - name: Terraform validate
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
+          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
         run: terraform validate
 
       - name: Terraform plan
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
+          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
         run: terraform plan -out=tfplan
 
       - name: Terraform apply
@@ -211,5 +227,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
+          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
         run: terraform apply -auto-approve tfplan
