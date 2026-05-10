@@ -27,8 +27,6 @@ jobs:
       state_bucket: ${{ steps.capture.outputs.state_bucket }}
       state_region: ${{ steps.capture.outputs.state_region }}
       state_endpoint: ${{ steps.capture.outputs.state_endpoint }}
-      spaces_access_key: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
-      spaces_secret_key: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
     defaults:
       run:
         working-directory: terraform/digitalocean-bootstrap
@@ -55,37 +53,6 @@ jobs:
             echo "Putting DIGITALOCEAN_TOKEN under Variables is not enough for this workflow."
             exit 1
           fi
-
-      - name: Create temporary Spaces credentials for bootstrap
-        id: bootstrap_spaces_key
-        run: |
-          key_name="${TF_VAR_spaces_key_name}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          payload=$(cat <<EOF
-          {
-            "name": "${key_name}"
-          }
-          EOF
-          )
-
-          response=$(curl -sS -X POST \
-            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -d "${payload}" \
-            "https://api.digitalocean.com/v2/spaces/keys")
-
-          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
-          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
-
-          if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
-            echo "Failed to create temporary Spaces credentials. API response:"
-            echo "${response}"
-            exit 1
-          fi
-
-          echo "::add-mask::${access_key}"
-          echo "::add-mask::${secret_key}"
-          echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
-          echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
 
       - name: Create Spaces bucket via API
         id: bucket_create
@@ -158,6 +125,7 @@ jobs:
       TF_VAR_github_branch: main
       TF_VAR_source_dir: interface
       TF_VAR_build_command: npm ci && npm run build
+      TF_VAR_spaces_key_name: ${{ vars.DO_SPACES_KEY_NAME || 'terraform-backend-key' }}
       DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
       AWS_EC2_METADATA_DISABLED: true
     steps:
@@ -166,6 +134,37 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Create Spaces credentials for Terraform backend
+        id: terraform_spaces_key
+        run: |
+          key_name="${TF_VAR_spaces_key_name}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          payload=$(cat <<EOF
+          {
+            "name": "${key_name}"
+          }
+          EOF
+          )
+
+          response=$(curl -sS -X POST \
+            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "${payload}" \
+            "https://api.digitalocean.com/v2/spaces/keys")
+
+          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
+          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
+
+          if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
+            echo "Failed to create Terraform backend Spaces credentials. API response:"
+            echo "${response}"
+            exit 1
+          fi
+
+          echo "::add-mask::${access_key}"
+          echo "::add-mask::${secret_key}"
+          echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
+          echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
 
       - name: Write backend configuration
         run: |
@@ -177,28 +176,22 @@ jobs:
             s3 = "${{ needs.bootstrap-backend.outputs.state_endpoint }}"
           }
           skip_credentials_validation = true
+          skip_requesting_account_id  = true
           skip_metadata_api_check     = true
           skip_region_validation      = true
+          skip_s3_checksum            = true
           use_path_style              = true
           EOF
           echo "Backend config created"
           cat backend.hcl
-
-      - name: Debug outputs
-        run: |
-          echo "State bucket: ${{ needs.bootstrap-backend.outputs.state_bucket }}"
-          echo "State region: ${{ needs.bootstrap-backend.outputs.state_region }}"
-          echo "State endpoint: ${{ needs.bootstrap-backend.outputs.state_endpoint }}"
-          echo "Access key exists: $([ -z '${{ needs.bootstrap-backend.outputs.spaces_access_key }}' ] && echo 'NO' || echo 'YES')"
-          echo "Secret key exists: $([ -z '${{ needs.bootstrap-backend.outputs.spaces_secret_key }}' ] && echo 'NO' || echo 'YES')"
 
       - name: Terraform fmt
         run: terraform fmt -check -recursive
 
       - name: Terraform init
         env:
-          AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
           AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
@@ -206,8 +199,8 @@ jobs:
 
       - name: Terraform validate
         env:
-          AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
           AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
@@ -215,8 +208,8 @@ jobs:
 
       - name: Terraform plan
         env:
-          AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
           AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
@@ -225,8 +218,8 @@ jobs:
       - name: Terraform apply
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
-          AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
           AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
