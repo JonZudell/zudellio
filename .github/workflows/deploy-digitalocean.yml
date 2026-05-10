@@ -61,13 +61,7 @@ jobs:
           key_name="${TF_VAR_spaces_key_name}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           payload=$(cat <<EOF
           {
-            "name": "${key_name}",
-            "grant": [
-              {
-                "bucket": "",
-                "permission": "fullaccess"
-              }
-            ]
+            "name": "${key_name}"
           }
           EOF
           )
