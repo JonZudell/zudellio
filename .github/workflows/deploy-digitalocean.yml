@@ -87,14 +87,50 @@ jobs:
           echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
           echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
 
+      - name: Create Spaces bucket via API
+        id: bucket_create
+        run: |
+          # Try to create the bucket - will fail if already exists, which is fine
+          response=$(curl -sS -X POST \
+            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{\"name\":\"${TF_VAR_bucket_name}\",\"region\":\"${TF_VAR_spaces_region}\"}" \
+            "https://api.digitalocean.com/v2/spaces" 2>&1 || echo '{}')
+
+          # If bucket was created successfully, extract details from response
+          if echo "${response}" | jq -e '.space' > /dev/null 2>&1; then
+            endpoint=$(echo "${response}" | jq -r '.space.endpoint // empty')
+            domain_name=$(echo "${response}" | jq -r '.space.bucket_domain_name // empty')
+          else
+            # Bucket already exists - get details via DigitalOcean API list endpoint
+            response=$(curl -sS -X GET \
+              -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+              "https://api.digitalocean.com/v2/spaces?region=${TF_VAR_spaces_region}")
+            bucket_data=$(echo "${response}" | jq ".spaces[] | select(.name==\"${TF_VAR_bucket_name}\")" || echo '{}')
+            endpoint=$(echo "${bucket_data}" | jq -r '.endpoint // empty')
+            domain_name=$(echo "${bucket_data}" | jq -r '.bucket_domain_name // empty')
+          fi
+
+          # Default endpoint format if not found
+          if [ -z "${endpoint}" ]; then
+            endpoint="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.digitaloceanspaces.com"
+          fi
+          if [ -z "${domain_name}" ]; then
+            domain_name="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.cdn.digitaloceanspaces.com"
+          fi
+
+          echo "bucket_endpoint=${endpoint}" >> "$GITHUB_OUTPUT"
+          echo "bucket_domain_name=${domain_name}" >> "$GITHUB_OUTPUT"
+          echo "Bucket endpoint: ${endpoint}"
+          echo "Bucket domain name: ${domain_name}"
+
       - name: Terraform init (bootstrap)
         run: terraform init
 
-      - name: Check if bucket exists
-        run: |
-          echo "Bucket will be created by Terraform or imported if exists"
-
       - name: Terraform apply (bootstrap)
+        env:
+          TF_VAR_bucket_endpoint: ${{ steps.bucket_create.outputs.bucket_endpoint }}
+          TF_VAR_bucket_domain_name: ${{ steps.bucket_create.outputs.bucket_domain_name }}
         run: terraform apply -auto-approve
 
       - name: Capture backend outputs

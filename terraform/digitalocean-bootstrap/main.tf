@@ -11,8 +11,5 @@ provider "digitalocean" {
   token = var.digitalocean_token
 }
 
-resource "digitalocean_spaces_bucket" "terraform_state" {
-  name   = var.bucket_name
-  region = var.spaces_region
-  acl    = "private"
-}
+# No resources - bucket is created via API in the workflow
+# This directory is just for outputting the bucket details

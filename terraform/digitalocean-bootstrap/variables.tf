@@ -5,7 +5,17 @@ variable "digitalocean_token" {
 }
 
 variable "bucket_name" {
-  description = "The Spaces bucket name for Terraform state"
+  description = "The Spaces bucket name (created via API)"
+  type        = string
+}
+
+variable "bucket_endpoint" {
+  description = "The bucket endpoint (from API response)"
+  type        = string
+}
+
+variable "bucket_domain_name" {
+  description = "The bucket domain name (from API response)"
   type        = string
 }
 

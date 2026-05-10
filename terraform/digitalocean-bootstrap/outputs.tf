@@ -1,13 +1,13 @@
 output "state_bucket_name" {
-  value = digitalocean_spaces_bucket.terraform_state.name
+  value = var.bucket_name
 }
 
 output "state_bucket_endpoint" {
-  value = digitalocean_spaces_bucket.terraform_state.endpoint
+  value = var.bucket_endpoint
 }
 
 output "state_bucket_domain_name" {
-  value = digitalocean_spaces_bucket.terraform_state.bucket_domain_name
+  value = var.bucket_domain_name
 }
 
 output "state_backend_region" {
@@ -15,5 +15,5 @@ output "state_backend_region" {
 }
 
 output "state_backend_endpoint" {
-  value = "https://${digitalocean_spaces_bucket.terraform_state.endpoint}"
+  value = "https://${var.bucket_endpoint}"
 }
