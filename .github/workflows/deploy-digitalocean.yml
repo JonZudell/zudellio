@@ -20,110 +20,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  bootstrap-backend:
-    runs-on: ubuntu-latest
-    environment: digitalocean-production
-    outputs:
-      state_bucket: ${{ steps.capture.outputs.state_bucket }}
-      state_region: ${{ steps.capture.outputs.state_region }}
-      state_endpoint: ${{ steps.capture.outputs.state_endpoint }}
-    defaults:
-      run:
-        working-directory: terraform/digitalocean-bootstrap
-    env:
-      TF_IN_AUTOMATION: true
-      TF_INPUT: false
-      DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
-      TF_VAR_digitalocean_token: ${{ secrets.DIGITALOCEAN_TOKEN }}
-      TF_VAR_bucket_name: ${{ vars.DO_STATE_BUCKET_NAME || 'zudellio-tf-state' }}
-      TF_VAR_spaces_region: ${{ vars.DO_SPACES_REGION || 'nyc3' }}
-      TF_VAR_spaces_key_name: ${{ vars.DO_SPACES_KEY_NAME || 'terraform-backend-key' }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Validate DigitalOcean token
-        run: |
-          if [ -z "${{ secrets.DIGITALOCEAN_TOKEN }}" ]; then
-            echo "Missing required Environment Secret: DIGITALOCEAN_TOKEN"
-            echo "This value must be created under Settings > Environments > digitalocean-production > Secrets."
-            echo "Putting DIGITALOCEAN_TOKEN under Variables is not enough for this workflow."
-            exit 1
-          fi
-
-      - name: Create Spaces credentials for bucket bootstrap
-        id: bootstrap_spaces_key
-        run: |
-          key_name="${TF_VAR_spaces_key_name}-bootstrap-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          payload=$(cat <<EOF
-          {
-            "name": "${key_name}"
-          }
-          EOF
-          )
-
-          response=$(curl -sS -X POST \
-            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -d "${payload}" \
-            "https://api.digitalocean.com/v2/spaces/keys")
-
-          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
-          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
-
-          if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
-            echo "Failed to create bootstrap Spaces credentials. API response:"
-            echo "${response}"
-            exit 1
-          fi
-
-          echo "::add-mask::${access_key}"
-          echo "::add-mask::${secret_key}"
-          echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
-          echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
-
-      - name: Ensure Spaces bucket exists
-        env:
-          AWS_ACCESS_KEY_ID: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
-          AWS_EC2_METADATA_DISABLED: true
-        run: |
-          endpoint="https://${TF_VAR_spaces_region}.digitaloceanspaces.com"
-          if aws s3api head-bucket --bucket "${TF_VAR_bucket_name}" --endpoint-url "${endpoint}" >/dev/null 2>&1; then
-            echo "Bucket ${TF_VAR_bucket_name} already exists"
-          else
-            echo "Creating bucket ${TF_VAR_bucket_name} in ${TF_VAR_spaces_region}"
-            aws s3api create-bucket \
-              --bucket "${TF_VAR_bucket_name}" \
-              --endpoint-url "${endpoint}" \
-              --create-bucket-configuration "LocationConstraint=${TF_VAR_spaces_region}"
-          fi
-
-      - name: Terraform init (bootstrap)
-        run: terraform init
-
-      - name: Terraform apply (bootstrap)
-        run: |
-          export TF_VAR_bucket_endpoint="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.digitaloceanspaces.com"
-          export TF_VAR_bucket_domain_name="${TF_VAR_bucket_name}.${TF_VAR_spaces_region}.cdn.digitaloceanspaces.com"
-          terraform apply -auto-approve
-
-      - name: Capture backend outputs
-        id: capture
-        run: |
-          state_bucket="$(terraform output -raw state_bucket_name)"
-          state_region="$(terraform output -raw state_backend_region)"
-          state_endpoint="$(terraform output -raw state_backend_endpoint)"
-
-          echo "state_bucket=${state_bucket}" >> "$GITHUB_OUTPUT"
-          echo "state_region=${state_region}" >> "$GITHUB_OUTPUT"
-          echo "state_endpoint=${state_endpoint}" >> "$GITHUB_OUTPUT"
-
   terraform:
-    needs: bootstrap-backend
     runs-on: ubuntu-latest
     environment: digitalocean-production
     defaults:
@@ -136,7 +33,8 @@ jobs:
       TF_VAR_github_branch: main
       TF_VAR_source_dir: interface
       TF_VAR_build_command: npm ci && npm run build
-      TF_VAR_spaces_key_name: ${{ vars.DO_SPACES_KEY_NAME || 'terraform-backend-key' }}
+      TF_VAR_state_bucket_name: ${{ vars.DO_STATE_BUCKET_NAME || 'zudellio-tf-state' }}
+      TF_VAR_spaces_region: ${{ vars.DO_SPACES_REGION || 'nyc3' }}
       DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
       AWS_EC2_METADATA_DISABLED: true
     steps:
@@ -146,45 +44,33 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Create Spaces credentials for Terraform backend
-        id: terraform_spaces_key
+      - name: Validate required secrets and settings
         run: |
-          key_name="${TF_VAR_spaces_key_name}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          payload=$(cat <<EOF
-          {
-            "name": "${key_name}"
-          }
-          EOF
-          )
-
-          response=$(curl -sS -X POST \
-            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
-            -H "Content-Type: application/json" \
-            -d "${payload}" \
-            "https://api.digitalocean.com/v2/spaces/keys")
-
-          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
-          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
-
-          if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
-            echo "Failed to create Terraform backend Spaces credentials. API response:"
-            echo "${response}"
+          if [ -z "${{ secrets.DIGITALOCEAN_TOKEN }}" ]; then
+            echo "Missing required Environment Secret: DIGITALOCEAN_TOKEN"
             exit 1
           fi
-
-          echo "::add-mask::${access_key}"
-          echo "::add-mask::${secret_key}"
-          echo "access_key=${access_key}" >> "$GITHUB_OUTPUT"
-          echo "secret_key=${secret_key}" >> "$GITHUB_OUTPUT"
+          if [ -z "${{ secrets.DO_SPACES_ACCESS_KEY_ID }}" ]; then
+            echo "Missing required Environment Secret: DO_SPACES_ACCESS_KEY_ID"
+            exit 1
+          fi
+          if [ -z "${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}" ]; then
+            echo "Missing required Environment Secret: DO_SPACES_SECRET_ACCESS_KEY"
+            exit 1
+          fi
+          if [ -z "${TF_VAR_state_bucket_name}" ]; then
+            echo "Missing required variable: DO_STATE_BUCKET_NAME"
+            exit 1
+          fi
 
       - name: Write backend configuration
         run: |
           cat > backend.hcl <<EOF
-          bucket     = "${{ needs.bootstrap-backend.outputs.state_bucket }}"
+          bucket     = "${TF_VAR_state_bucket_name}"
           key        = "terraform/digitalocean/website.tfstate"
-          region     = "${{ needs.bootstrap-backend.outputs.state_region }}"
+          region     = "us-east-1"
           endpoints = {
-            s3 = "${{ needs.bootstrap-backend.outputs.state_endpoint }}"
+            s3 = "https://${TF_VAR_spaces_region}.digitaloceanspaces.com"
           }
           skip_credentials_validation = true
           skip_requesting_account_id  = true
@@ -201,37 +87,37 @@ jobs:
 
       - name: Terraform init
         env:
-          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
+          AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
         run: terraform init -backend-config=backend.hcl
 
       - name: Terraform validate
         env:
-          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
+          AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
         run: terraform validate
 
       - name: Terraform plan
         env:
-          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
+          AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
         run: terraform plan -out=tfplan
 
       - name: Terraform apply
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
-          AWS_ACCESS_KEY_ID: ${{ steps.terraform_spaces_key.outputs.access_key }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.terraform_spaces_key.outputs.secret_key }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
           AWS_EC2_METADATA_DISABLED: true
-          AWS_ENDPOINT_URL_S3: ${{ needs.bootstrap-backend.outputs.state_endpoint }}
+          AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
         run: terraform apply -auto-approve tfplan
