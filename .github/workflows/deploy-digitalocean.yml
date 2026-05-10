@@ -78,8 +78,8 @@ jobs:
             -d "${payload}" \
             "https://api.digitalocean.com/v2/spaces/keys")
 
-          access_key=$(echo "${response}" | jq -r '.spaces_key.access_key // empty')
-          secret_key=$(echo "${response}" | jq -r '.spaces_key.secret_key // empty')
+          access_key=$(echo "${response}" | jq -r '.key.access_key // empty')
+          secret_key=$(echo "${response}" | jq -r '.key.secret_key // empty')
 
           if [ -z "${access_key}" ] || [ -z "${secret_key}" ]; then
             echo "Failed to create temporary Spaces credentials. API response:"
