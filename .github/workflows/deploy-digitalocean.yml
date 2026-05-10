@@ -97,12 +97,21 @@ jobs:
           echo "Bucket creation initiated (may already exist)"
 
       - name: Terraform init (bootstrap)
+        env:
+          TF_VAR_spaces_access_key_id: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
+          TF_VAR_spaces_secret_key: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
         run: terraform init
 
       - name: Import bucket if it already exists
+        env:
+          TF_VAR_spaces_access_key_id: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
+          TF_VAR_spaces_secret_key: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
         run: terraform import "digitalocean_spaces_bucket.terraform_state" "${TF_VAR_spaces_region},${TF_VAR_bucket_name}" || true
 
       - name: Terraform apply (bootstrap)
+        env:
+          TF_VAR_spaces_access_key_id: ${{ steps.bootstrap_spaces_key.outputs.access_key }}
+          TF_VAR_spaces_secret_key: ${{ steps.bootstrap_spaces_key.outputs.secret_key }}
         run: terraform apply -auto-approve
 
       - name: Capture backend outputs
