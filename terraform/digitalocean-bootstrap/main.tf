@@ -8,9 +8,7 @@ terraform {
 }
 
 provider "digitalocean" {
-  token             = var.digitalocean_token
-  spaces_access_id  = var.spaces_access_key_id
-  spaces_secret_key = var.spaces_secret_key
+  token = var.digitalocean_token
 }
 
 resource "digitalocean_spaces_bucket" "terraform_state" {
