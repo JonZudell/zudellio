@@ -4,6 +4,18 @@ variable "digitalocean_token" {
   sensitive   = true
 }
 
+variable "spaces_access_key_id" {
+  description = "DigitalOcean Spaces access key ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "spaces_secret_key" {
+  description = "DigitalOcean Spaces secret key"
+  type        = string
+  sensitive   = true
+}
+
 variable "bucket_name" {
   description = "The Spaces bucket name for Terraform state"
   type        = string
