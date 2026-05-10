@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+provider "digitalocean" {
+  token = var.digitalocean_token
+}
+
 resource "digitalocean_spaces_bucket" "terraform_state" {
   name   = var.bucket_name
   region = var.spaces_region
