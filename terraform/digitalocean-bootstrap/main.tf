@@ -12,12 +12,3 @@ resource "digitalocean_spaces_bucket" "terraform_state" {
   region = var.spaces_region
   acl    = "private"
 }
-
-resource "digitalocean_spaces_key" "terraform_state" {
-  name = var.spaces_key_name
-
-  grant {
-    bucket     = var.bucket_name
-    permission = "readwrite"
-  }
-}

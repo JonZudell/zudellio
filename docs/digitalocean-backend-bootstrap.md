@@ -28,27 +28,27 @@ Optional GitHub Environment variables:
 - `DO_SPACES_REGION` (default: `nyc3`)
 - `DO_SPACES_KEY_NAME` (default: `terraform-backend-key`)
 
+The workflow creates temporary Spaces credentials from the DigitalOcean token for backend bootstrap.
+
 ## 1) Bootstrap the state bucket and Spaces key (local state)
 
 Use the helper script. It is idempotent for the bucket (imports if it already exists), then applies Terraform:
 
 ```bash
-./scripts/bootstrap_do_backend.sh <your-state-bucket-name> [spaces-region] [spaces-key-name]
+./scripts/bootstrap_do_backend.sh <your-state-bucket-name> [spaces-region]
 ```
 
 Example:
 
 ```bash
-./scripts/bootstrap_do_backend.sh zudellio-tf-state nyc3 terraform-backend-key
+./scripts/bootstrap_do_backend.sh zudellio-tf-state nyc3
 ```
 
-The script prints values to use for backend configuration and GitHub Secrets:
+The script prints values to use for backend configuration and GitHub variables:
 
 - `DO_STATE_BUCKET`
 - `DO_STATE_REGION`
 - `DO_STATE_ENDPOINT`
-- `DO_SPACES_ACCESS_KEY_ID`
-- `DO_SPACES_SECRET_ACCESS_KEY`
 
 ## 2) Create backend.hcl for the website stack
 

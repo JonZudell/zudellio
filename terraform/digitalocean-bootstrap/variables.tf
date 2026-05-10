@@ -8,9 +8,3 @@ variable "spaces_region" {
   type        = string
   default     = "nyc3"
 }
-
-variable "spaces_key_name" {
-  description = "The Spaces access key name for Terraform backend access"
-  type        = string
-  default     = "terraform-backend-key"
-}
