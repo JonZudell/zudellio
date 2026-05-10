@@ -159,6 +159,7 @@ jobs:
       TF_VAR_source_dir: interface
       TF_VAR_build_command: npm ci && npm run build
       DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+      AWS_EC2_METADATA_DISABLED: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -188,18 +189,21 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_EC2_METADATA_DISABLED: true
         run: terraform init -backend-config=backend.hcl
 
       - name: Terraform validate
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_EC2_METADATA_DISABLED: true
         run: terraform validate
 
       - name: Terraform plan
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_EC2_METADATA_DISABLED: true
         run: terraform plan -out=tfplan
 
       - name: Terraform apply
@@ -207,4 +211,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ needs.bootstrap-backend.outputs.spaces_access_key }}
           AWS_SECRET_ACCESS_KEY: ${{ needs.bootstrap-backend.outputs.spaces_secret_key }}
+          AWS_EC2_METADATA_DISABLED: true
         run: terraform apply -auto-approve tfplan
