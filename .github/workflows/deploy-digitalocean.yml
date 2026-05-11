@@ -63,6 +63,23 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Spaces backend write access
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
+        run: |
+          endpoint="https://${TF_VAR_spaces_region}.digitaloceanspaces.com"
+          test_key="terraform-backend-access-test-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
+
+          if ! aws s3api put-object --bucket "${TF_VAR_state_bucket_name}" --key "${test_key}" --body /dev/null --endpoint-url "${endpoint}" >/dev/null 2>&1; then
+            echo "Spaces credentials cannot write to bucket ${TF_VAR_state_bucket_name}."
+            echo "Grant write access to the bucket for DO_SPACES_ACCESS_KEY_ID and retry."
+            exit 1
+          fi
+
+          aws s3api delete-object --bucket "${TF_VAR_state_bucket_name}" --key "${test_key}" --endpoint-url "${endpoint}" >/dev/null 2>&1 || true
+
       - name: Write backend configuration
         run: |
           cat > backend.hcl <<EOF
@@ -93,6 +110,34 @@ jobs:
           AWS_EC2_METADATA_DISABLED: true
           AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
         run: terraform init -backend-config=backend.hcl
+
+      - name: Import existing app if present
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+          AWS_EC2_METADATA_DISABLED: true
+          AWS_ENDPOINT_URL_S3: https://${{ vars.DO_SPACES_REGION || 'nyc3' }}.digitaloceanspaces.com
+        run: |
+          if terraform state show digitalocean_app.website >/dev/null 2>&1; then
+            echo "digitalocean_app.website is already tracked in state"
+            exit 0
+          fi
+
+          app_name="${TF_VAR_app_name:-zudellio}"
+          app_id=$(curl -fsS \
+            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+            "https://api.digitalocean.com/v2/apps?per_page=200" \
+            | jq -r --arg app_name "${app_name}" '.apps[] | select(.spec.name == $app_name) | .id' \
+            | head -n1)
+
+          if [ -z "${app_id}" ]; then
+            echo "No existing app named ${app_name} found. Terraform will create it."
+            exit 0
+          fi
+
+          echo "Importing existing app '${app_name}' (${app_id}) into Terraform state"
+          terraform import digitalocean_app.website "${app_id}"
 
       - name: Terraform validate
         env:
