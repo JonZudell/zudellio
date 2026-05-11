@@ -1,0 +1,11 @@
+name: zudellio
+services:
+  - name: interface
+    github:
+      repo: JonZudell/zudellio
+      branch: main
+    static_sites:
+      - build_command: npm run build
+        output_dir: interface/public
+        routes:
+          - path: /
