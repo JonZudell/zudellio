@@ -63,19 +63,32 @@ jobs:
             exit 1
           fi
 
-      - name: Validate Spaces backend write access
+      - name: Diagnose Spaces backend access (non-blocking)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
         run: |
+          set +e
           endpoint="https://${TF_VAR_spaces_region}.digitaloceanspaces.com"
-          test_key="terraform-backend-access-test-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
+          test_key="terraform/digitalocean/backend-access-test-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
 
-          if ! aws s3api put-object --bucket "${TF_VAR_state_bucket_name}" --key "${test_key}" --body /dev/null --endpoint-url "${endpoint}" >/dev/null 2>&1; then
-            echo "Spaces credentials cannot write to bucket ${TF_VAR_state_bucket_name}."
-            echo "Grant write access to the bucket for DO_SPACES_ACCESS_KEY_ID and retry."
-            exit 1
+          aws s3api head-bucket --bucket "${TF_VAR_state_bucket_name}" --endpoint-url "${endpoint}" >/dev/null 2>&1
+          head_status=$?
+
+          if [ ${head_status} -ne 0 ]; then
+            echo "Warning: unable to access bucket ${TF_VAR_state_bucket_name} via head-bucket."
+            echo "Terraform init will run next and provide authoritative backend errors."
+          fi
+
+          aws s3api put-object --bucket "${TF_VAR_state_bucket_name}" --key "${test_key}" --body /dev/null --endpoint-url "${endpoint}" >/tmp/spaces_put.out 2>&1
+          put_status=$?
+
+          if [ ${put_status} -ne 0 ]; then
+            echo "Warning: preflight put-object failed for ${TF_VAR_state_bucket_name}."
+            cat /tmp/spaces_put.out
+            echo "Continuing to terraform init for definitive backend validation."
+            exit 0
           fi
 
           aws s3api delete-object --bucket "${TF_VAR_state_bucket_name}" --key "${test_key}" --endpoint-url "${endpoint}" >/dev/null 2>&1 || true
