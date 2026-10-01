@@ -1,0 +1,636 @@
+/*
+ * zudell.io — the whole design system.
+ *
+ * One ink colour used three ways: the words, the 2px border, and an unblurred
+ * shadow offset half an em down and right. A card has the same ground as the
+ * page; it is lifted by having an edge, not by being lighter. No radius, no
+ * blur, everything monospace at weight 800.
+ *
+ * Values read off the served site. Light is the base; dark comes from
+ * prefers-color-scheme and from [data-theme] when the reader has toggled.
+ */
+
+:root {
+  --background-color: #d3d3d3;
+  --text-color: #1a1a1a;
+  --border-color: var(--text-color);
+  --href-color: #2563eb;
+  --link-button-color: #db2777;
+  --link-button-accent-color: #db2777;
+  --emphasis-color: #9d174d;
+  --comment-color: #16a34a;
+  --user-color: #9333ea;
+  --inline-code-color: #d63384;
+  --inline-code-background-color: #f3f4f6;
+  --hover-border-color: #60a5fa;
+  --focus-border-color: #60a5fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --background-color: #1a1a1a;
+    --text-color: #d3d3d3;
+    --href-color: #60a5fa;
+    --link-button-color: #fbcfe8;
+    --link-button-accent-color: #f472b6;
+    --emphasis-color: #db2777;
+    --comment-color: #4ade80;
+    --user-color: #c084fc;
+    --inline-code-color: #d63384;
+    --inline-code-background-color: #d1d5db;
+  }
+}
+
+:root[data-theme='light'] {
+  --background-color: #d3d3d3;
+  --text-color: #1a1a1a;
+  --href-color: #2563eb;
+  --link-button-color: #db2777;
+  --link-button-accent-color: #db2777;
+  --emphasis-color: #9d174d;
+  --comment-color: #16a34a;
+  --user-color: #9333ea;
+  --inline-code-color: #d63384;
+  --inline-code-background-color: #f3f4f6;
+}
+
+:root[data-theme='dark'] {
+  --background-color: #1a1a1a;
+  --text-color: #d3d3d3;
+  --href-color: #60a5fa;
+  --link-button-color: #fbcfe8;
+  --link-button-accent-color: #f472b6;
+  --emphasis-color: #db2777;
+  --comment-color: #4ade80;
+  --user-color: #c084fc;
+  --inline-code-color: #d63384;
+  --inline-code-background-color: #d1d5db;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--background-color);
+}
+
+body {
+  margin: 0;
+  font-family: Consolas, 'Courier New', monospace;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code,
+pre,
+kbd,
+samp,
+input,
+textarea,
+button,
+select {
+  font-family: Consolas, 'Courier New', monospace;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+/* ---- the three shapes ------------------------------------------------- */
+
+.standard-shadow {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+}
+
+.border-post {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  background-color: var(--background-color);
+  padding: 1.5em;
+  margin: 1.5em 1em;
+}
+
+.sticked-post {
+  border-color: var(--emphasis-color);
+}
+
+.inline-code {
+  background-color: var(--inline-code-background-color);
+  color: var(--inline-code-color);
+  padding: 0.2em 0.4em;
+}
+
+/* ---- colour roles ----------------------------------------------------- */
+
+.comment-green {
+  color: var(--comment-color);
+}
+
+.user-purple {
+  color: var(--user-color);
+}
+
+.text-color-emphasis {
+  color: var(--inline-code-color);
+}
+
+a,
+.href-blue {
+  color: var(--href-color);
+  text-decoration: underline;
+}
+
+a:hover,
+.href-blue:hover {
+  color: var(--link-button-accent-color);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--focus-border-color);
+  outline-offset: 2px;
+}
+
+/* ---- layout ----------------------------------------------------------- */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 0.5em;
+  flex: 1 1 auto;
+}
+
+.site-header,
+.site-footer {
+  padding: 1em;
+  text-align: center;
+}
+
+.site-header h1 {
+  margin: 0 0 0.25em;
+  font-size: 1.5rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 0.5em;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.section-heading {
+  text-align: center;
+  margin: 1.5em 0 0;
+  font-size: 1.25rem;
+}
+
+/* The prompt cursor in the site title. */
+.blinking-cursor::after {
+  content: '█';
+  display: inline-block;
+  animation: blink 2s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    content: '█';
+  }
+  51%,
+  100% {
+    content: '_';
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blinking-cursor::after {
+    animation: none;
+  }
+}
+
+/* ---- the post card --------------------------------------------------- */
+
+.post-title {
+  margin: 0;
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.post-stamp {
+  color: var(--comment-color);
+}
+
+.post-stamp time {
+  margin-left: 1em;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--border-color);
+  text-underline-offset: auto;
+  cursor: help;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+/* A link that reads as a command: < view_post > */
+.span-button {
+  text-decoration: none;
+  color: var(--link-button-color);
+}
+
+.span-button .span-button-first {
+  text-decoration: underline;
+  color: var(--link-button-accent-color);
+}
+
+.span-button:hover .span-button-rest,
+.span-button:focus-visible .span-button-rest {
+  text-decoration: underline;
+}
+
+.span-button:hover .span-button-decoration,
+.span-button:focus-visible .span-button-decoration {
+  color: var(--hover-border-color);
+}
+
+.nav-link[aria-current='page'] {
+  color: var(--link-button-color);
+  text-decoration: underline;
+}
+
+/* ---- prose inside a post --------------------------------------------- */
+
+.post-body > *:first-child {
+  margin-top: 0.5em;
+}
+
+.post-body p,
+.post-body ul,
+.post-body ol,
+.post-body blockquote {
+  margin: 1em 0;
+}
+
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+  color: var(--comment-color);
+  margin: 2em 0 0.5em;
+  font-size: 1.125rem;
+}
+
+/* A heading reads like a comment in the source: # Skills, ## Work */
+.post-body h2::before {
+  content: '# ';
+}
+
+.post-body h3::before {
+  content: '## ';
+}
+
+.post-body h4::before {
+  content: '### ';
+}
+
+.post-body strong {
+  color: var(--inline-code-color);
+}
+
+.post-body s,
+.post-body del {
+  opacity: 0.6;
+}
+
+.post-body code {
+  background-color: var(--inline-code-background-color);
+  color: var(--inline-code-color);
+  padding: 0.2em 0.4em;
+}
+
+.post-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  margin: 1.5em 0;
+}
+
+.post-body blockquote {
+  border-left: 2px solid var(--border-color);
+  padding-left: 1em;
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 0;
+}
+
+.post-body ul li,
+.post-content ul li {
+  list-style-type: none;
+  position: relative;
+  padding-left: 1.25em;
+  margin-left: 0;
+}
+
+.post-body ul li::before,
+.post-content ul li::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+}
+
+.post-body table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.post-body th,
+.post-body td {
+  border: 2px solid var(--border-color);
+  padding: 0.25em 0.5em;
+  text-align: left;
+}
+
+/* ---- code blocks ----------------------------------------------------- */
+
+.code-block {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  margin: 1.5em 0 2em;
+  background-color: var(--background-color);
+}
+
+.code-header {
+  border-bottom: 2px solid var(--border-color);
+  padding: 0.25em 0.5em;
+  text-align: center;
+  color: var(--comment-color);
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0.75em;
+  overflow-x: auto;
+}
+
+.code-block code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  white-space: pre;
+}
+
+/* Syntax colours are the site's roles, not a vendor theme. */
+.hljs-comment,
+.hljs-quote {
+  color: var(--comment-color);
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-type {
+  color: var(--user-color);
+}
+
+.hljs-string,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-addition {
+  color: var(--inline-code-color);
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--href-color);
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: var(--href-color);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--emphasis-color);
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: var(--user-color);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 800;
+}
+
+/* ---- forms ----------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  margin-bottom: 1em;
+}
+
+.field label {
+  color: var(--comment-color);
+}
+
+.field input,
+.field textarea {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  padding: 0.4em;
+  width: 100%;
+}
+
+.field input:hover,
+.field textarea:hover {
+  border-color: var(--hover-border-color);
+}
+
+.field-hint {
+  color: var(--comment-color);
+}
+
+.field-error {
+  color: var(--inline-code-color);
+}
+
+.button {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  background-color: var(--background-color);
+  color: var(--link-button-color);
+  padding: 0.5em 0.75em;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+
+.button .button-first {
+  text-decoration: underline;
+  color: var(--link-button-accent-color);
+}
+
+.button:hover,
+.button:focus-visible {
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--hover-border-color);
+  text-decoration: underline;
+}
+
+.button:hover .button-first,
+.button:focus-visible .button-first {
+  color: var(--background-color);
+}
+
+.button:active {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-feedback:empty {
+  display: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- widgets --------------------------------------------------------- */
+
+.widget {
+  margin: 1.5em 0;
+}
+
+.widget canvas {
+  display: block;
+  max-width: 100%;
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  background-color: var(--background-color);
+}
+
+.widget-caption {
+  color: var(--comment-color);
+  text-align: center;
+  margin-top: 0.5em;
+}
+
+.rule-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: center;
+}
+
+.rule-cells {
+  display: flex;
+}
+
+.rule-cell {
+  width: 1em;
+  height: 1em;
+  border: 2px solid var(--border-color);
+}
+
+.rule-cell[data-on='true'] {
+  background-color: var(--text-color);
+}
+
+.rule-box {
+  border: 2px solid var(--border-color);
+  box-shadow: 0.5em 0.5em 0 0 var(--border-color);
+  padding: 0.5em;
+  margin: 0.5em;
+  text-align: center;
+}
+
+/* ---- small screens --------------------------------------------------- */
+
+@media (max-width: 40rem) {
+  .border-post {
+    margin: 1.5em 0.5em;
+    padding: 1em;
+  }
+
+  .content {
+    padding: 0 1rem;
+  }
+}
+
+/* For text that only a screen reader needs. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* A line drawing stays a drawing: no plate, no border, sized like the original. */
+.post-body img[src$='.svg'] {
+  width: auto;
+  max-width: 12em;
+  margin: 1.5em auto;
+  border: none;
+  box-shadow: none;
+}
