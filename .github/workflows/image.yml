@@ -1,0 +1,73 @@
+name: Image
+
+# zudell.io runs on the zudellio-platform cluster. This builds interface/ -- the site
+# itself, not the Next.js rewrite in web/ -- and pushes it to the DigitalOcean
+# registry. Flux's ImagePolicy picks the newest tag and writes it into staging's
+# values; production is pinned by a person in zudellio-platform and nothing here can
+# move it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'interface/**'
+      - '.github/workflows/image.yml'
+  workflow_dispatch:
+
+# THIS REPOSITORY IS PUBLIC. `pull_request` is deliberately absent: GitHub withholds
+# secrets from fork pull requests, so a build triggered that way could not push
+# anyway, but leaving the trigger off means there is nothing to reason about.
+permissions:
+  contents: read
+
+concurrency:
+  group: zudell-image
+  cancel-in-progress: false
+
+jobs:
+  image:
+    name: Build and push
+    # Inert until the registry variable is set, so this file is safe to land before
+    # anything else exists. PLATFORM_REGISTRY is the registry NAME and is a variable
+    # rather than a secret, because a registry name is not one -- and because the
+    # pending rename to zudellio-registry is then one variable edit.
+    if: vars.PLATFORM_REGISTRY != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The DigitalOcean registry takes the API token as BOTH halves of a docker
+      # login. REGISTRY_TOKEN is scoped to registry read and update and nothing else.
+      - name: Log in to the registry
+        run: echo "${{ secrets.REGISTRY_TOKEN }}" | docker login registry.digitalocean.com -u "${{ secrets.REGISTRY_TOKEN }}" --password-stdin
+
+      - uses: docker/setup-buildx-action@v3
+
+      # THE TAG SHAPE IS LOAD-BEARING. The ImagePolicy in zudellio-platform matches
+      # `^main-(?P<ts>[0-9]+)-[a-f0-9]+$` and orders NUMERICALLY on the timestamp. A
+      # tag of any other shape is not a deployment -- it is an image the policy cannot
+      # see, and staging stays on whatever it last had while looking healthy.
+      - name: Name the image
+        id: image
+        shell: bash
+        run: echo "tag=main-$(date -u +%s)-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./interface
+          push: true
+          tags: registry.digitalocean.com/${{ vars.PLATFORM_REGISTRY }}/zudell:${{ steps.image.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: What happened
+        env:
+          IMAGE: ${{ steps.image.outputs.tag }}
+        shell: bash
+        run: |
+          {
+            echo "### Image"
+            echo ""
+            echo "- pushed \`$IMAGE\`"
+            echo "- staging follows it within a minute or two; production is pinned in zudellio-platform"
+          } >> "$GITHUB_STEP_SUMMARY"
