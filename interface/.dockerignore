@@ -1,0 +1,20 @@
+# The build installs its own dependencies and runs its own build, so shipping the
+# local ones into the context is pure cost -- and on Windows it is worse than cost:
+# docker refuses the context outright with
+#
+#   invalid file request node_modules/.bin/acorn
+#
+# because npm's bin shims are symlinks it cannot represent.
+node_modules
+
+# Built output. `npm run build` regenerates it, and a stale local dist copied in
+# would be overwritten anyway -- but if the build ever failed, an old dist sitting
+# in the image would look like a success.
+dist
+
+.git
+.gitignore
+Dockerfile
+.dockerignore
+*.log
+storybook-static
